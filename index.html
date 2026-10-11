@@ -3146,11 +3146,18 @@ async function startEFTPayment() {
   }
 
   try {
-    const order = await createPaymentOrder();
+     const order = await createPaymentOrder();
 
-    if (!order) {
-      return;
-    }
+if (!order) {
+  return;
+}
+
+if (!(await saveCVForOrder(order))) {
+  alert(
+    "Your payment order was created, but your CV could not be saved. Please try again before leaving this page."
+  );
+  return;
+}
 
     document.getElementById("eftOrderNumber").textContent =
       order.order_number;
