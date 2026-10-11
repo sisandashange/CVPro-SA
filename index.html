@@ -2935,6 +2935,86 @@ return data.order;
   }
 
 
+async function checkPaymentStatus() {
+  const orderId = sessionStorage.getItem(
+    "cv_payment_order_id"
+  );
+
+  const accessToken = sessionStorage.getItem(
+    "cv_payment_access_token"
+  );
+
+  if (!orderId || !accessToken) {
+    alert(
+      "No payment order was found. Please create your payment order first."
+    );
+    return null;
+  }
+
+  try {
+    const { data, error } =
+      await paymentClient.functions.invoke(
+        "get-payment-order-status",
+        {
+          body: {
+            order_id: orderId,
+            access_token: accessToken
+          }
+        }
+      );
+
+    if (error) {
+      console.error(
+        "Payment status check failed:",
+        error
+      );
+
+      alert(
+        "Could not check payment status. Please try again."
+      );
+
+      return null;
+    }
+
+    if (!data || !data.success || !data.order) {
+      alert(
+        data?.error || "Unable to retrieve payment status."
+      );
+
+      return null;
+    }
+
+    const status = data.order.payment_status;
+
+    if (status === "paid") {
+      alert(
+        "Payment is confirmed in the system. PDF downloads remain locked until the secure download process is completed."
+      );
+    } else {
+      alert(
+        "Your payment status is: " +
+        status +
+        ". Your PDF remains locked until payment is confirmed."
+      );
+    }
+
+    return data.order;
+
+  } catch (error) {
+    console.error(
+      "Unexpected payment status error:",
+      error
+    );
+
+    alert(
+      "A problem occurred while checking payment status."
+    );
+
+    return null;
+  }
+}
+
+
 
 async function startEFTPayment() {
   const button = document.querySelector(
