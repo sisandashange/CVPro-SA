@@ -2874,6 +2874,117 @@ function startCV() {
 
 }
 
+async function saveCVForOrder(order) {
+  try {
+    const orderId = order?.id;
+
+    const accessToken =
+      order?.access_token ||
+      sessionStorage.getItem("cv_payment_access_token");
+
+    const customerEmail = getValue("email").toLowerCase();
+
+    if (!orderId || !accessToken || !customerEmail) {
+      throw new Error(
+        "The payment order or customer details are missing."
+      );
+    }
+
+    const cvData = {};
+
+    const fields = document.querySelectorAll(
+      "#formSection input, #formSection select, #formSection textarea"
+    );
+
+    fields.forEach((field) => {
+      const key = field.id || field.name;
+
+      if (!key || field.disabled) {
+        return;
+      }
+
+      if (
+        ["button", "submit", "reset", "password", "file"].includes(
+          field.type
+        )
+      ) {
+        return;
+      }
+
+      if (field.type === "checkbox") {
+        if (!field.name) {
+          cvData[key] = field.checked ? field.value : "";
+          return;
+        }
+
+        if (!Array.isArray(cvData[field.name])) {
+          cvData[field.name] = [];
+        }
+
+        if (field.checked) {
+          cvData[field.name].push(field.value);
+        }
+
+        return;
+      }
+
+      if (field.type === "radio") {
+        if (field.checked) {
+          cvData[key] = field.value;
+        }
+
+        return;
+      }
+
+      cvData[key] = field.value.trim();
+    });
+
+    const { data, error } =
+      await paymentClient.functions.invoke(
+        "save-cv",
+        {
+          body: {
+            order_id: orderId,
+            access_token: accessToken,
+            customer_email: customerEmail,
+            cv_data: cvData
+          }
+        }
+      );
+
+    if (error) {
+      console.error("Save CV function error:", error);
+      throw new Error(
+        "The CV could not be saved. Please try again."
+      );
+    }
+
+    if (!data || data.success !== true) {
+      console.error("Save CV response:", data);
+
+      throw new Error(
+        data?.message || "The CV could not be saved."
+      );
+    }
+
+    console.log("CV saved successfully for order:", orderId);
+
+    return true;
+
+  } catch (error) {
+    console.error("Save CV error:", error);
+
+    alert(
+      error.message ||
+      "We could not save your CV. Please try again."
+    );
+
+    return false;
+  }
+}
+
+
+
   async function createPaymentOrder() {
   const customerName = getValue("fullName");
   const customerEmail = getValue("email");
