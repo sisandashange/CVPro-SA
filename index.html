@@ -4342,10 +4342,94 @@ function generateCoverLetter() {
   ========================= */
 
   
-function downloadCV() {
-  alert(
-    "PDF downloads are temporarily locked while payment verification is being set up. Your CV preview is still available."
+async function downloadCV() {
+  const orderId = sessionStorage.getItem(
+    "cv_payment_order_id"
   );
+
+  const accessToken = sessionStorage.getItem(
+    "cv_payment_access_token"
+  );
+
+  if (!orderId || !accessToken) {
+    alert(
+      "Please create your payment order and complete payment verification before downloading your CV."
+    );
+    return;
+  }
+
+  try {
+    const { data, error } =
+      await paymentClient.functions.invoke(
+        "get-payment-order-status",
+        {
+          body: {
+            order_id: orderId,
+            access_token: accessToken
+          }
+        }
+      );
+
+    if (
+      error ||
+      !data ||
+      !data.success ||
+      !data.order ||
+      data.order.payment_status !== "paid" ||
+      data.download_allowed !== true
+    ) {
+      alert(
+        "Your payment has not been verified. Your PDF remains locked."
+      );
+      return;
+    }
+
+    const cvElement = document.getElementById("cv");
+
+    if (!cvElement) {
+      alert(
+        "The CV preview could not be found. Please refresh the page and try again."
+      );
+      return;
+    }
+
+    if (typeof html2pdf !== "function") {
+      alert(
+        "The PDF service is unavailable. Please refresh the page and try again."
+      );
+      return;
+    }
+
+    const options = {
+      margin: 10,
+      filename: "My-CV.pdf",
+      image: {
+        type: "jpeg",
+        quality: 0.98
+      },
+      html2canvas: {
+        scale: 2,
+        useCORS: true
+      },
+      jsPDF: {
+        unit: "mm",
+        format: "a4",
+        orientation: "portrait"
+      }
+    };
+
+    await html2pdf()
+      .set(options)
+      .from(cvElement)
+      .save();
+
+  } catch (error) {
+    console.error("CV PDF download error:", error);
+
+    alert(
+      "We could not verify payment or create your PDF. Please try again."
+    );
+  }
 }
 
 
