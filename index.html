@@ -1472,14 +1472,6 @@ Assisted customers, organised stock and supported daily store operations."
         Generate My CV
       </button>
 
-
-<button
-  type="button"
-  onclick="testPaymentConnection()"
->
-  Test Payment Connection
-</button>
-
       <button
         class="button clear-button"
         type="button"
@@ -2818,102 +2810,6 @@ function startCV() {
     top: 0,
     behavior: "smooth"
   });
-
-}
-
-
-
-async function createPaymentOrder() {
-  const customerName =
-    document.getElementById("fullName")?.value.trim() || "";
-
-  const customerEmail =
-    document.getElementById("email")?.value.trim().toLowerCase() || "";
-
-  const selectedTemplate =
-    document.getElementById("cvTemplate")?.value || "";
-
-  if (!customerName) {
-    alert("Please enter your full name.");
-    return null;
-  }
-
-  if (!customerEmail) {
-    alert("Please enter your email address.");
-    return null;
-  }
-
-  if (!selectedTemplate) {
-    alert("Please select a CV template.");
-    return null;
-  }
-
-  try {
-    const response = await paymentClient.functions.invoke(
-      "create-payment-order",
-      {
-        body: {
-          customer_name: customerName,
-          customer_email: customerEmail,
-          cv_template: selectedTemplate
-        }
-      }
-    );
-
-    if (response.error) {
-      console.error("Payment order error:", response.error);
-
-      alert(
-        "Payment order error:\n\n" +
-        (response.error.message || String(response.error))
-      );
-
-      return null;
-    }
-
-    const result = response.data;
-
-    if (!result || !result.success || !result.order) {
-      console.error("Invalid payment order response:", result);
-
-      alert(
-        "The server returned an invalid payment order response. Check the browser console."
-      );
-
-      return null;
-    }
-
-    console.log("Payment order created:", result.order);
-
-    return result.order;
-
-  } catch (error) {
-    console.error("Payment order connection error:", error);
-
-    alert(
-      "Payment order connection error:\n\n" +
-      (error?.message || String(error))
-    );
-
-    return null;
-  }
-}
-
-async function testPaymentConnection() {
-
-const order =
-await createPaymentOrder();
-
-if (!order) {
-return;
-}
-
-alert(
-"Payment system connected successfully!\n\n" +
-"Order: " + order.order_number + "\n" +
-"Template: " + order.cv_template + "\n" +
-"Amount: R" + order.amount
-);
 
 }
 
