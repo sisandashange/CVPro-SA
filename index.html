@@ -2866,6 +2866,64 @@ function startCV() {
 
 }
 
+  async function createPaymentOrder() {
+  const customerName = getValue("fullName");
+  const customerEmail = getValue("email");
+
+  const templateElement = document.getElementById("cvTemplate");
+
+  if (!customerName || !customerEmail) {
+    alert("Please enter your full name and email address first.");
+    return null;
+  }
+
+  if (!templateElement || !templateElement.value) {
+    alert("Please select your CV template first.");
+    return null;
+  }
+
+  try {
+    const { data, error } =
+      await paymentClient.functions.invoke(
+        "create-payment-order",
+        {
+          body: {
+            customer_name: customerName,
+            customer_email: customerEmail,
+            cv_template: templateElement.value
+          }
+        }
+      );
+
+    if (error) {
+      console.error("Supabase payment order error:", error);
+      alert(
+        "Payment order error: " +
+        (error.message || "Could not contact the payment service.")
+      );
+      return null;
+    }
+
+    if (!data || !data.order) {
+      console.error("Unexpected payment response:", data);
+      alert("The payment service did not return an order. Please check the Supabase function logs.");
+      return null;
+    }
+
+    return data.order;
+
+  } catch (error) {
+    console.error("Create payment order failed:", error);
+
+    alert(
+      "Payment order failed: " +
+      (error.message || "Please try again.")
+    );
+
+    return null;
+  }
+  }
+
 
 
 async function startEFTPayment() {
