@@ -2910,7 +2910,17 @@ function startCV() {
       return null;
     }
 
-    return data.order;
+  sessionStorage.setItem(
+  "cv_payment_order_id",
+  data.order.id
+);
+
+sessionStorage.setItem(
+  "cv_payment_access_token",
+  data.order.access_token
+);
+
+return data.order;
 
   } catch (error) {
     console.error("Create payment order failed:", error);
