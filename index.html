@@ -4828,5 +4828,268 @@ function downloadCoverLetter() {
 
 </script>
 
+/* =========================
+CV RECOVERY
+========================= */
+
+async function requestCVRecovery() {
+const emailInput = document.getElementById("recoveryEmail");
+const message = document.getElementById("recoveryMessage");
+const button = document.getElementById("requestRecoveryButton");
+
+const email = emailInput.value.trim().toLowerCase();
+
+message.textContent = "";
+
+if (!email || !emailInput.checkValidity()) {
+message.textContent = "Please enter a valid email address.";
+return;
+}
+
+button.disabled = true;
+button.textContent = "Sending...";
+
+try {
+const { data, error } =
+await paymentClient.functions.invoke("request-cv-recovery", {
+body: { email }
+});
+
+if (error) {
+  console.error("CV recovery request error:", error);
+  throw new Error("We could not request your recovery email. Please try again.");
+}
+
+if (!data || data.success !== true) {
+  throw new Error(
+    data?.message || "We could not request your recovery email. Please try again."
+  );
+}
+
+message.textContent =
+  data.message ||
+  "If the email can receive a verification link, one has been requested. Check your inbox and spam folder.";
+
+} catch (error) {
+console.error("CV recovery error:", error);
+message.textContent =
+error.message || "Something went wrong. Please try again.";
+} finally {
+button.disabled = false;
+button.textContent = "Send Recovery Email";
+}
+}
+
+async function verifyAndLoadRecoveredCV() {
+const recoveredSection =
+document.getElementById("recoveredCVSection");
+
+const recoveredMessage =
+document.getElementById("recoveredCVMessage");
+
+if (!recoveredSection || !recoveredMessage) return;
+
+recoveredSection.style.display = "block";
+recoveredMessage.textContent =
+"Verifying your email and checking for your saved CV...";
+
+try {
+// Supabase normally processes supported confirmation links
+// automatically when the client detects the URL session.
+const { data: sessionData, error: sessionError } =
+await paymentClient.auth.getSession();
+
+if (sessionError) throw sessionError;
+
+let session = sessionData?.session;
+
+// Support Supabase confirmation URLs containing token_hash.
+const url = new URL(window.location.href);
+const tokenHash = url.searchParams.get("token_hash");
+const emailType = url.searchParams.get("type");
+
+if (!session && tokenHash && emailType) {
+  const allowedTypes = [
+    "signup",
+    "email",
+    "magiclink",
+    "recovery",
+    "invite",
+    "email_change"
+  ];
+
+  if (!allowedTypes.includes(emailType)) {
+    throw new Error("This email verification link is not supported.");
+  }
+
+  const { data, error } =
+    await paymentClient.auth.verifyOtp({
+      token_hash: tokenHash,
+      type: emailType
+    });
+
+  if (error) throw error;
+  session = data?.session;
+}
+
+// Support PKCE confirmation links containing ?code=...
+const authCode = url.searchParams.get("code");
+
+if (!session && authCode) {
+  const { data, error } =
+    await paymentClient.auth.exchangeCodeForSession(authCode);
+
+  if (error) throw error;
+  session = data?.session;
+}
+
+if (!session?.access_token) {
+  recoveredMessage.textContent =
+    "Open the latest verification link from your email on this website. If the link has expired, request a new recovery email.";
+  return;
+}
+
+const { data, error } =
+  await paymentClient.functions.invoke("verify-cv-recovery", {
+    body: {}
+  });
+
+if (error) {
+  console.error("CV recovery verification error:", error);
+  throw new Error(
+    "We could not retrieve your saved CV. Please try again."
+  );
+}
+
+if (!data || data.success !== true) {
+  throw new Error(
+    data?.message ||
+    data?.error ||
+    "No saved CV could be retrieved for this verified email."
+  );
+}
+
+window.recoveredCVData = data.cv_data || data.saved_cv || null;
+window.recoveredCVOrder = data.order || null;
+
+if (!window.recoveredCVData) {
+  recoveredMessage.textContent =
+    "Your email was verified, but no saved CV was returned.";
+  return;
+}
+
+if (data.download_allowed === true) {
+  recoveredMessage.textContent =
+    "Your saved CV was found and payment is confirmed. You can restore your CV below. PDF download security must still be completed separately.";
+} else {
+  recoveredMessage.textContent =
+    "Your saved CV was found. Payment has not been confirmed, so the paid PDF download remains locked.";
+}
+
+document.getElementById("restoreCVButton").style.display =
+  "inline-block";
+
+// Remove authentication tokens and codes from the visible URL.
+window.history.replaceState(
+  {},
+  document.title,
+  url.pathname + url.hash
+);
+
+} catch (error) {
+console.error("CV recovery verification failed:", error);
+recoveredMessage.textContent =
+error.message ||
+"We could not verify your email or retrieve your CV.";
+}
+}
+
+function restoreRecoveredCV() {
+const cvData = window.recoveredCVData;
+
+if (!cvData || typeof cvData !== "object") {
+alert("No saved CV data is available to restore.");
+return;
+}
+
+const form = document.getElementById("formSection");
+
+if (!form) {
+alert("The CV form could not be found.");
+return;
+}
+
+Object.entries(cvData).forEach(([key, value]) => {
+const fields = Array.from(
+form.querySelectorAll("input, select, textarea")
+).filter(field => field.id === key || field.name === key);
+
+if (!fields.length) return;
+
+if (Array.isArray(value)) {
+  fields.forEach(field => {
+    if (field.type === "checkbox" || field.type === "radio") {
+      field.checked = value.includes(field.value);
+    }
+  });
+  return;
+}
+
+fields.forEach(field => {
+  if (field.type === "checkbox") {
+    field.checked =
+      value === field.value || value === true;
+  } else if (field.type === "radio") {
+    field.checked = field.value === value;
+  } else if (field.type !== "file") {
+    field.value = value == null ? "" : String(value);
+  }
+});
+
+});
+
+// Restore the order credentials only if the recovery response
+// includes an order and access token.
+const order = window.recoveredCVOrder;
+
+if (order?.id && order?.access_token) {
+sessionStorage.setItem("cv_payment_order_id", order.id);
+sessionStorage.setItem(
+"cv_payment_access_token",
+order.access_token
+);
+}
+
+document.getElementById("cvRecoverySection").style.display = "none";
+document.getElementById("cvSection").style.display = "none";
+document.getElementById("coverLetterSection").style.display = "none";
+document.getElementById("coverLetterPreviewSection").style.display = "none";
+
+form.style.display = "block";
+
+window.scrollTo({
+top: 0,
+behavior: "smooth"
+});
+
+alert(
+"Your saved information has been restored. Please review it before continuing."
+);
+}
+
+// Check whether this page was opened from an email verification link.
+window.addEventListener("load", function () {
+const url = new URL(window.location.href);
+
+if (
+url.searchParams.has("code") ||
+url.searchParams.has("token_hash") ||
+url.hash.includes("access_token=") ||
+url.hash.includes("error_description=")
+) {
+verifyAndLoadRecoveredCV();
+}
+});
+
 </body>
 </html>
