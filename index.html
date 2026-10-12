@@ -1747,6 +1747,60 @@ Assisted customers, organised stock and supported daily store operations."
     </section>
 
 <section
+  id="cvRecoverySection"
+  class="card"
+  style="margin-top:20px;"
+>
+  <h2>Recover Your CV</h2>  <p>
+    Left the website and returned later?
+    Enter the email address you used when creating your CV.
+    We will send you an email verification link.
+  </p>  <div class="field">
+    <label for="recoveryEmail">Email address</label>
+    <input
+      id="recoveryEmail"
+      type="email"
+      placeholder="Enter your email address"
+      autocomplete="email"
+      required
+    >
+  </div><button
+class="button"
+id="requestRecoveryButton"
+type="button"
+onclick="requestCVRecovery()"
+
+«»
+
+Send Recovery Email
+
+  </button>  <p
+    id="recoveryMessage"
+    role="status"
+    aria-live="polite"
+    style="margin-top:12px;"
+  ></p>  <div
+    id="recoveredCVSection"
+    style="display:none;margin-top:20px;"
+  >
+    <h3>Your Saved CV</h3><p id="recoveredCVMessage">
+  Checking your saved CV and payment status...
+</p>
+
+<button
+  class="button"
+  id="restoreCVButton"
+  type="button"
+  onclick="restoreRecoveredCV()"
+  style="display:none;"
+>
+  Restore My CV
+</button>
+
+  </div>
+</section>
+
+<section
   id="coverLetterSection"
   class="card"
   style="display:none;"
