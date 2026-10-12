@@ -4976,6 +4976,7 @@ window.recoveredCVData = selectedCV?.cv_data || data.cv_data || data.saved_cv ||
 window.recoveredCVOrder = selectedCV
   ? {
       id: selectedCV.payment_order_id,
+      access_token: selectedCV.access_token,
       order_number: selectedCV.order_number,
       cv_template: selectedCV.cv_template,
       amount: selectedCV.amount,
