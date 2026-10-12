@@ -4967,8 +4967,22 @@ if (!data || data.success !== true) {
   );
 }
 
-window.recoveredCVData = data.cv_data || data.saved_cv || null;
-window.recoveredCVOrder = data.order || null;
+const recoveredCVs = Array.isArray(data.cvs) ? data.cvs : [];
+
+const selectedCV = recoveredCVs[0] || null;
+
+window.recoveredCVData = selectedCV?.cv_data || data.cv_data || data.saved_cv || null;
+window.recoveredCVOrder = selectedCV
+  ? {
+      id: selectedCV.payment_order_id,
+      order_number: selectedCV.order_number,
+      cv_template: selectedCV.cv_template,
+      amount: selectedCV.amount,
+      currency: selectedCV.currency,
+      payment_status: selectedCV.payment_status,
+      download_allowed: selectedCV.download_allowed
+    }
+  : (data.order || null);
 
 if (!window.recoveredCVData) {
   recoveredMessage.textContent =
