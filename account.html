@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#111111">
+
+  <title>Customer Account | CVPro-SA</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 20px;
+      min-height: 100vh;
+      background: #f5f5f5;
+      color: #111;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 430px;
+      background: #fff;
+      padding: 28px 22px;
+      border: 1px solid #e5e5e5;
+      border-radius: 12px;
+      box-shadow: 0 5px 24px rgba(0, 0, 0, 0.06);
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      text-align: center;
+      font-size: 27px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #666;
+      font-size: 14px;
+      line-height: 1.5;
+      margin-bottom: 25px;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 22px;
+    }
+
+    .tabs button {
+      flex: 1;
+      background: #eee;
+      color: #111;
+    }
+
+    .tabs button.active {
+      background: #111;
+      color: #fff;
+    }
+
+    label {
+      display: block;
+      margin: 15px 0 7px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    input {
+      display: block;
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #ccc;
+      border-radius: 7px;
+      font-size: 16px;
+      background: #fff;
+      color: #111;
+    }
+
+    input:focus {
+      outline: 2px solid #111;
+      outline-offset: 1px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 7px;
+      padding: 13px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .primary-button {
+      width: 100%;
+      margin-top: 22px;
+      background: #111;
+      color: #fff;
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: wait;
+    }
+
+    .message {
+      display: none;
+      padding: 12px;
+      margin-top: 17px;
+      border-radius: 7px;
+      font-size: 14px;
+      line-height: 1.5;
+      overflow-wrap: anywhere;
+    }
+
+    .message.success {
+      display: block;
+      color: #155724;
+      background: #d4edda;
+    }
+
+    .message.error {
+      display: block;
+      color: #721c24;
+      background: #f8d7da;
+    }
+
+    .message.info {
+      display: block;
+      color: #084298;
+      background: #cfe2ff;
+    }
+
+    .account-panel {
+      display: none;
+      text-align: center;
+    }
+
+    .account-panel p {
+      line-height: 1.6;
+      overflow-wrap: anywhere;
+    }
+
+    .secondary-button {
+      width: 100%;
+      margin-top: 10px;
+      background: #eee;
+      color: #111;
+    }
+
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 22px;
+      color: #111;
+      font-size: 14px;
+      text-decoration: none;
+    }
+
+    .small-note {
+      margin-top: 14px;
+      color: #666;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+
+<body>
+  <main class="container">
+    <h1>CVPro-SA</h1>
+
+    <p class="subtitle">
+      Create your account to purchase and manage your CVs.
+    </p>
+
+    <section id="authSection">
+      <div class="tabs">
+        <button
+          type="button"
+          id="signupTab"
+          class="active"
+          onclick="showAuthMode('signup')"
+        >
+          Create Account
+        </button>
+
+        <button
+          type="button"
+          id="loginTab"
+          onclick="showAuthMode('login')"
+        >
+          Login
+        </button>
+      </div>
+
+      <form id="authForm">
+        <label for="email">Email address</label>
+
+        <input
+          id="email"
+          type="email"
+          autocomplete="email"
+          placeholder="you@example.com"
+          required
+        >
+
+        <label for="password">Password</label>
+
+        <input
+          id="password"
+          type="password"
+          autocomplete="new-password"
+          minlength="8"
+          placeholder="At least 8 characters"
+          required
+        >
+
+        <p class="small-note">
+          Use a strong password with at least 8 characters.
+          Never share your password with anyone.
+        </p>
+
+        <button
+          type="submit"
+          id="submitButton"
+          class="primary-button"
+        >
+          Create Account
+        </button>
+      </form>
+
+      <div id="authMessage" class="message" role="status"></div>
+    </section>
+
+    <section id="accountPanel" class="account-panel">
+      <h2>You're logged in!</h2>
+
+      <p id="accountEmail"></p>
+
+      <p>
+        Your account is ready. Your purchased CVs will be connected
+        to your account so you can return to them later.
+      </p>
+
+      <button
+        type="button"
+        class="primary-button"
+        id="continueButton"
+      >
+        Continue to CVPro-SA
+      </button>
+
+      <button
+        type="button"
+        class="secondary-button"
+        id="logoutButton"
+      >
+        Logout
+      </button>
+
+      <div id="accountMessage" class="message" role="status"></div>
+    </section>
+
+    <a class="back-link" href="./index.html">
+      ← Back to CV Builder
+    </a>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    const SUPABASE_URL =
+      "https://tnxlhpenttcynlmlohao.supabase.co";
+
+    const SUPABASE_PUBLISHABLE_KEY =
+      "sb_publishable_n4XzrnraET_AEMbCYtHV7Q_DJ8--zCL";
+
+    const supabaseClient = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY
+    );
+
+    let authMode = "signup";
+
+    const authSection = document.getElementById("authSection");
+    const accountPanel = document.getElementById("accountPanel");
+    const authForm = document.getElementById("authForm");
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
+    const submitButton = document.getElementById("submitButton");
+    const authMessage = document.getElementById("authMessage");
+    const accountMessage = document.getElementById("accountMessage");
+
+    function showMessage(element, message, type) {
+      element.textContent = message;
+      element.className = "message " + type;
+    }
+
+    function clearMessage(element) {
+      element.textContent = "";
+      element.className = "message";
+    }
+
+    function showAuthMode(mode) {
+      authMode = mode;
+
+      clearMessage(authMessage);
+
+      document.getElementById("signupTab").classList.toggle(
+        "active",
+        mode === "signup"
+      );
+
+      document.getElementById("loginTab").classList.toggle(
+        "active",
+        mode === "login"
+      );
+
+      submitButton.textContent =
+        mode === "signup" ? "Create Account" : "Login";
+
+      passwordInput.autocomplete =
+        mode === "signup" ? "new-password" : "current-password";
+    }
+
+    async function refreshAccountState() {
+      const {
+        data: { session },
+        error
+      } = await supabaseClient.auth.getSession();
+
+      if (error) {
+        showMessage(
+          authMessage,
+          "We could not check your session. Please refresh and try again.",
+          "error"
+        );
+        return;
+      }
+
+      if (session && session.user) {
+        authSection.style.display = "none";
+        accountPanel.style.display = "block";
+
+        document.getElementById("accountEmail").textContent =
+          "Logged in as: " + (session.user.email || "");
+
+        return;
+      }
+
+      authSection.style.display = "block";
+      accountPanel.style.display = "none";
+    }
+
+    authForm.addEventListener("submit", async function (event) {
+      event.preventDefault();
+
+      clearMessage(authMessage);
+
+      const email = emailInput.value.trim();
+      const password = passwordInput.value;
+
+      if (!email || !password) {
+        showMessage(
+          authMessage,
+          "Enter your email address and password.",
+          "error"
+        );
+        return;
+      }
+
+      if (password.length < 8) {
+        showMessage(
+          authMessage,
+          "Your password must contain at least 8 characters.",
+          "error"
+        );
+        return;
+      }
+
+      submitButton.disabled = true;
+      submitButton.textContent =
+        authMode === "signup" ? "Creating account..." : "Logging in...";
+
+      try {
+        if (authMode === "signup") {
+          const { data, error } = await supabaseClient.auth.signUp({
+            email,
+            password,
+            options: {
+              emailRedirectTo: window.location.href.split("?")[0]
+            }
+          });
+
+          if (error) throw error;
+
+          if (data.session) {
+            showMessage(
+              authMessage,
+              "Your account was created successfully.",
+              "success"
+            );
+
+            await refreshAccountState();
+          } else {
+            showMessage(
+              authMessage,
+              "Your account request was submitted. Check your email for the verification link before logging in.",
+              "success"
+            );
+          }
+        } else {
+          const { data, error } =
+            await supabaseClient.auth.signInWithPassword({
+              email,
+              password
+            });
+
+          if (error) throw error;
+
+          if (data.session) {
+            await refreshAccountState();
+          }
+        }
+      } catch (error) {
+        const message = error && error.message
+          ? error.message
+          : "Something went wrong. Please try again.";
+
+        showMessage(authMessage, message, "error");
+      } finally {
+        submitButton.disabled = false;
+        submitButton.textContent =
+          authMode === "signup" ? "Create Account" : "Login";
+      }
+    });
+
+    document.getElementById("logoutButton").addEventListener(
+      "click",
+      async function () {
+        const button = this;
+        button.disabled = true;
+
+        try {
+          const { error } = await supabaseClient.auth.signOut();
+
+          if (error) throw error;
+
+          clearMessage(authMessage);
+          clearMessage(accountMessage);
+          authForm.reset();
+          showAuthMode("login");
+
+          await refreshAccountState();
+
+          showMessage(
+            authMessage,
+            "You have been logged out successfully.",
+            "success"
+          );
+        } catch (error) {
+          showMessage(
+            accountMessage,
+            error.message || "Logout failed. Please try again.",
+            "error"
+          );
+        } finally {
+          button.disabled = false;
+        }
+      }
+    );
+
+    document.getElementById("continueButton").addEventListener(
+      "click",
+      function () {
+        window.location.href = "./index.html";
+      }
+    );
+
+    supabaseClient.auth.onAuthStateChange(function () {
+      refreshAccountState();
+    });
+
+    refreshAccountState();
+  </script>
+</body>
+</html>
