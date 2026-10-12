@@ -3042,7 +3042,6 @@ async function saveCVForOrder(order) {
   async function createPaymentOrder() {
   const customerName = getValue("fullName");
   const customerEmail = getValue("email");
-
   const templateElement = document.getElementById("cvTemplate");
 
   if (!customerName || !customerEmail) {
@@ -3056,13 +3055,39 @@ async function saveCVForOrder(order) {
   }
 
   try {
+    // Require a valid, logged-in Supabase customer.
+    const {
+      data: { session },
+      error: sessionError
+    } = await paymentClient.auth.getSession();
+
+    if (sessionError || !session?.access_token || !session.user?.id) {
+      alert("Please log in to your CVPro-SA account before purchasing a CV.");
+      window.location.href = "account.html";
+      return null;
+    }
+
+    // Ensure the purchase email matches the logged-in account.
+    const accountEmail = (session.user.email || "").trim().toLowerCase();
+
+    if (customerEmail.trim().toLowerCase() !== accountEmail) {
+      alert(
+        "The email in your CV must match your logged-in account email: " +
+        accountEmail
+      );
+      return null;
+    }
+
     const { data, error } =
       await paymentClient.functions.invoke(
         "create-payment-order",
         {
+          headers: {
+            Authorization: `Bearer ${session.access_token}`
+          },
           body: {
             customer_name: customerName,
-            customer_email: customerEmail,
+            customer_email: accountEmail,
             cv_template: templateElement.value
           }
         }
@@ -3070,30 +3095,37 @@ async function saveCVForOrder(order) {
 
     if (error) {
       console.error("Supabase payment order error:", error);
+
       alert(
         "Payment order error: " +
         (error.message || "Could not contact the payment service.")
       );
+
       return null;
     }
 
-    if (!data || !data.order) {
+    if (!data?.success || !data?.order?.id) {
       console.error("Unexpected payment response:", data);
-      alert("The payment service did not return an order. Please check the Supabase function logs.");
+
+      alert(
+        data?.error ||
+        "The payment service did not return a valid order."
+      );
+
       return null;
     }
 
-  sessionStorage.setItem(
-  "cv_payment_order_id",
-  data.order.id
-);
+    // The server-generated order is associated with the logged-in user.
+    sessionStorage.setItem(
+      "cv_payment_order_id",
+      data.order.id
+    );
 
-sessionStorage.setItem(
-  "cv_payment_access_token",
-  data.order.access_token
-);
+    // The current function does not return an access token.
+    // Remove any stale token from a previous order.
+    sessionStorage.removeItem("cv_payment_access_token");
 
-return data.order;
+    return data.order;
 
   } catch (error) {
     console.error("Create payment order failed:", error);
@@ -3105,7 +3137,7 @@ return data.order;
 
     return null;
   }
-  }
+}
 
 
 async function checkPaymentStatus() {
