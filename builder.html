@@ -1,11 +1,16 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#111111">
   <meta name="description" content="Create, edit and save your CV with CVPro-SA.">
-  <title>CV Builder | CVPro-SA</title>  <style>
-    * { box-sizing: border-box; }
+  <title>CV Builder | CVPro-SA</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
@@ -37,7 +42,8 @@
       text-decoration: none;
     }
 
-    .nav a, .nav button {
+    .nav a,
+    .nav button {
       color: white;
       border: 1px solid #666;
       border-radius: 7px;
@@ -59,7 +65,9 @@
       font-size: 29px;
     }
 
-    .muted { color: #666; }
+    .muted {
+      color: #666;
+    }
 
     .notice {
       margin: 18px 0;
@@ -90,7 +98,9 @@
       background: #e9f7ef;
     }
 
-    #builderArea { display: none; }
+    #builderArea {
+      display: none;
+    }
 
     .workspace {
       display: grid;
@@ -112,7 +122,9 @@
       font-size: 21px;
     }
 
-    .field { margin-bottom: 14px; }
+    .field {
+      margin-bottom: 14px;
+    }
 
     label {
       display: block;
@@ -121,7 +133,9 @@
       font-weight: 700;
     }
 
-    input, textarea, select {
+    input,
+    textarea,
+    select {
       width: 100%;
       padding: 11px;
       border: 1px solid #ccc;
@@ -173,7 +187,23 @@
       margin-bottom: 12px;
     }
 
-    .preview-toolbar button { margin: 0; }
+    .preview-toolbar button {
+      margin: 0;
+    }
+
+    .template-label {
+      display: inline-block;
+      margin-bottom: 12px;
+      padding: 5px 9px;
+      border: 1px solid #ddd;
+      border-radius: 20px;
+      background: #fafafa;
+      color: #333;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    /* Shared CV structure */
 
     .cv-page {
       width: 100%;
@@ -185,22 +215,31 @@
       overflow-wrap: anywhere;
     }
 
+    .cv-header {
+      margin-bottom: 22px;
+    }
+
     .cv-name {
       margin: 0;
       font-size: 27px;
+      line-height: 1.2;
       text-transform: uppercase;
       letter-spacing: 0.5px;
       overflow-wrap: anywhere;
     }
 
     .cv-contact {
-      margin: 7px 0 18px;
+      margin: 9px 0 0;
       color: #555;
       font-size: 12px;
       overflow-wrap: anywhere;
+      white-space: pre-wrap;
     }
 
-    .cv-section { margin-top: 19px; }
+    .cv-section {
+      margin-top: 19px;
+      break-inside: avoid;
+    }
 
     .cv-section h3 {
       margin: 0 0 8px;
@@ -229,9 +268,90 @@
       border: 1px solid #ddd;
       border-radius: 4px;
       font-size: 11px;
+      overflow-wrap: anywhere;
     }
 
-    .hidden { display: none !important; }
+    /* Classic CV */
+
+    .cv-page.classic {
+      border-top: 5px solid #111;
+    }
+
+    .cv-page.classic .cv-header {
+      padding-bottom: 16px;
+      border-bottom: 1px solid #bbb;
+    }
+
+    .cv-page.classic .cv-name {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 29px;
+      font-weight: 700;
+    }
+
+    .cv-page.classic .cv-contact {
+      line-height: 1.8;
+    }
+
+    .cv-page.classic .cv-section h3 {
+      border-bottom: 1px solid #111;
+    }
+
+    .cv-page.classic .cv-skill {
+      border-radius: 0;
+      background: white;
+    }
+
+    /* Modern CV */
+
+    .cv-page.modern {
+      border: 0;
+      border-top: 10px solid #202020;
+      box-shadow: 0 3px 14px #0000000d;
+      padding: 0;
+    }
+
+    .cv-page.modern .cv-header {
+      margin: 0;
+      padding: 28px 28px 22px;
+      background: #202020;
+      color: white;
+    }
+
+    .cv-page.modern .cv-name {
+      font-size: 30px;
+      letter-spacing: 1.2px;
+    }
+
+    .cv-page.modern .cv-contact {
+      color: #e5e5e5;
+      line-height: 1.8;
+    }
+
+    .cv-page.modern .cv-content {
+      padding: 8px 28px 28px;
+    }
+
+    .cv-page.modern .cv-section {
+      margin-top: 21px;
+    }
+
+    .cv-page.modern .cv-section h3 {
+      border-bottom: 0;
+      border-left: 4px solid #202020;
+      padding: 3px 0 3px 9px;
+      letter-spacing: 0.8px;
+    }
+
+    .cv-page.modern .cv-skill {
+      border-color: #bbb;
+      border-radius: 15px;
+      background: #f5f5f5;
+      padding: 5px 9px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
 
     footer {
       padding: 20px;
@@ -241,7 +361,9 @@
     }
 
     @media (max-width: 850px) {
-      .workspace { grid-template-columns: 1fr; }
+      .workspace {
+        grid-template-columns: 1fr;
+      }
 
       .preview-panel {
         position: static;
@@ -252,6 +374,18 @@
         min-height: 500px;
         padding: 25px;
       }
+
+      .cv-page.modern {
+        padding: 0;
+      }
+
+      .cv-page.modern .cv-header {
+        padding: 24px 20px 18px;
+      }
+
+      .cv-page.modern .cv-content {
+        padding: 5px 20px 22px;
+      }
     }
 
     @media print {
@@ -260,11 +394,21 @@
         margin: 12mm;
       }
 
-      body { background: white; }
+      body {
+        background: white;
+      }
 
-      header, main > h1, main > .muted, .notice,
-      #message, #accessMessage, #editorPanel, .preview-toolbar,
-      footer {
+      header,
+      main > h1,
+      main > .muted,
+      .notice,
+      #message,
+      #accessMessage,
+      #editorPanel,
+      .preview-toolbar,
+      .template-label,
+      footer,
+      .preview-panel > h2 {
         display: none !important;
       }
 
@@ -274,27 +418,58 @@
         padding: 0;
       }
 
-      #builderArea, .workspace, .preview-panel {
+      #builderArea,
+      .workspace,
+      .preview-panel {
         display: block !important;
         margin: 0;
         padding: 0;
         border: 0;
+        box-shadow: none;
       }
 
       .panel {
         padding: 0;
         border: 0;
+        box-shadow: none;
       }
 
       .cv-page {
         width: 100%;
         min-height: 0;
-        padding: 0;
-        border: 0;
+        margin: 0;
+        break-inside: auto;
         box-shadow: none;
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+      }
+
+      .cv-page.classic {
+        padding: 0;
+      }
+
+      .cv-page.modern {
+        padding: 0;
+      }
+
+      .cv-page.modern .cv-header {
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+      }
+
+      .cv-section {
+        break-inside: avoid;
+      }
+
+      .cv-name,
+      .cv-section h3 {
+        break-after: avoid;
       }
     }
-  </style></head><body>
+  </style>
+</head>
+
+<body>
   <header>
     <nav class="nav">
       <a class="logo" href="./">CVPro-SA</a>
@@ -303,128 +478,147 @@
         <button type="button" id="signOutButton">Sign Out</button>
       </div>
     </nav>
-  </header>  <main>
+  </header>
+
+  <main>
     <h1>CV Builder</h1>
-    <div class="muted">Create a professional CV and save it as a PDF.</div><div id="accessMessage" class="notice">
-  Checking your account and CV purchase...
-</div>
+    <div class="muted">
+      Create a professional CV and save it as a PDF.
+    </div>
 
-<div id="message" class="message" role="status" aria-live="polite"></div>
+    <div id="accessMessage" class="notice">
+      Checking your account and CV purchase...
+    </div>
 
-<div id="builderArea">
-  <div class="notice">
-    <strong>One purchase, one CV.</strong>
-    You can edit and save this CV again after your purchase is approved.
-    Do not create another CV under the same purchase.
-  </div>
+    <div id="message" class="message" role="status" aria-live="polite"></div>
 
-  <div class="workspace">
-    <section class="panel preview-panel">
-      <h2>Live CV Preview</h2>
-
-      <div class="preview-toolbar">
-        <button type="button" class="button" id="printButton">
-          Save / Download PDF
-        </button>
+    <div id="builderArea">
+      <div class="notice">
+        <strong>One purchase, one CV.</strong>
+        You can edit and save this CV again after your purchase is approved.
+        Do not create another CV under the same purchase.
       </div>
 
-      <article class="cv-page" id="cvPreview">
-        <h2 class="cv-name" id="previewName">YOUR FULL NAME</h2>
-        <div class="cv-contact" id="previewContact">
-          Email · Phone · Location
-        </div>
+      <div class="workspace">
+        <section class="panel preview-panel">
+          <h2>Live CV Preview</h2>
 
-        <section class="cv-section">
-          <h3>Professional Profile</h3>
-          <p id="previewProfile">Your professional profile will appear here.</p>
+          <div class="template-label" id="templateLabel">
+            Purchased CV template
+          </div>
+
+          <div class="preview-toolbar">
+            <button type="button" class="button" id="printButton">
+              Save / Download PDF
+            </button>
+          </div>
+
+          <article class="cv-page classic" id="cvPreview">
+            <div class="cv-header">
+              <h2 class="cv-name" id="previewName">YOUR FULL NAME</h2>
+              <div class="cv-contact" id="previewContact">
+                Email · Phone · Location
+              </div>
+            </div>
+
+            <div class="cv-content">
+              <section class="cv-section">
+                <h3>Professional Profile</h3>
+                <p id="previewProfile">Your professional profile will appear here.</p>
+              </section>
+
+              <section class="cv-section">
+                <h3>Education</h3>
+                <p id="previewEducation">Your education will appear here.</p>
+              </section>
+
+              <section class="cv-section">
+                <h3>Work Experience</h3>
+                <p id="previewExperience">Your experience will appear here.</p>
+              </section>
+
+              <section class="cv-section">
+                <h3>Skills</h3>
+                <div class="cv-skills" id="previewSkills"></div>
+              </section>
+
+              <section class="cv-section">
+                <h3>Languages</h3>
+                <p id="previewLanguages">Your languages will appear here.</p>
+              </section>
+            </div>
+          </article>
         </section>
 
-        <section class="cv-section">
-          <h3>Education</h3>
-          <p id="previewEducation">Your education will appear here.</p>
+        <section class="panel" id="editorPanel">
+          <h2>Edit Your CV</h2>
+
+          <form id="cvForm">
+            <div class="field">
+              <label for="fullName">Full name</label>
+              <input id="fullName" name="fullName" autocomplete="name" required>
+            </div>
+
+            <div class="field">
+              <label for="email">Email address</label>
+              <input id="email" name="email" type="email" autocomplete="email">
+            </div>
+
+            <div class="field">
+              <label for="phone">Phone number</label>
+              <input id="phone" name="phone" type="tel" autocomplete="tel">
+            </div>
+
+            <div class="field">
+              <label for="location">Location</label>
+              <input id="location" name="location" placeholder="e.g. Durban, KwaZulu-Natal">
+            </div>
+
+            <div class="field">
+              <label for="profile">Professional profile</label>
+              <textarea id="profile" name="profile" placeholder="Briefly describe your strengths, experience and career goals."></textarea>
+            </div>
+
+            <div class="field">
+              <label for="education">Education</label>
+              <textarea id="education" name="education" placeholder="Qualification, school or institution, year completed."></textarea>
+            </div>
+
+            <div class="field">
+              <label for="experience">Work experience</label>
+              <textarea id="experience" name="experience" placeholder="Job title, employer, dates and responsibilities. If you have no work experience, describe relevant projects, practical training or volunteering."></textarea>
+            </div>
+
+            <div class="field">
+              <label for="skills">Skills</label>
+              <textarea id="skills" name="skills" placeholder="Separate skills with commas, e.g. Communication, Teamwork, Computer Skills."></textarea>
+            </div>
+
+            <div class="field">
+              <label for="languages">Languages</label>
+              <input id="languages" name="languages" placeholder="e.g. English, isiZulu">
+            </div>
+
+            <button class="button" id="saveButton" type="submit">
+              Save My CV
+            </button>
+
+            <button class="button secondary" id="printButton2" type="button">
+              Save / Download PDF
+            </button>
+          </form>
         </section>
+      </div>
+    </div>
+  </main>
 
-        <section class="cv-section">
-          <h3>Work Experience</h3>
-          <p id="previewExperience">Your experience will appear here.</p>
-        </section>
-
-        <section class="cv-section">
-          <h3>Skills</h3>
-          <div class="cv-skills" id="previewSkills"></div>
-        </section>
-
-        <section class="cv-section">
-          <h3>Languages</h3>
-          <p id="previewLanguages">Your languages will appear here.</p>
-        </section>
-      </article>
-    </section>
-
-    <section class="panel" id="editorPanel">
-      <h2>Edit Your CV</h2>
-
-      <form id="cvForm">
-        <div class="field">
-          <label for="fullName">Full name</label>
-          <input id="fullName" name="fullName" autocomplete="name" required>
-        </div>
-
-        <div class="field">
-          <label for="email">Email address</label>
-          <input id="email" name="email" type="email" autocomplete="email">
-        </div>
-
-        <div class="field">
-          <label for="phone">Phone number</label>
-          <input id="phone" name="phone" type="tel" autocomplete="tel">
-        </div>
-
-        <div class="field">
-          <label for="location">Location</label>
-          <input id="location" name="location" placeholder="e.g. Durban, KwaZulu-Natal">
-        </div>
-
-        <div class="field">
-          <label for="profile">Professional profile</label>
-          <textarea id="profile" name="profile" placeholder="Briefly describe your strengths, experience and career goals."></textarea>
-        </div>
-
-        <div class="field">
-          <label for="education">Education</label>
-          <textarea id="education" name="education" placeholder="Qualification, school or institution, year completed."></textarea>
-        </div>
-
-        <div class="field">
-          <label for="experience">Work experience</label>
-          <textarea id="experience" name="experience" placeholder="Job title, employer, dates and responsibilities. If you have no work experience, describe relevant projects, practical training or volunteering."></textarea>
-        </div>
-
-        <div class="field">
-          <label for="skills">Skills</label>
-          <textarea id="skills" name="skills" placeholder="Separate skills with commas, e.g. Communication, Teamwork, Computer Skills."></textarea>
-        </div>
-
-        <div class="field">
-          <label for="languages">Languages</label>
-          <input id="languages" name="languages" placeholder="e.g. English, isiZulu">
-        </div>
-
-        <button class="button" id="saveButton" type="submit">
-          Save My CV
-        </button>
-
-        <button class="button secondary" id="printButton2" type="button">
-          Save / Download PDF
-        </button>
-      </form>
-    </section>
-  </div>
-</div>
-
-  </main>  <footer>
+  <footer>
     &copy; <span id="year"></span> CVPro-SA. All rights reserved.
-  </footer>  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>  <script>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
     const SUPABASE_URL =
       "https://tnxlhpenttcynlmlohao.supabase.co";
 
@@ -513,6 +707,23 @@
       };
     }
 
+    function applyPurchasedTemplate() {
+      const isModern = activePurchase.cv_template === "modern";
+      const cvPreview = document.getElementById("cvPreview");
+      const templateLabel = document.getElementById("templateLabel");
+
+      cvPreview.classList.remove("classic", "modern");
+      cvPreview.classList.add(isModern ? "modern" : "classic");
+
+      templateLabel.textContent = isModern
+        ? "MODERN CV · R25"
+        : "CLASSIC CV · R15";
+
+      document.title = isModern
+        ? "Modern CV | CVPro-SA"
+        : "Classic CV | CVPro-SA";
+    }
+
     function renderPreview() {
       const data = getFormData();
 
@@ -561,10 +772,12 @@
       setField("profile", data.profile);
       setField("education", data.education);
       setField("experience", data.experience);
+
       setField(
         "skills",
         Array.isArray(data.skills) ? data.skills.join(", ") : data.skills
       );
+
       setField("languages", data.languages);
       renderPreview();
     }
@@ -586,6 +799,7 @@
 
       try {
         const result = await callFunction("get-cv-purchase-status", {});
+
         const purchases = Array.isArray(result.purchases)
           ? result.purchases
           : Array.isArray(result)
@@ -605,6 +819,8 @@
           return;
         }
 
+        applyPurchasedTemplate();
+
         const savedResult = await callFunction("get-customer-cv", {
           purchase_id: activePurchase.id
         });
@@ -619,8 +835,12 @@
         }
 
         accessMessage.textContent =
-          "Purchase approved: " + (activePurchase.order_number || "CV purchase") +
-          ". You can edit and save this CV.";
+          "Purchase approved: " +
+          (activePurchase.order_number || "CV purchase") +
+          ". Your " +
+          (activePurchase.cv_template === "modern" ? "Modern" : "Classic") +
+          " CV is ready to edit and save.";
+
         builderArea.style.display = "block";
       } catch (error) {
         console.error("Builder access error:", error);
@@ -635,7 +855,10 @@
       event.preventDefault();
 
       if (!activePurchase) {
-        showMessage("No approved purchase is available.", "error");
+        showMessage(
+          "No approved purchase is available.",
+          "error"
+        );
         return;
       }
 
@@ -668,21 +891,29 @@
 
     function printCV() {
       if (!activePurchase) {
-        showMessage("You need an approved purchase before saving your CV.", "error");
+        showMessage(
+          "You need an approved purchase before saving your CV.",
+          "error"
+        );
         return;
       }
 
       window.print();
     }
 
-    document.getElementById("printButton").addEventListener("click", printCV);
-    document.getElementById("printButton2").addEventListener("click", printCV);
+    document.getElementById("printButton")
+      .addEventListener("click", printCV);
 
-    document.getElementById("signOutButton").addEventListener("click", async () => {
-      await supabaseClient.auth.signOut();
-      window.location.replace("./account.html");
-    });
+    document.getElementById("printButton2")
+      .addEventListener("click", printCV);
+
+    document.getElementById("signOutButton")
+      .addEventListener("click", async () => {
+        await supabaseClient.auth.signOut();
+        window.location.replace("./account.html");
+      });
 
     initialiseBuilder();
-  </script></body>
+  </script>
+</body>
 </html>
