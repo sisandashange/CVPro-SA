@@ -1,0 +1,372 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CVPro-SA | Owner Dashboard</title>
+  <meta name="robots" content="noindex, nofollow">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      color: #111;
+    }
+    header {
+      background: #111;
+      color: white;
+      padding: 18px;
+    }
+    .header-inner {
+      max-width: 1000px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+    h1 { font-size: 20px; margin: 0; }
+    main {
+      max-width: 1000px;
+      margin: 24px auto;
+      padding: 0 14px;
+    }
+    .panel {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 18px;
+    }
+    h2 { margin-top: 0; font-size: 21px; }
+    .muted { color: #666; line-height: 1.5; }
+    button, .button {
+      display: inline-block;
+      border: 0;
+      border-radius: 7px;
+      padding: 12px 15px;
+      background: #111;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    button:disabled { opacity: .5; cursor: not-allowed; }
+    .secondary { background: #e8e8e8; color: #111; }
+    input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #bbb;
+      border-radius: 7px;
+      font-size: 16px;
+      margin: 7px 0 12px;
+    }
+    label { font-weight: bold; font-size: 14px; }
+    .status {
+      padding: 12px;
+      border-radius: 7px;
+      background: #eee;
+      margin: 12px 0;
+      overflow-wrap: anywhere;
+    }
+    .error { background: #ffe8e8; color: #8b0000; }
+    .success { background: #e6f7e9; color: #145c25; }
+    .order {
+      border: 1px solid #ddd;
+      border-radius: 9px;
+      padding: 15px;
+      margin-top: 13px;
+    }
+    .order h3 { margin: 0 0 10px; overflow-wrap: anywhere; }
+    .order p { margin: 7px 0; line-height: 1.45; overflow-wrap: anywhere; }
+    .order form { margin-top: 14px; }
+    .hidden { display: none !important; }
+    .warning {
+      border-left: 4px solid #111;
+      background: #f2f2f2;
+      padding: 12px;
+      line-height: 1.5;
+    }
+    footer { text-align: center; padding: 20px; color: #666; font-size: 13px; }
+    @media (max-width: 520px) {
+      .header-inner { align-items: flex-start; flex-direction: column; }
+      main { margin-top: 16px; }
+      .panel { padding: 14px; }
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="header-inner">
+    <h1>CVPro-SA | Owner Dashboard</h1>
+    <button id="signOutButton" class="secondary hidden" type="button">Sign Out</button>
+  </div>
+</header><main>
+  <section id="loginPanel" class="panel">
+    <h2>Owner Sign In</h2>
+    <p class="muted">Sign in with the registered CVPro-SA owner account.</p>
+    <form id="loginForm">
+      <label for="email">Owner email</label>
+      <input id="email" type="email" autocomplete="username" required>
+      <label for="password">Password</label>
+      <input id="password" type="password" autocomplete="current-password" required>
+      <button id="loginButton" type="submit">Sign In</button>
+    </form>
+    <div id="loginMessage" class="status" role="status">Enter your owner account details.</div>
+  </section>  <section id="dashboardPanel" class="hidden">
+    <div class="panel">
+      <h2>Pending CV Purchases</h2>
+      <p id="ownerEmail" class="muted"></p>
+      <div class="warning">
+        <strong>Payment safety:</strong> Check your actual Capitec account and confirm that the full amount has arrived before approving an order. Never approve based only on a screenshot or customer-provided reference.
+      </div>
+      <p class="muted">Approval unlocks the purchased CV. It must only be used after you verify the incoming payment yourself.</p>
+      <button id="refreshButton" type="button">Refresh Pending Orders</button>
+      <div id="dashboardMessage" class="status" role="status">Loading pending orders…</div>
+      <div id="ordersList"></div>
+    </div>
+  </section>
+</main><footer>CVPro-SA · Private owner area</footer><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
+"use strict";
+
+const SUPABASE_URL = "https://tnxlhpenttcynlmlohao.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_n4XzrnraET_AEMbCYtHV7Q_DJ8--zCL";
+
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY
+);
+
+const loginPanel = document.getElementById("loginPanel");
+const dashboardPanel = document.getElementById("dashboardPanel");
+const loginForm = document.getElementById("loginForm");
+const loginMessage = document.getElementById("loginMessage");
+const dashboardMessage = document.getElementById("dashboardMessage");
+const ordersList = document.getElementById("ordersList");
+const signOutButton = document.getElementById("signOutButton");
+const refreshButton = document.getElementById("refreshButton");
+
+function showMessage(element, message, type = "") {
+  element.textContent = message;
+  element.className = "status" + (type ? " " + type : "");
+}
+
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[char]);
+}
+
+async function callFunction(name, body = {}) {
+  const { data: { session }, error: sessionError } =
+    await supabaseClient.auth.getSession();
+
+  if (sessionError || !session) {
+    throw new Error("Your session has expired. Please sign in again.");
+  }
+
+  const response = await fetch(`${SUPABASE_URL}/functions/v1/${name}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${session.access_token}`,
+      "apikey": SUPABASE_PUBLISHABLE_KEY
+    },
+    body: JSON.stringify(body)
+  });
+
+  const result = await response.json().catch(() => ({}));
+
+  if (!response.ok) {
+    throw new Error(result.error || result.message || "The request failed.");
+  }
+
+  return result;
+}
+
+async function checkOwner() {
+  const { data: { user }, error: userError } =
+    await supabaseClient.auth.getUser();
+
+  if (userError || !user) {
+    showLogin();
+    return false;
+  }
+
+  // The Edge Function independently checks owner registration.
+  // Never rely on the page UI alone to protect owner operations.
+  const { data: owner, error: ownerError } = await supabaseClient
+    .from("cv_owner_accounts")
+    .select("user_id")
+    .eq("user_id", user.id)
+    .maybeSingle();
+
+  if (ownerError || !owner) {
+    await supabaseClient.auth.signOut();
+    showLogin();
+    showMessage(
+      loginMessage,
+      "This account is not registered as the CVPro-SA owner.",
+      "error"
+    );
+    return false;
+  }
+
+  loginPanel.classList.add("hidden");
+  dashboardPanel.classList.remove("hidden");
+  signOutButton.classList.remove("hidden");
+  document.getElementById("ownerEmail").textContent = "Signed in as " + user.email;
+  await loadPendingOrders();
+  return true;
+}
+
+function showLogin() {
+  loginPanel.classList.remove("hidden");
+  dashboardPanel.classList.add("hidden");
+  signOutButton.classList.add("hidden");
+}
+
+async function loadPendingOrders() {
+  ordersList.replaceChildren();
+  refreshButton.disabled = true;
+  showMessage(dashboardMessage, "Loading pending orders…");
+
+  try {
+    const result = await callFunction("list-pending-cv-purchases", {});
+    const purchases = Array.isArray(result.purchases) ? result.purchases : [];
+
+    if (purchases.length === 0) {
+      showMessage(dashboardMessage, "There are no pending purchases.");
+      return;
+    }
+
+    showMessage(dashboardMessage, `${purchases.length} pending purchase(s) found.`);
+
+    for (const purchase of purchases) {
+      const card = document.createElement("article");
+      card.className = "order";
+
+      const created = purchase.created_at
+        ? new Date(purchase.created_at).toLocaleString("en-ZA")
+        : "Not available";
+
+      card.innerHTML = `
+        <h3>${escapeHTML(purchase.order_number)}</h3>
+        <p><strong>Template:</strong> ${escapeHTML(purchase.cv_template)}</p>
+        <p><strong>Amount:</strong> R${Number(purchase.amount).toFixed(2)}</p>
+        <p><strong>Status:</strong> ${escapeHTML(purchase.payment_status)}</p>
+        <p><strong>Created:</strong> ${escapeHTML(created)}</p>
+        <form class="approvalForm">
+          <label>Verified transaction reference</label>
+          <input name="transaction_reference" maxlength="200"
+            autocomplete="off" required
+            placeholder="Enter reference after checking Capitec">
+          <button type="submit">Approve Verified Payment</button>
+        </form>
+        <div class="status approvalMessage" role="status">
+          Do not approve until the payment is confirmed in your bank account.
+        </div>
+      `;
+
+      card.querySelector(".approvalForm").addEventListener("submit", async event => {
+        event.preventDefault();
+
+        const form = event.currentTarget;
+        const button = form.querySelector("button");
+        const message = card.querySelector(".approvalMessage");
+        const transactionReference =
+          new FormData(form).get("transaction_reference").toString().trim();
+
+        if (!transactionReference) {
+          showMessage(message, "Enter the verified transaction reference.", "error");
+          return;
+        }
+
+        const confirmed = window.confirm(
+          `Have you personally confirmed that the full payment of R${Number(purchase.amount).toFixed(2)} has arrived in your Capitec account for order ${purchase.order_number}? Only continue if YES.`
+        );
+
+        if (!confirmed) return;
+
+        button.disabled = true;
+        showMessage(message, "Submitting approval…");
+
+        try {
+          const approval = await callFunction("approve-cv-payment", {
+            purchase_id: purchase.id,
+            transaction_reference: transactionReference
+          });
+
+          if (!approval.success) {
+            throw new Error(approval.error || "Payment approval was not confirmed.");
+          }
+
+          showMessage(message, "Payment marked as paid. Refreshing pending orders…", "success");
+          await loadPendingOrders();
+        } catch (error) {
+          showMessage(message, error.message || "Approval failed.", "error");
+          button.disabled = false;
+        }
+      });
+
+      ordersList.appendChild(card);
+    }
+  } catch (error) {
+    showMessage(
+      dashboardMessage,
+      error.message || "Unable to load pending orders.",
+      "error"
+    );
+  } finally {
+    refreshButton.disabled = false;
+  }
+}
+
+loginForm.addEventListener("submit", async event => {
+  event.preventDefault();
+  const button = document.getElementById("loginButton");
+  button.disabled = true;
+  showMessage(loginMessage, "Signing in…");
+
+  try {
+    const { error } = await supabaseClient.auth.signInWithPassword({
+      email: document.getElementById("email").value.trim(),
+      password: document.getElementById("password").value
+    });
+
+    if (error) throw error;
+
+    const verified = await checkOwner();
+    if (verified) {
+      showMessage(loginMessage, "Owner sign-in successful.", "success");
+    }
+  } catch (error) {
+    showMessage(loginMessage, error.message || "Sign-in failed.", "error");
+  } finally {
+    button.disabled = false;
+  }
+});
+
+refreshButton.addEventListener("click", loadPendingOrders);
+
+signOutButton.addEventListener("click", async () => {
+  await supabaseClient.auth.signOut();
+  showLogin();
+  showMessage(loginMessage, "You have signed out.");
+});
+
+(async function initialize() {
+  const { data: { session } } = await supabaseClient.auth.getSession();
+  if (session) {
+    await checkOwner();
+  } else {
+    showLogin();
+  }
+})();
+</script></body>
+</html>
