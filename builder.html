@@ -8,9 +8,7 @@
 <title>CV Builder | CVPro-SA</title>
 
 <style>
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
@@ -384,7 +382,6 @@ textarea {
   display: none !important;
 }
 
-/* Mobile-friendly education suggestions */
 .autocomplete-wrap {
   position: relative;
   width: 100%;
@@ -567,6 +564,7 @@ footer {
   }
 }
 </style>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 
@@ -583,7 +581,9 @@ footer {
 
 <main>
   <h1>Smart CV Builder</h1>
-  <div class="muted">Choose your details. Your professional CV updates automatically.</div>
+  <div class="muted">
+    Choose your details. Your professional CV updates automatically.
+  </div>
 
   <div id="accessMessage" class="notice">
     Checking your account and CV purchase...
@@ -594,14 +594,18 @@ footer {
   <div id="builderArea">
     <div class="notice">
       <strong>One purchase, one CV.</strong>
-      Edit and save this CV again whenever you need it. A new CV requires a new purchase.
+      Edit and save this CV again whenever you need it.
+      A new CV requires a new purchase.
     </div>
 
     <div class="workspace">
 
       <section class="panel preview-panel">
         <h2>Live CV Preview</h2>
-        <div class="template-label" id="templateLabel">Purchased CV template</div>
+
+        <div class="template-label" id="templateLabel">
+          Purchased CV template
+        </div>
 
         <div class="preview-toolbar">
           <button type="button" class="button" id="printButton">
@@ -646,6 +650,11 @@ footer {
               <p id="previewLanguages"></p>
             </section>
 
+            <section class="cv-section" id="disabilitySection">
+              <h3>Disability and Accessibility</h3>
+              <p id="previewDisability"></p>
+            </section>
+
             <section class="cv-section" id="additionalSection">
               <h3>Additional Information</h3>
               <p id="previewAdditional"></p>
@@ -656,9 +665,7 @@ footer {
 
       <section class="panel" id="editorPanel">
         <h2>Build Your CV</h2>
-
         <form id="cvForm">
-
           <h3 class="group-title">1. Personal Information</h3>
 
           <div class="field">
@@ -699,7 +706,9 @@ footer {
           </div>
 
           <div class="field">
-            <label for="institutionSearch">Search for your school or institution</label>
+            <label for="institutionSearch">
+              Search for your school or institution
+            </label>
 
             <div class="autocomplete-wrap">
               <input
@@ -722,14 +731,18 @@ footer {
             </div>
 
             <div class="small-note">
-              Type a few letters and select a result. If your institution is missing,
-              enter its full name in the Institution name field below.
+              Type a few letters and select a result. If your institution
+              is missing, enter its full name in the Institution name field below.
             </div>
           </div>
 
           <div class="field">
             <label for="institution">Institution name *</label>
-            <input id="institution" required placeholder="School, college or university name">
+            <input
+              id="institution"
+              required
+              placeholder="School, college or university name"
+            >
           </div>
 
           <div class="field">
@@ -745,7 +758,9 @@ footer {
               <select id="educationStatus">
                 <option value="completed">Completed</option>
                 <option value="currently studying">Currently studying</option>
-                <option value="incomplete">Attended but did not complete</option>
+                <option value="incomplete">
+                  Attended but did not complete
+                </option>
               </select>
             </div>
 
@@ -773,10 +788,13 @@ footer {
             >
           </div>
 
-                    <h3 class="group-title">3. Career Goals</h3>
+          <h3 class="group-title">3. Career Goals</h3>
 
           <div class="field">
-            <label for="careerGoal">What type of job are you looking for?</label>
+            <label for="careerGoal">
+              What type of job are you looking for?
+            </label>
+
             <select id="careerGoal">
               <option value="">Select your career goal</option>
               <option value="General employment">General employment</option>
@@ -810,13 +828,24 @@ footer {
           <h3 class="group-title">4. Work Experience</h3>
 
           <div class="field">
-            <label for="experienceType">Which best describes you?</label>
+            <label for="experienceType">
+              Which best describes you?
+            </label>
+
             <select id="experienceType">
-              <option value="no-experience">No formal work experience yet</option>
+              <option value="no-experience">
+                No formal work experience yet
+              </option>
               <option value="work">I have work experience</option>
-              <option value="informal">Informal work / family business</option>
-              <option value="volunteer">Volunteering / community work</option>
-              <option value="practical">Practical training / workplace exposure</option>
+              <option value="informal">
+                Informal work / family business
+              </option>
+              <option value="volunteer">
+                Volunteering / community work
+              </option>
+              <option value="practical">
+                Practical training / workplace exposure
+              </option>
             </select>
           </div>
 
@@ -828,7 +857,10 @@ footer {
 
             <div class="field">
               <label for="employer">Employer / organisation</label>
-              <input id="employer" placeholder="Employer or organisation name">
+              <input
+                id="employer"
+                placeholder="Employer or organisation name"
+              >
             </div>
 
             <div class="two-col">
@@ -844,7 +876,9 @@ footer {
             </div>
 
             <div class="field">
-              <label for="experienceDescription">Responsibilities and achievements</label>
+              <label for="experienceDescription">
+                Responsibilities and achievements
+              </label>
               <textarea
                 id="experienceDescription"
                 placeholder="Describe the tasks you actually performed."
@@ -870,32 +904,143 @@ footer {
           <h3 class="group-title">6. Languages</h3>
 
           <div class="field">
-            <label for="languages">Languages you speak or understand</label>
+            <label>
+              Select the South African languages you speak or understand
+            </label>
+
+            <div class="choice-grid" id="languageChoices"></div>
+
+            <div class="small-note">
+              Choose only languages you can genuinely speak or understand.
+              You can add another language below if needed.
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="otherLanguages">Other languages (optional)</label>
             <input
-              id="languages"
-              placeholder="e.g. English, isiZulu"
+              id="otherLanguages"
+              placeholder="Add other languages separated by commas"
             >
           </div>
 
           <div class="field">
-            <label for="languageProficiency">Language proficiency</label>
+            <label for="languageProficiency">
+              General language proficiency
+            </label>
+
             <select id="languageProficiency">
-              <option value="">Select proficiency</option>
+              <option value="">Select proficiency (optional)</option>
               <option value="Basic">Basic</option>
               <option value="Conversational">Conversational</option>
               <option value="Fluent">Fluent</option>
-              <option value="Multiple levels">Different levels for different languages</option>
+              <option value="Native / home language">
+                Native / home language
+              </option>
+              <option value="Multiple levels">
+                Different levels for different languages
+              </option>
+            </select>
+
+            <div class="small-note">
+              For different proficiency levels, describe them in the optional
+              field below (for example, English – fluent; isiZulu – home language).
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="languageDetails">
+              Language proficiency details (optional)
+            </label>
+
+            <textarea
+              id="languageDetails"
+              placeholder="e.g. isiZulu – home language; English – fluent"
+            ></textarea>
+          </div>
+
+          <h3 class="group-title">
+            7. Disability and Accessibility (Optional)
+          </h3>
+
+          <div class="notice">
+            You do not have to disclose disability information.
+            Only information you choose to include will appear on your CV.
+          </div>
+
+          <div class="field">
+            <label for="disabilityStatus">Disability information</label>
+
+            <select id="disabilityStatus">
+              <option value="">Prefer not to say / leave blank</option>
+              <option value="No disability disclosed">No disability</option>
+              <option value="Physical disability">Physical disability</option>
+              <option value="Visual impairment">Visual impairment</option>
+              <option value="Hearing impairment">Hearing impairment</option>
+              <option value="Speech impairment">Speech impairment</option>
+              <option value="Intellectual disability">
+                Intellectual disability
+              </option>
+              <option value="Learning disability">Learning disability</option>
+              <option value="Psychosocial disability">
+                Psychosocial disability
+              </option>
+              <option value="Neurodevelopmental disability">
+                Neurodevelopmental disability
+              </option>
+              <option value="Multiple disabilities">Multiple disabilities</option>
+              <option value="Other disability">Other disability</option>
             </select>
           </div>
 
-          <h3 class="group-title">7. Additional Information</h3>
+          <div class="field">
+            <label for="disabilityDetails">
+              Optional details (only if you want to disclose them)
+            </label>
+
+            <textarea
+              id="disabilityDetails"
+              placeholder="Add only information you are comfortable sharing."
+            ></textarea>
+          </div>
+
+          <div class="field">
+            <label for="accessibilityNeeds">
+              Workplace accessibility / reasonable accommodation (optional)
+            </label>
+
+            <textarea
+              id="accessibilityNeeds"
+              placeholder="e.g. step-free access, assistive technology, sign-language interpretation"
+            ></textarea>
+          </div>
+
+          <div class="field">
+            <label class="choice" for="includeDisabilityOnCv">
+              <input id="includeDisabilityOnCv" type="checkbox">
+              <span>
+                Include the disability and accessibility information above on my CV
+              </span>
+            </label>
+
+            <div class="small-note">
+              This box is unchecked by default. Leave it unchecked to keep
+              these details out of the CV preview and PDF.
+            </div>
+          </div>
+
+          <h3 class="group-title">8. Additional Information</h3>
 
           <div class="field">
             <label for="availability">Availability</label>
             <select id="availability">
               <option value="">Select availability</option>
-              <option value="Immediately available">Immediately available</option>
-              <option value="Available with notice">Available with notice</option>
+              <option value="Immediately available">
+                Immediately available
+              </option>
+              <option value="Available with notice">
+                Available with notice
+              </option>
               <option value="Currently studying">Currently studying</option>
             </select>
           </div>
@@ -909,12 +1054,16 @@ footer {
               <option value="Code B / Code 8">Code B / Code 8</option>
               <option value="Code C1 / Code 10">Code C1 / Code 10</option>
               <option value="Code C / Code 14">Code C / Code 14</option>
-              <option value="Other driver's licence">Other driver's licence</option>
+              <option value="Other driver's licence">
+                Other driver's licence
+              </option>
             </select>
           </div>
 
           <div class="field">
-            <label for="certificates">Certificates / additional training</label>
+            <label for="certificates">
+              Certificates / additional training
+            </label>
             <textarea
               id="certificates"
               placeholder="Add relevant certificates or training, if any."
@@ -929,16 +1078,21 @@ footer {
             ></textarea>
           </div>
 
-          <h3 class="group-title">8. CV Template</h3>
+          <h3 class="group-title">9. CV Template</h3>
 
           <div class="field">
-            <label for="templateChoice">Choose your purchased template</label>
-            <select id="templateChoice">
-              <option value="classic">Classic CV</option>
-              <option value="modern">Modern CV</option>
+            <label for="templateChoice">
+              Template unlocked by your approved purchase
+            </label>
+
+            <select id="templateChoice" disabled>
+              <option value="classic">Classic CV — R15</option>
+              <option value="modern">Modern CV — R25</option>
             </select>
-            <div class="small-note">
-              Your available template depends on your approved purchase.
+
+            <div id="templateAccessNote" class="small-note">
+              Your approved purchase determines which template is available.
+              A Classic purchase does not unlock Modern.
             </div>
           </div>
 
@@ -946,13 +1100,15 @@ footer {
             Save My CV
           </button>
 
-          <button class="button secondary" id="updatePreviewButton" type="button">
+          <button
+            class="button secondary"
+            id="updatePreviewButton"
+            type="button"
+          >
             Update Preview
           </button>
-
         </form>
       </section>
-
     </div>
   </div>
 </main>
@@ -960,418 +1116,139 @@ footer {
 <footer>
   CVPro-SA · Create a professional CV from your phone.
 </footer>
-
 <script>
 /* =========================================================
    EDUCATION INSTITUTIONS
-   These are starter suggestions, not an exhaustive official
-   register. Users can still type an institution manually.
 ========================================================= */
-
 const institutionLists = {
   school: [
-    "Amanzimtoti High School",
-    "Asoka Secondary School",
-    "Bechet High School",
-    "Bonela Secondary School",
-    "Brettonwood High School",
-    "Burnwood Secondary School",
-    "Centenary Secondary School",
-    "Clairwood Secondary School",
-    "Danville Park Girls' High School",
-    "Dr A.D. Lazarus Secondary School",
-    "Durban Academy High School",
-    "Durban Girls' College",
-    "Durban Girls' High School",
-    "Durban Girls' Secondary School",
-    "Durban High School",
-    "Durban North College",
-    "Durban Secondary and FET Academy",
-    "Folweni High School",
-    "Folweni Secondary School",
-    "George Campbell School of Technology",
-    "Glenwood High School",
-    "Grosvenor Boys' High School",
-    "Grosvenor Girls' High School",
-    "Hillcrest High School",
-    "Hunt Road Secondary School",
-    "Inanda Newtown Comprehensive High School",
-    "Isipingo Secondary School",
-    "Kharwastan Secondary School",
-    "Kingsway High School",
-    "Kloof High School",
-    "KwaMashu Secondary School",
-    "Mowat Park High School",
-    "Newlands East Secondary School",
-    "Northlands Girls' High School",
-    "Ohlange High School",
-    "Ogwini Comprehensive Technical High School",
-    "Orient Islamic School",
-    "Port Natal School",
-    "Sibusisiwe Comprehensive High School",
-    "St Henry's Marist Brothers' College",
-    "Umlazi Commercial High School",
-    "Umlazi Comprehensive Technical High School",
-    "Other school / secondary school"
+    "Amanzimtoti High School","Asoka Secondary School","Bechet High School","Bonela Secondary School","Brettonwood High School","Burnwood Secondary School","Centenary Secondary School","Clairwood Secondary School","Danville Park Girls' High School","Dr A.D. Lazarus Secondary School","Durban Academy High School","Durban Girls' College","Durban Girls' High School","Durban Girls' Secondary School","Durban High School","Durban North College","Durban Secondary and FET Academy","Folweni High School","George Campbell School of Technology","Glenwood High School","Grosvenor Boys' High School","Grosvenor Girls' High School","Hillcrest High School","Hunt Road Secondary School","Inanda Newtown Comprehensive High School","Isipingo Secondary School","Kharwastan Secondary School","Kingsway High School","Kloof High School","KwaMashu Secondary School","Mowat Park High School","Newlands East Secondary School","Northlands Girls' High School","Ohlange High School","Ogwini Comprehensive Technical High School","Orient Islamic School","Port Natal School","Sibusisiwe Comprehensive High School","St Henry's Marist Brothers' College","Umlazi Commercial High School","Umlazi Comprehensive Technical High School","Other school / secondary school"
   ],
-
   tvet: [
-    "Coastal KZN TVET College",
-    "Elangeni TVET College",
-    "Esayidi TVET College",
-    "Majuba TVET College",
-    "Mnambithi TVET College",
-    "Mthashana TVET College",
-    "Thekwini TVET College",
-    "Umfolozi TVET College",
-    "Umgungundlovu TVET College",
-    "Other TVET college"
+    "Coastal KZN TVET College","Elangeni TVET College","Esayidi TVET College","Majuba TVET College","Mnambithi TVET College","Mthashana TVET College","Thekwini TVET College","Umfolozi TVET College","Umgungundlovu TVET College","Other TVET college"
   ],
-
   university: [
-    "Durban University of Technology (DUT)",
-    "Mangosuthu University of Technology (MUT)",
-    "University of KwaZulu-Natal (UKZN)",
-    "University of South Africa (UNISA)",
-    "University of Zululand",
-    "University of Johannesburg",
-    "University of Pretoria",
-    "University of the Witwatersrand (Wits)",
-    "Other university"
+    "Durban University of Technology (DUT)","Mangosuthu University of Technology (MUT)","University of KwaZulu-Natal (UKZN)","University of South Africa (UNISA)","University of Zululand","University of Johannesburg","University of Pretoria","University of the Witwatersrand (Wits)","Other university"
   ],
-
   "private-college": [
-    "Boston City Campus",
-    "Damelin",
-    "Rosebank College",
-    "Richfield Graduate Institute of Technology",
-    "Regent Business School",
-    "Other private college"
+    "Boston City Campus","Damelin","Rosebank College","Richfield Graduate Institute of Technology","Regent Business School","Other private college"
   ],
-
   training: [
-    "Accredited training provider",
-    "Private skills development centre",
-    "Occupational training institution",
-    "Apprenticeship training centre",
-    "Other training institution"
+    "Accredited training provider","Private skills development centre","Occupational training institution","Apprenticeship training centre","Other training institution"
   ],
-
-  other: [
-    "Other educational institution"
-  ]
+  other: ["Other educational institution"]
 };
-
-
-/* =========================================================
-   QUALIFICATIONS
-========================================================= */
 
 const qualificationsByLevel = {
   school: [
-    "Grade 8",
-    "Grade 9",
-    "Grade 10",
-    "Grade 11",
-    "Grade 12",
-    "National Senior Certificate (NSC / Matric)",
-    "Other school qualification"
+    "Grade 8","Grade 9","Grade 10","Grade 11","Grade 12",
+    "National Senior Certificate (NSC / Matric)","Other school qualification"
   ],
-
   tvet: [
-    "NC(V) Level 2",
-    "NC(V) Level 3",
-    "NC(V) Level 4",
-    "NATED N1",
-    "NATED N2",
-    "NATED N3",
-    "NATED N4",
-    "NATED N5",
-    "NATED N6",
-    "National Certificate",
-    "National Diploma",
-    "Occupational Certificate",
-    "Trade Test",
-    "Other TVET qualification"
+    "NC(V) Level 2","NC(V) Level 3","NC(V) Level 4","NATED N1",
+    "NATED N2","NATED N3","NATED N4","NATED N5","NATED N6",
+    "National Certificate","National Diploma","Occupational Certificate",
+    "Trade Test","Other TVET qualification"
   ],
-
   university: [
-    "Higher Certificate",
-    "Advanced Certificate",
-    "Diploma",
-    "Advanced Diploma",
-    "Bachelor's Degree",
-    "Bachelor of Technology (BTech)",
-    "Honours Degree",
-    "Postgraduate Diploma",
-    "Master's Degree",
-    "Doctoral Degree / PhD",
+    "Higher Certificate","Advanced Certificate","Diploma","Advanced Diploma",
+    "Bachelor's Degree","Bachelor of Technology (BTech)","Honours Degree",
+    "Postgraduate Diploma","Master's Degree","Doctoral Degree / PhD",
     "Other university qualification"
   ],
-
   "private-college": [
-    "Certificate",
-    "Higher Certificate",
-    "Diploma",
-    "Advanced Diploma",
-    "Bachelor's Degree",
-    "Short Course Certificate",
-    "Other college qualification"
+    "Certificate","Higher Certificate","Diploma","Advanced Diploma",
+    "Bachelor's Degree","Short Course Certificate","Other college qualification"
   ],
-
   training: [
-    "Skills Programme",
-    "Occupational Certificate",
-    "Trade Certificate",
-    "Apprenticeship",
-    "Short Course Certificate",
-    "Other training qualification"
+    "Skills Programme","Occupational Certificate","Trade Certificate",
+    "Apprenticeship","Short Course Certificate","Other training qualification"
   ],
-
-  other: [
-    "Certificate",
-    "Diploma",
-    "Other qualification"
-  ]
+  other: ["Certificate","Diploma","Other qualification"]
 };
-
-
-/* =========================================================
-   SUBJECT SUGGESTIONS
-   Users can select subjects and enter missing ones manually.
-========================================================= */
 
 const subjectsByLevel = {
   school: [
-    "English Home Language",
-    "English First Additional Language",
-    "English Second Additional Language",
-    "isiZulu Home Language",
-    "isiZulu First Additional Language",
-    "isiXhosa",
-    "Afrikaans",
-    "Sesotho",
-    "Setswana",
-    "Mathematics",
-    "Mathematical Literacy",
-    "Technical Mathematics",
-    "Physical Sciences",
-    "Technical Sciences",
-    "Life Sciences",
-    "Natural Sciences",
-    "Agricultural Sciences",
-    "Agricultural Technology",
-    "Geography",
-    "History",
-    "Life Orientation",
-    "Accounting",
-    "Business Studies",
-    "Economics",
-    "Business Economics",
-    "Computer Applications Technology (CAT)",
-    "Information Technology (IT)",
-    "Engineering Graphics and Design (EGD)",
-    "Mechanical Technology",
-    "Electrical Technology",
-    "Civil Technology",
-    "Technical Drawing",
-    "Welding and Metalwork",
-    "Engineering Studies",
-    "Tourism",
-    "Hospitality Studies",
-    "Consumer Studies",
-    "Visual Arts",
-    "Dramatic Arts",
-    "Music",
-    "Design",
-    "Other school subject"
+    "English Home Language","English First Additional Language",
+    "English Second Additional Language","isiZulu Home Language",
+    "isiZulu First Additional Language","isiXhosa","Afrikaans","Sesotho",
+    "Setswana","Mathematics","Mathematical Literacy","Technical Mathematics",
+    "Physical Sciences","Technical Sciences","Life Sciences","Natural Sciences",
+    "Agricultural Sciences","Agricultural Technology","Geography","History",
+    "Life Orientation","Accounting","Business Studies","Economics",
+    "Business Economics","Computer Applications Technology (CAT)",
+    "Information Technology (IT)","Engineering Graphics and Design (EGD)",
+    "Mechanical Technology","Electrical Technology","Civil Technology",
+    "Technical Drawing","Welding and Metalwork","Engineering Studies",
+    "Tourism","Hospitality Studies","Consumer Studies","Visual Arts",
+    "Dramatic Arts","Music","Design","Other school subject"
   ],
-
   tvet: [
-    "Engineering Mathematics",
-    "Engineering Science",
-    "Engineering Drawing",
-    "Mechanical Engineering",
-    "Electrical Engineering",
-    "Civil Engineering",
-    "Fitting and Turning",
-    "Welding",
-    "Metalwork",
-    "Boilermaking",
-    "Plumbing",
-    "Automotive Repair",
-    "Motor Mechanics",
-    "Mechatronics",
-    "Construction",
-    "Bricklaying",
-    "Carpentry",
-    "Business Management",
-    "Financial Management",
-    "Human Resource Management",
-    "Marketing Management",
-    "Public Management",
-    "Management Assistant",
-    "Office Administration",
-    "Information Technology",
-    "Computer Practice",
-    "Hospitality",
-    "Tourism",
-    "Educare",
-    "Primary Agriculture",
-    "Other TVET subject"
+    "Engineering Mathematics","Engineering Science","Engineering Drawing",
+    "Mechanical Engineering","Electrical Engineering","Civil Engineering",
+    "Fitting and Turning","Welding","Metalwork","Boilermaking","Plumbing",
+    "Automotive Repair","Motor Mechanics","Mechatronics","Construction",
+    "Bricklaying","Carpentry","Business Management","Financial Management",
+    "Human Resource Management","Marketing Management","Public Management",
+    "Management Assistant","Office Administration","Information Technology",
+    "Computer Practice","Hospitality","Tourism","Educare",
+    "Primary Agriculture","Other TVET subject"
   ],
-
   university: [
-    "Accounting",
-    "Auditing",
-    "Business Management",
-    "Economics",
-    "Finance",
-    "Human Resources",
-    "Marketing",
-    "Public Management",
-    "Law",
-    "Political Science",
-    "Sociology",
-    "Psychology",
-    "Social Work",
-    "Education",
-    "Mathematics",
-    "Statistics",
-    "Physics",
-    "Chemistry",
-    "Biology",
-    "Environmental Science",
-    "Computer Science",
-    "Information Technology",
-    "Software Development",
-    "Cybersecurity",
-    "Data Science",
-    "Mechanical Engineering",
-    "Electrical Engineering",
-    "Civil Engineering",
-    "Chemical Engineering",
-    "Industrial Engineering",
-    "Architecture",
-    "Quantity Surveying",
-    "Construction Management",
-    "Nursing",
-    "Public Health",
-    "Medicine",
-    "Pharmacy",
-    "Physiotherapy",
-    "Radiography",
-    "Agriculture",
-    "Food Science",
-    "Journalism",
-    "Media Studies",
-    "Languages",
-    "History",
-    "Geography",
-    "Tourism",
-    "Hospitality",
+    "Accounting","Auditing","Business Management","Economics","Finance",
+    "Human Resources","Marketing","Public Management","Law","Political Science",
+    "Sociology","Psychology","Social Work","Education","Mathematics",
+    "Statistics","Physics","Chemistry","Biology","Environmental Science",
+    "Computer Science","Information Technology","Software Development",
+    "Cybersecurity","Data Science","Mechanical Engineering",
+    "Electrical Engineering","Civil Engineering","Chemical Engineering",
+    "Industrial Engineering","Architecture","Quantity Surveying",
+    "Construction Management","Nursing","Public Health","Medicine","Pharmacy",
+    "Physiotherapy","Radiography","Agriculture","Food Science","Journalism",
+    "Media Studies","Languages","History","Geography","Tourism","Hospitality",
     "Other university subject"
   ],
-
   "private-college": [
-    "Business Administration",
-    "Business Management",
-    "Accounting",
-    "Bookkeeping",
-    "Financial Management",
-    "Human Resources",
-    "Marketing",
-    "Project Management",
-    "Office Administration",
-    "Computer Literacy",
-    "Information Technology",
-    "Software Development",
-    "Graphic Design",
-    "Digital Marketing",
-    "Hospitality",
-    "Tourism",
-    "Education",
-    "Occupational Health and Safety",
+    "Business Administration","Business Management","Accounting","Bookkeeping",
+    "Financial Management","Human Resources","Marketing","Project Management",
+    "Office Administration","Computer Literacy","Information Technology",
+    "Software Development","Graphic Design","Digital Marketing","Hospitality",
+    "Tourism","Education","Occupational Health and Safety",
     "Other college subject"
   ],
-
   training: [
-    "Welding",
-    "Metalwork",
-    "Fitting and Turning",
-    "Plumbing",
-    "Electrical Installation",
-    "Construction",
-    "First Aid",
-    "Fire Safety",
-    "Occupational Health and Safety",
-    "Computer Literacy",
-    "Forklift Operation",
-    "Warehousing",
-    "Stock Control",
-    "Customer Service",
-    "Other training subject"
+    "Welding","Metalwork","Fitting and Turning","Plumbing",
+    "Electrical Installation","Construction","First Aid","Fire Safety",
+    "Occupational Health and Safety","Computer Literacy","Forklift Operation",
+    "Warehousing","Stock Control","Customer Service","Other training subject"
   ],
-
-  other: [
-    "General Studies",
-    "Business Skills",
-    "Computer Skills",
-    "Other subject"
-  ]
+  other: ["General Studies","Business Skills","Computer Skills","Other subject"]
 };
 
-
-/* =========================================================
-   SKILLS
-========================================================= */
-
 const availableSkills = [
-  "Communication",
-  "Teamwork",
-  "Problem Solving",
-  "Customer Service",
-  "Computer Skills",
-  "Time Management",
-  "Leadership",
-  "Attention to Detail",
-  "Fast Learner",
-  "Hardworking",
-  "Hands-on Work",
-  "Stock Management",
-  "Organisation",
-  "Reliability",
-  "Adaptability",
-  "Basic Numeracy",
-  "Written Communication",
-  "Verbal Communication",
-  "Microsoft Word",
-  "Microsoft Excel",
-  "Data Entry",
-  "Cash Handling",
-  "Sales",
-  "Cleaning and Hygiene",
-  "Welding",
-  "Metalwork",
-  "Technical Drawing",
-  "Basic Maintenance",
-  "Health and Safety Awareness",
-  "Planning",
-  "Customer Relations",
-  "Conflict Resolution"
+  "Communication","Teamwork","Problem Solving","Customer Service",
+  "Computer Skills","Time Management","Leadership","Attention to Detail",
+  "Fast Learner","Hardworking","Hands-on Work","Stock Management",
+  "Organisation","Reliability","Adaptability","Basic Numeracy",
+  "Written Communication","Verbal Communication","Microsoft Word",
+  "Microsoft Excel","Data Entry","Cash Handling","Sales",
+  "Cleaning and Hygiene","Welding","Metalwork","Technical Drawing",
+  "Basic Maintenance","Health and Safety Awareness","Planning",
+  "Customer Relations","Conflict Resolution"
 ];
 
-
+/* All 12 official languages of South Africa. */
+const southAfricanLanguages = [
+  "isiZulu","isiXhosa","Afrikaans","English","Sepedi","Setswana",
+  "Sesotho","itsonga","siSwati","Tshivenda","isiNdebele",
+  "South African Sign Language"
+];
 
 /* =========================================================
-   CVPro-SA BUILDER LOGIC
+   SUPABASE AND STATE
 ========================================================= */
-
-const SUPABASE_URL =
-  "https://tnxlhpenttcynlmlohao.supabase.co";
-
-const SUPABASE_ANON_KEY =
-  "sb_publishable_n4XzrnraET_AEMbCYtHV7Q_DJ8--zCL";
+const SUPABASE_URL = "https://tnxlhpenttcynlmlohao.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_n4XzrnraET_AEMbCYtHV7Q_DJ8--zCL";
 
 const supabaseClient = window.supabase.createClient(
   SUPABASE_URL,
@@ -1384,15 +1261,10 @@ let currentUser = null;
 let activePurchase = null;
 let savedCvData = {};
 let saveInProgress = false;
-
-
-/* =========================================================
-   MESSAGE HELPERS
-========================================================= */
+let purchasedTemplate = "classic";
 
 function showMessage(message, type = "error") {
   const box = $("message");
-
   box.textContent = message;
   box.className = "message " + type;
   box.style.display = "block";
@@ -1400,16 +1272,10 @@ function showMessage(message, type = "error") {
 
 function clearMessage() {
   const box = $("message");
-
   box.textContent = "";
   box.className = "message";
   box.style.display = "none";
 }
-
-
-/* =========================================================
-   EDGE FUNCTION HELPER
-========================================================= */
 
 async function callEdgeFunction(functionName, body = {}) {
   const {
@@ -1417,9 +1283,7 @@ async function callEdgeFunction(functionName, body = {}) {
     error: sessionError
   } = await supabaseClient.auth.getSession();
 
-  if (sessionError) {
-    throw sessionError;
-  }
+  if (sessionError) throw sessionError;
 
   if (!session) {
     throw new Error("Your session has expired. Please sign in again.");
@@ -1439,7 +1303,6 @@ async function callEdgeFunction(functionName, body = {}) {
   );
 
   const rawText = await response.text();
-
   let result = {};
 
   try {
@@ -1456,26 +1319,20 @@ async function callEdgeFunction(functionName, body = {}) {
     );
   }
 
-  if (result.error) {
-    throw new Error(result.error);
-  }
+  if (result.error) throw new Error(result.error);
 
   return result;
 }
 
-
 /* =========================================================
-   EDUCATION LEVEL HELPERS
+   EDUCATION HELPERS AND SEARCH
 ========================================================= */
-
 function getSelectedLevel() {
   return $("educationLevel").value || "";
 }
 
 function getLevelList(collection) {
-  const level = getSelectedLevel();
-
-  return collection[level] || [];
+  return collection[getSelectedLevel()] || [];
 }
 
 function populateQualifications(selectedValue = "") {
@@ -1491,128 +1348,89 @@ function populateQualifications(selectedValue = "") {
 
   options.forEach((qualification) => {
     const option = document.createElement("option");
-
     option.value = qualification;
     option.textContent = qualification;
-
     select.appendChild(option);
   });
 
-  if (
-    selectedValue &&
-    !options.includes(selectedValue)
-  ) {
+  if (selectedValue && !options.includes(selectedValue)) {
     const customOption = document.createElement("option");
-
     customOption.value = selectedValue;
     customOption.textContent = selectedValue;
-
     select.appendChild(customOption);
   }
 
   select.value = selectedValue || "";
 }
 
-
 function renderSubjectChoices(selectedValues = []) {
   const container = $("subjectChoices");
-  const subjects = getLevelList(subjectsByLevel);
-
   container.innerHTML = "";
 
-  subjects.forEach((subject, index) => {
+  getLevelList(subjectsByLevel).forEach((subject, index) => {
     const label = document.createElement("label");
     label.className = "choice";
 
     const checkbox = document.createElement("input");
-
     checkbox.type = "checkbox";
     checkbox.name = "subjects";
     checkbox.value = subject;
     checkbox.id = `subject-${index}`;
-
     checkbox.checked = selectedValues.includes(subject);
-
     checkbox.addEventListener("change", updatePreview);
 
     const text = document.createElement("span");
     text.textContent = subject;
 
-    label.appendChild(checkbox);
-    label.appendChild(text);
-
+    label.append(checkbox, text);
     container.appendChild(label);
   });
 }
 
-
 function getCheckedValues(name) {
   return Array.from(
-    document.querySelectorAll(
-      `input[name="${name}"]:checked`
-    )
+    document.querySelectorAll(`input[name="${name}"]:checked`)
   ).map((checkbox) => checkbox.value);
 }
 
-
-/* =========================================================
-   MOBILE-FRIENDLY EDUCATION SEARCH
-========================================================= */
-
 function closeInstitutionResults() {
-  const results = $("institutionResults");
-
-  results.classList.remove("open");
-
-  $("institutionSearch").setAttribute(
-    "aria-expanded",
-    "false"
-  );
+  $("institutionResults").classList.remove("open");
+  $("institutionSearch").setAttribute("aria-expanded", "false");
 }
-
 
 function selectInstitution(name) {
   $("institutionSearch").value = name;
   $("institution").value = name;
-
   closeInstitutionResults();
-
   updatePreview();
 }
-
 
 function renderInstitutionResults() {
   const searchInput = $("institutionSearch");
   const results = $("institutionResults");
-
   const level = getSelectedLevel();
   const query = searchInput.value.trim().toLowerCase();
 
   results.innerHTML = "";
 
-  if (!level || query.length === 0) {
+  if (!level || !query) {
     closeInstitutionResults();
     return;
   }
 
-  const institutions = institutionLists[level] || [];
-
-  const matches = institutions
+  const matches = (institutionLists[level] || [])
     .filter((name) => name.toLowerCase().includes(query))
     .slice(0, 40);
 
-  if (matches.length === 0) {
+  if (!matches.length) {
     const message = document.createElement("div");
-
     message.className = "education-no-results";
     message.textContent =
       "No matching suggestion. You can type the institution name manually.";
-
     results.appendChild(message);
   } else {
-    matches.forEach((name, index) => {
+    matches.forEach((name) => {
       const button = document.createElement("button");
-
       button.type = "button";
       button.className = "education-result";
       button.textContent = name;
@@ -1620,10 +1438,6 @@ function renderInstitutionResults() {
       button.setAttribute("aria-selected", "false");
 
       button.addEventListener("pointerdown", (event) => {
-        /*
-          Prevent the mobile keyboard from taking focus away
-          before the selection has been applied.
-        */
         event.preventDefault();
         selectInstitution(name);
       });
@@ -1637,58 +1451,40 @@ function renderInstitutionResults() {
   }
 
   results.classList.add("open");
-
   searchInput.setAttribute("aria-expanded", "true");
 }
 
+$("institutionSearch").addEventListener("input", renderInstitutionResults);
 
-$("institutionSearch").addEventListener(
-  "input",
-  renderInstitutionResults
-);
+$("institutionSearch").addEventListener("focus", () => {
+  if ($("institutionSearch").value.trim()) {
+    renderInstitutionResults();
+  }
+});
 
+$("institutionSearch").addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    closeInstitutionResults();
+  }
 
-$("institutionSearch").addEventListener(
-  "focus",
-  () => {
-    if ($("institutionSearch").value.trim()) {
-      renderInstitutionResults();
+  if (event.key === "Enter") {
+    const firstResult =
+      $("institutionResults").querySelector(".education-result");
+
+    if (firstResult) {
+      event.preventDefault();
+      selectInstitution(firstResult.textContent);
     }
   }
-);
-
-
-$("institutionSearch").addEventListener(
-  "keydown",
-  (event) => {
-    if (event.key === "Escape") {
-      closeInstitutionResults();
-      return;
-    }
-
-    if (event.key === "Enter") {
-      const firstResult = $("institutionResults")
-        .querySelector(".education-result");
-
-      if (firstResult) {
-        event.preventDefault();
-        selectInstitution(firstResult.textContent);
-      }
-    }
-  }
-);
-
+});
 
 document.addEventListener("click", (event) => {
-  const wrapper = document.querySelector(
-    ".autocomplete-wrap"
-  );
+  const wrapper = document.querySelector(".autocomplete-wrap");
 
   if (wrapper && !wrapper.contains(event.target)) {
     closeInstitutionResults();
   }
 });
-
 
 $("educationLevel").addEventListener("change", () => {
   $("institutionSearch").value = "";
@@ -1696,58 +1492,65 @@ $("educationLevel").addEventListener("change", () => {
 
   populateQualifications();
   renderSubjectChoices();
-
   closeInstitutionResults();
   updatePreview();
 });
 
-
 $("institution").addEventListener("input", updatePreview);
 
-
 /* =========================================================
-   SKILLS CHECKLIST
+   SKILLS AND LANGUAGE CHECKLISTS
 ========================================================= */
-
 function renderSkillChoices(selectedValues = []) {
   const container = $("skillChoices");
-
   container.innerHTML = "";
 
   availableSkills.forEach((skill, index) => {
     const label = document.createElement("label");
-
     label.className = "choice";
 
     const checkbox = document.createElement("input");
-
     checkbox.type = "checkbox";
     checkbox.name = "skills";
     checkbox.value = skill;
     checkbox.id = `skill-${index}`;
-
     checkbox.checked = selectedValues.includes(skill);
-
     checkbox.addEventListener("change", updatePreview);
 
     const text = document.createElement("span");
     text.textContent = skill;
 
-    label.appendChild(checkbox);
-    label.appendChild(text);
-
+    label.append(checkbox, text);
     container.appendChild(label);
   });
 }
 
+function renderLanguageChoices(selectedValues = []) {
+  const container = $("languageChoices");
+  container.innerHTML = "";
 
-/* =========================================================
-   EXPERIENCE FORM VISIBILITY
-========================================================= */
+  southAfricanLanguages.forEach((language, index) => {
+    const label = document.createElement("label");
+    label.className = "choice";
+
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.name = "languages";
+    checkbox.value = language;
+    checkbox.id = `language-${index}`;
+    checkbox.checked = selectedValues.includes(language);
+    checkbox.addEventListener("change", updatePreview);
+
+    const text = document.createElement("span");
+    text.textContent = language;
+
+    label.append(checkbox, text);
+    container.appendChild(label);
+  });
+}
 
 function updateExperienceVisibility() {
   const type = $("experienceType").value;
-
   const shouldShow = [
     "work",
     "informal",
@@ -1755,29 +1558,21 @@ function updateExperienceVisibility() {
     "practical"
   ].includes(type);
 
-  $("experienceDetails").classList.toggle(
-    "hidden",
-    !shouldShow
-  );
-
+  $("experienceDetails").classList.toggle("hidden", !shouldShow);
   updatePreview();
 }
-
 
 $("experienceType").addEventListener(
   "change",
   updateExperienceVisibility
 );
 
-
 /* =========================================================
    DATA HELPERS
 ========================================================= */
-
 function valueOf(id) {
   return $(id).value.trim();
 }
-
 
 function splitCommaSeparated(value) {
   return value
@@ -1786,11 +1581,9 @@ function splitCommaSeparated(value) {
     .filter(Boolean);
 }
 
-
 function uniqueValues(values) {
   return [...new Set(values.filter(Boolean))];
 }
-
 
 function getFormData() {
   const skills = uniqueValues([
@@ -1803,55 +1596,55 @@ function getFormData() {
     ...splitCommaSeparated(valueOf("otherSubjects"))
   ]);
 
+  const languages = uniqueValues([
+    ...getCheckedValues("languages"),
+    ...splitCommaSeparated(valueOf("otherLanguages"))
+  ]);
+
   return {
     fullName: valueOf("fullName"),
     email: valueOf("email"),
     phone: valueOf("phone"),
     location: valueOf("location"),
-
     educationLevel: getSelectedLevel(),
     institution: valueOf("institution"),
     qualification: valueOf("qualification"),
     educationStatus: valueOf("educationStatus"),
     educationYear: valueOf("educationYear"),
-
     subjects,
     otherSubjects: valueOf("otherSubjects"),
-
     careerGoal: valueOf("careerGoal"),
     strengths: valueOf("strengths"),
-
     experienceType: valueOf("experienceType"),
     jobTitle: valueOf("jobTitle"),
     employer: valueOf("employer"),
     experienceStart: valueOf("experienceStart"),
     experienceEnd: valueOf("experienceEnd"),
     experienceDescription: valueOf("experienceDescription"),
-
     skills,
     otherSkills: valueOf("otherSkills"),
-
-    languages: valueOf("languages"),
+    languages,
+    otherLanguages: valueOf("otherLanguages"),
     languageProficiency: valueOf("languageProficiency"),
-
+    languageDetails: valueOf("languageDetails"),
+    disabilityStatus: valueOf("disabilityStatus"),
+    disabilityDetails: valueOf("disabilityDetails"),
+    accessibilityNeeds: valueOf("accessibilityNeeds"),
+    includeDisabilityOnCv: $("includeDisabilityOnCv").checked,
     availability: valueOf("availability"),
     driversLicence: valueOf("driversLicence"),
     certificates: valueOf("certificates"),
     interests: valueOf("interests"),
-
-    template: valueOf("templateChoice")
+    template: purchasedTemplate
   };
 }
-
 
 /* =========================================================
    AUTOMATIC PROFILE GENERATION
 ========================================================= */
-
 function generateProfile(data) {
-  const strengths = data.strengths
-    ? data.strengths
-    : "reliable, willing to learn, and committed to completing tasks to a good standard";
+  const strengths = data.strengths ||
+    "reliable, willing to learn, and committed to completing tasks to a good standard";
 
   const goal = data.careerGoal
     ? data.careerGoal.toLowerCase()
@@ -1872,45 +1665,33 @@ function generateProfile(data) {
   return `Motivated candidate interested in ${goal}. Has practical exposure or experience relevant to the information provided in this CV and brings strengths in ${strengths}. Keen to continue learning and contribute responsibly to a team.`;
 }
 
-
 /* =========================================================
    PREVIEW HELPERS
 ========================================================= */
-
 function setText(id, text) {
   $(id).textContent = text || "";
 }
-
 
 function setSectionVisibility(sectionId, content) {
   $(sectionId).style.display =
     content && content.trim() ? "" : "none";
 }
 
-
 function formatEducation(data) {
   const lines = [];
 
-  if (data.qualification) {
-    lines.push(data.qualification);
-  }
-
-  if (data.institution) {
-    lines.push(data.institution);
-  }
+  if (data.qualification) lines.push(data.qualification);
+  if (data.institution) lines.push(data.institution);
 
   const statusAndYear = [
     data.educationStatus,
     data.educationYear
   ].filter(Boolean).join(" · ");
 
-  if (statusAndYear) {
-    lines.push(statusAndYear);
-  }
+  if (statusAndYear) lines.push(statusAndYear);
 
   return lines.join("\n");
 }
-
 
 function formatExperience(data) {
   if (data.experienceType === "no-experience") {
@@ -1919,30 +1700,19 @@ function formatExperience(data) {
 
   const lines = [];
 
-  if (data.jobTitle) {
-    lines.push(data.jobTitle);
-  }
-
-  if (data.employer) {
-    lines.push(data.employer);
-  }
+  if (data.jobTitle) lines.push(data.jobTitle);
+  if (data.employer) lines.push(data.employer);
 
   const dates = [
     data.experienceStart,
     data.experienceEnd
   ].filter(Boolean).join(" – ");
 
-  if (dates) {
-    lines.push(dates);
-  }
-
-  if (data.experienceDescription) {
-    lines.push(data.experienceDescription);
-  }
+  if (dates) lines.push(dates);
+  if (data.experienceDescription) lines.push(data.experienceDescription);
 
   return lines.join("\n");
 }
-
 
 function formatAdditional(data) {
   const lines = [];
@@ -1951,10 +1721,7 @@ function formatAdditional(data) {
     lines.push(`Availability: ${data.availability}`);
   }
 
-  if (
-    data.driversLicence &&
-    data.driversLicence !== "Not specified"
-  ) {
+  if (data.driversLicence && data.driversLicence !== "Not specified") {
     lines.push(`Driver's licence: ${data.driversLicence}`);
   }
 
@@ -1969,118 +1736,116 @@ function formatAdditional(data) {
   return lines.join("\n");
 }
 
+function formatDisability(data) {
+  if (!data.includeDisabilityOnCv) return "";
+
+  const lines = [];
+
+  if (
+    data.disabilityStatus &&
+    data.disabilityStatus !== "No disability disclosed"
+  ) {
+    lines.push(`Disability: ${data.disabilityStatus}`);
+  }
+
+  if (data.disabilityDetails) {
+    lines.push(`Details: ${data.disabilityDetails}`);
+  }
+
+  if (data.accessibilityNeeds) {
+    lines.push(
+      `Workplace accessibility / accommodations: ${data.accessibilityNeeds}`
+    );
+  }
+
+  return lines.join("\n");
+}
 
 function renderSkillTags(skills) {
   const container = $("previewSkills");
-
   container.innerHTML = "";
 
   skills.forEach((skill) => {
     const tag = document.createElement("span");
-
     tag.className = "cv-skill";
     tag.textContent = skill;
-
     container.appendChild(tag);
   });
 
-  if (skills.length === 0) {
+  if (!skills.length) {
     container.textContent = "Skills can be added using the checklist.";
   }
 }
 
-
 function updatePreview() {
   const data = getFormData();
 
+  setText("previewName", data.fullName || "YOUR FULL NAME");
+
   setText(
-    "previewName",
-    data.fullName || "YOUR FULL NAME"
+    "previewContact",
+    [data.email, data.phone, data.location]
+      .filter(Boolean)
+      .join(" | ")
   );
 
-  const contact = [
-    data.email,
-    data.phone,
-    data.location
-  ].filter(Boolean).join(" | ");
+  setText("previewProfile", generateProfile(data));
 
-  setText("previewContact", contact);
-
-  const profile = generateProfile(data);
-
-  setText("previewProfile", profile);
-
-  const education = formatEducation(data);
-
-  setText("previewEducation", education);
+  setText("previewEducation", formatEducation(data));
 
   const experience = formatExperience(data);
-
   setText("previewExperience", experience);
-
-  setSectionVisibility(
-    "experienceSection",
-    experience
-  );
+  setSectionVisibility("experienceSection", experience);
 
   const subjects = data.subjects.join(", ");
-
   setText("previewSubjects", subjects);
-
-  setSectionVisibility(
-    "subjectsSection",
-    subjects
-  );
+  setSectionVisibility("subjectsSection", subjects);
 
   renderSkillTags(data.skills);
 
+  const languageList = data.languages.join(", ");
   const languageText = [
-    data.languages,
+    languageList,
+    data.languageDetails,
     data.languageProficiency
   ].filter(Boolean).join(" · ");
 
   setText("previewLanguages", languageText);
 
+  const disability = formatDisability(data);
+  setText("previewDisability", disability);
+  setSectionVisibility("disabilitySection", disability);
+
   const additional = formatAdditional(data);
-
   setText("previewAdditional", additional);
-
-  setSectionVisibility(
-    "additionalSection",
-    additional
-  );
-
-  const template = data.template || "classic";
+  setSectionVisibility("additionalSection", additional);
 
   $("cvPreview").classList.toggle(
     "classic",
-    template === "classic"
+    purchasedTemplate === "classic"
   );
 
   $("cvPreview").classList.toggle(
     "modern",
-    template === "modern"
+    purchasedTemplate === "modern"
   );
 
   setText(
     "templateLabel",
-    template === "modern"
-      ? "Modern CV"
-      : "Classic CV"
+    purchasedTemplate === "modern"
+      ? "Modern CV — approved purchase"
+      : "Classic CV — approved purchase"
   );
 }
 
-
 /* =========================================================
-   RESTORE DATA INTO FORM
+   RESTORE SAVED CV
 ========================================================= */
-
 function assignIfPresent(id, value) {
   if (value !== undefined && value !== null) {
     $(id).value = value;
   }
 }
-
 
 function restoreCvData(data = {}) {
   const mappings = {
@@ -2105,16 +1870,22 @@ function restoreCvData(data = {}) {
       "experience_description"
     ],
     otherSkills: ["otherSkills", "other_skills"],
-    languages: ["languages"],
+    otherLanguages: ["otherLanguages", "other_languages"],
     languageProficiency: [
       "languageProficiency",
       "language_proficiency"
     ],
+    languageDetails: ["languageDetails", "language_details"],
+    disabilityStatus: ["disabilityStatus", "disability_status"],
+    disabilityDetails: ["disabilityDetails", "disability_details"],
+    accessibilityNeeds: [
+      "accessibilityNeeds",
+      "accessibility_needs"
+    ],
     availability: ["availability"],
     driversLicence: ["driversLicence", "drivers_licence"],
     certificates: ["certificates"],
-    interests: ["interests"],
-    templateChoice: ["template", "templateChoice", "template_choice"]
+    interests: ["interests"]
   };
 
   Object.entries(mappings).forEach(([fieldId, keys]) => {
@@ -2126,8 +1897,7 @@ function restoreCvData(data = {}) {
     }
   });
 
-  $("email").value =
-    currentUser?.email || data.email || "";
+  $("email").value = currentUser?.email || data.email || "";
 
   const subjects = Array.isArray(data.subjects)
     ? data.subjects
@@ -2141,22 +1911,61 @@ function restoreCvData(data = {}) {
       ? data.selectedSkills
       : [];
 
-  populateQualifications(
-    $("qualification").value
-  );
+  const savedLanguages = Array.isArray(data.languages)
+    ? data.languages
+    : [];
 
+  populateQualifications($("qualification").value);
   renderSubjectChoices(subjects);
   renderSkillChoices(skills);
+  renderLanguageChoices(savedLanguages);
+
+  $("includeDisabilityOnCv").checked =
+    data.includeDisabilityOnCv === true ||
+    data.include_disability_on_cv === true;
+
+  /* Defaults for a new CV only when language selections are absent. */
+  if (!Object.prototype.hasOwnProperty.call(data, "languages")) {
+    renderLanguageChoices(["English", "isiZulu"]);
+  }
+
+  /* The template is determined by the approved purchase. */
+  $("templateChoice").value = purchasedTemplate;
 
   updateExperienceVisibility();
   updatePreview();
 }
 
+/* =========================================================
+   TEMPLATE ENTITLEMENT HELPERS
+========================================================= */
+function determinePurchasedTemplate(purchase) {
+  const candidate = [
+    purchase.template,
+    purchase.template_name,
+    purchase.cv_template,
+    purchase.product_name,
+    purchase.product,
+    purchase.plan,
+    purchase.purchase_type
+  ].filter(Boolean).join(" ").toLowerCase();
+
+  return candidate.includes("modern") ? "modern" : "classic";
+}
+
+function enforcePurchasedTemplate() {
+  $("templateChoice").value = purchasedTemplate;
+  $("templateChoice").disabled = true;
+
+  $("templateAccessNote").textContent =
+    purchasedTemplate === "modern"
+      ? "Your approved Modern purchase unlocks the Modern CV template."
+      : "Your approved Classic purchase unlocks Classic only. Modern requires its own approved R25 purchase.";
+}
 
 /* =========================================================
    CHECK PURCHASE ACCESS AND LOAD SAVED CV
 ========================================================= */
-
 async function checkPurchaseAccess() {
   $("accessMessage").textContent =
     "Checking your account and CV purchase...";
@@ -2169,9 +1978,7 @@ async function checkPurchaseAccess() {
       error: sessionError
     } = await supabaseClient.auth.getSession();
 
-    if (sessionError) {
-      throw sessionError;
-    }
+    if (sessionError) throw sessionError;
 
     if (!session) {
       window.location.href = "./account.html";
@@ -2191,17 +1998,12 @@ async function checkPurchaseAccess() {
         ? [purchaseResult.purchase]
         : [];
 
-    const params = new URLSearchParams(
-      window.location.search
-    );
-
+    const params = new URLSearchParams(window.location.search);
     const requestedPurchaseId = params.get("purchase_id");
 
     let eligiblePurchases = purchases.filter((purchase) => {
       const status = String(
-        purchase.payment_status ||
-        purchase.status ||
-        ""
+        purchase.payment_status || purchase.status || ""
       ).toLowerCase();
 
       return [
@@ -2213,61 +2015,34 @@ async function checkPurchaseAccess() {
     });
 
     if (requestedPurchaseId) {
-      eligiblePurchases = eligiblePurchases.filter(
-        (purchase) =>
-          String(purchase.id) === requestedPurchaseId ||
-          String(purchase.purchase_id) === requestedPurchaseId ||
-          String(purchase.order_number) === requestedPurchaseId
+      eligiblePurchases = eligiblePurchases.filter((purchase) =>
+        String(purchase.id) === requestedPurchaseId ||
+        String(purchase.purchase_id) === requestedPurchaseId ||
+        String(purchase.order_number) === requestedPurchaseId
       );
     }
 
-    if (eligiblePurchases.length === 0) {
+    if (!eligiblePurchases.length) {
       $("accessMessage").textContent =
         "No approved paid CV purchase was found for this account. If you have already paid, please wait for the owner to approve your payment or contact support.";
-
       return;
     }
 
-    /*
-      Prefer the requested purchase. Otherwise use the first
-      eligible purchase returned by the server.
-    */
     activePurchase = eligiblePurchases[0];
+    purchasedTemplate = determinePurchasedTemplate(activePurchase);
+    enforcePurchasedTemplate();
 
-    const templateName = String(
-      activePurchase.template ||
-      activePurchase.product_name ||
-      activePurchase.plan ||
-      ""
-    ).toLowerCase();
-
-    const templateChoice =
-      templateName.includes("modern")
-        ? "modern"
-        : "classic";
-
-    $("templateChoice").value = templateChoice;
-
-    /*
-      Keep the selected purchase ID when loading and saving.
-      The Edge Functions remain responsible for verifying
-      that the signed-in customer owns the purchase.
-    */
     let savedResult = {};
+    let savedCvFound = false;
 
     try {
       savedResult = await callEdgeFunction(
         "get-customer-cv",
-        {
-          purchase_id: activePurchase.id
-        }
+        { purchase_id: activePurchase.id }
       );
+
+      savedCvFound = true;
     } catch (error) {
-      /*
-        A customer with an approved purchase may not have
-        saved a CV yet. Only treat a missing CV as a new CV
-        when the function indicates no saved CV exists.
-      */
       const text = String(error.message || "").toLowerCase();
 
       if (
@@ -2280,27 +2055,25 @@ async function checkPurchaseAccess() {
     }
 
     const cvRecord = savedResult.cv || {};
-
-    const cvData =
-      cvRecord.cv_data ||
-      savedResult.cv_data ||
-      {};
+    const cvData = cvRecord.cv_data || savedResult.cv_data || {};
 
     savedCvData = cvData;
 
-    restoreCvData({
-      ...cvData,
-      templateChoice:
-        cvData.template ||
-        cvData.templateChoice ||
-        templateChoice
-    });
+    const dataForRestore = { ...cvData };
+
+    if (
+      !Object.prototype.hasOwnProperty.call(dataForRestore, "languages") &&
+      !savedCvFound
+    ) {
+      dataForRestore.languages = ["English", "isiZulu"];
+    }
+
+    restoreCvData(dataForRestore);
 
     $("accessMessage").textContent =
       "Your approved CV purchase is active.";
 
     $("builderArea").style.display = "block";
-
   } catch (error) {
     console.error("CV access error:", error);
 
@@ -2314,47 +2087,33 @@ async function checkPurchaseAccess() {
   }
 }
 
-
 /* =========================================================
    SAVE CV
 ========================================================= */
-
 async function saveCv() {
-  if (saveInProgress) {
-    return;
-  }
+  if (saveInProgress) return;
 
   if (!currentUser || !activePurchase) {
     showMessage(
       "Your approved CV purchase could not be confirmed.",
       "error"
     );
-
     return;
   }
 
   clearMessage();
 
-  const form = $("cvForm");
-
-  if (!form.reportValidity()) {
-    return;
-  }
+  if (!$("cvForm").reportValidity()) return;
 
   saveInProgress = true;
 
   const button = $("saveButton");
-
   button.disabled = true;
   button.textContent = "Saving...";
 
   try {
     const cvData = getFormData();
 
-    /*
-      Keep the field names used by this builder. The
-      save-customer-cv Edge Function must accept this payload.
-    */
     const result = await callEdgeFunction(
       "save-customer-cv",
       {
@@ -2371,7 +2130,6 @@ async function saveCv() {
     );
 
     updatePreview();
-
   } catch (error) {
     console.error("CV save error:", error);
 
@@ -2379,122 +2137,70 @@ async function saveCv() {
       error.message || "Could not save your CV. Please try again.",
       "error"
     );
-
   } finally {
     saveInProgress = false;
-
     button.disabled = false;
     button.textContent = "Save My CV";
   }
 }
 
-
-/* =========================================================
-   PDF DOWNLOAD / PRINT
-========================================================= */
-
 function downloadCvPdf() {
   updatePreview();
-
-  /*
-    Android Chrome normally opens its print interface.
-    Choose Save as PDF in that interface.
-  */
   window.print();
 }
 
-
 /* =========================================================
-   EVENT LISTENERS
+   EVENTS AND INITIALISATION
 ========================================================= */
+$("saveButton").addEventListener("click", saveCv);
 
-$("saveButton").addEventListener(
-  "click",
-  saveCv
-);
+$("updatePreviewButton").addEventListener("click", () => {
+  updatePreview();
+  showMessage("Your preview has been updated.", "success");
+});
 
-$("updatePreviewButton").addEventListener(
-  "click",
-  () => {
+$("printButton").addEventListener("click", downloadCvPdf);
+
+$("templateChoice").addEventListener("change", () => {
+  enforcePurchasedTemplate();
+  updatePreview();
+});
+
+$("cvForm").addEventListener("input", (event) => {
+  if (event.target.id !== "institutionSearch") {
     updatePreview();
-    showMessage(
-      "Your preview has been updated.",
-      "success"
-    );
   }
-);
+});
 
-$("printButton").addEventListener(
-  "click",
-  downloadCvPdf
-);
+$("cvForm").addEventListener("change", updatePreview);
 
-$("templateChoice").addEventListener(
-  "change",
-  updatePreview
-);
+$("signOutButton").addEventListener("click", async () => {
+  $("signOutButton").disabled = true;
 
-$("cvForm").addEventListener(
-  "input",
-  (event) => {
-    if (
-      event.target.id !== "institutionSearch"
-    ) {
-      updatePreview();
-    }
+  try {
+    const { error } = await supabaseClient.auth.signOut();
+
+    if (error) throw error;
+
+    window.location.href = "./account.html";
+  } catch (error) {
+    console.error("Sign-out error:", error);
+
+    showMessage("Could not sign out. Please try again.", "error");
+
+    $("signOutButton").disabled = false;
   }
-);
-
-$("cvForm").addEventListener(
-  "change",
-  updatePreview
-);
-
-$("signOutButton").addEventListener(
-  "click",
-  async () => {
-    $("signOutButton").disabled = true;
-
-    try {
-      const { error } =
-        await supabaseClient.auth.signOut();
-
-      if (error) {
-        throw error;
-      }
-
-      window.location.href = "./account.html";
-
-    } catch (error) {
-      console.error("Sign-out error:", error);
-
-      showMessage(
-        "Could not sign out. Please try again.",
-        "error"
-      );
-
-      $("signOutButton").disabled = false;
-    }
-  }
-);
-
-
-/* =========================================================
-   INITIALISE BUILDER
-========================================================= */
+});
 
 function populateYears() {
   const select = $("educationYear");
-
   const currentYear = new Date().getFullYear();
 
   select.innerHTML = "";
 
   const placeholder = document.createElement("option");
-
   placeholder.value = "";
   placeholder.textContent = "Select year";
-
   select.appendChild(placeholder);
 
   for (
@@ -2503,34 +2209,26 @@ function populateYears() {
     year--
   ) {
     const option = document.createElement("option");
-
     option.value = String(year);
     option.textContent = String(year);
-
     select.appendChild(option);
   }
 }
 
-
 async function initialiseBuilder() {
   populateYears();
-
   populateQualifications();
-
   renderSubjectChoices();
-
   renderSkillChoices();
-
+  renderLanguageChoices(["English", "isiZulu"]);
   updateExperienceVisibility();
-
+  enforcePurchasedTemplate();
   updatePreview();
 
   await checkPurchaseAccess();
 }
 
-
 initialiseBuilder();
 </script>
-
 </body>
 </html>
