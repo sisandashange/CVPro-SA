@@ -1,13 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#111111">
   <meta name="description" content="Manage your CVPro-SA account and CV purchases.">
-  <title>My Account | CVPro-SA</title>
-
-  <style>
+  <title>My Account | CVPro-SA</title>  <style>
     * { box-sizing: border-box; }
 
     body {
@@ -63,9 +60,7 @@
       padding: 0 16px 40px;
     }
 
-    .welcome {
-      margin-bottom: 22px;
-    }
+    .welcome { margin-bottom: 22px; }
 
     h1 {
       margin: 0 0 6px;
@@ -213,10 +208,8 @@
 
     .purchase-actions {
       margin-top: 13px;
-    }
-
-    .purchase-actions .button {
-      margin-top: 6px;
+      display: grid;
+      gap: 8px;
     }
 
     .notice {
@@ -234,6 +227,42 @@
       font-size: 14px;
     }
 
+    .payment-box {
+      margin-top: 14px;
+      padding: 16px;
+      border: 1px solid #ddd;
+      border-radius: 9px;
+      background: #fafafa;
+    }
+
+    .payment-box h4 {
+      margin: 0 0 10px;
+      font-size: 17px;
+    }
+
+    .payment-row {
+      padding: 8px 0;
+      border-bottom: 1px solid #e5e5e5;
+      overflow-wrap: anywhere;
+    }
+
+    .payment-row:last-child {
+      border-bottom: none;
+    }
+
+    .payment-warning {
+      margin-top: 12px;
+      padding: 11px;
+      border-radius: 7px;
+      background: #fff1cc;
+      color: #765300;
+      font-size: 13px;
+    }
+
+    .payment-error {
+      color: #a11 !important;
+    }
+
     footer {
       padding: 20px;
       text-align: center;
@@ -242,13 +271,9 @@
     }
 
     @media (max-width: 650px) {
-      .template-grid {
-        grid-template-columns: 1fr;
-      }
+      .template-grid { grid-template-columns: 1fr; }
 
-      .nav {
-        align-items: flex-start;
-      }
+      .nav { align-items: flex-start; }
 
       .nav-actions {
         flex-wrap: wrap;
@@ -264,85 +289,72 @@
         gap: 8px;
       }
     }
-  </style>
-</head>
-
-<body>
+  </style></head><body>
   <header>
     <nav class="nav">
-      <a class="logo" href="./">CVPro-SA</a>
+      <a class="logo" href="./">CVPro-SA</a>  <div class="nav-actions">
+    <a class="nav-link" href="./">Homepage</a>
+    <button class="logout-button" id="logoutButton" type="button">
+      Sign Out
+    </button>
+  </div>
+</nav>
 
-      <div class="nav-actions">
-        <a class="nav-link" href="./">Homepage</a>
-        <button class="logout-button" id="logoutButton" type="button">
-          Sign Out
-        </button>
-      </div>
-    </nav>
-  </header>
-
-  <main>
+  </header>  <main>
     <section class="welcome">
       <h1>My Account</h1>
       <div class="muted" id="accountEmail">Checking your account...</div>
-    </section>
+    </section><div class="message" id="message" role="status" aria-live="polite"></div>
 
-    <div class="message" id="message" role="status" aria-live="polite"></div>
+<section class="panel">
+  <h2>Choose a CV</h2>
+  <p class="muted">
+    Select a template to purchase. Your CV builder will unlock only after
+    the owner verifies your payment.
+  </p>
 
-    <section class="panel">
-      <h2>Choose a CV</h2>
-      <p class="muted">
-        Select one template to start a purchase. Your CV builder will unlock
-        after the owner verifies your payment.
-      </p>
+  <div class="template-grid">
+    <article class="template-card">
+      <h3>Classic CV</h3>
+      <div class="price">R15</div>
+      <p class="muted">A clean, traditional black-and-white design.</p>
+      <button class="button purchase-button" data-template="classic" type="button">
+        Purchase Classic CV
+      </button>
+    </article>
 
-      <div class="template-grid">
-        <article class="template-card">
-          <h3>Classic CV</h3>
-          <div class="price">R15</div>
-          <p class="muted">A clean, traditional black-and-white design.</p>
-          <button class="button purchase-button" data-template="classic" type="button">
-            Purchase Classic CV
-          </button>
-        </article>
+    <article class="template-card">
+      <h3>Modern CV</h3>
+      <div class="price">R25</div>
+      <p class="muted">A contemporary two-column design.</p>
+      <button class="button purchase-button" data-template="modern" type="button">
+        Purchase Modern CV
+      </button>
+    </article>
+  </div>
+</section>
 
-        <article class="template-card">
-          <h3>Modern CV</h3>
-          <div class="price">R25</div>
-          <p class="muted">A contemporary two-column design.</p>
-          <button class="button purchase-button" data-template="modern" type="button">
-            Purchase Modern CV
-          </button>
-        </article>
-      </div>
-    </section>
+<section class="panel">
+  <h2>My CV Purchases</h2>
+  <p class="muted">
+    View your orders, payment instructions and approval status.
+  </p>
 
-    <section class="panel">
-      <h2>My CV Purchases</h2>
-      <p class="muted">
-        Track your orders and check whether your CV is ready.
-      </p>
+  <div id="purchaseList" class="purchase-list">
+    <div class="empty">Loading your purchases...</div>
+  </div>
+</section>
 
-      <div id="purchaseList" class="purchase-list">
-        <div class="empty">Loading your purchases...</div>
-      </div>
-    </section>
+<section class="notice">
+  <strong>Payment safety:</strong>
+  Pay only using the payment instructions displayed for your own order.
+  Always use the exact order number as the payment reference. Payments are
+  manually verified. A pending order does not unlock the CV builder.
+</section>
 
-    <section class="notice">
-      <strong>Payment safety:</strong>
-      Do not transfer money until the website displays the official payment
-      instructions. Payments are manually verified. A pending order does not
-      unlock the CV builder.
-    </section>
-  </main>
-
-  <footer>
+  </main>  <footer>
     &copy; <span id="year"></span> CVPro-SA. All rights reserved.
-  </footer>
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <script>
+  </footer>  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>  <script>
     const SUPABASE_URL =
       "https://tnxlhpenttcynlmlohao.supabase.co";
 
@@ -366,9 +378,6 @@
     const messageBox = document.getElementById("message");
     const logoutButton = document.getElementById("logoutButton");
 
-    let currentUser = null;
-    let currentAccessToken = null;
-
     document.getElementById("year").textContent =
       new Date().getFullYear();
 
@@ -390,22 +399,16 @@
         return null;
       }
 
-      currentUser = data.session.user;
-      currentAccessToken = data.session.access_token;
-      accountEmail.textContent = currentUser.email || "Signed in";
-
+      accountEmail.textContent = data.session.user.email || "Signed in";
       return data.session;
     }
 
     async function callFunction(functionName, body) {
-      const { data: sessionData, error: sessionError } =
-        await supabaseClient.auth.getSession();
+      const { data, error } = await supabaseClient.auth.getSession();
 
-      if (sessionError || !sessionData.session) {
+      if (error || !data.session) {
         throw new Error("Your session has expired. Please sign in again.");
       }
-
-      currentAccessToken = sessionData.session.access_token;
 
       const response = await fetch(
         SUPABASE_URL + "/functions/v1/" + functionName,
@@ -413,7 +416,7 @@
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": "Bearer " + currentAccessToken,
+            "Authorization": "Bearer " + data.session.access_token,
             "apikey": SUPABASE_PUBLISHABLE_KEY
           },
           body: JSON.stringify(body || {})
@@ -460,6 +463,125 @@
       return "Payment Under Review";
     }
 
+    function paymentRow(label, value) {
+      const row = document.createElement("div");
+      row.className = "payment-row";
+
+      const strong = document.createElement("strong");
+      strong.textContent = label + ": ";
+
+      const span = document.createElement("span");
+      span.textContent = value || "Not provided";
+
+      row.append(strong, span);
+      return row;
+    }
+
+    async function showPaymentInstructions(purchase, button, card) {
+      const originalText = button.textContent;
+      button.disabled = true;
+      button.textContent = "Loading instructions...";
+
+      let paymentBox = card.querySelector(".payment-box");
+
+      if (paymentBox) {
+        paymentBox.remove();
+      }
+
+      try {
+        const result = await callFunction(
+          "get-cv-payment-instructions",
+          { purchase_id: purchase.id }
+        );
+
+        paymentBox = document.createElement("div");
+        paymentBox.className = "payment-box";
+
+        const heading = document.createElement("h4");
+        heading.textContent = "Payment Instructions";
+        paymentBox.appendChild(heading);
+
+        if (!result.configured) {
+          const warning = document.createElement("div");
+          warning.className = "payment-warning";
+          warning.textContent =
+            result.message ||
+            "Payment instructions are not configured. Do not transfer money.";
+
+          paymentBox.appendChild(warning);
+          card.appendChild(paymentBox);
+          return;
+        }
+
+        const payment = result.payment || {};
+        const verifiedPurchase = result.purchase || purchase;
+
+        paymentBox.appendChild(
+          paymentRow("Order number", verifiedPurchase.order_number)
+        );
+        paymentBox.appendChild(
+          paymentRow(
+            "Amount to pay",
+            "R" + Number(verifiedPurchase.amount).toFixed(2)
+          )
+        );
+        paymentBox.appendChild(
+          paymentRow("Bank", payment.bank_name)
+        );
+        paymentBox.appendChild(
+          paymentRow("Account holder", payment.account_holder)
+        );
+        paymentBox.appendChild(
+          paymentRow("Account type", payment.account_type)
+        );
+        paymentBox.appendChild(
+          paymentRow("Account number", payment.account_number)
+        );
+
+        if (payment.branch_code) {
+          paymentBox.appendChild(
+            paymentRow("Branch code", payment.branch_code)
+          );
+        }
+
+        paymentBox.appendChild(
+          paymentRow(
+            "Payment reference",
+            verifiedPurchase.order_number
+          )
+        );
+
+        paymentBox.appendChild(
+          paymentRow(
+            "Instructions",
+            payment.payment_instructions
+          )
+        );
+
+        const warning = document.createElement("div");
+        warning.className = "payment-warning";
+        warning.textContent =
+          "Pay the exact amount and use the order number above as your reference. Your CV remains locked until the owner confirms receipt of the money and approves this order.";
+
+        paymentBox.appendChild(warning);
+        card.appendChild(paymentBox);
+      } catch (error) {
+        paymentBox = document.createElement("div");
+        paymentBox.className = "payment-box";
+
+        const warning = document.createElement("p");
+        warning.className = "payment-error";
+        warning.textContent =
+          "Could not load payment instructions: " + error.message;
+
+        paymentBox.appendChild(warning);
+        card.appendChild(paymentBox);
+      } finally {
+        button.disabled = false;
+        button.textContent = originalText;
+      }
+    }
+
     async function loadPurchases() {
       purchaseList.innerHTML =
         '<div class="empty">Loading your purchases...</div>';
@@ -498,55 +620,68 @@
           const card = document.createElement("article");
           card.className = "purchase-card";
 
-          card.innerHTML = `
-            <div class="purchase-heading">
-              <h3>${escapeHtml(template)}</h3>
-              <span class="status ${escapeHtml(status)}">
-                ${escapeHtml(statusLabel(status))}
-              </span>
-            </div>
+          const heading = document.createElement("div");
+          heading.className = "purchase-heading";
 
-            <p><strong>Order:</strong> ${escapeHtml(orderNumber)}</p>
-            <p><strong>Amount:</strong> ${escapeHtml(safeAmount)}</p>
-            <p><strong>Created:</strong> ${escapeHtml(formatDate(purchase.created_at))}</p>
+          const title = document.createElement("h3");
+          title.textContent = template;
 
-            <div class="purchase-actions"></div>
-          `;
+          const badge = document.createElement("span");
+          badge.className = "status " + status;
+          badge.textContent = statusLabel(status);
 
-          const actions = card.querySelector(".purchase-actions");
+          heading.append(title, badge);
+          card.appendChild(heading);
+
+          card.appendChild(paymentRow("Order", orderNumber));
+          card.appendChild(paymentRow("Amount", safeAmount));
+          card.appendChild(
+            paymentRow("Created", formatDate(purchase.created_at))
+          );
+
+          const actions = document.createElement("div");
+          actions.className = "purchase-actions";
 
           if (status === "paid") {
-            const builderButton = document.createElement("button");
-            builderButton.type = "button";
-            builderButton.className = "button";
-            builderButton.textContent = "Open My CV";
-            builderButton.addEventListener("click", () => {
-              showMessage(
-                "Your payment is approved. The CV builder page is the next part of the website we will build.",
-                "success"
-              );
-            });
-            actions.appendChild(builderButton);
+            const note = document.createElement("p");
+            note.textContent =
+              "Your payment has been approved. CV builder access will be available when the builder is connected.";
+            actions.appendChild(note);
           } else if (status === "declined") {
             const note = document.createElement("p");
             note.textContent =
-              "This order was declined. Please contact the website owner before making another payment.";
+              "This order was declined. Contact the website owner before making another payment.";
             actions.appendChild(note);
           } else {
             const note = document.createElement("p");
             note.textContent =
-              "Please wait for the owner to verify the incoming payment. Your CV is locked until approval.";
+              "Your CV is locked while you arrange payment and wait for the owner to verify it.";
             actions.appendChild(note);
+
+            const paymentButton = document.createElement("button");
+            paymentButton.type = "button";
+            paymentButton.className = "button";
+            paymentButton.textContent = "View Payment Instructions";
+            paymentButton.addEventListener("click", () => {
+              showPaymentInstructions(purchase, paymentButton, card);
+            });
+
+            actions.appendChild(paymentButton);
           }
 
+          card.appendChild(actions);
           purchaseList.appendChild(card);
         });
       } catch (error) {
         console.error("Purchase loading error:", error);
-        purchaseList.innerHTML =
-          '<div class="empty">Could not load purchases: ' +
-          escapeHtml(error.message) +
-          '</div>';
+        purchaseList.innerHTML = "";
+
+        const errorMessage = document.createElement("div");
+        errorMessage.className = "empty";
+        errorMessage.textContent =
+          "Could not load purchases: " + error.message;
+
+        purchaseList.appendChild(errorMessage);
       }
     }
 
@@ -565,13 +700,15 @@
         const purchase = result.purchase || result;
 
         if (!purchase || !purchase.id) {
-          throw new Error("The server did not return a valid order. Please try again.");
+          throw new Error(
+            "The server did not return a valid order. Please try again."
+          );
         }
 
         showMessage(
           "Your order " +
             (purchase.order_number || "") +
-            " was created. Payment instructions will be added in the next step. Do not transfer money yet.",
+            " was created. Use View Payment Instructions on your order to see how to pay. If instructions are not configured, do not transfer money.",
           "success"
         );
 
@@ -614,6 +751,5 @@
     }
 
     initialise();
-  </script>
-</body>
+  </script></body>
 </html>
