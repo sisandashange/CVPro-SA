@@ -2039,9 +2039,51 @@ function updatePreview() {
   setText("previewExperience", experience);
   setSectionVisibility("experienceSection", experience);
 
-  const subjects = data.subjects.join(", ");
-  setText("previewSubjects", subjects);
-  setSectionVisibility("subjectsSection", subjects);
+  const technicalSubjectNames = [
+  "Technical Mathematics",
+  "Technical Sciences",
+  "Engineering Graphics and Design (EGD)",
+  "Mechanical Technology",
+  "Welding and Metalwork"
+];
+
+const technicalSubjects = data.subjects.filter(subject =>
+  technicalSubjectNames.includes(subject)
+);
+
+const otherSubjects = data.subjects.filter(subject =>
+  !technicalSubjectNames.includes(subject)
+);
+
+const subjectsContainer = $("previewSubjects");
+subjectsContainer.innerHTML = "";
+
+function addSubjectGroup(title, subjects) {
+  if (!subjects.length) return;
+
+  const heading = document.createElement("strong");
+  heading.className = "cv-subject-heading";
+  heading.textContent = title;
+
+  const list = document.createElement("ul");
+  list.className = "cv-subject-list";
+
+  subjects.forEach(subject => {
+    const item = document.createElement("li");
+    item.textContent = subject;
+    list.appendChild(item);
+  });
+
+  subjectsContainer.append(heading, list);
+}
+
+addSubjectGroup("Technical Subjects", technicalSubjects);
+addSubjectGroup("Languages and Other Subjects", otherSubjects);
+
+setSectionVisibility(
+  "subjectsSection",
+  data.subjects.length ? "subjects selected" : ""
+);
 
   renderSkillTags(data.skills);
 
