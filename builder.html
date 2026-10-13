@@ -8,619 +8,2528 @@
 <title>CV Builder | CVPro-SA</title>
 
 <style>
-*{box-sizing:border-box}
-body{margin:0;background:#f3f3f3;color:#111;font-family:Arial,Helvetica,sans-serif;line-height:1.5}
-header{background:#111;color:#fff;padding:15px 18px}
-.nav{max-width:1200px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:12px}
-.logo{color:white;font-size:21px;font-weight:800;text-decoration:none}
-.nav a,.nav button{color:white;border:1px solid #666;border-radius:7px;background:transparent;padding:8px 11px;text-decoration:none;font-size:13px;cursor:pointer}
-main{max-width:1200px;margin:24px auto;padding:0 14px 35px}
-h1{margin:0 0 5px;font-size:29px}
-.muted{color:#666}
-.notice{margin:18px 0;padding:13px;background:#fff;border:1px solid #ddd;border-radius:9px;font-size:13px}
-.message{display:none;margin:15px 0;padding:12px;border-radius:7px;overflow-wrap:anywhere}
-.message.error{display:block;color:#a11;background:#fff0f0}
-.message.success{display:block;color:#155b35;background:#e9f7ef}
-#builderArea{display:none}
-.workspace{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:start;gap:18px;margin-top:20px}
-.panel{padding:20px;background:#fff;border:1px solid #e2e2e2;border-radius:11px;min-width:0}
-.panel h2{margin:0 0 15px;font-size:21px}
-.field{margin-bottom:14px}
-label{display:block;margin-bottom:5px;font-size:13px;font-weight:700}
-input,textarea,select{width:100%;padding:11px;border:1px solid #ccc;border-radius:7px;background:white;color:#111;font:inherit;font-size:14px}
-textarea{min-height:75px;resize:vertical}
-.button{display:inline-block;width:100%;margin-top:8px;padding:12px 14px;border:1px solid #111;border-radius:7px;background:#111;color:white;font-weight:700;text-align:center;cursor:pointer}
-.button.secondary{background:white;color:#111}
-.button:disabled{opacity:.6;cursor:wait}
-.preview-panel{position:sticky;top:12px;min-width:0}
-.preview-toolbar{display:flex;gap:8px;margin-bottom:12px}
-.preview-toolbar button{margin:0}
-.template-label{display:inline-block;margin-bottom:12px;padding:5px 9px;border:1px solid #ddd;border-radius:20px;background:#fafafa;color:#333;font-size:11px;font-weight:700}
-.cv-page{width:100%;min-height:750px;padding:35px;background:#fff;border:1px solid #ddd;box-shadow:0 3px 14px #0000000d;overflow-wrap:anywhere}
-.cv-header{margin-bottom:22px}
-.cv-name{margin:0;font-size:27px;line-height:1.2;text-transform:uppercase;letter-spacing:.5px;overflow-wrap:anywhere}
-.cv-contact{margin:9px 0 0;color:#555;font-size:12px;overflow-wrap:anywhere;white-space:pre-wrap}
-.cv-section{margin-top:19px;break-inside:avoid}
-.cv-section h3{margin:0 0 8px;padding-bottom:5px;border-bottom:1px solid #111;font-size:13px;text-transform:uppercase;letter-spacing:1px}
-.cv-section p{margin:5px 0;font-size:12px;white-space:pre-wrap;overflow-wrap:anywhere}
-.cv-skills{display:flex;flex-wrap:wrap;gap:6px}
-.cv-skill{padding:4px 7px;border:1px solid #ddd;border-radius:4px;font-size:11px}
-.cv-page.classic{border-top:5px solid #111}
-.cv-page.classic .cv-header{padding-bottom:16px;border-bottom:1px solid #bbb}
-.cv-page.classic .cv-name{font-family:Georgia,"Times New Roman",serif;font-size:29px;font-weight:700}
-.cv-page.classic .cv-contact{line-height:1.8}
-.cv-page.classic .cv-skill{border-radius:0;background:white}
-.cv-page.modern{border:0;border-top:10px solid #202020;padding:0}
-.cv-page.modern .cv-header{margin:0;padding:28px 28px 22px;background:#202020;color:white}
-.cv-page.modern .cv-name{font-size:30px;letter-spacing:1.2px}
-.cv-page.modern .cv-contact{color:#e5e5e5;line-height:1.8}
-.cv-page.modern .cv-content{padding:8px 28px 28px}
-.cv-page.modern .cv-section{margin-top:21px}
-.cv-page.modern .cv-section h3{border:0;border-left:4px solid #202020;padding:3px 0 3px 9px}
-.cv-page.modern .cv-skill{border-color:#bbb;border-radius:15px;background:#f5f5f5;padding:5px 9px}
-.group-title{margin:22px 0 12px;padding-bottom:7px;border-bottom:2px solid #ddd;font-size:17px}
-.choice-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-.choice{display:flex;align-items:flex-start;gap:8px;padding:9px;border:1px solid #ddd;border-radius:7px;background:#fff;font-size:13px;font-weight:400}
-.choice input{width:auto;margin:4px 0 0;flex-shrink:0}
-.small-note{font-size:12px;color:#666;margin-top:5px}
-.two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.hidden{display:none!important}
-footer{padding:20px;color:#777;text-align:center;font-size:12px}
-@media(max-width:850px){.workspace{grid-template-columns:1fr}.preview-panel{position:static;grid-row:1}.cv-page{min-height:500px;padding:25px}.cv-page.modern{padding:0}.cv-page.modern .cv-header{padding:24px 20px 18px}.cv-page.modern .cv-content{padding:5px 20px 22px}}
-@media(max-width:450px){.choice-grid,.two-col{grid-template-columns:1fr}.panel{padding:14px}.cv-page{padding:18px}}
-@media print{
-@page{size:A4;margin:12mm}
-body{background:white}
-header,main>h1,main>.muted,.notice,#message,#accessMessage,#editorPanel,.preview-toolbar,.template-label,footer,.preview-panel>h2{display:none!important}
-main{max-width:none;margin:0;padding:0}
-#builderArea,.workspace,.preview-panel{display:block!important;margin:0;padding:0;border:0;box-shadow:none}
-.panel{padding:0;border:0;box-shadow:none}
-.cv-page{width:100%;min-height:0;margin:0;break-inside:auto;box-shadow:none;print-color-adjust:exact;-webkit-print-color-adjust:exact}
-.cv-page.classic,.cv-page.modern{padding:0}
-.cv-page.modern .cv-header{print-color-adjust:exact;-webkit-print-color-adjust:exact}
-.cv-section{break-inside:avoid}
-.cv-name,.cv-section h3{break-after:avoid}
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #f3f3f3;
+  color: #111;
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.5;
+}
+
+header {
+  background: #111;
+  color: #fff;
+  padding: 15px 18px;
+}
+
+.nav {
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  color: #fff;
+  font-size: 21px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.nav a,
+.nav button {
+  color: #fff;
+  border: 1px solid #666;
+  border-radius: 7px;
+  background: transparent;
+  padding: 8px 11px;
+  text-decoration: none;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+main {
+  max-width: 1200px;
+  margin: 24px auto;
+  padding: 0 14px 35px;
+}
+
+h1 {
+  margin: 0 0 5px;
+  font-size: 29px;
+}
+
+.muted {
+  color: #666;
+}
+
+.notice {
+  margin: 18px 0;
+  padding: 13px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 9px;
+  font-size: 13px;
+}
+
+.message {
+  display: none;
+  margin: 15px 0;
+  padding: 12px;
+  border-radius: 7px;
+  overflow-wrap: anywhere;
+}
+
+.message.error {
+  display: block;
+  color: #a11;
+  background: #fff0f0;
+}
+
+.message.success {
+  display: block;
+  color: #155b35;
+  background: #e9f7ef;
+}
+
+#builderArea {
+  display: none;
+}
+
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: start;
+  gap: 18px;
+  margin-top: 20px;
+}
+
+.panel {
+  padding: 20px;
+  background: #fff;
+  border: 1px solid #e2e2e2;
+  border-radius: 11px;
+  min-width: 0;
+}
+
+.panel h2 {
+  margin: 0 0 15px;
+  font-size: 21px;
+}
+
+.field {
+  margin-bottom: 14px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  padding: 11px;
+  border: 1px solid #ccc;
+  border-radius: 7px;
+  background: #fff;
+  color: #111;
+  font: inherit;
+  font-size: 14px;
+}
+
+textarea {
+  min-height: 75px;
+  resize: vertical;
+}
+
+.button {
+  display: inline-block;
+  width: 100%;
+  margin-top: 8px;
+  padding: 12px 14px;
+  border: 1px solid #111;
+  border-radius: 7px;
+  background: #111;
+  color: #fff;
+  font-weight: 700;
+  text-align: center;
+  cursor: pointer;
+}
+
+.button.secondary {
+  background: #fff;
+  color: #111;
+}
+
+.button:disabled {
+  opacity: .6;
+  cursor: wait;
+}
+
+.preview-panel {
+  position: sticky;
+  top: 12px;
+  min-width: 0;
+}
+
+.preview-toolbar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.preview-toolbar button {
+  margin: 0;
+}
+
+.template-label {
+  display: inline-block;
+  margin-bottom: 12px;
+  padding: 5px 9px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  background: #fafafa;
+  color: #333;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.cv-page {
+  width: 100%;
+  min-height: 750px;
+  padding: 35px;
+  background: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0 3px 14px #0000000d;
+  overflow-wrap: anywhere;
+}
+
+.cv-header {
+  margin-bottom: 22px;
+}
+
+.cv-name {
+  margin: 0;
+  font-size: 27px;
+  line-height: 1.2;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  overflow-wrap: anywhere;
+}
+
+.cv-contact {
+  margin: 9px 0 0;
+  color: #555;
+  font-size: 12px;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.cv-section {
+  margin-top: 19px;
+  break-inside: avoid;
+}
+
+.cv-section h3 {
+  margin: 0 0 8px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #111;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.cv-section p {
+  margin: 5px 0;
+  font-size: 12px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.cv-skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.cv-skill {
+  padding: 4px 7px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 11px;
+}
+
+.cv-page.classic {
+  border-top: 5px solid #111;
+}
+
+.cv-page.classic .cv-header {
+  padding-bottom: 16px;
+  border-bottom: 1px solid #bbb;
+}
+
+.cv-page.classic .cv-name {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 29px;
+  font-weight: 700;
+}
+
+.cv-page.classic .cv-contact {
+  line-height: 1.8;
+}
+
+.cv-page.classic .cv-skill {
+  border-radius: 0;
+  background: #fff;
+}
+
+.cv-page.modern {
+  border: 0;
+  border-top: 10px solid #202020;
+  padding: 0;
+}
+
+.cv-page.modern .cv-header {
+  margin: 0;
+  padding: 28px 28px 22px;
+  background: #202020;
+  color: #fff;
+}
+
+.cv-page.modern .cv-name {
+  font-size: 30px;
+  letter-spacing: 1.2px;
+}
+
+.cv-page.modern .cv-contact {
+  color: #e5e5e5;
+  line-height: 1.8;
+}
+
+.cv-page.modern .cv-content {
+  padding: 8px 28px 28px;
+}
+
+.cv-page.modern .cv-section {
+  margin-top: 21px;
+}
+
+.cv-page.modern .cv-section h3 {
+  border: 0;
+  border-left: 4px solid #202020;
+  padding: 3px 0 3px 9px;
+}
+
+.cv-page.modern .cv-skill {
+  border-color: #bbb;
+  border-radius: 15px;
+  background: #f5f5f5;
+  padding: 5px 9px;
+}
+
+.group-title {
+  margin: 22px 0 12px;
+  padding-bottom: 7px;
+  border-bottom: 2px solid #ddd;
+  font-size: 17px;
+}
+
+.choice-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.choice {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 9px;
+  border: 1px solid #ddd;
+  border-radius: 7px;
+  background: #fff;
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.choice input {
+  width: auto;
+  margin: 4px 0 0;
+  flex-shrink: 0;
+}
+
+.small-note {
+  font-size: 12px;
+  color: #666;
+  margin-top: 5px;
+}
+
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* Mobile-friendly education suggestions */
+.autocomplete-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.education-results {
+  display: none;
+  width: 100%;
+  max-height: 220px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 4px 12px #00000012;
+}
+
+.education-results.open {
+  display: block;
+}
+
+.education-result {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  border: 0;
+  border-bottom: 1px solid #eee;
+  background: #fff;
+  color: #111;
+  font-size: 14px;
+  text-align: left;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+}
+
+.education-result:last-child {
+  border-bottom: 0;
+}
+
+.education-result:focus,
+.education-result:active {
+  background: #f0f0f0;
+}
+
+.education-no-results {
+  padding: 12px;
+  color: #666;
+  font-size: 13px;
+}
+
+footer {
+  padding: 20px;
+  color: #777;
+  text-align: center;
+  font-size: 12px;
+}
+
+@media (max-width: 850px) {
+  .workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .preview-panel {
+    position: static;
+    grid-row: 1;
+  }
+
+  .cv-page {
+    min-height: 500px;
+    padding: 25px;
+  }
+
+  .cv-page.modern {
+    padding: 0;
+  }
+
+  .cv-page.modern .cv-header {
+    padding: 24px 20px 18px;
+  }
+
+  .cv-page.modern .cv-content {
+    padding: 5px 20px 22px;
+  }
+
+  .education-results {
+    max-height: 180px;
+  }
+}
+
+@media (max-width: 450px) {
+  .choice-grid,
+  .two-col {
+    grid-template-columns: 1fr;
+  }
+
+  .panel {
+    padding: 14px;
+  }
+
+  .cv-page {
+    padding: 18px;
+  }
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 12mm;
+  }
+
+  body {
+    background: #fff;
+  }
+
+  header,
+  main > h1,
+  main > .muted,
+  .notice,
+  #message,
+  #accessMessage,
+  #editorPanel,
+  .preview-toolbar,
+  .template-label,
+  footer,
+  .preview-panel > h2 {
+    display: none !important;
+  }
+
+  main {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  #builderArea,
+  .workspace,
+  .preview-panel {
+    display: block !important;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    box-shadow: none;
+  }
+
+  .panel {
+    padding: 0;
+    border: 0;
+    box-shadow: none;
+  }
+
+  .cv-page {
+    width: 100%;
+    min-height: 0;
+    margin: 0;
+    break-inside: auto;
+    box-shadow: none;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .cv-page.classic,
+  .cv-page.modern {
+    padding: 0;
+  }
+
+  .cv-page.modern .cv-header {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .cv-section {
+    break-inside: avoid;
+  }
+
+  .cv-name,
+  .cv-section h3 {
+    break-after: avoid;
+  }
 }
 </style>
 </head>
+
 <body>
 <header>
-<nav class="nav">
-<a class="logo" href="./">CVPro-SA</a>
-<div>
-<a href="./my-account.html">My Account</a>
-<button type="button" id="signOutButton">Sign Out</button>
-</div>
-</nav>
+  <nav class="nav">
+    <a class="logo" href="./">CVPro-SA</a>
+    <div>
+      <a href="./my-account.html">My Account</a>
+      <button type="button" id="signOutButton">Sign Out</button>
+    </div>
+  </nav>
 </header>
 
 <main>
-<h1>Smart CV Builder</h1>
-<div class="muted">Choose your details. Your professional CV updates automatically.</div>
-<div id="accessMessage" class="notice">Checking your account and CV purchase...</div>
-<div id="message" class="message" role="status" aria-live="polite"></div>
+  <h1>Smart CV Builder</h1>
+  <div class="muted">Choose your details. Your professional CV updates automatically.</div>
 
-<div id="builderArea">
-<div class="notice"><strong>One purchase, one CV.</strong> Edit and save this CV again whenever you need it. A new CV requires a new purchase.</div>
+  <div id="accessMessage" class="notice">
+    Checking your account and CV purchase...
+  </div>
 
-<div class="workspace">
-<section class="panel preview-panel">
-<h2>Live CV Preview</h2>
-<div class="template-label" id="templateLabel">Purchased CV template</div>
-<div class="preview-toolbar"><button type="button" class="button" id="printButton">Save / Download PDF</button></div>
+  <div id="message" class="message" role="status" aria-live="polite"></div>
 
-<article class="cv-page classic" id="cvPreview">
-<div class="cv-header">
-<h2 class="cv-name" id="previewName">YOUR FULL NAME</h2>
-<div class="cv-contact" id="previewContact"></div>
-</div>
-<div class="cv-content">
-<section class="cv-section"><h3>Professional Profile</h3><p id="previewProfile"></p></section>
-<section class="cv-section"><h3>Education</h3><p id="previewEducation"></p></section>
-<section class="cv-section" id="experienceSection"><h3>Experience and Practical Training</h3><p id="previewExperience"></p></section>
-<section class="cv-section" id="subjectsSection"><h3>Relevant Subjects</h3><p id="previewSubjects"></p></section>
-<section class="cv-section"><h3>Skills</h3><div class="cv-skills" id="previewSkills"></div></section>
-<section class="cv-section"><h3>Languages</h3><p id="previewLanguages"></p></section>
-<section class="cv-section" id="additionalSection"><h3>Additional Information</h3><p id="previewAdditional"></p></section>
-</div>
-</article>
-</section>
+  <div id="builderArea">
+    <div class="notice">
+      <strong>One purchase, one CV.</strong>
+      Edit and save this CV again whenever you need it. A new CV requires a new purchase.
+    </div>
 
-<section class="panel" id="editorPanel">
-<h2>Build Your CV</h2>
-<form id="cvForm">
+    <div class="workspace">
 
-<h3 class="group-title">1. Personal Information</h3>
-<div class="field"><label for="fullName">Full name *</label><input id="fullName" autocomplete="name" required></div>
-<div class="field"><label for="email">Email address</label><input id="email" type="email" readonly></div>
-<div class="two-col">
-<div class="field"><label for="phone">Phone number</label><input id="phone" type="tel" autocomplete="tel"></div>
-<div class="field"><label for="location">Town / City and Province</label><input id="location" placeholder="e.g. Durban, KwaZulu-Natal"></div>
-</div>
+      <section class="panel preview-panel">
+        <h2>Live CV Preview</h2>
+        <div class="template-label" id="templateLabel">Purchased CV template</div>
 
-<h3 class="group-title">2. Education</h3>
-<div class="field"><label for="educationLevel">Education level *</label>
-<select id="educationLevel" required>
-<option value="">Select education level</option>
-<option value="school">High School / Secondary School</option>
-<option value="tvet">TVET College</option>
-<option value="university">University</option>
-<option value="private-college">Private College</option>
-<option value="training">Private Training Institution</option>
-<option value="other">Other Institution</option>
-</select></div>
+        <div class="preview-toolbar">
+          <button type="button" class="button" id="printButton">
+            Save / Download PDF
+          </button>
+        </div>
 
-<div class="field"><label for="institutionSearch">Search for your school or institution</label>
-<input id="institutionSearch" list="institutionOptions" placeholder="Type institution name or choose Other">
-<datalist id="institutionOptions"></datalist>
-<div class="small-note">This is a starter list. If your institution is not listed, type its full name.</div>
-</div>
+        <article class="cv-page classic" id="cvPreview">
+          <div class="cv-header">
+            <h2 class="cv-name" id="previewName">YOUR FULL NAME</h2>
+            <div class="cv-contact" id="previewContact"></div>
+          </div>
 
-<div class="field"><label for="institution">Institution name *</label><input id="institution" required placeholder="School, college or university name"></div>
+          <div class="cv-content">
+            <section class="cv-section">
+              <h3>Professional Profile</h3>
+              <p id="previewProfile"></p>
+            </section>
 
-<div class="field"><label for="qualification">Qualification / Grade</label>
-<select id="qualification">
-<option value="">Select qualification</option>
-</select></div>
+            <section class="cv-section">
+              <h3>Education</h3>
+              <p id="previewEducation"></p>
+            </section>
 
-<div class="two-col">
-<div class="field"><label for="educationStatus">Study status</label>
-<select id="educationStatus">
-<option value="completed">Completed</option>
-<option value="currently studying">Currently studying</option>
-<option value="incomplete">Attended but did not complete</option>
-</select></div>
-<div class="field"><label for="educationYear">Year completed / expected</label><select id="educationYear"></select></div>
-</div>
+            <section class="cv-section" id="experienceSection">
+              <h3>Experience and Practical Training</h3>
+              <p id="previewExperience"></p>
+            </section>
 
-<div class="field"><label>Subjects / study areas</label><div class="choice-grid" id="subjectChoices"></div>
-<div class="small-note">Select only subjects you studied.</div></div>
+            <section class="cv-section" id="subjectsSection">
+              <h3>Relevant Subjects</h3>
+              <p id="previewSubjects"></p>
+            </section>
 
-<div class="field"><label for="otherSubjects">Other subjects (optional)</label><input id="otherSubjects" placeholder="Add other subjects separated by commas"></div>
+            <section class="cv-section">
+              <h3>Skills</h3>
+              <div class="cv-skills" id="previewSkills"></div>
+            </section>
 
-<h3 class="group-title">3. Your Strengths and Career Goal</h3>
-<div class="field"><label for="jobGoal">Type of work you want</label>
-<select id="jobGoal">
-<option value="general entry-level work">General entry-level work</option>
-<option value="office administration">Office administration</option>
-<option value="customer service">Customer service</option>
-<option value="retail and sales">Retail and sales</option>
-<option value="warehouse and logistics">Warehouse and logistics</option>
-<option value="factory and production work">Factory and production work</option>
-<option value="engineering and technical work">Engineering and technical work</option>
-<option value="welding and metalwork">Welding and metalwork</option>
-<option value="information technology">Information technology</option>
-<option value="hospitality">Hospitality</option>
-<option value="security">Security</option>
-<option value="a learnership or internship">A learnership or internship</option>
-<option value="an apprenticeship">An apprenticeship</option>
-</select></div>
+            <section class="cv-section">
+              <h3>Languages</h3>
+              <p id="previewLanguages"></p>
+            </section>
 
-<div class="field"><label>Your strengths</label><div class="choice-grid" id="strengthChoices"></div></div>
+            <section class="cv-section" id="additionalSection">
+              <h3>Additional Information</h3>
+              <p id="previewAdditional"></p>
+            </section>
+          </div>
+        </article>
+      </section>
 
-<h3 class="group-title">4. Employment and Practical Experience</h3>
-<div class="field"><label for="experienceType">Which describes you best?</label>
-<select id="experienceType">
-<option value="none">I have no formal work experience</option>
-<option value="school-practical">I completed school practicals</option>
-<option value="college-practical">I completed college practical training</option>
-<option value="university-practical">I completed university practical training</option>
-<option value="learnership">I completed a learnership or internship</option>
-<option value="volunteer">I have volunteer experience</option>
-<option value="employed">I have previous employment</option>
-</select></div>
+      <section class="panel" id="editorPanel">
+        <h2>Build Your CV</h2>
 
-<div id="experienceDetails" class="hidden">
-<div class="field"><label for="experienceTitle">Job / training title</label><input id="experienceTitle" placeholder="e.g. Welding practical training"></div>
-<div class="field"><label for="experienceOrganisation">Employer / training provider</label><input id="experienceOrganisation" placeholder="Name of employer or institution"></div>
-<div class="field"><label for="experienceTasks">Duties / tasks actually performed</label><textarea id="experienceTasks" placeholder="Describe the work or practical tasks you actually completed."></textarea></div>
-</div>
-<div class="small-note">For people without experience, the CV will describe transferable strengths and career readiness without inventing jobs or practicals.</div>
+        <form id="cvForm">
 
-<h3 class="group-title">5. Skills</h3>
-<p class="small-note">Suggested skills are based on your selected education and career goal. Select only skills you genuinely have.</p>
-<div class="choice-grid" id="skillChoices"></div>
-<div class="field"><label for="otherSkills">Other skills (optional)</label><input id="otherSkills" placeholder="Add other genuine skills separated by commas"></div>
+          <h3 class="group-title">1. Personal Information</h3>
 
-<h3 class="group-title">6. Languages</h3>
-<div class="field"><label>Select languages</label><div class="choice-grid" id="languageChoices"></div></div>
-<div id="languageLevels"></div>
+          <div class="field">
+            <label for="fullName">Full name *</label>
+            <input id="fullName" autocomplete="name" required>
+          </div>
 
-<h3 class="group-title">7. Additional Information</h3>
-<div class="field"><label for="availability">Availability</label>
-<select id="availability">
-<option value="">Prefer not to specify</option>
-<option value="Available immediately">Available immediately</option>
-<option value="Available with notice">Available with notice</option>
-<option value="Currently studying and seeking opportunities">Currently studying and seeking opportunities</option>
-</select></div>
+          <div class="field">
+            <label for="email">Email address</label>
+            <input id="email" type="email" readonly>
+          </div>
 
-<div class="field"><label for="licence">Driver's licence</label>
-<select id="licence">
-<option value="">Not specified</option>
-<option value="Has a valid driver's licence">I have a valid driver's licence</option>
-<option value="Does not currently have a driver's licence">I do not currently have a driver's licence</option>
-</select></div>
+          <div class="two-col">
+            <div class="field">
+              <label for="phone">Phone number</label>
+              <input id="phone" type="tel" autocomplete="tel">
+            </div>
 
-<div class="field"><label for="certificates">Certificates / additional training (optional)</label><input id="certificates" placeholder="Only include certificates you have actually earned"></div>
+            <div class="field">
+              <label for="location">Town / City and Province</label>
+              <input id="location" placeholder="e.g. Durban, KwaZulu-Natal">
+            </div>
+          </div>
 
-<div class="field"><label for="interests">Career interests (optional)</label><input id="interests" placeholder="e.g. technical work, customer service"></div>
+          <h3 class="group-title">2. Education</h3>
 
-<button class="button" id="saveButton" type="submit">Save My CV</button>
-<button class="button secondary" id="printButton2" type="button">Save / Download PDF</button>
-</form>
-</section>
-</div>
-</div>
+          <div class="field">
+            <label for="educationLevel">Education level *</label>
+            <select id="educationLevel" required>
+              <option value="">Select education level</option>
+              <option value="school">High School / Secondary School</option>
+              <option value="tvet">TVET College</option>
+              <option value="university">University</option>
+              <option value="private-college">Private College</option>
+              <option value="training">Private Training Institution</option>
+              <option value="other">Other Institution</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="institutionSearch">Search for your school or institution</label>
+
+            <div class="autocomplete-wrap">
+              <input
+                id="institutionSearch"
+                type="search"
+                autocomplete="off"
+                enterkeyhint="search"
+                placeholder="Type a school, college or university"
+                aria-controls="institutionResults"
+                aria-expanded="false"
+                aria-autocomplete="list"
+              >
+
+              <div
+                id="institutionResults"
+                class="education-results"
+                role="listbox"
+                aria-label="Matching educational institutions"
+              ></div>
+            </div>
+
+            <div class="small-note">
+              Type a few letters and select a result. If your institution is missing,
+              enter its full name in the Institution name field below.
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="institution">Institution name *</label>
+            <input id="institution" required placeholder="School, college or university name">
+          </div>
+
+          <div class="field">
+            <label for="qualification">Qualification / Grade</label>
+            <select id="qualification">
+              <option value="">Select qualification</option>
+            </select>
+          </div>
+
+          <div class="two-col">
+            <div class="field">
+              <label for="educationStatus">Study status</label>
+              <select id="educationStatus">
+                <option value="completed">Completed</option>
+                <option value="currently studying">Currently studying</option>
+                <option value="incomplete">Attended but did not complete</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="educationYear">Year completed / expected</label>
+              <select id="educationYear">
+                <option value="">Select year</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Subjects / study areas</label>
+            <div class="choice-grid" id="subjectChoices"></div>
+            <div class="small-note">
+              Select only subjects you studied. Add missing subjects below.
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="otherSubjects">Other subjects (optional)</label>
+            <input
+              id="otherSubjects"
+              placeholder="Add other subjects separated by commas"
+            >
+          </div>
+
+                    <h3 class="group-title">3. Career Goals</h3>
+
+          <div class="field">
+            <label for="careerGoal">What type of job are you looking for?</label>
+            <select id="careerGoal">
+              <option value="">Select your career goal</option>
+              <option value="General employment">General employment</option>
+              <option value="Administration">Administration / Office Work</option>
+              <option value="Customer Service">Customer Service</option>
+              <option value="Retail">Retail / Shop Assistant</option>
+              <option value="Warehouse">Warehouse / Stock Control</option>
+              <option value="Factory">Factory / Production</option>
+              <option value="Welding">Welding / Metalwork</option>
+              <option value="Engineering">Engineering / Technical Work</option>
+              <option value="Construction">Construction</option>
+              <option value="IT">Information Technology</option>
+              <option value="Finance">Finance / Accounting</option>
+              <option value="Hospitality">Hospitality / Tourism</option>
+              <option value="Healthcare">Healthcare</option>
+              <option value="Education">Education</option>
+              <option value="Learnership">Learnership / Internship</option>
+              <option value="Apprenticeship">Apprenticeship</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="strengths">Your strengths</label>
+            <textarea
+              id="strengths"
+              placeholder="e.g. reliable, willing to learn, practical and hardworking"
+            ></textarea>
+          </div>
+
+          <h3 class="group-title">4. Work Experience</h3>
+
+          <div class="field">
+            <label for="experienceType">Which best describes you?</label>
+            <select id="experienceType">
+              <option value="no-experience">No formal work experience yet</option>
+              <option value="work">I have work experience</option>
+              <option value="informal">Informal work / family business</option>
+              <option value="volunteer">Volunteering / community work</option>
+              <option value="practical">Practical training / workplace exposure</option>
+            </select>
+          </div>
+
+          <div id="experienceDetails" class="hidden">
+            <div class="field">
+              <label for="jobTitle">Job title / role</label>
+              <input id="jobTitle" placeholder="e.g. Shop Assistant">
+            </div>
+
+            <div class="field">
+              <label for="employer">Employer / organisation</label>
+              <input id="employer" placeholder="Employer or organisation name">
+            </div>
+
+            <div class="two-col">
+              <div class="field">
+                <label for="experienceStart">Start date</label>
+                <input id="experienceStart" type="month">
+              </div>
+
+              <div class="field">
+                <label for="experienceEnd">End date</label>
+                <input id="experienceEnd" type="month">
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="experienceDescription">Responsibilities and achievements</label>
+              <textarea
+                id="experienceDescription"
+                placeholder="Describe the tasks you actually performed."
+              ></textarea>
+            </div>
+          </div>
+
+          <h3 class="group-title">5. Skills</h3>
+
+          <div class="field">
+            <label>Select the skills you genuinely have</label>
+            <div class="choice-grid" id="skillChoices"></div>
+          </div>
+
+          <div class="field">
+            <label for="otherSkills">Other skills (optional)</label>
+            <input
+              id="otherSkills"
+              placeholder="Add other skills separated by commas"
+            >
+          </div>
+
+          <h3 class="group-title">6. Languages</h3>
+
+          <div class="field">
+            <label for="languages">Languages you speak or understand</label>
+            <input
+              id="languages"
+              placeholder="e.g. English, isiZulu"
+            >
+          </div>
+
+          <div class="field">
+            <label for="languageProficiency">Language proficiency</label>
+            <select id="languageProficiency">
+              <option value="">Select proficiency</option>
+              <option value="Basic">Basic</option>
+              <option value="Conversational">Conversational</option>
+              <option value="Fluent">Fluent</option>
+              <option value="Multiple levels">Different levels for different languages</option>
+            </select>
+          </div>
+
+          <h3 class="group-title">7. Additional Information</h3>
+
+          <div class="field">
+            <label for="availability">Availability</label>
+            <select id="availability">
+              <option value="">Select availability</option>
+              <option value="Immediately available">Immediately available</option>
+              <option value="Available with notice">Available with notice</option>
+              <option value="Currently studying">Currently studying</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="driversLicence">Driver's licence</label>
+            <select id="driversLicence">
+              <option value="Not specified">Prefer not to specify</option>
+              <option value="No driver's licence">No driver's licence</option>
+              <option value="Learner's licence">Learner's licence</option>
+              <option value="Code B / Code 8">Code B / Code 8</option>
+              <option value="Code C1 / Code 10">Code C1 / Code 10</option>
+              <option value="Code C / Code 14">Code C / Code 14</option>
+              <option value="Other driver's licence">Other driver's licence</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="certificates">Certificates / additional training</label>
+            <textarea
+              id="certificates"
+              placeholder="Add relevant certificates or training, if any."
+            ></textarea>
+          </div>
+
+          <div class="field">
+            <label for="interests">Interests (optional)</label>
+            <textarea
+              id="interests"
+              placeholder="Add relevant interests or activities."
+            ></textarea>
+          </div>
+
+          <h3 class="group-title">8. CV Template</h3>
+
+          <div class="field">
+            <label for="templateChoice">Choose your purchased template</label>
+            <select id="templateChoice">
+              <option value="classic">Classic CV</option>
+              <option value="modern">Modern CV</option>
+            </select>
+            <div class="small-note">
+              Your available template depends on your approved purchase.
+            </div>
+          </div>
+
+          <button class="button" id="saveButton" type="button">
+            Save My CV
+          </button>
+
+          <button class="button secondary" id="updatePreviewButton" type="button">
+            Update Preview
+          </button>
+
+        </form>
+      </section>
+
+    </div>
+  </div>
 </main>
 
-<footer>&copy; <span id="year"></span> CVPro-SA. All rights reserved.</footer>
+<footer>
+  CVPro-SA · Create a professional CV from your phone.
+</footer>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-const SUPABASE_URL="https://tnxlhpenttcynlmlohao.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY="sb_publishable_n4XzrnraET_AEMbCYtHV7Q_DJ8--zCL";
-const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY,{
-auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}
-});
+/* =========================================================
+   EDUCATION INSTITUTIONS
+   These are starter suggestions, not an exhaustive official
+   register. Users can still type an institution manually.
+========================================================= */
 
-const $=id=>document.getElementById(id);
-const accessMessage=$("accessMessage");
-const builderArea=$("builderArea");
-const messageBox=$("message");
-const cvForm=$("cvForm");
-let currentUser=null,activePurchase=null,savedCV={};
+const institutionLists = {
+  school: [
+    "Amanzimtoti High School",
+    "Asoka Secondary School",
+    "Bechet High School",
+    "Bonela Secondary School",
+    "Brettonwood High School",
+    "Burnwood Secondary School",
+    "Centenary Secondary School",
+    "Clairwood Secondary School",
+    "Danville Park Girls' High School",
+    "Dr A.D. Lazarus Secondary School",
+    "Durban Academy High School",
+    "Durban Girls' College",
+    "Durban Girls' High School",
+    "Durban Girls' Secondary School",
+    "Durban High School",
+    "Durban North College",
+    "Durban Secondary and FET Academy",
+    "Folweni High School",
+    "Folweni Secondary School",
+    "George Campbell School of Technology",
+    "Glenwood High School",
+    "Grosvenor Boys' High School",
+    "Grosvenor Girls' High School",
+    "Hillcrest High School",
+    "Hunt Road Secondary School",
+    "Inanda Newtown Comprehensive High School",
+    "Isipingo Secondary School",
+    "Kharwastan Secondary School",
+    "Kingsway High School",
+    "Kloof High School",
+    "KwaMashu Secondary School",
+    "Mowat Park High School",
+    "Newlands East Secondary School",
+    "Northlands Girls' High School",
+    "Ohlange High School",
+    "Ogwini Comprehensive Technical High School",
+    "Orient Islamic School",
+    "Port Natal School",
+    "Sibusisiwe Comprehensive High School",
+    "St Henry's Marist Brothers' College",
+    "Umlazi Commercial High School",
+    "Umlazi Comprehensive Technical High School",
+    "Other school / secondary school"
+  ],
 
-$("year").textContent=new Date().getFullYear();
+  tvet: [
+    "Coastal KZN TVET College",
+    "Elangeni TVET College",
+    "Esayidi TVET College",
+    "Majuba TVET College",
+    "Mnambithi TVET College",
+    "Mthashana TVET College",
+    "Thekwini TVET College",
+    "Umfolozi TVET College",
+    "Umgungundlovu TVET College",
+    "Other TVET college"
+  ],
 
-function showMessage(text,type){messageBox.textContent=text;messageBox.className="message "+type;}
+  university: [
+    "Durban University of Technology (DUT)",
+    "Mangosuthu University of Technology (MUT)",
+    "University of KwaZulu-Natal (UKZN)",
+    "University of South Africa (UNISA)",
+    "University of Zululand",
+    "University of Johannesburg",
+    "University of Pretoria",
+    "University of the Witwatersrand (Wits)",
+    "Other university"
+  ],
 
-async function callFunction(functionName,body){
-const {data,error}=await supabaseClient.auth.getSession();
-if(error||!data.session)throw new Error("Please sign in again.");
-const response=await fetch(SUPABASE_URL+"/functions/v1/"+functionName,{
-method:"POST",
-headers:{"Content-Type":"application/json","Authorization":"Bearer "+data.session.access_token,"apikey":SUPABASE_PUBLISHABLE_KEY},
-body:JSON.stringify(body||{})
-});
-const result=await response.json().catch(()=>({}));
-if(!response.ok)throw new Error(result.error||result.message||"The request failed.");
-return result;
-}
+  "private-college": [
+    "Boston City Campus",
+    "Damelin",
+    "Rosebank College",
+    "Richfield Graduate Institute of Technology",
+    "Regent Business School",
+    "Other private college"
+  ],
 
-function addChoices(containerId,items,name,type="checkbox"){
-const container=$(containerId);container.replaceChildren();
-items.forEach(item=>{
-const label=document.createElement("label");label.className="choice";
-const input=document.createElement("input");input.type=type;input.name=name;input.value=item.value||item;
-input.addEventListener("change",()=>{if(name==="language"&&input.checked)addLanguageLevel(input.value);if(name==="language"&&!input.checked)removeLanguageLevel(input.value);refreshGeneratedContent();});
-const text=document.createElement("span");text.textContent=item.label||item;
-label.append(input,text);container.appendChild(label);
-});
-}
+  training: [
+    "Accredited training provider",
+    "Private skills development centre",
+    "Occupational training institution",
+    "Apprenticeship training centre",
+    "Other training institution"
+  ],
 
-const subjectsByLevel={
-school:["English","isiZulu","Afrikaans","Mathematics","Mathematical Literacy","Technical Mathematics","Physical Sciences","Technical Sciences","Life Sciences","Geography","History","Business Studies","Economics","Accounting","Computer Applications Technology","Information Technology","Engineering Graphics and Design","Mechanical Technology","Electrical Technology","Civil Technology","Welding and Metalwork","Life Orientation"],
-tvet:["Engineering Studies","Electrical Engineering","Mechanical Engineering","Civil Engineering","Information Technology","Office Administration","Business Management","Financial Management","Human Resource Management","Marketing","Hospitality","Tourism","Primary Agriculture","Welding","Fitting and Turning","Automotive Repair","Mathematics","Engineering Science","Engineering Drawing","Communication","Computer Practice"],
-university:["Mathematics","Statistics","Physics","Chemistry","Computer Science","Information Systems","Accounting","Economics","Business Management","Marketing","Human Resources","Law","Psychology","Education","Engineering","Civil Engineering","Mechanical Engineering","Electrical Engineering","Public Administration","Communication","Research Methods"],
-"private-college":["Business Administration","Office Administration","Accounting","Marketing","Information Technology","Computer Literacy","Hospitality","Tourism","Project Management","Human Resources","Occupational Health and Safety","Graphic Design","Beauty Therapy","Logistics"],
-training:["Welding","Metalwork","Occupational Health and Safety","First Aid","Computer Literacy","Microsoft Office","Customer Service","Forklift Operation","Plumbing","Electrical Work","Carpentry","Motor Mechanics","Food Handling","Security Training"],
-other:["Communication","Mathematics","Computer Literacy"]
+  other: [
+    "Other educational institution"
+  ]
 };
 
-const qualificationsByLevel={
-school:["Grade 8","Grade 9","Grade 10","Grade 11","Grade 12 / National Senior Certificate","National Senior Certificate (Matric)","Other school qualification"],
-tvet:["NC(V) Level 2","NC(V) Level 3","NC(V) Level 4","NATED N1","NATED N2","NATED N3","NATED N4","NATED N5","NATED N6","National Diploma","Occupational Certificate","Other TVET qualification"],
-university:["Higher Certificate","Advanced Certificate","Diploma","Advanced Diploma","Bachelor's Degree","Honours Degree","Postgraduate Diploma","Master's Degree","Doctoral Degree","Other university qualification"],
-"private-college":["Certificate","Higher Certificate","Diploma","Advanced Diploma","Occupational Certificate","Other private college qualification"],
-training:["Short Course Certificate","Skills Programme Certificate","Occupational Certificate","Trade Test / Artisan Qualification","Other training qualification"],
-other:["Certificate","Diploma","Degree","Other qualification"]
+
+/* =========================================================
+   QUALIFICATIONS
+========================================================= */
+
+const qualificationsByLevel = {
+  school: [
+    "Grade 8",
+    "Grade 9",
+    "Grade 10",
+    "Grade 11",
+    "Grade 12",
+    "National Senior Certificate (NSC / Matric)",
+    "Other school qualification"
+  ],
+
+  tvet: [
+    "NC(V) Level 2",
+    "NC(V) Level 3",
+    "NC(V) Level 4",
+    "NATED N1",
+    "NATED N2",
+    "NATED N3",
+    "NATED N4",
+    "NATED N5",
+    "NATED N6",
+    "National Certificate",
+    "National Diploma",
+    "Occupational Certificate",
+    "Trade Test",
+    "Other TVET qualification"
+  ],
+
+  university: [
+    "Higher Certificate",
+    "Advanced Certificate",
+    "Diploma",
+    "Advanced Diploma",
+    "Bachelor's Degree",
+    "Bachelor of Technology (BTech)",
+    "Honours Degree",
+    "Postgraduate Diploma",
+    "Master's Degree",
+    "Doctoral Degree / PhD",
+    "Other university qualification"
+  ],
+
+  "private-college": [
+    "Certificate",
+    "Higher Certificate",
+    "Diploma",
+    "Advanced Diploma",
+    "Bachelor's Degree",
+    "Short Course Certificate",
+    "Other college qualification"
+  ],
+
+  training: [
+    "Skills Programme",
+    "Occupational Certificate",
+    "Trade Certificate",
+    "Apprenticeship",
+    "Short Course Certificate",
+    "Other training qualification"
+  ],
+
+  other: [
+    "Certificate",
+    "Diploma",
+    "Other qualification"
+  ]
 };
 
-const institutionLists={
-school:["Folweni High School","Isipingo Secondary School"," Umlazi Comprehensive Technical High School","Durban Girls' Secondary School","Durban High School","Buhlebuzile High School","Other institution"],
-tvet:["Coastal KZN TVET College","Elangeni TVET College","Thekwini TVET College","Umfolozi TVET College","Mnambithi TVET College","Majuba TVET College","Mthashana TVET College","Esayidi TVET College","Umgungundlovu TVET College","Other institution"],
-university:["University of KwaZulu-Natal","Durban University of Technology","University of South Africa (UNISA)","University of Zululand","Mangosuthu University of Technology","Walter Sisulu University","University of Johannesburg","University of Pretoria","University of the Witwatersrand","Other institution"],
-"private-college":["Damelin","Boston City Campus","Rosebank College","Regent Business School","Richfield Graduate Institute of Technology","Other institution"],
-training:["Other institution"],
-other:["Other institution"]
+
+/* =========================================================
+   SUBJECT SUGGESTIONS
+   Users can select subjects and enter missing ones manually.
+========================================================= */
+
+const subjectsByLevel = {
+  school: [
+    "English Home Language",
+    "English First Additional Language",
+    "English Second Additional Language",
+    "isiZulu Home Language",
+    "isiZulu First Additional Language",
+    "isiXhosa",
+    "Afrikaans",
+    "Sesotho",
+    "Setswana",
+    "Mathematics",
+    "Mathematical Literacy",
+    "Technical Mathematics",
+    "Physical Sciences",
+    "Technical Sciences",
+    "Life Sciences",
+    "Natural Sciences",
+    "Agricultural Sciences",
+    "Agricultural Technology",
+    "Geography",
+    "History",
+    "Life Orientation",
+    "Accounting",
+    "Business Studies",
+    "Economics",
+    "Business Economics",
+    "Computer Applications Technology (CAT)",
+    "Information Technology (IT)",
+    "Engineering Graphics and Design (EGD)",
+    "Mechanical Technology",
+    "Electrical Technology",
+    "Civil Technology",
+    "Technical Drawing",
+    "Welding and Metalwork",
+    "Engineering Studies",
+    "Tourism",
+    "Hospitality Studies",
+    "Consumer Studies",
+    "Visual Arts",
+    "Dramatic Arts",
+    "Music",
+    "Design",
+    "Other school subject"
+  ],
+
+  tvet: [
+    "Engineering Mathematics",
+    "Engineering Science",
+    "Engineering Drawing",
+    "Mechanical Engineering",
+    "Electrical Engineering",
+    "Civil Engineering",
+    "Fitting and Turning",
+    "Welding",
+    "Metalwork",
+    "Boilermaking",
+    "Plumbing",
+    "Automotive Repair",
+    "Motor Mechanics",
+    "Mechatronics",
+    "Construction",
+    "Bricklaying",
+    "Carpentry",
+    "Business Management",
+    "Financial Management",
+    "Human Resource Management",
+    "Marketing Management",
+    "Public Management",
+    "Management Assistant",
+    "Office Administration",
+    "Information Technology",
+    "Computer Practice",
+    "Hospitality",
+    "Tourism",
+    "Educare",
+    "Primary Agriculture",
+    "Other TVET subject"
+  ],
+
+  university: [
+    "Accounting",
+    "Auditing",
+    "Business Management",
+    "Economics",
+    "Finance",
+    "Human Resources",
+    "Marketing",
+    "Public Management",
+    "Law",
+    "Political Science",
+    "Sociology",
+    "Psychology",
+    "Social Work",
+    "Education",
+    "Mathematics",
+    "Statistics",
+    "Physics",
+    "Chemistry",
+    "Biology",
+    "Environmental Science",
+    "Computer Science",
+    "Information Technology",
+    "Software Development",
+    "Cybersecurity",
+    "Data Science",
+    "Mechanical Engineering",
+    "Electrical Engineering",
+    "Civil Engineering",
+    "Chemical Engineering",
+    "Industrial Engineering",
+    "Architecture",
+    "Quantity Surveying",
+    "Construction Management",
+    "Nursing",
+    "Public Health",
+    "Medicine",
+    "Pharmacy",
+    "Physiotherapy",
+    "Radiography",
+    "Agriculture",
+    "Food Science",
+    "Journalism",
+    "Media Studies",
+    "Languages",
+    "History",
+    "Geography",
+    "Tourism",
+    "Hospitality",
+    "Other university subject"
+  ],
+
+  "private-college": [
+    "Business Administration",
+    "Business Management",
+    "Accounting",
+    "Bookkeeping",
+    "Financial Management",
+    "Human Resources",
+    "Marketing",
+    "Project Management",
+    "Office Administration",
+    "Computer Literacy",
+    "Information Technology",
+    "Software Development",
+    "Graphic Design",
+    "Digital Marketing",
+    "Hospitality",
+    "Tourism",
+    "Education",
+    "Occupational Health and Safety",
+    "Other college subject"
+  ],
+
+  training: [
+    "Welding",
+    "Metalwork",
+    "Fitting and Turning",
+    "Plumbing",
+    "Electrical Installation",
+    "Construction",
+    "First Aid",
+    "Fire Safety",
+    "Occupational Health and Safety",
+    "Computer Literacy",
+    "Forklift Operation",
+    "Warehousing",
+    "Stock Control",
+    "Customer Service",
+    "Other training subject"
+  ],
+
+  other: [
+    "General Studies",
+    "Business Skills",
+    "Computer Skills",
+    "Other subject"
+  ]
 };
 
-function updateEducationOptions(){
-const level=$("educationLevel").value;
-const qual=$("qualification");
-qual.replaceChildren(new Option("Select qualification",""));
-(qualificationsByLevel[level]||[]).forEach(x=>qual.add(new Option(x,x)));
-const datalist=$("institutionOptions");datalist.replaceChildren();
-(institutionLists[level]||["Other institution"]).forEach(x=>datalist.appendChild(new Option(x,x)));
-addChoices("subjectChoices",subjectsByLevel[level]||subjectsByLevel.other,"subject");
-refreshGeneratedContent();
+
+/* =========================================================
+   SKILLS
+========================================================= */
+
+const availableSkills = [
+  "Communication",
+  "Teamwork",
+  "Problem Solving",
+  "Customer Service",
+  "Computer Skills",
+  "Time Management",
+  "Leadership",
+  "Attention to Detail",
+  "Fast Learner",
+  "Hardworking",
+  "Hands-on Work",
+  "Stock Management",
+  "Organisation",
+  "Reliability",
+  "Adaptability",
+  "Basic Numeracy",
+  "Written Communication",
+  "Verbal Communication",
+  "Microsoft Word",
+  "Microsoft Excel",
+  "Data Entry",
+  "Cash Handling",
+  "Sales",
+  "Cleaning and Hygiene",
+  "Welding",
+  "Metalwork",
+  "Technical Drawing",
+  "Basic Maintenance",
+  "Health and Safety Awareness",
+  "Planning",
+  "Customer Relations",
+  "Conflict Resolution"
+];
+
+
+<script>
+/* =========================================================
+   CVPro-SA BUILDER LOGIC
+========================================================= */
+
+const SUPABASE_URL =
+  "https://tnxlhpenttcynlmlohao.supabase.co";
+
+const SUPABASE_ANON_KEY =
+  "sb_publishable_n4XzrnraET_AEMbCYtHV7Q_DJ8--zCL";
+
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_ANON_KEY
+);
+
+const $ = (id) => document.getElementById(id);
+
+let currentUser = null;
+let activePurchase = null;
+let savedCvData = {};
+let saveInProgress = false;
+
+
+/* =========================================================
+   MESSAGE HELPERS
+========================================================= */
+
+function showMessage(message, type = "error") {
+  const box = $("message");
+
+  box.textContent = message;
+  box.className = "message " + type;
+  box.style.display = "block";
 }
 
-const currentYear=new Date().getFullYear();
-$("educationYear").replaceChildren(new Option("Select year",""));
-for(let year=currentYear+5;year>=1980;year--)$("educationYear").appendChild(new Option(String(year),String(year)));
+function clearMessage() {
+  const box = $("message");
 
-addChoices("strengthChoices",[
-"Hardworking","Reliable","Fast learner","Team player","Good communication","Problem-solving","Attention to detail","Practical and hands-on","Organised","Willing to learn","Safety-conscious","Customer-focused"
-],"strength");
-
-addChoices("languageChoices",[
-{label:"English",value:"English"},{label:"isiZulu",value:"isiZulu"},{label:"isiXhosa",value:"isiXhosa"},
-{label:"Afrikaans",value:"Afrikaans"},{label:"Sesotho",value:"Sesotho"},{label:"Setswana",value:"Setswana"},
-{label:"Sepedi",value:"Sepedi"},{label:"siSwati",value:"siSwati"},{label:"Tshivenda",value:"Tshivenda"},
-{label:"itsonga",value:"itsonga"},{label:"isiNdebele",value:"isiNdebele"}
-],"language");
-
-function addLanguageLevel(language){
-const box=$("languageLevels");
-if($("languageLevel_"+CSS.escape(language)))return;
-const row=document.createElement("div");row.className="field";row.id="languageLevel_"+language;
-const label=document.createElement("label");label.textContent=language+" proficiency";
-const select=document.createElement("select");select.dataset.language=language;
-["Select level","Basic","Conversational","Good","Fluent","Native"].forEach((x,i)=>select.add(new Option(x,i===0?"":x)));
-select.addEventListener("change",refreshGeneratedContent);
-row.append(label,select);box.appendChild(row);
-}
-function removeLanguageLevel(language){const el=$("languageLevel_"+language);if(el)el.remove();}
-
-function selected(name){return [...document.querySelectorAll('input[name="'+name+'"]:checked')].map(x=>x.value);}
-function selectedLanguages(){return [...$("languageLevels").querySelectorAll("select")].map(s=>({language:s.dataset.language,level:s.value})).filter(x=>x.level);}
-
-function educationText(){
-const level=$("educationLevel").selectedOptions[0]?.textContent||"";
-const institution=$("institution").value.trim()||$("institutionSearch").value.trim();
-const qualification=$("qualification").value;
-const status=$("educationStatus").value;
-const year=$("educationYear").value;
-const parts=[];
-if(qualification)parts.push(qualification);
-else if(level)parts.push(level);
-if(institution)parts.push(institution);
-if(status==="completed"&&year)parts.push("Completed "+year);
-else if(status==="currently studying")parts.push("Currently studying"+(year?" — expected "+year:""));
-else if(status==="incomplete"&&year)parts.push("Attended until "+year);
-return parts.join("\n");
+  box.textContent = "";
+  box.className = "message";
+  box.style.display = "none";
 }
 
-function getSubjectList(){return [...selected("subject"),...$("otherSubjects").value.split(",").map(x=>x.trim()).filter(Boolean)];}
-function getSkillList(){
-const goal=$("jobGoal").value,level=$("educationLevel").value;
-let defaults=["Communication","Teamwork","Problem-solving","Time management","Reliability","Willingness to learn","Attention to detail"];
-if(["warehouse and logistics","retail and sales","factory and production work"].includes(goal))defaults.push("Following instructions","Organisation","Safety awareness");
-if(["engineering and technical work","welding and metalwork"].includes(goal))defaults.push("Practical problem-solving","Technical awareness","Health and safety awareness");
-if(["office administration","information technology"].includes(goal))defaults.push("Computer literacy","Record keeping","Organisation");
-const available=[...new Set(defaults.concat(["Customer service","Microsoft Word","Microsoft Excel","Data entry","Stock management","Quality checking","Hand tools","Technical drawing","Welding fundamentals","Metalwork","Equipment care","Planning","Adaptability","Leadership","Research","Writing","Basic calculations"]))];
-return available;
+
+/* =========================================================
+   EDGE FUNCTION HELPER
+========================================================= */
+
+async function callEdgeFunction(functionName, body = {}) {
+  const {
+    data: { session },
+    error: sessionError
+  } = await supabaseClient.auth.getSession();
+
+  if (sessionError) {
+    throw sessionError;
+  }
+
+  if (!session) {
+    throw new Error("Your session has expired. Please sign in again.");
+  }
+
+  const response = await fetch(
+    `${SUPABASE_URL}/functions/v1/${functionName}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "apikey": SUPABASE_ANON_KEY,
+        "Authorization": `Bearer ${session.access_token}`
+      },
+      body: JSON.stringify(body)
+    }
+  );
+
+  const rawText = await response.text();
+
+  let result = {};
+
+  try {
+    result = rawText ? JSON.parse(rawText) : {};
+  } catch {
+    result = { message: rawText };
+  }
+
+  if (!response.ok) {
+    throw new Error(
+      result.error ||
+      result.message ||
+      `The request failed (${response.status}).`
+    );
+  }
+
+  if (result.error) {
+    throw new Error(result.error);
+  }
+
+  return result;
 }
 
-function renderSkillChoices(){
-const previously=selected("skill");
-const relevant=getSkillList();
-addChoices("skillChoices",relevant,"skill");
-document.querySelectorAll('input[name="skill"]').forEach(el=>{if(previously.includes(el.value))el.checked=true;});
+
+/* =========================================================
+   EDUCATION LEVEL HELPERS
+========================================================= */
+
+function getSelectedLevel() {
+  return $("educationLevel").value || "";
 }
 
-function buildProfile(){
-const name=$("fullName").value.trim();
-const strengths=selected("strength");
-const goal=$("jobGoal").value;
-const level=$("educationLevel").value;
-const qualification=$("qualification").value;
-const subjectList=getSubjectList();
-const experience=$("experienceType").value;
-const parts=[];
-let opening="Motivated and reliable";
-if(strengths.includes("Hardworking"))opening="Hardworking and motivated";
-else if(strengths.includes("Fast learner"))opening="Enthusiastic and quick to learn";
-else if(strengths.includes("Practical and hands-on"))opening="Practical and hands-on";
-parts.push(opening+" individual seeking an opportunity in "+goal+".");
-if(qualification)parts.push("Education includes "+qualification+".");
-else if(level==="school")parts.push("Brings a school education and a willingness to develop workplace skills.");
-else if(level)parts.push("Brings relevant education and a commitment to continued learning.");
-if(subjectList.length)parts.push("Relevant study areas include "+subjectList.slice(0,5).join(", ")+".");
-if(strengths.length)parts.push("Personal strengths include "+strengths.slice(0,5).join(", ").toLowerCase()+".");
-if(experience==="none")parts.push("Eager to gain practical experience, follow instructions, learn from experienced colleagues and contribute positively to a team.");
-else if(experience.includes("practical"))parts.push("Has selected practical training experience and is interested in applying confirmed learning in a workplace.");
-else if(experience==="employed")parts.push("Interested in applying existing work experience while continuing to develop professionally.");
-if(name)parts.unshift("");
-return parts.filter(Boolean).join(" ");
+function getLevelList(collection) {
+  const level = getSelectedLevel();
+
+  return collection[level] || [];
 }
 
-function buildExperience(){
-const type=$("experienceType").value;
-const title=$("experienceTitle").value.trim();
-const organisation=$("experienceOrganisation").value.trim();
-const tasks=$("experienceTasks").value.trim();
-if(type==="none"){
-const subjectList=getSubjectList();
-let text="Entry-level candidate seeking an opportunity to learn and contribute in a professional environment.";
-if(subjectList.length)text+=" Relevant school or study subjects: "+subjectList.slice(0,5).join(", ")+".";
-text+=" No formal work experience claimed.";
-return text;
-}
-const labels={
-"school-practical":"School Practical Experience",
-"college-practical":"College Practical Training",
-"university-practical":"University Practical Training",
-learnership:"Learnership / Internship",
-volunteer:"Volunteer Experience",
-employed:"Previous Employment"
-};
-let text=labels[type]||"Experience";
-if(title)text+="\nRole: "+title;
-if(organisation)text+="\nOrganisation: "+organisation;
-if(tasks)text+="\nTasks and responsibilities: "+tasks;
-if(!tasks)text+="\nAdd the duties and tasks you actually performed to complete this section.";
-return text;
-}
+function populateQualifications(selectedValue = "") {
+  const select = $("qualification");
+  const options = getLevelList(qualificationsByLevel);
 
-function getFormData(){
-return {
-fullName:$("fullName").value.trim(),
-email:$("email").value.trim(),
-phone:$("phone").value.trim(),
-location:$("location").value.trim(),
-educationLevel:$("educationLevel").value,
-institution:$("institution").value.trim()||$("institutionSearch").value.trim(),
-qualification:$("qualification").value,
-educationStatus:$("educationStatus").value,
-educationYear:$("educationYear").value,
-subjects:getSubjectList(),
-otherSubjects:$("otherSubjects").value.trim(),
-profile:buildProfile(),
-education:educationText(),
-experienceType:$("experienceType").value,
-experienceTitle:$("experienceTitle").value.trim(),
-experienceOrganisation:$("experienceOrganisation").value.trim(),
-experienceTasks:$("experienceTasks").value.trim(),
-experience:buildExperience(),
-strengths:selected("strength"),
-skills:[...selected("skill"),...$("otherSkills").value.split(",").map(x=>x.trim()).filter(Boolean)],
-languages:selectedLanguages(),
-availability:$("availability").value,
-licence:$("licence").value,
-certificates:$("certificates").value.trim(),
-interests:$("interests").value.trim()
-};
+  select.innerHTML = "";
+
+  const placeholder = document.createElement("option");
+  placeholder.value = "";
+  placeholder.textContent = "Select qualification";
+  select.appendChild(placeholder);
+
+  options.forEach((qualification) => {
+    const option = document.createElement("option");
+
+    option.value = qualification;
+    option.textContent = qualification;
+
+    select.appendChild(option);
+  });
+
+  if (
+    selectedValue &&
+    !options.includes(selectedValue)
+  ) {
+    const customOption = document.createElement("option");
+
+    customOption.value = selectedValue;
+    customOption.textContent = selectedValue;
+
+    select.appendChild(customOption);
+  }
+
+  select.value = selectedValue || "";
 }
 
-function renderPreview(){
-const d=getFormData();
-$("previewName").textContent=d.fullName||"YOUR FULL NAME";
-$("previewContact").textContent=[d.email,d.phone,d.location].filter(Boolean).join(" · ");
-$("previewProfile").textContent=d.profile||"Your professional profile will be generated from your selections.";
-$("previewEducation").textContent=d.education||"Select your education details.";
-$("previewExperience").textContent=d.experience||"Select your experience level.";
-$("previewSubjects").textContent=d.subjects.join(", ")||"";
-$("subjectsSection").classList.toggle("hidden",!d.subjects.length);
-$("experienceSection").classList.toggle("hidden",!d.experience);
-const skillsBox=$("previewSkills");skillsBox.replaceChildren();
-d.skills.forEach(skill=>{const tag=document.createElement("span");tag.className="cv-skill";tag.textContent=skill;skillsBox.appendChild(tag);});
-$("previewLanguages").textContent=d.languages.map(x=>x.language+" ("+x.level+")").join(", ")||"Select your languages and proficiency.";
-const additional=[d.availability,d.licence,d.certificates,d.interests].filter(Boolean);
-$("previewAdditional").textContent=additional.join("\n");
-$("additionalSection").classList.toggle("hidden",!additional.length);
+
+function renderSubjectChoices(selectedValues = []) {
+  const container = $("subjectChoices");
+  const subjects = getLevelList(subjectsByLevel);
+
+  container.innerHTML = "";
+
+  subjects.forEach((subject, index) => {
+    const label = document.createElement("label");
+    label.className = "choice";
+
+    const checkbox = document.createElement("input");
+
+    checkbox.type = "checkbox";
+    checkbox.name = "subjects";
+    checkbox.value = subject;
+    checkbox.id = `subject-${index}`;
+
+    checkbox.checked = selectedValues.includes(subject);
+
+    checkbox.addEventListener("change", updatePreview);
+
+    const text = document.createElement("span");
+    text.textContent = subject;
+
+    label.appendChild(checkbox);
+    label.appendChild(text);
+
+    container.appendChild(label);
+  });
 }
 
-function applyPurchasedTemplate(){
-const modern=activePurchase.cv_template==="modern";
-$("cvPreview").classList.remove("classic","modern");
-$("cvPreview").classList.add(modern?"modern":"classic");
-$("templateLabel").textContent=modern?"MODERN CV · R25":"CLASSIC CV · R15";
-document.title=(modern?"Modern":"Classic")+" CV | CVPro-SA";
+
+function getCheckedValues(name) {
+  return Array.from(
+    document.querySelectorAll(
+      `input[name="${name}"]:checked`
+    )
+  ).map((checkbox) => checkbox.value);
 }
 
-function setValue(id,value){if($(id))$(id).value=value??"";}
 
-function fillForm(data){
-setValue("fullName",data.fullName);
-setValue("email",data.email||currentUser.email);
-setValue("phone",data.phone);
-setValue("location",data.location);
-setValue("educationLevel",data.educationLevel);
-updateEducationOptions();
-setValue("institution",data.institution);
-setValue("institutionSearch",data.institution);
-setValue("qualification",data.qualification);
-setValue("educationStatus",data.educationStatus||"completed");
-setValue("educationYear",data.educationYear);
-setValue("otherSubjects",data.otherSubjects);
-setValue("jobGoal",data.jobGoal||"general entry-level work");
-setValue("experienceType",data.experienceType||"none");
-setValue("experienceTitle",data.experienceTitle);
-setValue("experienceOrganisation",data.experienceOrganisation);
-setValue("experienceTasks",data.experienceTasks);
-setValue("otherSkills",(data.skills||[]).filter(x=>!getSkillList().includes(x)).join(", "));
-setValue("availability",data.availability);
-setValue("licence",data.licence);
-setValue("certificates",data.certificates);
-setValue("interests",data.interests);
-setValue("otherSubjects",data.otherSubjects);
+/* =========================================================
+   MOBILE-FRIENDLY EDUCATION SEARCH
+========================================================= */
 
-(data.subjects||[]).forEach(value=>{const el=[...document.querySelectorAll('input[name="subject"]')].find(x=>x.value===value);if(el)el.checked=true;else if(!data.otherSubjects)setValue("otherSubjects",value);});
-(data.strengths||[]).forEach(value=>{const el=[...document.querySelectorAll('input[name="strength"]')].find(x=>x.value===value);if(el)el.checked=true;});
-renderSkillChoices();
-(data.skills||[]).forEach(value=>{const el=[...document.querySelectorAll('input[name="skill"]')].find(x=>x.value===value);if(el)el.checked=true;});
-if(data.languages){
-const languages=Array.isArray(data.languages)?data.languages:[];
-languages.forEach(item=>{
-const el=[...document.querySelectorAll('input[name="language"]')].find(x=>x.value===(item.language||item));
-if(el){el.checked=true;addLanguageLevel(el.value);const row=$("languageLevel_"+el.value);if(row&&item.level)row.querySelector("select").value=item.level;}
+function closeInstitutionResults() {
+  const results = $("institutionResults");
+
+  results.classList.remove("open");
+
+  $("institutionSearch").setAttribute(
+    "aria-expanded",
+    "false"
+  );
+}
+
+
+function selectInstitution(name) {
+  $("institutionSearch").value = name;
+  $("institution").value = name;
+
+  closeInstitutionResults();
+
+  updatePreview();
+}
+
+
+function renderInstitutionResults() {
+  const searchInput = $("institutionSearch");
+  const results = $("institutionResults");
+
+  const level = getSelectedLevel();
+  const query = searchInput.value.trim().toLowerCase();
+
+  results.innerHTML = "";
+
+  if (!level || query.length === 0) {
+    closeInstitutionResults();
+    return;
+  }
+
+  const institutions = institutionLists[level] || [];
+
+  const matches = institutions
+    .filter((name) => name.toLowerCase().includes(query))
+    .slice(0, 40);
+
+  if (matches.length === 0) {
+    const message = document.createElement("div");
+
+    message.className = "education-no-results";
+    message.textContent =
+      "No matching suggestion. You can type the institution name manually.";
+
+    results.appendChild(message);
+  } else {
+    matches.forEach((name, index) => {
+      const button = document.createElement("button");
+
+      button.type = "button";
+      button.className = "education-result";
+      button.textContent = name;
+      button.setAttribute("role", "option");
+      button.setAttribute("aria-selected", "false");
+
+      button.addEventListener("pointerdown", (event) => {
+        /*
+          Prevent the mobile keyboard from taking focus away
+          before the selection has been applied.
+        */
+        event.preventDefault();
+        selectInstitution(name);
+      });
+
+      button.addEventListener("click", () => {
+        selectInstitution(name);
+      });
+
+      results.appendChild(button);
+    });
+  }
+
+  results.classList.add("open");
+
+  searchInput.setAttribute("aria-expanded", "true");
+}
+
+
+$("institutionSearch").addEventListener(
+  "input",
+  renderInstitutionResults
+);
+
+
+$("institutionSearch").addEventListener(
+  "focus",
+  () => {
+    if ($("institutionSearch").value.trim()) {
+      renderInstitutionResults();
+    }
+  }
+);
+
+
+$("institutionSearch").addEventListener(
+  "keydown",
+  (event) => {
+    if (event.key === "Escape") {
+      closeInstitutionResults();
+      return;
+    }
+
+    if (event.key === "Enter") {
+      const firstResult = $("institutionResults")
+        .querySelector(".education-result");
+
+      if (firstResult) {
+        event.preventDefault();
+        selectInstitution(firstResult.textContent);
+      }
+    }
+  }
+);
+
+
+document.addEventListener("click", (event) => {
+  const wrapper = document.querySelector(
+    ".autocomplete-wrap"
+  );
+
+  if (wrapper && !wrapper.contains(event.target)) {
+    closeInstitutionResults();
+  }
 });
-}
-setValue("otherSkills",data.otherSkills||"");
-if(data.experienceType!=="none")$("experienceDetails").classList.remove("hidden");
-refreshGeneratedContent();
-}
 
-function refreshGeneratedContent(){
-if($("experienceType").value==="none")$("experienceDetails").classList.add("hidden");
-else $("experienceDetails").classList.remove("hidden");
-renderPreview();
-}
 
-async function initialiseBuilder(){
-const {data,error}=await supabaseClient.auth.getSession();
-if(error||!data.session){window.location.replace("./account.html");return;}
-currentUser=data.session.user;
-setValue("email",currentUser.email);
-const params=new URLSearchParams(window.location.search);
-const requestedPurchaseId=params.get("purchase_id");
-try{
-const result=await callFunction("get-cv-purchase-status",{});
-const purchases=Array.isArray(result.purchases)?result.purchases:Array.isArray(result)?result:result.purchase?[result.purchase]:[];
-activePurchase=purchases.find(p=>p.payment_status==="paid"&&(!requestedPurchaseId||p.id===requestedPurchaseId));
-if(!activePurchase){accessMessage.textContent="The CV builder is locked. An approved CV purchase is required.";return;}
-applyPurchasedTemplate();
-const savedResult=await callFunction("get-customer-cv",{purchase_id:activePurchase.id});
-savedCV=savedResult.cv?.cv_data||savedResult.cv_data||{};
-if(savedCV&&typeof savedCV==="object")fillForm(savedCV);
-else renderPreview();
-accessMessage.textContent="Purchase approved: "+(activePurchase.order_number||"CV purchase")+". Your CV is ready to edit and save.";
-builderArea.style.display="block";
-}catch(error){
-console.error("Builder access error:",error);
-accessMessage.textContent="Unable to verify your purchase: "+error.message;
-}
-}
+$("educationLevel").addEventListener("change", () => {
+  $("institutionSearch").value = "";
+  $("institution").value = "";
 
-$("educationLevel").addEventListener("change",updateEducationOptions);
-$("institutionSearch").addEventListener("change",()=>{setValue("institution",$("institutionSearch").value);refreshGeneratedContent();});
-$("institution").addEventListener("input",refreshGeneratedContent);
-$("jobGoal").addEventListener("change",()=>{renderSkillChoices();refreshGeneratedContent();});
-$("experienceType").addEventListener("change",refreshGeneratedContent);
-cvForm.addEventListener("input",event=>{
-if(event.target.name==="skill"||event.target.name==="subject"||event.target.name==="strength"||event.target.name==="language")refreshGeneratedContent();
-else refreshGeneratedContent();
-});
-cvForm.addEventListener("change",refreshGeneratedContent);
+  populateQualifications();
+  renderSubjectChoices();
 
-cvForm.addEventListener("submit",async event=>{
-event.preventDefault();
-if(!activePurchase){showMessage("No approved purchase is available.","error");return;}
-const button=$("saveButton");button.disabled=true;button.textContent="Saving...";
-try{
-const cvData=getFormData();
-const result=await callFunction("save-customer-cv",{purchase_id:activePurchase.id,cv_data:cvData});
-savedCV=cvData;
-showMessage(result.message||"Your CV has been saved successfully.","success");
-}catch(error){console.error("CV save error:",error);showMessage(error.message,"error");}
-finally{button.disabled=false;button.textContent="Save My CV";}
+  closeInstitutionResults();
+  updatePreview();
 });
 
-function printCV(){
-if(!activePurchase){showMessage("You need an approved purchase before saving your CV.","error");return;}
-renderPreview();
-window.print();
-}
-$("printButton").addEventListener("click",printCV);
-$("printButton2").addEventListener("click",printCV);
-$("signOutButton").addEventListener("click",async()=>{await supabaseClient.auth.signOut();window.location.replace("./account.html");});
 
-updateEducationOptions();
-renderSkillChoices();
+$("institution").addEventListener("input", updatePreview);
+
+
+/* =========================================================
+   SKILLS CHECKLIST
+========================================================= */
+
+function renderSkillChoices(selectedValues = []) {
+  const container = $("skillChoices");
+
+  container.innerHTML = "";
+
+  availableSkills.forEach((skill, index) => {
+    const label = document.createElement("label");
+
+    label.className = "choice";
+
+    const checkbox = document.createElement("input");
+
+    checkbox.type = "checkbox";
+    checkbox.name = "skills";
+    checkbox.value = skill;
+    checkbox.id = `skill-${index}`;
+
+    checkbox.checked = selectedValues.includes(skill);
+
+    checkbox.addEventListener("change", updatePreview);
+
+    const text = document.createElement("span");
+    text.textContent = skill;
+
+    label.appendChild(checkbox);
+    label.appendChild(text);
+
+    container.appendChild(label);
+  });
+}
+
+
+/* =========================================================
+   EXPERIENCE FORM VISIBILITY
+========================================================= */
+
+function updateExperienceVisibility() {
+  const type = $("experienceType").value;
+
+  const shouldShow = [
+    "work",
+    "informal",
+    "volunteer",
+    "practical"
+  ].includes(type);
+
+  $("experienceDetails").classList.toggle(
+    "hidden",
+    !shouldShow
+  );
+
+  updatePreview();
+}
+
+
+$("experienceType").addEventListener(
+  "change",
+  updateExperienceVisibility
+);
+
+
+/* =========================================================
+   DATA HELPERS
+========================================================= */
+
+function valueOf(id) {
+  return $(id).value.trim();
+}
+
+
+function splitCommaSeparated(value) {
+  return value
+    .split(",")
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
+
+
+function uniqueValues(values) {
+  return [...new Set(values.filter(Boolean))];
+}
+
+
+function getFormData() {
+  const skills = uniqueValues([
+    ...getCheckedValues("skills"),
+    ...splitCommaSeparated(valueOf("otherSkills"))
+  ]);
+
+  const subjects = uniqueValues([
+    ...getCheckedValues("subjects"),
+    ...splitCommaSeparated(valueOf("otherSubjects"))
+  ]);
+
+  return {
+    fullName: valueOf("fullName"),
+    email: valueOf("email"),
+    phone: valueOf("phone"),
+    location: valueOf("location"),
+
+    educationLevel: getSelectedLevel(),
+    institution: valueOf("institution"),
+    qualification: valueOf("qualification"),
+    educationStatus: valueOf("educationStatus"),
+    educationYear: valueOf("educationYear"),
+
+    subjects,
+    otherSubjects: valueOf("otherSubjects"),
+
+    careerGoal: valueOf("careerGoal"),
+    strengths: valueOf("strengths"),
+
+    experienceType: valueOf("experienceType"),
+    jobTitle: valueOf("jobTitle"),
+    employer: valueOf("employer"),
+    experienceStart: valueOf("experienceStart"),
+    experienceEnd: valueOf("experienceEnd"),
+    experienceDescription: valueOf("experienceDescription"),
+
+    skills,
+    otherSkills: valueOf("otherSkills"),
+
+    languages: valueOf("languages"),
+    languageProficiency: valueOf("languageProficiency"),
+
+    availability: valueOf("availability"),
+    driversLicence: valueOf("driversLicence"),
+    certificates: valueOf("certificates"),
+    interests: valueOf("interests"),
+
+    template: valueOf("templateChoice")
+  };
+}
+
+
+/* =========================================================
+   AUTOMATIC PROFILE GENERATION
+========================================================= */
+
+function generateProfile(data) {
+  const strengths = data.strengths
+    ? data.strengths
+    : "reliable, willing to learn, and committed to completing tasks to a good standard";
+
+  const goal = data.careerGoal
+    ? data.careerGoal.toLowerCase()
+    : "an entry-level opportunity";
+
+  const education = data.qualification
+    ? `with ${data.qualification} education`
+    : "with a commitment to continuous learning";
+
+  if (data.experienceType === "no-experience") {
+    return `Motivated candidate seeking ${goal} opportunities, ${education}. Brings strengths in ${strengths}. Eager to develop practical skills, contribute to a team, and learn from experienced colleagues.`;
+  }
+
+  if (data.experienceType === "work") {
+    return `Candidate seeking opportunities in ${goal}. Brings strengths in ${strengths}. Focused on applying existing experience, developing further skills, and contributing positively to the workplace.`;
+  }
+
+  return `Motivated candidate interested in ${goal}. Has practical exposure or experience relevant to the information provided in this CV and brings strengths in ${strengths}. Keen to continue learning and contribute responsibly to a team.`;
+}
+
+
+/* =========================================================
+   PREVIEW HELPERS
+========================================================= */
+
+function setText(id, text) {
+  $(id).textContent = text || "";
+}
+
+
+function setSectionVisibility(sectionId, content) {
+  $(sectionId).style.display =
+    content && content.trim() ? "" : "none";
+}
+
+
+function formatEducation(data) {
+  const lines = [];
+
+  if (data.qualification) {
+    lines.push(data.qualification);
+  }
+
+  if (data.institution) {
+    lines.push(data.institution);
+  }
+
+  const statusAndYear = [
+    data.educationStatus,
+    data.educationYear
+  ].filter(Boolean).join(" · ");
+
+  if (statusAndYear) {
+    lines.push(statusAndYear);
+  }
+
+  return lines.join("\n");
+}
+
+
+function formatExperience(data) {
+  if (data.experienceType === "no-experience") {
+    return "Seeking a first formal employment opportunity. Ready to learn, develop practical skills, and contribute to the workplace.";
+  }
+
+  const lines = [];
+
+  if (data.jobTitle) {
+    lines.push(data.jobTitle);
+  }
+
+  if (data.employer) {
+    lines.push(data.employer);
+  }
+
+  const dates = [
+    data.experienceStart,
+    data.experienceEnd
+  ].filter(Boolean).join(" – ");
+
+  if (dates) {
+    lines.push(dates);
+  }
+
+  if (data.experienceDescription) {
+    lines.push(data.experienceDescription);
+  }
+
+  return lines.join("\n");
+}
+
+
+function formatAdditional(data) {
+  const lines = [];
+
+  if (data.availability) {
+    lines.push(`Availability: ${data.availability}`);
+  }
+
+  if (
+    data.driversLicence &&
+    data.driversLicence !== "Not specified"
+  ) {
+    lines.push(`Driver's licence: ${data.driversLicence}`);
+  }
+
+  if (data.certificates) {
+    lines.push(`Certificates / training: ${data.certificates}`);
+  }
+
+  if (data.interests) {
+    lines.push(`Interests: ${data.interests}`);
+  }
+
+  return lines.join("\n");
+}
+
+
+function renderSkillTags(skills) {
+  const container = $("previewSkills");
+
+  container.innerHTML = "";
+
+  skills.forEach((skill) => {
+    const tag = document.createElement("span");
+
+    tag.className = "cv-skill";
+    tag.textContent = skill;
+
+    container.appendChild(tag);
+  });
+
+  if (skills.length === 0) {
+    container.textContent = "Skills can be added using the checklist.";
+  }
+}
+
+
+function updatePreview() {
+  const data = getFormData();
+
+  setText(
+    "previewName",
+    data.fullName || "YOUR FULL NAME"
+  );
+
+  const contact = [
+    data.email,
+    data.phone,
+    data.location
+  ].filter(Boolean).join(" | ");
+
+  setText("previewContact", contact);
+
+  const profile = generateProfile(data);
+
+  setText("previewProfile", profile);
+
+  const education = formatEducation(data);
+
+  setText("previewEducation", education);
+
+  const experience = formatExperience(data);
+
+  setText("previewExperience", experience);
+
+  setSectionVisibility(
+    "experienceSection",
+    experience
+  );
+
+  const subjects = data.subjects.join(", ");
+
+  setText("previewSubjects", subjects);
+
+  setSectionVisibility(
+    "subjectsSection",
+    subjects
+  );
+
+  renderSkillTags(data.skills);
+
+  const languageText = [
+    data.languages,
+    data.languageProficiency
+  ].filter(Boolean).join(" · ");
+
+  setText("previewLanguages", languageText);
+
+  const additional = formatAdditional(data);
+
+  setText("previewAdditional", additional);
+
+  setSectionVisibility(
+    "additionalSection",
+    additional
+  );
+
+  const template = data.template || "classic";
+
+  $("cvPreview").classList.toggle(
+    "classic",
+    template === "classic"
+  );
+
+  $("cvPreview").classList.toggle(
+    "modern",
+    template === "modern"
+  );
+
+  setText(
+    "templateLabel",
+    template === "modern"
+      ? "Modern CV"
+      : "Classic CV"
+  );
+}
+
+
+/* =========================================================
+   RESTORE DATA INTO FORM
+========================================================= */
+
+function assignIfPresent(id, value) {
+  if (value !== undefined && value !== null) {
+    $(id).value = value;
+  }
+}
+
+
+function restoreCvData(data = {}) {
+  const mappings = {
+    fullName: ["fullName", "full_name"],
+    phone: ["phone"],
+    location: ["location"],
+    educationLevel: ["educationLevel", "education_level"],
+    institution: ["institution"],
+    qualification: ["qualification"],
+    educationStatus: ["educationStatus", "education_status"],
+    educationYear: ["educationYear", "education_year"],
+    otherSubjects: ["otherSubjects", "other_subjects"],
+    careerGoal: ["careerGoal", "career_goal"],
+    strengths: ["strengths"],
+    experienceType: ["experienceType", "experience_type"],
+    jobTitle: ["jobTitle", "job_title"],
+    employer: ["employer"],
+    experienceStart: ["experienceStart", "experience_start"],
+    experienceEnd: ["experienceEnd", "experience_end"],
+    experienceDescription: [
+      "experienceDescription",
+      "experience_description"
+    ],
+    otherSkills: ["otherSkills", "other_skills"],
+    languages: ["languages"],
+    languageProficiency: [
+      "languageProficiency",
+      "language_proficiency"
+    ],
+    availability: ["availability"],
+    driversLicence: ["driversLicence", "drivers_licence"],
+    certificates: ["certificates"],
+    interests: ["interests"],
+    templateChoice: ["template", "templateChoice", "template_choice"]
+  };
+
+  Object.entries(mappings).forEach(([fieldId, keys]) => {
+    for (const key of keys) {
+      if (Object.prototype.hasOwnProperty.call(data, key)) {
+        assignIfPresent(fieldId, data[key]);
+        break;
+      }
+    }
+  });
+
+  $("email").value =
+    currentUser?.email || data.email || "";
+
+  const subjects = Array.isArray(data.subjects)
+    ? data.subjects
+    : Array.isArray(data.selectedSubjects)
+      ? data.selectedSubjects
+      : [];
+
+  const skills = Array.isArray(data.skills)
+    ? data.skills
+    : Array.isArray(data.selectedSkills)
+      ? data.selectedSkills
+      : [];
+
+  populateQualifications(
+    $("qualification").value
+  );
+
+  renderSubjectChoices(subjects);
+  renderSkillChoices(skills);
+
+  updateExperienceVisibility();
+  updatePreview();
+}
+
+
+/* =========================================================
+   CHECK PURCHASE ACCESS AND LOAD SAVED CV
+========================================================= */
+
+async function checkPurchaseAccess() {
+  $("accessMessage").textContent =
+    "Checking your account and CV purchase...";
+
+  $("builderArea").style.display = "none";
+
+  try {
+    const {
+      data: { session },
+      error: sessionError
+    } = await supabaseClient.auth.getSession();
+
+    if (sessionError) {
+      throw sessionError;
+    }
+
+    if (!session) {
+      window.location.href = "./account.html";
+      return;
+    }
+
+    currentUser = session.user;
+
+    const purchaseResult = await callEdgeFunction(
+      "get-cv-purchase-status",
+      {}
+    );
+
+    const purchases = Array.isArray(purchaseResult.purchases)
+      ? purchaseResult.purchases
+      : purchaseResult.purchase
+        ? [purchaseResult.purchase]
+        : [];
+
+    const params = new URLSearchParams(
+      window.location.search
+    );
+
+    const requestedPurchaseId = params.get("purchase_id");
+
+    let eligiblePurchases = purchases.filter((purchase) => {
+      const status = String(
+        purchase.payment_status ||
+        purchase.status ||
+        ""
+      ).toLowerCase();
+
+      return [
+        "paid",
+        "approved",
+        "completed",
+        "success"
+      ].includes(status);
+    });
+
+    if (requestedPurchaseId) {
+      eligiblePurchases = eligiblePurchases.filter(
+        (purchase) =>
+          String(purchase.id) === requestedPurchaseId ||
+          String(purchase.purchase_id) === requestedPurchaseId ||
+          String(purchase.order_number) === requestedPurchaseId
+      );
+    }
+
+    if (eligiblePurchases.length === 0) {
+      $("accessMessage").textContent =
+        "No approved paid CV purchase was found for this account. If you have already paid, please wait for the owner to approve your payment or contact support.";
+
+      return;
+    }
+
+    /*
+      Prefer the requested purchase. Otherwise use the first
+      eligible purchase returned by the server.
+    */
+    activePurchase = eligiblePurchases[0];
+
+    const templateName = String(
+      activePurchase.template ||
+      activePurchase.product_name ||
+      activePurchase.plan ||
+      ""
+    ).toLowerCase();
+
+    const templateChoice =
+      templateName.includes("modern")
+        ? "modern"
+        : "classic";
+
+    $("templateChoice").value = templateChoice;
+
+    /*
+      Keep the selected purchase ID when loading and saving.
+      The Edge Functions remain responsible for verifying
+      that the signed-in customer owns the purchase.
+    */
+    let savedResult = {};
+
+    try {
+      savedResult = await callEdgeFunction(
+        "get-customer-cv",
+        {
+          purchase_id: activePurchase.id
+        }
+      );
+    } catch (error) {
+      /*
+        A customer with an approved purchase may not have
+        saved a CV yet. Only treat a missing CV as a new CV
+        when the function indicates no saved CV exists.
+      */
+      const text = String(error.message || "").toLowerCase();
+
+      if (
+        !text.includes("not found") &&
+        !text.includes("no cv") &&
+        !text.includes("no saved")
+      ) {
+        throw error;
+      }
+    }
+
+    const cvRecord = savedResult.cv || {};
+
+    const cvData =
+      cvRecord.cv_data ||
+      savedResult.cv_data ||
+      {};
+
+    savedCvData = cvData;
+
+    restoreCvData({
+      ...cvData,
+      templateChoice:
+        cvData.template ||
+        cvData.templateChoice ||
+        templateChoice
+    });
+
+    $("accessMessage").textContent =
+      "Your approved CV purchase is active.";
+
+    $("builderArea").style.display = "block";
+
+  } catch (error) {
+    console.error("CV access error:", error);
+
+    $("accessMessage").textContent =
+      "We could not verify your CV access. Please check your connection and try again. If this continues, contact support.";
+
+    showMessage(
+      error.message || "Could not load your CV.",
+      "error"
+    );
+  }
+}
+
+
+/* =========================================================
+   SAVE CV
+========================================================= */
+
+async function saveCv() {
+  if (saveInProgress) {
+    return;
+  }
+
+  if (!currentUser || !activePurchase) {
+    showMessage(
+      "Your approved CV purchase could not be confirmed.",
+      "error"
+    );
+
+    return;
+  }
+
+  clearMessage();
+
+  const form = $("cvForm");
+
+  if (!form.reportValidity()) {
+    return;
+  }
+
+  saveInProgress = true;
+
+  const button = $("saveButton");
+
+  button.disabled = true;
+  button.textContent = "Saving...";
+
+  try {
+    const cvData = getFormData();
+
+    /*
+      Keep the field names used by this builder. The
+      save-customer-cv Edge Function must accept this payload.
+    */
+    const result = await callEdgeFunction(
+      "save-customer-cv",
+      {
+        purchase_id: activePurchase.id,
+        cv_data: cvData
+      }
+    );
+
+    savedCvData = cvData;
+
+    showMessage(
+      result.message || "Your CV has been saved successfully.",
+      "success"
+    );
+
+    updatePreview();
+
+  } catch (error) {
+    console.error("CV save error:", error);
+
+    showMessage(
+      error.message || "Could not save your CV. Please try again.",
+      "error"
+    );
+
+  } finally {
+    saveInProgress = false;
+
+    button.disabled = false;
+    button.textContent = "Save My CV";
+  }
+}
+
+
+/* =========================================================
+   PDF DOWNLOAD / PRINT
+========================================================= */
+
+function downloadCvPdf() {
+  updatePreview();
+
+  /*
+    Android Chrome normally opens its print interface.
+    Choose Save as PDF in that interface.
+  */
+  window.print();
+}
+
+
+/* =========================================================
+   EVENT LISTENERS
+========================================================= */
+
+$("saveButton").addEventListener(
+  "click",
+  saveCv
+);
+
+$("updatePreviewButton").addEventListener(
+  "click",
+  () => {
+    updatePreview();
+    showMessage(
+      "Your preview has been updated.",
+      "success"
+    );
+  }
+);
+
+$("printButton").addEventListener(
+  "click",
+  downloadCvPdf
+);
+
+$("templateChoice").addEventListener(
+  "change",
+  updatePreview
+);
+
+$("cvForm").addEventListener(
+  "input",
+  (event) => {
+    if (
+      event.target.id !== "institutionSearch"
+    ) {
+      updatePreview();
+    }
+  }
+);
+
+$("cvForm").addEventListener(
+  "change",
+  updatePreview
+);
+
+$("signOutButton").addEventListener(
+  "click",
+  async () => {
+    $("signOutButton").disabled = true;
+
+    try {
+      const { error } =
+        await supabaseClient.auth.signOut();
+
+      if (error) {
+        throw error;
+      }
+
+      window.location.href = "./account.html";
+
+    } catch (error) {
+      console.error("Sign-out error:", error);
+
+      showMessage(
+        "Could not sign out. Please try again.",
+        "error"
+      );
+
+      $("signOutButton").disabled = false;
+    }
+  }
+);
+
+
+/* =========================================================
+   INITIALISE BUILDER
+========================================================= */
+
+function populateYears() {
+  const select = $("educationYear");
+
+  const currentYear = new Date().getFullYear();
+
+  select.innerHTML = "";
+
+  const placeholder = document.createElement("option");
+
+  placeholder.value = "";
+  placeholder.textContent = "Select year";
+
+  select.appendChild(placeholder);
+
+  for (
+    let year = currentYear + 5;
+    year >= currentYear - 50;
+    year--
+  ) {
+    const option = document.createElement("option");
+
+    option.value = String(year);
+    option.textContent = String(year);
+
+    select.appendChild(option);
+  }
+}
+
+
+async function initialiseBuilder() {
+  populateYears();
+
+  populateQualifications();
+
+  renderSubjectChoices();
+
+  renderSkillChoices();
+
+  updateExperienceVisibility();
+
+  updatePreview();
+
+  await checkPurchaseAccess();
+}
+
+
 initialiseBuilder();
 </script>
+
 </body>
 </html>
