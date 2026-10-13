@@ -1940,26 +1940,26 @@ function formatExperience(data) {
   return lines.join("\n");
 }
 
-function formatDisability(data) {
-  if (!data.includeDisabilityOnCv) return "";
-
+function formatAdditional(data) {
   const lines = [];
 
+  if (data.availability) {
+    lines.push(`Availability: ${data.availability}`);
+  }
+
   if (
-    data.disabilityStatus &&
-    data.disabilityStatus !== "No disability disclosed"
+    data.driversLicence &&
+    data.driversLicence !== "Not specified"
   ) {
-    lines.push(`Disability: ${data.disabilityStatus}`);
+    lines.push(`Driver's licence: ${data.driversLicence}`);
   }
 
-  if (data.disabilityDetails) {
-    lines.push(`Details: ${data.disabilityDetails}`);
+  if (data.certificates) {
+    lines.push(`Certificates / training: ${data.certificates}`);
   }
 
-  if (data.accessibilityNeeds) {
-    lines.push(
-      `Workplace accessibility / accommodations: ${data.accessibilityNeeds}`
-    );
+  if (data.interests) {
+    lines.push(`Interests: ${data.interests}`);
   }
 
   return lines.join("\n");
