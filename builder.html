@@ -629,9 +629,39 @@ footer {
 }
 
 #previewSkills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
+  display: block;
+  width: 100%;
+}
+
+.cv-skill-group {
+  display: block;
+  width: 100%;
+  margin-bottom: 12px;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.cv-skill-heading {
+  display: block;
+  font-size: 10pt;
+  font-weight: 700;
+  margin: 10px 0 5px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #ddd;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.cv-skill-list {
+  margin: 0 0 10px;
+  padding-left: 20px;
+  list-style: disc;
+}
+
+.cv-skill-list li {
+  margin-bottom: 4px;
+  font-size: 9.5pt;
+  line-height: 1.5;
 }
 
 #previewSkills .cv-skill {
