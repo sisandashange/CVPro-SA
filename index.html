@@ -529,13 +529,18 @@
       new Date().getFullYear();
 
     document.querySelectorAll("[data-template]").forEach((button) => {
-      button.addEventListener("click", () => {
-        alert(
-          "Account registration and secure purchasing are being set up. " +
-          "Please check back soon. No payment has been requested or taken."
-        );
-      });
-    });
+  button.addEventListener("click", () => {
+    const template = button.dataset.template;
+
+    // Remember the selected template while the customer signs in.
+    sessionStorage.setItem("cvpro_selected_template", template);
+
+    // Continue to the existing account page.
+    window.location.href =
+      "./account.html?template=" +
+      encodeURIComponent(template);
+  });
+});
   </script>
 </body>
 </html>
