@@ -499,8 +499,19 @@
           );
 
           setTimeout(() => {
-            window.location.href = "./my-account.html";
-          }, 700);
+  const params = new URLSearchParams(window.location.search);
+  const template =
+    params.get("template") ||
+    sessionStorage.getItem("cvpro_selected_template");
+
+  if (template === "classic" || template === "modern") {
+    window.location.href =
+      "./my-account.html?template=" +
+      encodeURIComponent(template);
+  } else {
+    window.location.href = "./my-account.html";
+  }
+}, 700);
         }
       } catch (error) {
         console.error("Account error:", error);
