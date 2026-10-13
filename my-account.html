@@ -754,12 +754,40 @@
     });
 
     async function initialise() {
-      const session = await getSessionOrRedirect();
+  const session = await getSessionOrRedirect();
 
-      if (!session) return;
+  if (!session) return;
 
-      await loadPurchases();
+  const params = new URLSearchParams(window.location.search);
+
+  const requestedTemplate =
+    params.get("template") ||
+    sessionStorage.getItem("cvpro_selected_template");
+
+  if (
+    requestedTemplate === "classic" ||
+    requestedTemplate === "modern"
+  ) {
+    const selectedButton = document.querySelector(
+      '.purchase-button[data-template="' +
+      requestedTemplate +
+      '"]'
+    );
+
+    if (selectedButton) {
+      selectedButton.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+      });
+
+      selectedButton.focus({ preventScroll: true });
     }
+
+    sessionStorage.removeItem("cvpro_selected_template");
+  }
+
+  await loadPurchases();
+}
 
     initialise();
   </script></body>
