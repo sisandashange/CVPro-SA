@@ -1,574 +1,547 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#111111">
-  <meta name="description" content="Create your CVPro-SA account or sign in to manage your CV purchases.">
-  <meta name="robots" content="noindex, nofollow">
-  <title>Account | CVPro-SA</title>
-
-  <style>
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f5f5f5;
-      color: #111;
-      line-height: 1.5;
-    }
-
-    header {
-      padding: 17px 20px;
-      background: #111;
-      color: white;
-    }
-
-    .nav {
-      max-width: 950px;
-      margin: auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-    }
-
-    .logo {
-      color: white;
-      font-size: 23px;
-      font-weight: 800;
-      text-decoration: none;
-    }
-
-    .back-link {
-      color: white;
-      font-size: 14px;
-      text-decoration: none;
-    }
-
-    main {
-      max-width: 470px;
-      margin: 35px auto;
-      padding: 0 16px;
-    }
-
-    .card {
-      padding: 26px 22px;
-      border: 1px solid #e5e5e5;
-      border-radius: 14px;
-      background: white;
-      box-shadow: 0 5px 20px #00000008;
-    }
-
-    h1 {
-      margin: 0 0 8px;
-      font-size: 28px;
-      letter-spacing: -0.5px;
-    }
-
-    .intro {
-      margin: 0 0 24px;
-      color: #666;
-      font-size: 14px;
-    }
-
-    .tabs {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin-bottom: 22px;
-    }
-
-    .tab {
-      padding: 11px;
-      border: 1px solid #ddd;
-      border-radius: 7px;
-      background: #fff;
-      color: #111;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .tab.active {
-      border-color: #111;
-      background: #111;
-      color: #fff;
-    }
-
-    .field { margin-bottom: 16px; }
-
-    label {
-      display: block;
-      margin-bottom: 6px;
-      font-size: 14px;
-      font-weight: 700;
-    }
-
-    input {
-      display: block;
-      width: 100%;
-      min-height: 46px;
-      padding: 12px;
-      border: 1px solid #ccc;
-      border-radius: 7px;
-      background: white;
-      color: #111;
-      font-size: 16px;
-    }
-
-    input:focus {
-      outline: 2px solid #111;
-      outline-offset: 1px;
-    }
-
-    .primary-button {
-      width: 100%;
-      min-height: 47px;
-      padding: 12px;
-      border: 0;
-      border-radius: 7px;
-      background: #111;
-      color: white;
-      font-size: 15px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .primary-button:disabled {
-      opacity: 0.6;
-      cursor: wait;
-    }
-
-    .forgot {
-      display: block;
-      margin: 15px 0 0;
-      color: #111;
-      text-align: center;
-      font-size: 14px;
-    }
-
-    .message {
-      display: none;
-      margin: 0 0 18px;
-      padding: 12px;
-      border-radius: 7px;
-      font-size: 14px;
-      overflow-wrap: anywhere;
-    }
-
-    .message.success {
-      display: block;
-      background: #e9f7ef;
-      color: #155b35;
-    }
-
-    .message.error {
-      display: block;
-      background: #fff0f0;
-      color: #a11;
-    }
-
-    .small-note {
-      margin: 20px 0 0;
-      color: #777;
-      font-size: 12px;
-      text-align: center;
-    }
-
-    footer {
-      padding: 22px 16px;
-      color: #777;
-      font-size: 12px;
-      text-align: center;
-    }
-
-    @media (max-width: 480px) {
-      main { margin: 22px auto; }
-      .card { padding: 23px 17px; }
-      h1 { font-size: 25px; }
-    }
-  </style>
-</head>
-
-<body>
-  <header>
-    <nav class="nav">
-      <a class="logo" href="./">CVPro-SA</a>
-      <a class="back-link" href="./">← Homepage</a>
-    </nav>
-  </header>
-
-  <main>
-    <section class="card">
-      <h1 id="pageTitle">Welcome back</h1>
-
-      <p class="intro" id="pageIntro">
-        Sign in to access your CV purchases.
-      </p>
-
-      <div class="tabs">
-        <button class="tab active" id="loginTab" type="button">Sign In</button>
-        <button class="tab" id="signupTab" type="button">Create Account</button>
-      </div>
-
-      <div class="message" id="message" role="status" aria-live="polite"></div>
-
-      <form id="accountForm">
-        <div class="field" id="nameField" hidden>
-          <label for="fullName">Full name</label>
-          <input
-            id="fullName"
-            name="fullName"
-            type="text"
-            autocomplete="name"
-            maxlength="100"
-            placeholder="Enter your full name"
-          >
-        </div>
-
-        <div class="field">
-          <label for="email">Email address</label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            autocomplete="email"
-            maxlength="254"
-            placeholder="you@example.com"
-            required
-          >
-        </div>
-
-        <div class="field">
-          <label for="password">Password</label>
-          <input
-            id="password"
-            name="password"
-            type="password"
-            autocomplete="current-password"
-            minlength="8"
-            placeholder="At least 8 characters"
-            required
-          >
-        </div>
-
-        <div class="field" id="confirmField" hidden>
-          <label for="confirmPassword">Confirm password</label>
-          <input
-            id="confirmPassword"
-            name="confirmPassword"
-            type="password"
-            autocomplete="new-password"
-            minlength="8"
-            placeholder="Enter your password again"
-          >
-        </div>
-
-        <button class="primary-button" id="submitButton" type="submit">
-          Sign In
-        </button>
-      </form>
-
-      <a class="forgot" id="forgotLink" href="./reset-password.html">
-        Forgot your password?
-      </a>
-
-      <p class="small-note">
-        Your account lets you access your own CV purchases.
-      </p>
-    </section>
-  </main>
-
-  <footer>
-    &copy; <span id="year"></span> CVPro-SA. All rights reserved.
-  </footer>
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <script>
-    const SUPABASE_URL =
-      "https://tnxlhpenttcynlmlohao.supabase.co";
-
-    const SUPABASE_PUBLISHABLE_KEY =
-      "sb_publishable_n4XzrnraET_AEMbCYtHV7Q_DJ8--zCL";
-
-    const RESET_PAGE_URL =
-      "https://zyremarkertplace.github.io/CVPro-SA/reset-password.html";
-
-    const supabaseClient = window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_PUBLISHABLE_KEY,
-      {
-        auth: {
-          persistSession: true,
-          autoRefreshToken: true,
-          detectSessionInUrl: true
-        }
-      }
-    );
-
-    const accountForm = document.getElementById("accountForm");
-    const loginTab = document.getElementById("loginTab");
-    const signupTab = document.getElementById("signupTab");
-    const nameField = document.getElementById("nameField");
-    const confirmField = document.getElementById("confirmField");
-    const fullNameInput = document.getElementById("fullName");
-    const emailInput = document.getElementById("email");
-    const passwordInput = document.getElementById("password");
-    const confirmPasswordInput = document.getElementById("confirmPassword");
-    const submitButton = document.getElementById("submitButton");
-    const messageBox = document.getElementById("message");
-    const pageTitle = document.getElementById("pageTitle");
-    const pageIntro = document.getElementById("pageIntro");
-    const forgotLink = document.getElementById("forgotLink");
-
-    let mode = "login";
-    let resetRequestInProgress = false;
-
-    document.getElementById("year").textContent =
-      new Date().getFullYear();
-
-    function showMessage(text, type) {
-      messageBox.textContent = text;
-      messageBox.className = "message " + type;
-    }
-
-    function clearMessage() {
-      messageBox.textContent = "";
-      messageBox.className = "message";
-    }
-
-    function setMode(newMode) {
-      mode = newMode;
-      clearMessage();
-
-      const isSignup = mode === "signup";
-
-      loginTab.classList.toggle("active", !isSignup);
-      signupTab.classList.toggle("active", isSignup);
-
-      nameField.hidden = !isSignup;
-      confirmField.hidden = !isSignup;
-      fullNameInput.required = isSignup;
-      confirmPasswordInput.required = isSignup;
-
-      passwordInput.autocomplete =
-        isSignup ? "new-password" : "current-password";
-
-      pageTitle.textContent =
-        isSignup ? "Create your account" : "Welcome back";
-
-      pageIntro.textContent = isSignup
-        ? "Register to purchase and manage your CVs."
-        : "Sign in to access your CV purchases.";
-
-      submitButton.textContent =
-        isSignup ? "Create Account" : "Sign In";
-
-      forgotLink.hidden = isSignup;
-    }
-
-    loginTab.addEventListener("click", () => setMode("login"));
-    signupTab.addEventListener("click", () => setMode("signup"));
-
-    forgotLink.addEventListener("click", async (event) => {
-      event.preventDefault();
-
-      if (resetRequestInProgress) return;
-
-      clearMessage();
-
-      const email = emailInput.value.trim().toLowerCase();
-
-      if (!email) {
-        showMessage(
-          "Enter your account email address first, then tap Forgot your password again.",
-          "error"
-        );
-        emailInput.focus();
-        return;
-      }
-
-      resetRequestInProgress = true;
-      forgotLink.textContent = "Sending reset email...";
-
-      try {
-        const { error } =
-          await supabaseClient.auth.resetPasswordForEmail(email, {
-            redirectTo: RESET_PAGE_URL
-          });
-
-        if (error) throw error;
-
-        showMessage(
-          "If an account exists for this email, a password-reset email will be sent. Check your inbox and spam folder, then open the latest reset email on this device.",
-          "success"
-        );
-      } catch (error) {
-        console.error("Password-reset request failed:", error);
-
-        showMessage(
-          error.message ||
-          "We could not request a password reset. Please try again later.",
-          "error"
-        );
-      } finally {
-        resetRequestInProgress = false;
-        forgotLink.textContent = "Forgot your password?";
-      }
-    });
-
-    accountForm.addEventListener("submit", async (event) => {
-      event.preventDefault();
-      clearMessage();
-
-      const email = emailInput.value.trim().toLowerCase();
-      const password = passwordInput.value;
-      const fullName = fullNameInput.value.trim();
-
-      if (mode === "signup") {
-        if (fullName.length < 2) {
-          showMessage("Please enter your full name.", "error");
-          return;
-        }
-
-        if (password !== confirmPasswordInput.value) {
-          showMessage("Your passwords do not match.", "error");
-          return;
-        }
-
-        if (password.length < 8) {
-          showMessage(
-            "Your password must be at least 8 characters.",
-            "error"
-          );
-          return;
-        }
-      }
-
-      submitButton.disabled = true;
-      submitButton.textContent =
-        mode === "signup" ? "Creating account..." : "Signing in...";
-
-      try {
-        if (mode === "signup") {
-          const { data, error } = await supabaseClient.auth.signUp({
-            email,
-            password,
-            options: {
-              data: {
-                full_name: fullName
-              },
-              emailRedirectTo:
-                "https://zyremarkertplace.github.io/CVPro-SA/account.html"
-            }
-          });
-
-          if (error) throw error;
-
-          if (data.session) {
-            showMessage(
-              "Your account has been created. You can now continue after signing in.",
-              "success"
-            );
-          } else {
-            showMessage(
-              "Registration received. Check your email and tap the confirmation link before signing in.",
-              "success"
-            );
-          }
-        } else {
-          const { data, error } =
-            await supabaseClient.auth.signInWithPassword({
-              email,
-              password
-            });
-
-          if (error) throw error;
-
-          if (!data.user) {
-            throw new Error(
-              "Sign-in could not be completed. Please try again."
-            );
-          }
-
-          showMessage(
-            "Signed in successfully. Opening your account...",
-            "success"
-          );
-
-          setTimeout(() => {
-  const params = new URLSearchParams(window.location.search);
-  const template =
-    params.get("template") ||
-    sessionStorage.getItem("cvpro_selected_template");
-
-  if (template === "classic" || template === "modern") {
-    window.location.href =
-      "./my-account.html?template=" +
-      encodeURIComponent(template);
-  } else {
-    window.location.href = "./my-account.html";
-  }
-}, 700);
-        }
-      } catch (error) {
-        console.error("Account error:", error);
-
-        let errorText =
-          error.message || "Something went wrong. Please try again.";
-
-        if (errorText.toLowerCase().includes("invalid login credentials")) {
-          errorText =
-            "Email or password is incorrect. Please check and try again.";
-        } else if (errorText.toLowerCase().includes("email not confirmed")) {
-          errorText =
-            "Please confirm your email using the link we sent before signing in.";
-        } else if (errorText.toLowerCase().includes("already registered")) {
-          errorText =
-            "This email may already have an account. Try signing in instead.";
-        }
-
-        showMessage(errorText, "error");
-      } finally {
-        submitButton.disabled = false;
-        submitButton.textContent =
-          mode === "signup" ? "Create Account" : "Sign In";
-      }
-    });
-
-    async function handleEmailConfirmation() {
-      const params = new URLSearchParams(window.location.search);
-      const confirmationError =
-        params.get("error_description");
-
-      if (confirmationError) {
-        showMessage(
-          "Email confirmation link problem: " +
-            confirmationError.replace(/\+/g, " "),
-          "error"
-        );
-        return;
-      }
-
-      const { data, error } =
-        await supabaseClient.auth.getSession();
-
-      if (error) {
-        console.error("Session check failed:", error);
-        return;
-      }
-
-      if (data.session) {
-        showMessage(
-          "Your account is signed in. You can continue to your account page.",
-          "success"
-        );
-      }
-    }
-
-    handleEmailConfirmation();
-  </script>
-</body>
+<!DOCTYPE html>  <html lang="en">  
+<head>  
+  <meta charset="UTF-8">  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+  <meta name="theme-color" content="#111111">  
+  <meta name="description" content="Create your CVPro-SA account or sign in to manage your CV purchases.">  
+  <meta name="robots" content="noindex, nofollow">  
+  <title>Account | CVPro-SA</title>    <style>  
+    * { box-sizing: border-box; }  
+  
+    body {  
+      margin: 0;  
+      font-family: Arial, Helvetica, sans-serif;  
+      background: #f5f5f5;  
+      color: #111;  
+      line-height: 1.5;  
+    }  
+  
+    header {  
+      padding: 17px 20px;  
+      background: #111;  
+      color: white;  
+    }  
+  
+    .nav {  
+      max-width: 950px;  
+      margin: auto;  
+      display: flex;  
+      align-items: center;  
+      justify-content: space-between;  
+      gap: 12px;  
+    }  
+  
+    .logo {  
+      color: white;  
+      font-size: 23px;  
+      font-weight: 800;  
+      text-decoration: none;  
+    }  
+  
+    .back-link {  
+      color: white;  
+      font-size: 14px;  
+      text-decoration: none;  
+    }  
+  
+    main {  
+      max-width: 470px;  
+      margin: 35px auto;  
+      padding: 0 16px;  
+    }  
+  
+    .card {  
+      padding: 26px 22px;  
+      border: 1px solid #e5e5e5;  
+      border-radius: 14px;  
+      background: white;  
+      box-shadow: 0 5px 20px #00000008;  
+    }  
+  
+    h1 {  
+      margin: 0 0 8px;  
+      font-size: 28px;  
+      letter-spacing: -0.5px;  
+    }  
+  
+    .intro {  
+      margin: 0 0 24px;  
+      color: #666;  
+      font-size: 14px;  
+    }  
+  
+    .tabs {  
+      display: grid;  
+      grid-template-columns: 1fr 1fr;  
+      gap: 8px;  
+      margin-bottom: 22px;  
+    }  
+  
+    .tab {  
+      padding: 11px;  
+      border: 1px solid #ddd;  
+      border-radius: 7px;  
+      background: #fff;  
+      color: #111;  
+      font-weight: 700;  
+      cursor: pointer;  
+    }  
+  
+    .tab.active {  
+      border-color: #111;  
+      background: #111;  
+      color: #fff;  
+    }  
+  
+    .field { margin-bottom: 16px; }  
+  
+    label {  
+      display: block;  
+      margin-bottom: 6px;  
+      font-size: 14px;  
+      font-weight: 700;  
+    }  
+  
+    input {  
+      display: block;  
+      width: 100%;  
+      min-height: 46px;  
+      padding: 12px;  
+      border: 1px solid #ccc;  
+      border-radius: 7px;  
+      background: white;  
+      color: #111;  
+      font-size: 16px;  
+    }  
+  
+    input:focus {  
+      outline: 2px solid #111;  
+      outline-offset: 1px;  
+    }  
+  
+    .primary-button {  
+      width: 100%;  
+      min-height: 47px;  
+      padding: 12px;  
+      border: 0;  
+      border-radius: 7px;  
+      background: #111;  
+      color: white;  
+      font-size: 15px;  
+      font-weight: 700;  
+      cursor: pointer;  
+    }  
+  
+    .primary-button:disabled {  
+      opacity: 0.6;  
+      cursor: wait;  
+    }  
+  
+    .forgot {  
+      display: block;  
+      margin: 15px 0 0;  
+      color: #111;  
+      text-align: center;  
+      font-size: 14px;  
+    }  
+  
+    .message {  
+      display: none;  
+      margin: 0 0 18px;  
+      padding: 12px;  
+      border-radius: 7px;  
+      font-size: 14px;  
+      overflow-wrap: anywhere;  
+    }  
+  
+    .message.success {  
+      display: block;  
+      background: #e9f7ef;  
+      color: #155b35;  
+    }  
+  
+    .message.error {  
+      display: block;  
+      background: #fff0f0;  
+      color: #a11;  
+    }  
+  
+    .small-note {  
+      margin: 20px 0 0;  
+      color: #777;  
+      font-size: 12px;  
+      text-align: center;  
+    }  
+  
+    footer {  
+      padding: 22px 16px;  
+      color: #777;  
+      font-size: 12px;  
+      text-align: center;  
+    }  
+  
+    @media (max-width: 480px) {  
+      main { margin: 22px auto; }  
+      .card { padding: 23px 17px; }  
+      h1 { font-size: 25px; }  
+    }  
+  </style>  </head>  <body>  
+  <header>  
+    <nav class="nav">  
+      <a class="logo" href="./">CVPro-SA</a>  
+      <a class="back-link" href="./">← Homepage</a>  
+    </nav>  
+  </header>    <main>  
+    <section class="card">  
+      <h1 id="pageTitle">Welcome back</h1>  <p class="intro" id="pageIntro">  
+    Sign in to access your CV purchases.  
+  </p>  
+
+  <div class="tabs">  
+    <button class="tab active" id="loginTab" type="button">Sign In</button>  
+    <button class="tab" id="signupTab" type="button">Create Account</button>  
+  </div>  
+
+  <div class="message" id="message" role="status" aria-live="polite"></div>  
+
+  <form id="accountForm">  
+    <div class="field" id="nameField" hidden>  
+      <label for="fullName">Full name</label>  
+      <input  
+        id="fullName"  
+        name="fullName"  
+        type="text"  
+        autocomplete="name"  
+        maxlength="100"  
+        placeholder="Enter your full name"  
+      >  
+    </div>  
+
+    <div class="field">  
+      <label for="email">Email address</label>  
+      <input  
+        id="email"  
+        name="email"  
+        type="email"  
+        autocomplete="email"  
+        maxlength="254"  
+        placeholder="you@example.com"  
+        required  
+      >  
+    </div>  
+
+    <div class="field">  
+      <label for="password">Password</label>  
+      <input  
+        id="password"  
+        name="password"  
+        type="password"  
+        autocomplete="current-password"  
+        minlength="8"  
+        placeholder="At least 8 characters"  
+        required  
+      >  
+    </div>  
+
+    <div class="field" id="confirmField" hidden>  
+      <label for="confirmPassword">Confirm password</label>  
+      <input  
+        id="confirmPassword"  
+        name="confirmPassword"  
+        type="password"  
+        autocomplete="new-password"  
+        minlength="8"  
+        placeholder="Enter your password again"  
+      >  
+    </div>  
+
+    <button class="primary-button" id="submitButton" type="submit">  
+      Sign In  
+    </button>  
+  </form>  
+
+  <a class="forgot" id="forgotLink" href="./reset-password.html">  
+    Forgot your password?  
+  </a>  
+
+  <p class="small-note">  
+    Your account lets you access your own CV purchases.  
+  </p>  
+</section>
+
+  </main>    <footer>  
+    &copy; <span id="year"></span> CVPro-SA. All rights reserved.  
+  </footer>    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>    <script>  
+    const SUPABASE_URL =  
+      "https://tnxlhpenttcynlmlohao.supabase.co";  
+  
+    const SUPABASE_PUBLISHABLE_KEY =  
+      "sb_publishable_n4XzrnraET_AEMbCYtHV7Q_DJ8--zCL";  
+  
+    const RESET_PAGE_URL =  
+      "https://zyremarkertplace.github.io/CVPro-SA/reset-password.html";  
+  
+    const supabaseClient = window.supabase.createClient(  
+      SUPABASE_URL,  
+      SUPABASE_PUBLISHABLE_KEY,  
+      {  
+        auth: {  
+          persistSession: true,  
+          autoRefreshToken: true,  
+          detectSessionInUrl: true  
+        }  
+      }  
+    );  
+  
+    const accountForm = document.getElementById("accountForm");  
+    const loginTab = document.getElementById("loginTab");  
+    const signupTab = document.getElementById("signupTab");  
+    const nameField = document.getElementById("nameField");  
+    const confirmField = document.getElementById("confirmField");  
+    const fullNameInput = document.getElementById("fullName");  
+    const emailInput = document.getElementById("email");  
+    const passwordInput = document.getElementById("password");  
+    const confirmPasswordInput = document.getElementById("confirmPassword");  
+    const submitButton = document.getElementById("submitButton");  
+    const messageBox = document.getElementById("message");  
+    const pageTitle = document.getElementById("pageTitle");  
+    const pageIntro = document.getElementById("pageIntro");  
+    const forgotLink = document.getElementById("forgotLink");  
+  
+    let mode = "login";  
+    let resetRequestInProgress = false;  
+  
+    document.getElementById("year").textContent =  
+      new Date().getFullYear();  
+  
+    function showMessage(text, type) {  
+      messageBox.textContent = text;  
+      messageBox.className = "message " + type;  
+    }  
+  
+    function clearMessage() {  
+      messageBox.textContent = "";  
+      messageBox.className = "message";  
+    }  
+  
+    function setMode(newMode) {  
+      mode = newMode;  
+      clearMessage();  
+  
+      const isSignup = mode === "signup";  
+  
+      loginTab.classList.toggle("active", !isSignup);  
+      signupTab.classList.toggle("active", isSignup);  
+  
+      nameField.hidden = !isSignup;  
+      confirmField.hidden = !isSignup;  
+      fullNameInput.required = isSignup;  
+      confirmPasswordInput.required = isSignup;  
+  
+      passwordInput.autocomplete =  
+        isSignup ? "new-password" : "current-password";  
+  
+      pageTitle.textContent =  
+        isSignup ? "Create your account" : "Welcome back";  
+  
+      pageIntro.textContent = isSignup  
+        ? "Register to purchase and manage your CVs."  
+        : "Sign in to access your CV purchases.";  
+  
+      submitButton.textContent =  
+        isSignup ? "Create Account" : "Sign In";  
+  
+      forgotLink.hidden = isSignup;  
+    }  
+  
+    loginTab.addEventListener("click", () => setMode("login"));  
+    signupTab.addEventListener("click", () => setMode("signup"));  
+  
+    forgotLink.addEventListener("click", async (event) => {  
+      event.preventDefault();  
+  
+      if (resetRequestInProgress) return;  
+  
+      clearMessage();  
+  
+      const email = emailInput.value.trim().toLowerCase();  
+  
+      if (!email) {  
+        showMessage(  
+          "Enter your account email address first, then tap Forgot your password again.",  
+          "error"  
+        );  
+        emailInput.focus();  
+        return;  
+      }  
+  
+      resetRequestInProgress = true;  
+      forgotLink.textContent = "Sending reset email...";  
+  
+      try {  
+        const { error } =  
+          await supabaseClient.auth.resetPasswordForEmail(email, {  
+            redirectTo: RESET_PAGE_URL  
+          });  
+  
+        if (error) throw error;  
+  
+        showMessage(  
+          "If an account exists for this email, a password-reset email will be sent. Check your inbox and spam folder, then open the latest reset email on this device.",  
+          "success"  
+        );  
+      } catch (error) {  
+        console.error("Password-reset request failed:", error);  
+  
+        showMessage(  
+          error.message ||  
+          "We could not request a password reset. Please try again later.",  
+          "error"  
+        );  
+      } finally {  
+        resetRequestInProgress = false;  
+        forgotLink.textContent = "Forgot your password?";  
+      }  
+    });  
+  
+    accountForm.addEventListener("submit", async (event) => {  
+      event.preventDefault();  
+      clearMessage();  
+  
+      const email = emailInput.value.trim().toLowerCase();  
+      const password = passwordInput.value;  
+      const fullName = fullNameInput.value.trim();  
+  
+      if (mode === "signup") {  
+        if (fullName.length < 2) {  
+          showMessage("Please enter your full name.", "error");  
+          return;  
+        }  
+  
+        if (password !== confirmPasswordInput.value) {  
+          showMessage("Your passwords do not match.", "error");  
+          return;  
+        }  
+  
+        if (password.length < 8) {  
+          showMessage(  
+            "Your password must be at least 8 characters.",  
+            "error"  
+          );  
+          return;  
+        }  
+      }  
+  
+      submitButton.disabled = true;  
+      submitButton.textContent =  
+        mode === "signup" ? "Creating account..." : "Signing in...";  
+  
+      try {  
+        if (mode === "signup") {  
+          const { data, error } = await supabaseClient.auth.signUp({  
+            email,  
+            password,  
+            options: {  
+              data: {  
+                full_name: fullName  
+              },  
+              emailRedirectTo:  
+                "https://zyremarkertplace.github.io/CVPro-SA/account.html"  
+            }  
+          });  
+  
+          if (error) throw error;  
+  
+          if (data.session) {  
+            showMessage(  
+              "Your account has been created. You can now continue after signing in.",  
+              "success"  
+            );  
+          } else {  
+            showMessage(  
+              "Registration received. Check your email and tap the confirmation link before signing in.",  
+              "success"  
+            );  
+          }  
+        } else {  
+          const { data, error } =  
+            await supabaseClient.auth.signInWithPassword({  
+              email,  
+              password  
+            });  
+  
+          if (error) throw error;  
+  
+          if (!data.user) {  
+            throw new Error(  
+              "Sign-in could not be completed. Please try again."  
+            );  
+          }  
+  
+          showMessage(  
+            "Signed in successfully. Opening your account...",  
+            "success"  
+          );  
+  
+          setTimeout(() => {  
+            window.location.href = "./my-account.html";  
+          }, 700);  
+        }  
+      } catch (error) {  
+        console.error("Account error:", error);  
+  
+        let errorText =  
+          error.message || "Something went wrong. Please try again.";  
+  
+        if (errorText.toLowerCase().includes("invalid login credentials")) {  
+          errorText =  
+            "Email or password is incorrect. Please check and try again.";  
+        } else if (errorText.toLowerCase().includes("email not confirmed")) {  
+          errorText =  
+            "Please confirm your email using the link we sent before signing in.";  
+        } else if (errorText.toLowerCase().includes("already registered")) {  
+          errorText =  
+            "This email may already have an account. Try signing in instead.";  
+        }  
+  
+        showMessage(errorText, "error");  
+      } finally {  
+        submitButton.disabled = false;  
+        submitButton.textContent =  
+          mode === "signup" ? "Create Account" : "Sign In";  
+      }  
+    });  
+  
+    async function handleEmailConfirmation() {  
+      const params = new URLSearchParams(window.location.search);  
+      const confirmationError =  
+        params.get("error_description");  
+  
+      if (confirmationError) {  
+        showMessage(  
+          "Email confirmation link problem: " +  
+            confirmationError.replace(/\+/g, " "),  
+          "error"  
+        );  
+        return;  
+      }  
+  
+      const { data, error } =  
+        await supabaseClient.auth.getSession();  
+  
+      if (error) {  
+        console.error("Session check failed:", error);  
+        return;  
+      }  
+  
+      if (data.session) {  
+        showMessage(  
+          "Your account is signed in. You can continue to your account page.",  
+          "success"  
+        );  
+      }  
+    }  
+  
+    handleEmailConfirmation();  
+  </script>  </body>  
 </html>
