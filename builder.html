@@ -1,0 +1,688 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#111111">
+  <meta name="description" content="Create, edit and save your CV with CVPro-SA.">
+  <title>CV Builder | CVPro-SA</title>  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: #f3f3f3;
+      color: #111;
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.5;
+    }
+
+    header {
+      background: #111;
+      color: #fff;
+      padding: 15px 18px;
+    }
+
+    .nav {
+      max-width: 1200px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo {
+      color: white;
+      font-size: 21px;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .nav a, .nav button {
+      color: white;
+      border: 1px solid #666;
+      border-radius: 7px;
+      background: transparent;
+      padding: 8px 11px;
+      text-decoration: none;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 24px auto;
+      padding: 0 14px 35px;
+    }
+
+    h1 {
+      margin: 0 0 5px;
+      font-size: 29px;
+    }
+
+    .muted { color: #666; }
+
+    .notice {
+      margin: 18px 0;
+      padding: 13px;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 9px;
+      font-size: 13px;
+    }
+
+    .message {
+      display: none;
+      margin: 15px 0;
+      padding: 12px;
+      border-radius: 7px;
+      overflow-wrap: anywhere;
+    }
+
+    .message.error {
+      display: block;
+      color: #a11;
+      background: #fff0f0;
+    }
+
+    .message.success {
+      display: block;
+      color: #155b35;
+      background: #e9f7ef;
+    }
+
+    #builderArea { display: none; }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      align-items: start;
+      gap: 18px;
+      margin-top: 20px;
+    }
+
+    .panel {
+      padding: 20px;
+      background: #fff;
+      border: 1px solid #e2e2e2;
+      border-radius: 11px;
+    }
+
+    .panel h2 {
+      margin: 0 0 15px;
+      font-size: 21px;
+    }
+
+    .field { margin-bottom: 14px; }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 11px;
+      border: 1px solid #ccc;
+      border-radius: 7px;
+      background: white;
+      color: #111;
+      font: inherit;
+      font-size: 14px;
+    }
+
+    textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    .button {
+      display: inline-block;
+      width: 100%;
+      margin-top: 8px;
+      padding: 12px 14px;
+      border: 1px solid #111;
+      border-radius: 7px;
+      background: #111;
+      color: white;
+      font-weight: 700;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .button.secondary {
+      background: white;
+      color: #111;
+    }
+
+    .button:disabled {
+      opacity: 0.6;
+      cursor: wait;
+    }
+
+    .preview-panel {
+      position: sticky;
+      top: 12px;
+      min-width: 0;
+    }
+
+    .preview-toolbar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .preview-toolbar button { margin: 0; }
+
+    .cv-page {
+      width: 100%;
+      min-height: 750px;
+      padding: 35px;
+      background: #fff;
+      border: 1px solid #ddd;
+      box-shadow: 0 3px 14px #0000000d;
+      overflow-wrap: anywhere;
+    }
+
+    .cv-name {
+      margin: 0;
+      font-size: 27px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      overflow-wrap: anywhere;
+    }
+
+    .cv-contact {
+      margin: 7px 0 18px;
+      color: #555;
+      font-size: 12px;
+      overflow-wrap: anywhere;
+    }
+
+    .cv-section { margin-top: 19px; }
+
+    .cv-section h3 {
+      margin: 0 0 8px;
+      padding-bottom: 5px;
+      border-bottom: 1px solid #111;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .cv-section p {
+      margin: 5px 0;
+      font-size: 12px;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+
+    .cv-skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .cv-skill {
+      padding: 4px 7px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 11px;
+    }
+
+    .hidden { display: none !important; }
+
+    footer {
+      padding: 20px;
+      color: #777;
+      text-align: center;
+      font-size: 12px;
+    }
+
+    @media (max-width: 850px) {
+      .workspace { grid-template-columns: 1fr; }
+
+      .preview-panel {
+        position: static;
+        grid-row: 1;
+      }
+
+      .cv-page {
+        min-height: 500px;
+        padding: 25px;
+      }
+    }
+
+    @media print {
+      @page {
+        size: A4;
+        margin: 12mm;
+      }
+
+      body { background: white; }
+
+      header, main > h1, main > .muted, .notice,
+      #message, #accessMessage, #editorPanel, .preview-toolbar,
+      footer {
+        display: none !important;
+      }
+
+      main {
+        max-width: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      #builderArea, .workspace, .preview-panel {
+        display: block !important;
+        margin: 0;
+        padding: 0;
+        border: 0;
+      }
+
+      .panel {
+        padding: 0;
+        border: 0;
+      }
+
+      .cv-page {
+        width: 100%;
+        min-height: 0;
+        padding: 0;
+        border: 0;
+        box-shadow: none;
+      }
+    }
+  </style></head><body>
+  <header>
+    <nav class="nav">
+      <a class="logo" href="./">CVPro-SA</a>
+      <div>
+        <a href="./my-account.html">My Account</a>
+        <button type="button" id="signOutButton">Sign Out</button>
+      </div>
+    </nav>
+  </header>  <main>
+    <h1>CV Builder</h1>
+    <div class="muted">Create a professional CV and save it as a PDF.</div><div id="accessMessage" class="notice">
+  Checking your account and CV purchase...
+</div>
+
+<div id="message" class="message" role="status" aria-live="polite"></div>
+
+<div id="builderArea">
+  <div class="notice">
+    <strong>One purchase, one CV.</strong>
+    You can edit and save this CV again after your purchase is approved.
+    Do not create another CV under the same purchase.
+  </div>
+
+  <div class="workspace">
+    <section class="panel preview-panel">
+      <h2>Live CV Preview</h2>
+
+      <div class="preview-toolbar">
+        <button type="button" class="button" id="printButton">
+          Save / Download PDF
+        </button>
+      </div>
+
+      <article class="cv-page" id="cvPreview">
+        <h2 class="cv-name" id="previewName">YOUR FULL NAME</h2>
+        <div class="cv-contact" id="previewContact">
+          Email · Phone · Location
+        </div>
+
+        <section class="cv-section">
+          <h3>Professional Profile</h3>
+          <p id="previewProfile">Your professional profile will appear here.</p>
+        </section>
+
+        <section class="cv-section">
+          <h3>Education</h3>
+          <p id="previewEducation">Your education will appear here.</p>
+        </section>
+
+        <section class="cv-section">
+          <h3>Work Experience</h3>
+          <p id="previewExperience">Your experience will appear here.</p>
+        </section>
+
+        <section class="cv-section">
+          <h3>Skills</h3>
+          <div class="cv-skills" id="previewSkills"></div>
+        </section>
+
+        <section class="cv-section">
+          <h3>Languages</h3>
+          <p id="previewLanguages">Your languages will appear here.</p>
+        </section>
+      </article>
+    </section>
+
+    <section class="panel" id="editorPanel">
+      <h2>Edit Your CV</h2>
+
+      <form id="cvForm">
+        <div class="field">
+          <label for="fullName">Full name</label>
+          <input id="fullName" name="fullName" autocomplete="name" required>
+        </div>
+
+        <div class="field">
+          <label for="email">Email address</label>
+          <input id="email" name="email" type="email" autocomplete="email">
+        </div>
+
+        <div class="field">
+          <label for="phone">Phone number</label>
+          <input id="phone" name="phone" type="tel" autocomplete="tel">
+        </div>
+
+        <div class="field">
+          <label for="location">Location</label>
+          <input id="location" name="location" placeholder="e.g. Durban, KwaZulu-Natal">
+        </div>
+
+        <div class="field">
+          <label for="profile">Professional profile</label>
+          <textarea id="profile" name="profile" placeholder="Briefly describe your strengths, experience and career goals."></textarea>
+        </div>
+
+        <div class="field">
+          <label for="education">Education</label>
+          <textarea id="education" name="education" placeholder="Qualification, school or institution, year completed."></textarea>
+        </div>
+
+        <div class="field">
+          <label for="experience">Work experience</label>
+          <textarea id="experience" name="experience" placeholder="Job title, employer, dates and responsibilities. If you have no work experience, describe relevant projects, practical training or volunteering."></textarea>
+        </div>
+
+        <div class="field">
+          <label for="skills">Skills</label>
+          <textarea id="skills" name="skills" placeholder="Separate skills with commas, e.g. Communication, Teamwork, Computer Skills."></textarea>
+        </div>
+
+        <div class="field">
+          <label for="languages">Languages</label>
+          <input id="languages" name="languages" placeholder="e.g. English, isiZulu">
+        </div>
+
+        <button class="button" id="saveButton" type="submit">
+          Save My CV
+        </button>
+
+        <button class="button secondary" id="printButton2" type="button">
+          Save / Download PDF
+        </button>
+      </form>
+    </section>
+  </div>
+</div>
+
+  </main>  <footer>
+    &copy; <span id="year"></span> CVPro-SA. All rights reserved.
+  </footer>  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>  <script>
+    const SUPABASE_URL =
+      "https://tnxlhpenttcynlmlohao.supabase.co";
+
+    const SUPABASE_PUBLISHABLE_KEY =
+      "sb_publishable_n4XzrnraET_AEMbCYtHV7Q_DJ8--zCL";
+
+    const supabaseClient = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY,
+      {
+        auth: {
+          persistSession: true,
+          autoRefreshToken: true,
+          detectSessionInUrl: true
+        }
+      }
+    );
+
+    const accessMessage = document.getElementById("accessMessage");
+    const builderArea = document.getElementById("builderArea");
+    const messageBox = document.getElementById("message");
+    const cvForm = document.getElementById("cvForm");
+
+    let currentUser = null;
+    let activePurchase = null;
+    let savedCV = {};
+
+    document.getElementById("year").textContent =
+      new Date().getFullYear();
+
+    function showMessage(text, type) {
+      messageBox.textContent = text;
+      messageBox.className = "message " + type;
+    }
+
+    async function callFunction(functionName, body) {
+      const { data, error } = await supabaseClient.auth.getSession();
+
+      if (error || !data.session) {
+        throw new Error("Please sign in again.");
+      }
+
+      const response = await fetch(
+        SUPABASE_URL + "/functions/v1/" + functionName,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + data.session.access_token,
+            "apikey": SUPABASE_PUBLISHABLE_KEY
+          },
+          body: JSON.stringify(body || {})
+        }
+      );
+
+      const result = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        throw new Error(
+          result.error || result.message || "The request failed."
+        );
+      }
+
+      return result;
+    }
+
+    function setField(id, value) {
+      const element = document.getElementById(id);
+      if (element) element.value = value || "";
+    }
+
+    function getFormData() {
+      return {
+        fullName: document.getElementById("fullName").value.trim(),
+        email: document.getElementById("email").value.trim(),
+        phone: document.getElementById("phone").value.trim(),
+        location: document.getElementById("location").value.trim(),
+        profile: document.getElementById("profile").value.trim(),
+        education: document.getElementById("education").value.trim(),
+        experience: document.getElementById("experience").value.trim(),
+        skills: document.getElementById("skills").value
+          .split(",")
+          .map((skill) => skill.trim())
+          .filter(Boolean),
+        languages: document.getElementById("languages").value.trim()
+      };
+    }
+
+    function renderPreview() {
+      const data = getFormData();
+
+      document.getElementById("previewName").textContent =
+        data.fullName || "YOUR FULL NAME";
+
+      document.getElementById("previewContact").textContent =
+        [data.email, data.phone, data.location]
+          .filter(Boolean)
+          .join(" · ") || "Email · Phone · Location";
+
+      document.getElementById("previewProfile").textContent =
+        data.profile || "Your professional profile will appear here.";
+
+      document.getElementById("previewEducation").textContent =
+        data.education || "Your education will appear here.";
+
+      document.getElementById("previewExperience").textContent =
+        data.experience || "Your experience will appear here.";
+
+      document.getElementById("previewLanguages").textContent =
+        data.languages || "Your languages will appear here.";
+
+      const skillsBox = document.getElementById("previewSkills");
+      skillsBox.replaceChildren();
+
+      if (data.skills.length === 0) {
+        const empty = document.createElement("p");
+        empty.textContent = "Add your skills using the form.";
+        skillsBox.appendChild(empty);
+      } else {
+        data.skills.forEach((skill) => {
+          const tag = document.createElement("span");
+          tag.className = "cv-skill";
+          tag.textContent = skill;
+          skillsBox.appendChild(tag);
+        });
+      }
+    }
+
+    function fillForm(data) {
+      setField("fullName", data.fullName);
+      setField("email", data.email || currentUser.email);
+      setField("phone", data.phone);
+      setField("location", data.location);
+      setField("profile", data.profile);
+      setField("education", data.education);
+      setField("experience", data.experience);
+      setField(
+        "skills",
+        Array.isArray(data.skills) ? data.skills.join(", ") : data.skills
+      );
+      setField("languages", data.languages);
+      renderPreview();
+    }
+
+    async function initialiseBuilder() {
+      const { data, error } = await supabaseClient.auth.getSession();
+
+      if (error || !data.session) {
+        window.location.replace("./account.html");
+        return;
+      }
+
+      currentUser = data.session.user;
+
+      const params = new URLSearchParams(window.location.search);
+      const requestedPurchaseId = params.get("purchase_id");
+
+      accessMessage.textContent = "Checking your approved purchase...";
+
+      try {
+        const result = await callFunction("get-cv-purchase-status", {});
+        const purchases = Array.isArray(result.purchases)
+          ? result.purchases
+          : Array.isArray(result)
+            ? result
+            : result.purchase
+              ? [result.purchase]
+              : [];
+
+        activePurchase = purchases.find((purchase) =>
+          purchase.payment_status === "paid" &&
+          (!requestedPurchaseId || purchase.id === requestedPurchaseId)
+        );
+
+        if (!activePurchase) {
+          accessMessage.textContent =
+            "The CV builder is locked. You need an approved CV purchase to continue. Return to My Account to view your order status.";
+          return;
+        }
+
+        const savedResult = await callFunction("get-customer-cv", {
+          purchase_id: activePurchase.id
+        });
+
+        savedCV = savedResult.cv?.cv_data || savedResult.cv_data || {};
+
+        if (savedCV && typeof savedCV === "object") {
+          fillForm(savedCV);
+        } else {
+          setField("email", currentUser.email);
+          renderPreview();
+        }
+
+        accessMessage.textContent =
+          "Purchase approved: " + (activePurchase.order_number || "CV purchase") +
+          ". You can edit and save this CV.";
+        builderArea.style.display = "block";
+      } catch (error) {
+        console.error("Builder access error:", error);
+        accessMessage.textContent =
+          "Unable to verify your purchase: " + error.message;
+      }
+    }
+
+    cvForm.addEventListener("input", renderPreview);
+
+    cvForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      if (!activePurchase) {
+        showMessage("No approved purchase is available.", "error");
+        return;
+      }
+
+      const saveButton = document.getElementById("saveButton");
+      saveButton.disabled = true;
+      saveButton.textContent = "Saving...";
+
+      try {
+        const cvData = getFormData();
+
+        const result = await callFunction("save-customer-cv", {
+          purchase_id: activePurchase.id,
+          cv_data: cvData
+        });
+
+        savedCV = cvData;
+
+        showMessage(
+          result.message || "Your CV has been saved successfully.",
+          "success"
+        );
+      } catch (error) {
+        console.error("CV save error:", error);
+        showMessage(error.message, "error");
+      } finally {
+        saveButton.disabled = false;
+        saveButton.textContent = "Save My CV";
+      }
+    });
+
+    function printCV() {
+      if (!activePurchase) {
+        showMessage("You need an approved purchase before saving your CV.", "error");
+        return;
+      }
+
+      window.print();
+    }
+
+    document.getElementById("printButton").addEventListener("click", printCV);
+    document.getElementById("printButton2").addEventListener("click", printCV);
+
+    document.getElementById("signOutButton").addEventListener("click", async () => {
+      await supabaseClient.auth.signOut();
+      window.location.replace("./account.html");
+    });
+
+    initialiseBuilder();
+  </script></body>
+</html>
