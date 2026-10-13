@@ -3435,11 +3435,11 @@ async function downloadCvPdf() {
     await window.html2pdf()
       .set({
         margin: [
-          10,
-          10,
-          10,
-          10
-        ],
+  7,
+  9,
+  7,
+  9
+],
 
         filename:
           `${filename}_CV.pdf`,
@@ -3464,11 +3464,14 @@ async function downloadCvPdf() {
         },
 
         pagebreak: {
-          mode: [
-            "css",
-            "legacy"
-          ]
-        }
+          pagebreak: {
+  mode: ["legacy"],
+  avoid: [
+    ".cv-header",
+    ".cv-subject-group",
+    ".cv-skill-group"
+  ]
+}
       })
       .from(cv)
       .save();
