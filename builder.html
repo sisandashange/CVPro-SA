@@ -1788,8 +1788,59 @@ function formatEducation(data) {
 }
 
 function formatExperience(data) {
+  const technicalSubjects = [
+    "Technical Mathematics",
+    "Technical Sciences",
+    "Engineering Graphics and Design (EGD)",
+    "Mechanical Technology",
+    "Welding and Metalwork"
+  ];
+
+  const selectedTechnicalSubjects = (data.subjects || [])
+    .filter(subject => technicalSubjects.includes(subject));
+
   if (data.experienceType === "no-experience") {
-    return "Seeking a first formal employment opportunity. Ready to learn, develop practical skills, and contribute to the workplace.";
+    const lines = [
+      "School-Based Practical Training",
+      "",
+      "Developed technical knowledge through school subjects and practical learning activities. Gained experience applying classroom knowledge, following instructions, solving problems, and approaching practical tasks carefully."
+    ];
+
+    if (
+      selectedTechnicalSubjects.includes("Welding and Metalwork") ||
+      selectedTechnicalSubjects.includes("Mechanical Technology")
+    ) {
+      lines.push(
+        "",
+        "Technical and Workshop Learning",
+        "Studied welding, metalwork and related technical concepts through school-based learning. Practical skills should reflect the activities actually completed."
+      );
+    }
+
+    if (
+      selectedTechnicalSubjects.includes(
+        "Engineering Graphics and Design (EGD)"
+      )
+    ) {
+      lines.push(
+        "",
+        "Technical Drawing",
+        "Studied Engineering Graphics and Design, developing knowledge of technical drawings and design principles."
+      );
+    }
+
+    if (
+      selectedTechnicalSubjects.includes("Technical Mathematics") ||
+      selectedTechnicalSubjects.includes("Technical Sciences")
+    ) {
+      lines.push(
+        "",
+        "Applied Technical Knowledge",
+        "Studied technical mathematics and sciences relevant to understanding measurements, calculations and technical problems."
+      );
+    }
+
+    return lines.join("\n");
   }
 
   const lines = [];
@@ -1803,28 +1854,8 @@ function formatExperience(data) {
   ].filter(Boolean).join(" – ");
 
   if (dates) lines.push(dates);
-  if (data.experienceDescription) lines.push(data.experienceDescription);
-
-  return lines.join("\n");
-}
-
-function formatAdditional(data) {
-  const lines = [];
-
-  if (data.availability) {
-    lines.push(`Availability: ${data.availability}`);
-  }
-
-  if (data.driversLicence && data.driversLicence !== "Not specified") {
-    lines.push(`Driver's licence: ${data.driversLicence}`);
-  }
-
-  if (data.certificates) {
-    lines.push(`Certificates / training: ${data.certificates}`);
-  }
-
-  if (data.interests) {
-    lines.push(`Interests: ${data.interests}`);
+  if (data.experienceDescription) {
+    lines.push(data.experienceDescription);
   }
 
   return lines.join("\n");
