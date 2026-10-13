@@ -643,11 +643,22 @@
           actions.className = "purchase-actions";
 
           if (status === "paid") {
-            const note = document.createElement("p");
-            note.textContent =
-              "Your payment has been approved. CV builder access will be available when the builder is connected.";
-            actions.appendChild(note);
-          } else if (status === "declined") {
+  const note = document.createElement("p");
+  note.textContent =
+    "Your payment has been approved. You can now open, edit and download your CV.";
+  actions.appendChild(note);
+
+  const builderButton = document.createElement("a");
+  builderButton.className = "button";
+  builderButton.href =
+    "./builder.html?purchase_id=" +
+    encodeURIComponent(purchase.id);
+  builderButton.textContent = "Open My CV";
+  builderButton.style.display = "inline-block";
+  builderButton.style.textDecoration = "none";
+
+  actions.appendChild(builderButton);
+} else if (status === "declined") {
             const note = document.createElement("p");
             note.textContent =
               "This order was declined. Contact the website owner before making another payment.";
