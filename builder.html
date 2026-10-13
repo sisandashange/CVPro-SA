@@ -657,6 +657,55 @@ footer {
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
   }
 }
+
+/* Professional education and skills formatting */
+#previewSubjects,
+#previewSkills {
+  line-height: 1.5;
+}
+
+.cv-subject-heading,
+.cv-skill-heading {
+  display: block;
+  font-size: 10pt;
+  font-weight: 700;
+  margin: 10px 0 4px;
+  color: #111;
+}
+
+.cv-subject-list,
+.cv-skill-list {
+  margin: 0 0 10px;
+  padding-left: 20px;
+  list-style-type: disc;
+}
+
+.cv-subject-list li,
+.cv-skill-list li {
+  margin-bottom: 3px;
+  padding-left: 2px;
+  font-size: 9.5pt;
+  line-height: 1.45;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.cv-skill-group {
+  margin-bottom: 8px;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.cv-skill-heading {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 3px;
+  margin-top: 8px;
+}
+
+#previewExperience {
+  white-space: pre-line;
+  line-height: 1.55;
+}
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
