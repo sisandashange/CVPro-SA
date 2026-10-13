@@ -5,12 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#111111">
   <meta name="description" content="Create your CVPro-SA account or sign in to manage your CV purchases.">
+  <meta name="robots" content="noindex, nofollow">
   <title>Account | CVPro-SA</title>
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -97,9 +96,7 @@
       color: #fff;
     }
 
-    .field {
-      margin-bottom: 16px;
-    }
+    .field { margin-bottom: 16px; }
 
     label {
       display: block;
@@ -187,17 +184,9 @@
     }
 
     @media (max-width: 480px) {
-      main {
-        margin: 22px auto;
-      }
-
-      .card {
-        padding: 23px 17px;
-      }
-
-      h1 {
-        font-size: 25px;
-      }
+      main { margin: 22px auto; }
+      .card { padding: 23px 17px; }
+      h1 { font-size: 25px; }
     }
   </style>
 </head>
@@ -219,13 +208,8 @@
       </p>
 
       <div class="tabs">
-        <button class="tab active" id="loginTab" type="button">
-          Sign In
-        </button>
-
-        <button class="tab" id="signupTab" type="button">
-          Create Account
-        </button>
+        <button class="tab active" id="loginTab" type="button">Sign In</button>
+        <button class="tab" id="signupTab" type="button">Create Account</button>
       </div>
 
       <div class="message" id="message" role="status" aria-live="polite"></div>
@@ -286,7 +270,7 @@
         </button>
       </form>
 
-      <a class="forgot" id="forgotLink" href="./forgot-password.html">
+      <a class="forgot" id="forgotLink" href="./reset-password.html">
         Forgot your password?
       </a>
 
@@ -308,6 +292,9 @@
 
     const SUPABASE_PUBLISHABLE_KEY =
       "sb_publishable_n4XzrnraET_AEMbCYtHV7Q_DJ8--zCL";
+
+    const RESET_PAGE_URL =
+      "https://zyremarkertplace.github.io/CVPro-SA/reset-password.html";
 
     const supabaseClient = window.supabase.createClient(
       SUPABASE_URL,
@@ -337,6 +324,7 @@
     const forgotLink = document.getElementById("forgotLink");
 
     let mode = "login";
+    let resetRequestInProgress = false;
 
     document.getElementById("year").textContent =
       new Date().getFullYear();
@@ -384,6 +372,53 @@
     loginTab.addEventListener("click", () => setMode("login"));
     signupTab.addEventListener("click", () => setMode("signup"));
 
+    forgotLink.addEventListener("click", async (event) => {
+      event.preventDefault();
+
+      if (resetRequestInProgress) return;
+
+      clearMessage();
+
+      const email = emailInput.value.trim().toLowerCase();
+
+      if (!email) {
+        showMessage(
+          "Enter your account email address first, then tap Forgot your password again.",
+          "error"
+        );
+        emailInput.focus();
+        return;
+      }
+
+      resetRequestInProgress = true;
+      forgotLink.textContent = "Sending reset email...";
+
+      try {
+        const { error } =
+          await supabaseClient.auth.resetPasswordForEmail(email, {
+            redirectTo: RESET_PAGE_URL
+          });
+
+        if (error) throw error;
+
+        showMessage(
+          "If an account exists for this email, a password-reset email will be sent. Check your inbox and spam folder, then open the latest reset email on this device.",
+          "success"
+        );
+      } catch (error) {
+        console.error("Password-reset request failed:", error);
+
+        showMessage(
+          error.message ||
+          "We could not request a password reset. Please try again later.",
+          "error"
+        );
+      } finally {
+        resetRequestInProgress = false;
+        forgotLink.textContent = "Forgot your password?";
+      }
+    });
+
     accountForm.addEventListener("submit", async (event) => {
       event.preventDefault();
       clearMessage();
@@ -404,7 +439,10 @@
         }
 
         if (password.length < 8) {
-          showMessage("Your password must be at least 8 characters.", "error");
+          showMessage(
+            "Your password must be at least 8 characters.",
+            "error"
+          );
           return;
         }
       }
@@ -427,9 +465,7 @@
             }
           });
 
-          if (error) {
-            throw error;
-          }
+          if (error) throw error;
 
           if (data.session) {
             showMessage(
@@ -438,7 +474,7 @@
             );
           } else {
             showMessage(
-              "Registration received. Check your email and tap the confirmation link before signing in. If no email arrives, wait before requesting another.",
+              "Registration received. Check your email and tap the confirmation link before signing in.",
               "success"
             );
           }
@@ -449,15 +485,18 @@
               password
             });
 
-          if (error) {
-            throw error;
-          }
+          if (error) throw error;
 
           if (!data.user) {
-            throw new Error("Sign-in could not be completed. Please try again.");
+            throw new Error(
+              "Sign-in could not be completed. Please try again."
+            );
           }
 
-          showMessage("Signed in successfully. Opening your account...", "success");
+          showMessage(
+            "Signed in successfully. Opening your account...",
+            "success"
+          );
 
           setTimeout(() => {
             window.location.href = "./my-account.html";
@@ -466,14 +505,18 @@
       } catch (error) {
         console.error("Account error:", error);
 
-        let errorText = error.message || "Something went wrong. Please try again.";
+        let errorText =
+          error.message || "Something went wrong. Please try again.";
 
         if (errorText.toLowerCase().includes("invalid login credentials")) {
-          errorText = "Email or password is incorrect. Please check and try again.";
+          errorText =
+            "Email or password is incorrect. Please check and try again.";
         } else if (errorText.toLowerCase().includes("email not confirmed")) {
-          errorText = "Please confirm your email using the link we sent before signing in.";
+          errorText =
+            "Please confirm your email using the link we sent before signing in.";
         } else if (errorText.toLowerCase().includes("already registered")) {
-          errorText = "This email may already have an account. Try signing in instead.";
+          errorText =
+            "This email may already have an account. Try signing in instead.";
         }
 
         showMessage(errorText, "error");
@@ -486,7 +529,8 @@
 
     async function handleEmailConfirmation() {
       const params = new URLSearchParams(window.location.search);
-      const confirmationError = params.get("error_description");
+      const confirmationError =
+        params.get("error_description");
 
       if (confirmationError) {
         showMessage(
@@ -497,7 +541,13 @@
         return;
       }
 
-      const { data } = await supabaseClient.auth.getSession();
+      const { data, error } =
+        await supabaseClient.auth.getSession();
+
+      if (error) {
+        console.error("Session check failed:", error);
+        return;
+      }
 
       if (data.session) {
         showMessage(
