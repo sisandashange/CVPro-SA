@@ -3412,6 +3412,7 @@ async function saveCv() {
   }
 }
 
+
 /* =========================================================
    PROFESSIONAL PDF DOWNLOAD
 ========================================================= */
@@ -3422,41 +3423,24 @@ async function downloadCvPdf() {
   const button = $("printButton");
 
   button.disabled = true;
-  button.textContent =
-    "Preparing PDF...";
+  button.textContent = "Preparing PDF...";
 
   try {
-    if (
-      typeof window.html2pdf !==
-      "function"
-    ) {
-      throw new Error(
-        "PDF generator is unavailable."
-      );
+    if (typeof window.html2pdf !== "function") {
+      throw new Error("PDF generator is unavailable.");
     }
 
     const cv = $("cvPreview");
 
     const filename = (
-      valueOf("fullName") ||
-      "My_CV"
-    )
-      .replace(
-        /[^a-z0-9_-]+/gi,
-        "_"
-      );
+      valueOf("fullName") || "My_CV"
+    ).replace(/[^a-z0-9_-]+/gi, "_");
 
     await window.html2pdf()
       .set({
-        margin: [
-  7,
-  9,
-  7,
-  9
-],
+        margin: [7, 9, 7, 9],
 
-        filename:
-          `${filename}_CV.pdf`,
+        filename: `${filename}_CV.pdf`,
 
         image: {
           type: "jpeg",
@@ -3466,8 +3450,7 @@ async function downloadCvPdf() {
         html2canvas: {
           scale: 2,
           useCORS: true,
-          backgroundColor:
-            "#ffffff",
+          backgroundColor: "#ffffff",
           scrollY: 0
         },
 
@@ -3478,14 +3461,13 @@ async function downloadCvPdf() {
         },
 
         pagebreak: {
-          pagebreak: {
-  mode: ["legacy"],
-  avoid: [
-    ".cv-header",
-    ".cv-subject-group",
-    ".cv-skill-group"
-  ]
-}
+          mode: ["legacy"],
+          avoid: [
+            ".cv-header",
+            ".cv-subject-group",
+            ".cv-skill-group"
+          ]
+        }
       })
       .from(cv)
       .save();
@@ -3496,22 +3478,16 @@ async function downloadCvPdf() {
     );
 
   } catch (error) {
-    console.error(
-      "PDF error:",
-      error
-    );
+    console.error("PDF error:", error);
 
     showMessage(
-      error.message ||
-      "Could not download your PDF.",
+      error.message || "Could not download your PDF.",
       "error"
     );
 
   } finally {
     button.disabled = false;
-
-    button.textContent =
-      "Download Professional PDF";
+    button.textContent = "Download Professional PDF";
   }
 }
 
