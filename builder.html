@@ -2502,14 +2502,7 @@ function formatEducation(data) {
    EXPERIENCE AND PRACTICAL TRAINING
 ========================================================= */
 
-function escapeHtml(str) {
-  return String(str ?? "")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-}
+
 function formatExperience(data) {
   // Preserve genuine work experience.
   if (data.experienceType !== "no-experience") {
@@ -2525,7 +2518,7 @@ function formatExperience(data) {
     `;
   }
 
-  // Get the customer's selected subjects.
+  // Read the selected subjects.
   const subjects = Array.isArray(data.subjects)
     ? data.subjects
     : String(data.subjects || "")
@@ -2533,8 +2526,8 @@ function formatExperience(data) {
         .map(subject => subject.trim())
         .filter(Boolean);
 
-  // Exclude these subjects from the experience entry.
-  const excludedSubjects = new Set([
+  // Exclude English, isiZulu and Life Orientation.
+  const excluded = new Set([
     "english",
     "english home language",
     "english first additional language",
@@ -2548,153 +2541,81 @@ function formatExperience(data) {
   ]);
 
   const relevantSubjects = subjects.filter(subject => {
-    const normalised = subject
-      .toLowerCase()
-      .replace(/\s+/g, " ")
-      .trim();
-
-    return !excludedSubjects.has(normalised);
+    const normalised = subject.toLowerCase().replace(/\s+/g, " ").trim();
+    return !excluded.has(normalised);
   });
 
-  // Descriptions for individual subjects.
-  const subjectDescriptions = {
-    "mathematical literacy":
-      "Mathematical Literacy developed numerical reasoning, calculations, interpreting information and budgeting skills.",
+  const subjectNames = relevantSubjects.join(", ");
+  const allSubjects = relevantSubjects.join(" ").toLowerCase();
 
-    "mathematics":
-      "Mathematics developed logical thinking, numerical accuracy and structured problem-solving skills.",
+  // Create ONE combined description for related subjects.
+  let summary;
 
-    "geography":
-      "Geography developed skills in interpreting maps, analysing geographical information and understanding environmental patterns.",
+  const isTechnical =
+    /technical mathematics|technical sciences|engineering graphics|mechanical technology|civil technology|electrical technology|welding|fitting and machining/.test(allSubjects);
 
-    "history":
-      "History developed research, critical thinking and the ability to interpret information and historical evidence.",
+  const isBusiness =
+    /accounting|business studies|business management|economics|consumer studies|entrepreneurship/.test(allSubjects);
 
-    "consumer studies":
-      "Consumer Studies developed knowledge of budgeting, consumer choices, household management and responsible resource use.",
+  const isComputing =
+    /computer applications technology|information technology|computer science|digital technology/.test(allSubjects);
 
-    "physical sciences":
-      "Physical Sciences developed scientific reasoning, analytical thinking and an understanding of physical principles.",
+  const isScience =
+    /physical sciences|life sciences|agricultural sciences|biology|chemistry|physics/.test(allSubjects);
 
-    "life sciences":
-      "Life Sciences developed knowledge of biological systems, scientific concepts and interpreting information.",
+  const isMaths =
+    /mathematics|mathematical literacy|technical mathematics/.test(allSubjects);
 
-    "agricultural sciences":
-      "Agricultural Sciences developed knowledge of agricultural principles, production processes and resource management.",
+  const isGeography =
+    /geography/.test(allSubjects);
 
-    "agricultural technology":
-      "Agricultural Technology developed foundational knowledge of agricultural equipment, processes and technology.",
+  const isHistory =
+    /history/.test(allSubjects);
 
-    "mechanical technology":
-      "Mechanical Technology developed foundational technical knowledge of materials, measurements, tools and workshop processes.",
+  const isCreative =
+    /visual arts|design|dramatic arts|music/.test(allSubjects);
 
-    "engineering graphics and design":
-      "Engineering Graphics and Design developed skills in technical drawing, interpreting plans, design principles and accuracy.",
+  if (isTechnical) {
+    summary =
+      "Developed foundational technical knowledge through studies involving technical calculations, scientific principles, technical drawings and mechanical processes. Built an understanding of measurements, materials, design interpretation and structured problem-solving, providing a foundation for further practical training and workplace development.";
+  } else if (isComputing) {
+    summary =
+      "Developed foundational digital and information-management skills through computer-related studies. Built knowledge of computer applications, handling information and solving problems logically, providing a foundation for further learning and workplace development.";
+  } else if (isBusiness) {
+    summary =
+      "Developed foundational business and financial knowledge through studies involving calculations, budgeting, resource management and business principles. Built analytical and organisational skills that can support further learning and development in the workplace.";
+  } else if (isScience) {
+    summary =
+      "Developed scientific knowledge and analytical thinking through studies involving scientific principles, observation and interpretation of information. Built a foundation in accuracy, logical reasoning and problem-solving that can support further training and workplace development.";
+  } else if (isMaths && isGeography && isHistory) {
+    summary =
+      "Developed numerical reasoning and information-analysis skills through mathematical studies, alongside geographical interpretation and historical research. Built a foundation in calculations, interpreting information and evidence-based thinking that can support further learning and workplace development.";
+  } else if (isMaths && isGeography) {
+    summary =
+      "Developed numerical reasoning and problem-solving skills through mathematical studies, alongside the ability to interpret geographical information and maps. Built a foundation in analysis, accuracy and understanding information.";
+  } else if (isMaths && isHistory) {
+    summary =
+      "Developed numerical reasoning and structured problem-solving skills through mathematical studies, alongside research and critical-thinking skills through historical studies.";
+  } else if (isGeography && isHistory) {
+    summary =
+      "Developed research, information interpretation and analytical skills through geographical and historical studies. Built an understanding of maps, environmental patterns, historical evidence and different perspectives.";
+  } else if (isMaths) {
+    summary =
+      "Developed numerical reasoning, accurate calculations and structured problem-solving skills through mathematical studies. Built a foundation for learning new procedures and applying information logically.";
+  } else if (isGeography) {
+    summary =
+      "Developed skills in interpreting geographical information, understanding environmental patterns and analysing information through geographical studies.";
+  } else if (isHistory) {
+    summary =
+      "Developed research, critical thinking and information-interpretation skills through historical studies, including examining evidence and understanding events in context.";
+  } else if (isCreative) {
+    summary =
+      "Developed creative thinking, planning and presentation skills through creative studies. Built a foundation in communicating ideas and approaching tasks thoughtfully.";
+  } else {
+    summary =
+      "Developed foundational subject knowledge, analytical thinking and problem-solving skills through educational studies. Prepared to build on this knowledge through further training and workplace experience.";
+  }
 
-    "civil technology":
-      "Civil Technology developed foundational knowledge of construction methods, materials, technical processes and measurements.",
-
-    "electrical technology":
-      "Electrical Technology developed foundational knowledge of electrical principles, components and technical systems.",
-
-    "technical sciences":
-      "Technical Sciences developed an understanding of technical principles, measurements and applied problem-solving.",
-
-    "computer applications technology":
-      "Computer Applications Technology developed digital literacy, document preparation, spreadsheet use and information-management skills.",
-
-    "information technology":
-      "Information Technology developed logical thinking and foundational knowledge of computer systems and technology.",
-
-    "computer science":
-      "Computer Science developed logical reasoning, computational thinking and problem-solving skills.",
-
-    "accounting":
-      "Accounting developed numerical accuracy and knowledge of financial records, calculations and accounting principles.",
-
-    "business studies":
-      "Business Studies developed knowledge of business operations, planning, entrepreneurship and decision-making.",
-
-    "business management":
-      "Business Management developed knowledge of planning, organisation and business operations.",
-
-    "economics":
-      "Economics developed analytical thinking and an understanding of markets, economic activity and resource allocation.",
-
-    "hospitality studies":
-      "Hospitality Studies developed knowledge of hospitality operations, service standards and industry procedures.",
-
-    "tourism":
-      "Tourism developed knowledge of tourism services, destinations, customer needs and travel-related information.",
-
-    "design":
-      "Design developed creative thinking, planning and the ability to communicate ideas visually.",
-
-    "visual arts":
-      "Visual Arts developed creativity, visual communication and attention to presentation.",
-
-    "dramatic arts":
-      "Dramatic Arts developed creative expression, preparation and communication skills.",
-
-    "music":
-      "Music developed creativity, discipline and an understanding of musical concepts.",
-
-    "religion studies":
-      "Religion Studies developed critical thinking and the ability to understand and compare different perspectives.",
-
-    "religious studies":
-      "Religious Studies developed critical thinking and the ability to understand and compare different perspectives."
-  };
-
-  // Match each selected subject to its own description.
-  const learningDescriptions = relevantSubjects.map(subject => {
-    const normalised = subject
-      .toLowerCase()
-      .replace(/\s+/g, " ")
-      .trim();
-
-    // Prefer exact matches to avoid matching the wrong subject.
-    if (subjectDescriptions[normalised]) {
-      return subjectDescriptions[normalised];
-    }
-
-    // Handle some additional subject names.
-    if (/mechanical technology/.test(normalised)) {
-      return subjectDescriptions["mechanical technology"];
-    }
-
-    if (/engineering graphics and design|\begd\b/.test(normalised)) {
-      return subjectDescriptions["engineering graphics and design"];
-    }
-
-    if (/computer applications technology|\bcat\b/.test(normalised)) {
-      return subjectDescriptions["computer applications technology"];
-    }
-
-    if (/mathematical literacy/.test(normalised)) {
-      return subjectDescriptions["mathematical literacy"];
-    }
-
-    if (/physical sciences/.test(normalised)) {
-      return subjectDescriptions["physical sciences"];
-    }
-
-    if (/life sciences/.test(normalised)) {
-      return subjectDescriptions["life sciences"];
-    }
-
-    if (/agricultural sciences/.test(normalised)) {
-      return subjectDescriptions["agricultural sciences"];
-    }
-
-    // Avoid inventing subject-specific practical experience.
-    return `${subject}: developed subject knowledge, analytical thinking and problem-solving skills through educational learning.`;
-  });
-
-  // Combine every subject into ONE paragraph.
-  const combinedLearning = learningDescriptions.join(" ");
-
-  // Use the target job if the form provides one.
   const targetJob = String(
     data.targetJob ||
     data.desiredJob ||
@@ -2703,30 +2624,23 @@ function formatExperience(data) {
   ).trim();
 
   const closing = targetJob
-    ? ` Seeking an opportunity to apply this knowledge and develop professionally in a ${targetJob} role.`
-    : " Seeking an opportunity to apply this knowledge, gain workplace experience and develop professionally.";
+    ? ` Eager to build on this foundation in a ${targetJob} role.`
+    : " Eager to build on this foundation, gain practical experience and develop professionally.";
 
-  // Keep the final experience section concise.
-  const finalSummary = learningDescriptions.length
-    ? combinedLearning + closing
-    : "Completed educational studies and developed foundational knowledge, analytical thinking and problem-solving skills. Seeking an opportunity to gain workplace experience and develop professionally.";
-
-  // Return one combined experience entry.
   return `
     <div class="experience-item">
       <h3>Relevant Educational Experience</h3>
 
       ${
-        relevantSubjects.length
-          ? `<p><strong>Relevant Subjects:</strong> ${escapeHtml(relevantSubjects.join(", "))}</p>`
+        subjectNames
+          ? `<p><strong>Relevant Subjects:</strong> ${escapeHtml(subjectNames)}</p>`
           : ""
       }
 
-      <p>${escapeHtml(finalSummary)}</p>
+      <p>${escapeHtml(summary + closing)}</p>
     </div>
   `;
 }
-
 /* =========================================================
    SUBJECT GROUPS
 ========================================================= */
