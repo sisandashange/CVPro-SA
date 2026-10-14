@@ -302,12 +302,33 @@ async function loadPendingOrders() {
             transaction_reference: transactionReference
           });
 
-          if (!approval.success) {
-            throw new Error(approval.error || "Payment approval was not confirmed.");
-          }
+          if (
+  !approval.success ||
+  !approval.purchase ||
+  approval.purchase.payment_status !== "paid"
+) {
+  throw new Error(
+    approval.error ||
+    "Approval was not confirmed. The order has not been verified as paid."
+  );
+}
 
-          showMessage(message, "Payment marked as paid. Refreshing pending orders…", "success");
-          await loadPendingOrders();
+// Confirm that the server approved the correct order.
+if (approval.purchase.id !== purchase.id) {
+  throw new Error(
+    "The server returned a different order. Please refresh and check the order."
+  );
+}
+
+// Refresh the pending list after confirmed approval.
+await loadPendingOrders();
+
+// Show the success message outside the order cards.
+showMessage(
+  dashboardMessage,
+  `Order ${purchase.order_number} approved successfully. Refresh complete.`,
+  "success"
+);
         } catch (error) {
           showMessage(message, error.message || "Approval failed.", "error");
           button.disabled = false;
