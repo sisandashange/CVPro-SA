@@ -2502,8 +2502,9 @@ function formatEducation(data) {
    EXPERIENCE AND PRACTICAL TRAINING
 ========================================================= */
 
+
 function formatExperience(data) {
-  // Keep genuine work experience unchanged.
+  // Preserve genuine work experience.
   if (data.experienceType !== "no-experience") {
     const title = data.jobTitle || "";
     const employer = data.employer || "";
@@ -2519,66 +2520,91 @@ function formatExperience(data) {
     `;
   }
 
-  // Combine all subjects into one summary.
+  // Get the subjects selected by the customer.
   const subjects = Array.isArray(data.subjects)
-    ? data.subjects.join(" ").toLowerCase()
-    : String(data.subjects || "").toLowerCase();
+    ? data.subjects
+    : String(data.subjects || "")
+        .split(",")
+        .map(subject => subject.trim())
+        .filter(Boolean);
 
-  const skills = Array.isArray(data.skills)
-    ? data.skills.join(", ")
-    : String(data.skills || "");
+  // Exclude subjects that should not appear in this entry.
+  const excludedSubjects = [
+    "english",
+    "english home language",
+    "english first additional language",
+    "isizulu",
+    "isizulu home language",
+    "isizulu first additional language",
+    "life orientation"
+  ];
 
-  const targetJob = String(
-    data.targetJob || data.desiredJob || data.jobApplyingFor || ""
-  ).trim();
+  const relevantSubjects = subjects.filter(subject => {
+    const normalised = subject
+      .toLowerCase()
+      .replace(/\s+/g, " ")
+      .trim();
 
-  let learningSummary =
-    "Developed a foundation in learning new information, following instructions, solving problems and completing tasks responsibly through educational activities.";
+    return !excludedSubjects.includes(normalised);
+  });
+
+  const subjectNames = relevantSubjects.join(", ");
+
+  // Build one concise summary based on relevant subjects.
+  let summary =
+    "Developed foundational knowledge, problem-solving abilities and a willingness to learn through educational studies.";
 
   if (
-    /mechanical|engineering|technical|technology|welding|electrical|eg(d|d)|design|workshop/.test(subjects)
+    /mechanical|engineering|technical|welding|technology|design|workshop/i
+      .test(subjectNames)
   ) {
-    learningSummary =
-      "Developed problem-solving, attention to detail and practical thinking skills through technical learning and educational activities.";
+    summary =
+      "Developed foundational technical knowledge, practical problem-solving and attention to detail through educational studies.";
   } else if (
-    /business|economics|accounting|commerce|entrepreneurship/.test(subjects)
+    /accounting|business|economics|commerce|entrepreneurship/i
+      .test(subjectNames)
   ) {
-    learningSummary =
-      "Developed an understanding of business principles, basic calculations, organisation and responsible decision-making through educational activities.";
+    summary =
+      "Developed foundational business knowledge, numerical skills and an understanding of organisation and problem-solving through educational studies.";
   } else if (
-    /computer|information technology|digital|coding/.test(subjects)
+    /computer|information technology|digital technology/i
+      .test(subjectNames)
   ) {
-    learningSummary =
-      "Developed digital literacy, logical thinking, information-handling and problem-solving skills through educational activities.";
+    summary =
+      "Developed foundational digital skills, logical thinking and problem-solving abilities through educational studies.";
   } else if (
-    /science|biology|life sciences|physical sciences|chemistry|physics|agriculture/.test(subjects)
+    /physical sciences|life sciences|biology|chemistry|physics|agricultural sciences/i
+      .test(subjectNames)
   ) {
-    learningSummary =
-      "Developed analytical thinking, observation, accuracy and problem-solving skills through scientific and practical learning activities.";
+    summary =
+      "Developed analytical thinking, accuracy and problem-solving skills through scientific and practical learning.";
   } else if (
-    /mathematics|mathematical literacy|maths/.test(subjects)
+    /mathematics|mathematical literacy/i.test(subjectNames)
   ) {
-    learningSummary =
-      "Developed numeracy, logical thinking, accuracy and problem-solving skills through mathematical learning activities.";
+    summary =
+      "Developed numerical reasoning, analytical thinking and problem-solving skills through mathematical studies.";
   }
 
-  const selectedSkills = skills
-    .split(",")
-    .map(skill => skill.trim())
-    .filter(Boolean);
+  const targetJob = String(
+    data.targetJob ||
+    data.desiredJob ||
+    data.jobApplyingFor ||
+    ""
+  ).trim();
 
-  const skillSummary = selectedSkills.length
-    ? ` Personal strengths include ${selectedSkills.slice(0, 5).join(", ").toLowerCase()}.`
-    : "";
-
-  const jobSummary = targetJob
-    ? ` Motivated to apply these abilities in a ${targetJob} role, learn workplace procedures and contribute positively to the team.`
-    : " Motivated to gain practical work experience, learn new skills and contribute positively to a team.";
+  const closing = targetJob
+    ? ` Eager to apply these skills in a ${targetJob} role and continue learning in the workplace.`
+    : " Eager to apply these skills in the workplace and continue developing professionally.";
 
   return `
     <div class="experience-item">
-      <h3>Educational Experience and Transferable Skills</h3>
-      <p>${learningSummary}${skillSummary}${jobSummary}</p>
+      <h3>Relevant Educational Experience</h3>
+      ${
+        subjectNames
+          ? `<p><strong>Relevant Subjects:</strong> ${subjectNames}</p>`
+          : ""
+      }
+      <p>${summary}${closing}</p>
     </div>
   `;
 }
