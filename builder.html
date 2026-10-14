@@ -3485,11 +3485,13 @@ async function downloadCvPdf() {
         },
 
         html2canvas: {
-          scale: 2,
-          useCORS: true,
-          backgroundColor: "#ffffff",
-          scrollY: 0
-        },
+  scale: 1.5,
+  useCORS: true,
+  backgroundColor: "#ffffff",
+  scrollY: 0,
+  windowWidth: cv.scrollWidth,
+  windowHeight: cv.scrollHeight
+},
 
         jsPDF: {
           unit: "mm",
