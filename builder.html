@@ -2503,28 +2503,21 @@ function formatEducation(data) {
 ========================================================= */
 
 function formatExperience(data) {
+  /*
+   * Keep genuine employment experience unchanged.
+   */
   if (data.experienceType !== "no-experience") {
     const lines = [];
 
-    if (data.jobTitle) {
-      lines.push(data.jobTitle);
-    }
-
-    if (data.employer) {
-      lines.push(data.employer);
-    }
+    if (data.jobTitle) lines.push(data.jobTitle);
+    if (data.employer) lines.push(data.employer);
 
     const dates = [
       data.experienceStart,
       data.experienceEnd
-    ]
-      .filter(Boolean)
-      .join(" – ");
+    ].filter(Boolean).join(" – ");
 
-    if (dates) {
-      lines.push(dates);
-    }
-
+    if (dates) lines.push(dates);
     if (data.experienceDescription) {
       lines.push(data.experienceDescription);
     }
@@ -2532,82 +2525,380 @@ function formatExperience(data) {
     return lines.join("\n");
   }
 
-  const subjects = data.subjects || [];
+  const subjects = (data.subjects || [])
+    .map(subject => String(subject).toLowerCase());
 
-  const technicalSubjects = [
-    "Technical Mathematics",
-    "Technical Sciences",
-    "Engineering Graphics and Design (EGD)",
-    "Mechanical Technology",
-    "Welding and Metalwork",
-    "Engineering Drawing",
-    "Welding",
-    "Metalwork",
-    "Fitting and Turning",
-    "Electrical Technology",
-    "Civil Technology"
-  ];
+  const skills = (data.skills || [])
+    .map(skill => String(skill).toLowerCase());
 
-  const hasTechnicalSubjects = subjects.some(
-    subject => technicalSubjects.includes(subject)
-  );
+  const targetJob = String(
+    data.targetJob ||
+    data.desiredJob ||
+    data.jobApplyingFor ||
+    ""
+  ).trim();
 
-  if (!hasTechnicalSubjects) {
-    return (
-      "Seeking a first formal employment opportunity. " +
-      "Ready to learn, develop workplace skills " +
-      "and contribute positively to a team."
+  const qualification = String(
+    data.qualification ||
+    data.educationLevel ||
+    ""
+  ).trim();
+
+  const hasSubject = (...keywords) =>
+    subjects.some(subject =>
+      keywords.some(keyword =>
+        subject.includes(keyword.toLowerCase())
+      )
     );
+
+  const hasSkill = (...keywords) =>
+    skills.some(skill =>
+      keywords.some(keyword =>
+        skill.includes(keyword.toLowerCase())
+      )
+    );
+
+  const strengths = [];
+
+  /*
+   * Identify strengths supported by the
+   * customer's actual school subjects.
+   */
+
+  if (hasSubject(
+    "accounting", "economics", "business studies",
+    "commerce", "financial"
+  )) {
+    strengths.push({
+      title: "Business and Financial Understanding",
+      description:
+        "Developed a foundation in business principles, " +
+        "financial information and economic decision-making " +
+        "through school-based learning."
+    });
+  }
+
+  if (hasSubject(
+    "mathematics", "mathematical literacy",
+    "technical mathematics", "accounting"
+  )) {
+    strengths.push({
+      title: "Numerical and Analytical Skills",
+      description:
+        "Built numerical reasoning and problem-solving " +
+        "abilities through calculations, interpreting " +
+        "information and working through structured problems."
+    });
+  }
+
+  if (hasSubject(
+    "physical sciences", "life sciences",
+    "technical sciences", "agricultural sciences",
+    "natural sciences", "geography"
+  )) {
+    strengths.push({
+      title: "Scientific Thinking and Analysis",
+      description:
+        "Developed an understanding of scientific concepts " +
+        "and the importance of observation, evidence, accuracy " +
+        "and logical reasoning."
+    });
+  }
+
+  if (hasSubject(
+    "english", "isizulu", "isiZulu", "afrikaans",
+    "language", "literature"
+  )) {
+    strengths.push({
+      title: "Communication and Language Skills",
+      description:
+        "Developed written comprehension, communication " +
+        "and information-sharing skills through language " +
+        "studies and school assignments."
+    });
+  }
+
+  if (hasSubject(
+    "history", "geography", "tourism",
+    "religious studies", "social sciences"
+  )) {
+    strengths.push({
+      title: "Research and Information Analysis",
+      description:
+        "Practised interpreting information, understanding " +
+        "different perspectives and organising ideas through " +
+        "research, reading and school-based assignments."
+    });
+  }
+
+  if (hasSubject(
+    "computer applications technology", "cat",
+    "information technology", "computer",
+    "digital technology"
+  )) {
+    strengths.push({
+      title: "Digital and Information Skills",
+      description:
+        "Developed foundational digital knowledge and " +
+        "an understanding of using technology to access, " +
+        "organise and communicate information."
+    });
+  }
+
+  if (hasSubject(
+    "engineering graphics", "technical drawing",
+    "mechanical technology", "electrical technology",
+    "civil technology", "welding", "metalwork",
+    "technical mathematics", "technical sciences",
+    "design"
+  )) {
+    strengths.push({
+      title: "Technical and Practical Learning",
+      description:
+        "Developed foundational technical knowledge and " +
+        "an understanding of measurements, instructions, " +
+        "design principles and practical problem-solving " +
+        "through relevant educational studies."
+    });
+  }
+
+  if (hasSubject(
+    "agricultural sciences", "agricultural technology",
+    "agriculture"
+  )) {
+    strengths.push({
+      title: "Agricultural and Environmental Knowledge",
+      description:
+        "Developed foundational knowledge of agriculture, " +
+        "natural resources and environmental processes " +
+        "through relevant educational studies."
+    });
+  }
+
+  if (hasSubject(
+    "hospitality studies", "consumer studies",
+    "tourism", "food and nutrition"
+  )) {
+    strengths.push({
+      title: "Hospitality and Service Awareness",
+      description:
+        "Developed foundational knowledge relevant to " +
+        "hospitality, service environments, responsible " +
+        "practices and meeting people's needs."
+    });
+  }
+
+  if (hasSubject(
+    "visual arts", "design", "dramatic arts",
+    "music", "creative arts"
+  )) {
+    strengths.push({
+      title: "Creativity and Presentation",
+      description:
+        "Developed creative thinking, attention to presentation " +
+        "and the ability to communicate ideas through " +
+        "creative and practical school activities."
+    });
+  }
+
+  /*
+   * Add strengths selected by the customer.
+   */
+
+  if (hasSkill("communication", "verbal communication",
+      "written communication")) {
+    strengths.push({
+      title: "Communication",
+      description:
+        "Recognises the importance of clear communication, " +
+        "listening carefully and sharing information respectfully."
+    });
+  }
+
+  if (hasSkill("teamwork", "team work")) {
+    strengths.push({
+      title: "Teamwork",
+      description:
+        "Values cooperation, respectful working relationships " +
+        "and contributing towards shared objectives."
+    });
+  }
+
+  if (hasSkill("attention to detail", "accuracy",
+      "organisation", "organization")) {
+    strengths.push({
+      title: "Accuracy and Organisation",
+      description:
+        "Understands the importance of following instructions, " +
+        "keeping information organised and checking work carefully."
+    });
+  }
+
+  if (hasSkill("computer skills", "computer",
+      "microsoft word", "microsoft excel", "data entry")) {
+    strengths.push({
+      title: "Computer and Information Skills",
+      description:
+        "Can draw on their stated computer skills when " +
+        "completing appropriate digital and information tasks."
+    });
+  }
+
+  if (hasSkill("customer service", "sales")) {
+    strengths.push({
+      title: "Customer-Focused Approach",
+      description:
+        "Aims to treat people respectfully, understand their " +
+        "needs and communicate in a helpful, professional manner."
+    });
+  }
+
+  if (hasSkill("problem solving", "problem-solving",
+      "critical thinking")) {
+    strengths.push({
+      title: "Problem-Solving",
+      description:
+        "Approaches unfamiliar tasks methodically and is " +
+        "willing to learn how to resolve challenges."
+    });
+  }
+
+  /*
+   * Remove duplicate headings.
+   */
+
+  const uniqueStrengths = [];
+  const seen = new Set();
+
+  strengths.forEach(item => {
+    const key = item.title.toLowerCase();
+
+    if (!seen.has(key)) {
+      seen.add(key);
+      uniqueStrengths.push(item);
+    }
+  });
+
+  /*
+   * Create a professional heading.
+   */
+
+  const job = targetJob.toLowerCase();
+
+  let heading = "RELEVANT SKILLS & EDUCATIONAL LEARNING";
+
+  if (/admin|office|reception|clerk|data entry/.test(job)) {
+    heading = "ADMINISTRATIVE & PROFESSIONAL SKILLS";
+  } else if (/cashier|retail|sales|shop assistant/.test(job)) {
+    heading = "RETAIL & CUSTOMER SERVICE SKILLS";
+  } else if (/laboratory|lab assistant|scientific/.test(job)) {
+    heading = "SCIENTIFIC & ANALYTICAL FOUNDATION";
+  } else if (/factory|production|warehouse|manufactur/.test(job)) {
+    heading = "PRODUCTION & WORKPLACE READINESS";
+  } else if (/weld|mechanic|engineering|technical/.test(job)) {
+    heading = "TECHNICAL & PRACTICAL FOUNDATION";
+  } else if (/hospitality|hotel|chef|catering/.test(job)) {
+    heading = "HOSPITALITY & SERVICE SKILLS";
+  } else if (/computer|it support|information technology/.test(job)) {
+    heading = "DIGITAL & TECHNICAL SKILLS";
   }
 
   const lines = [
-    "School-Based Technical and Practical Learning",
+    heading,
     "",
-    "Completed technical studies involving classroom learning " +
-    "and practical applications of technical knowledge."
+    "Entry-Level Candidate | " +
+      (qualification || "School-Based Learning"),
+    "",
+    targetJob
+      ? "Career objective: Seeking an opportunity as a " +
+        targetJob +
+        ", with a commitment to learning, developing practical " +
+        "skills and contributing positively to the workplace."
+      : "Motivated entry-level candidate seeking an opportunity " +
+        "to apply relevant knowledge, develop practical skills " +
+        "and contribute positively to a professional team."
   ];
 
-  if (
-    subjects.includes("Welding and Metalwork") ||
-    subjects.includes("Welding") ||
-    subjects.includes("Metalwork") ||
-    subjects.includes("Mechanical Technology")
-  ) {
-    lines.push(
-      "",
-      "Welding and Metalwork Studies",
-      "Studied welding, metalwork and mechanical technology " +
-      "concepts through school-based technical education."
+  /*
+   * Prioritise relevant strengths for the selected job.
+   */
+
+  const jobKeywords = [];
+
+  if (/admin|office|reception|clerk|data entry/.test(job)) {
+    jobKeywords.push(
+      "business", "financial", "numerical",
+      "communication", "digital", "organisation"
     );
   }
 
-  if (
-    subjects.includes(
-      "Engineering Graphics and Design (EGD)"
-    ) ||
-    subjects.includes("Engineering Drawing") ||
-    subjects.includes("Technical Drawing")
-  ) {
-    lines.push(
-      "",
-      "Engineering Drawing and Design",
-      "Developed knowledge of technical drawings, " +
-      "design principles and graphical communication."
+  if (/cashier|retail|sales|shop assistant/.test(job)) {
+    jobKeywords.push(
+      "business", "financial", "numerical",
+      "communication", "customer", "teamwork"
     );
   }
 
-  if (
-    subjects.includes("Technical Mathematics") ||
-    subjects.includes("Technical Sciences")
-  ) {
-    lines.push(
-      "",
-      "Applied Technical Knowledge",
-      "Studied technical calculations, measurements " +
-      "and scientific principles relevant to engineering " +
-      "and practical problem-solving."
+  if (/laboratory|lab assistant|scientific/.test(job)) {
+    jobKeywords.push(
+      "scientific", "analytical", "numerical"
     );
   }
+
+  if (/factory|production|warehouse|manufactur/.test(job)) {
+    jobKeywords.push(
+      "technical", "practical", "scientific",
+      "accuracy", "teamwork"
+    );
+  }
+
+  if (/weld|mechanic|engineering|technical/.test(job)) {
+    jobKeywords.push(
+      "technical", "practical", "scientific",
+      "numerical"
+    );
+  }
+
+  if (/hospitality|hotel|chef|catering/.test(job)) {
+    jobKeywords.push(
+      "hospitality", "service", "communication",
+      "teamwork"
+    );
+  }
+
+  if (/computer|it support|information technology/.test(job)) {
+    jobKeywords.push(
+      "digital", "computer", "analytical"
+    );
+  }
+
+  uniqueStrengths.sort((a, b) => {
+    const score = item =>
+      jobKeywords.some(keyword =>
+        (item.title + " " + item.description)
+          .toLowerCase()
+          .includes(keyword)
+      ) ? 1 : 0;
+
+    return score(b) - score(a);
+  });
+
+  /*
+   * Limit the description to the most relevant strengths.
+   */
+
+  uniqueStrengths.slice(0, 5).forEach(item => {
+    lines.push("", item.title, item.description);
+  });
+
+  lines.push(
+    "",
+    "Professional Approach",
+    "Prepared to learn from experienced colleagues, follow " +
+    "workplace procedures, accept feedback and take responsibility " +
+    "for assigned tasks. Committed to reliability, continued " +
+    "development and maintaining a professional attitude."
+  );
 
   return lines.join("\n");
 }
