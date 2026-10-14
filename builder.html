@@ -3455,131 +3455,80 @@ async function saveCv() {
 ========================================================= */
 
 async function downloadCvPdf() {
-  updatePreview();
+updatePreview();
 
-  const button = $("printButton");
+const button = $("printButton");
 
-  button.disabled = true;
-  button.textContent = "Preparing PDF...";
+button.disabled = true;
+button.textContent = "Preparing PDF...";
 
-  try {
-    if (typeof window.html2pdf !== "function") {
-      throw new Error("PDF generator is unavailable.");
-    }
+try {
+if (typeof window.html2pdf !== "function") {
+throw new Error("PDF generator is unavailable.");
+}
 
-    const cv = $("cvPreview");
+const cv = $("cvPreview");  
 
-    if (!cv) {
-      throw new Error("CV preview could not be found.");
-    }
+const filename = (  
+  valueOf("fullName") || "My_CV"  
+).replace(/[^a-z0-9_-]+/gi, "_");  
 
-    const filename = (
-      valueOf("fullName") || "My_CV"
-    ).replace(/[^a-z0-9_-]+/gi, "_");
+await window.html2pdf()  
+  .set({  
+    margin: [6, 8, 6, 8],  
 
-    const options = {
-      margin: [7, 9, 7, 9],
+    filename: `${filename}_CV.pdf`,  
 
-      filename: `${filename}_CV.pdf`,
+    image: {  
+      type: "jpeg",  
+      quality: 0.98  
+    },  
 
-      image: {
-        type: "jpeg",
-        quality: 0.98
-      },
+    html2canvas: {
 
-      html2canvas: {
-        scale: 2,
-        useCORS: true,
-        backgroundColor: "#ffffff",
-        scrollY: 0
-      },
+scale: 1.5,
+useCORS: true,
+backgroundColor: "#ffffff",
+scrollY: 0,
+windowWidth: cv.scrollWidth,
+windowHeight: cv.scrollHeight
+},
 
-      jsPDF: {
-        unit: "mm",
-        format: "a4",
-        orientation: "portrait"
-      },
+jsPDF: {  
+      unit: "mm",  
+      format: "a4",  
+      orientation: "portrait"  
+    },  
 
-      pagebreak: {
-        mode: []
-      }
-    };
+    pagebreak: {  
+      mode: ["legacy"],  
+      avoid: [  
+        ".cv-header",  
+        ".cv-subject-group",  
+        ".cv-skill-group"  
+      ]  
+    }  
+  })  
+  .from(cv)  
+  .save();  
 
-    const worker = window.html2pdf()
-      .set(options)
-      .from(cv)
-      .toPdf();
+showMessage(  
+  "Your CV PDF download has started.",  
+  "success"  
+);
 
-    // Keep the PDF to one page by scaling the
-    // rendered CV image to fit the A4 page.
-    const pdf = await worker.get("pdf");
+} catch (error) {
+console.error("PDF error:", error);
 
-    const canvas = await window.html2pdf()
-      .set(options)
-      .from(cv)
-      .toCanvas()
-      .get("canvas");
+showMessage(  
+  error.message || "Could not download your PDF.",  
+  "error"  
+);
 
-    if (!canvas || !canvas.width || !canvas.height) {
-      throw new Error("Could not capture your CV.");
-    }
-
-    const imageData = canvas.toDataURL("image/jpeg", 0.98);
-
-    const pageWidth = pdf.internal.pageSize.getWidth();
-    const pageHeight = pdf.internal.pageSize.getHeight();
-
-    const margin = 7;
-    const availableWidth = pageWidth - margin * 2;
-    const availableHeight = pageHeight - margin * 2;
-
-    const ratio = Math.min(
-      availableWidth / canvas.width,
-      availableHeight / canvas.height
-    );
-
-    const imageWidth = canvas.width * ratio;
-    const imageHeight = canvas.height * ratio;
-
-    const x = (pageWidth - imageWidth) / 2;
-    const y = (pageHeight - imageHeight) / 2;
-
-    // Replace the generated pages with one fitted page.
-    while (pdf.getNumberOfPages() > 1) {
-      pdf.deletePage(pdf.getNumberOfPages());
-    }
-
-    pdf.deletePage(1);
-    pdf.addPage("a4", "portrait");
-
-    pdf.addImage(
-      imageData,
-      "JPEG",
-      x,
-      y,
-      imageWidth,
-      imageHeight
-    );
-
-    pdf.save(`${filename}_CV.pdf`);
-
-    showMessage(
-      "Your CV PDF download has started.",
-      "success"
-    );
-
-  } catch (error) {
-    console.error("PDF error:", error);
-
-    showMessage(
-      error.message || "Could not download your PDF.",
-      "error"
-    );
-
-  } finally {
-    button.disabled = false;
-    button.textContent = "Download Professional PDF";
-  }
+} finally {
+button.disabled = false;
+button.textContent = "Download Professional PDF";
+}
 }
 
 /* =========================================================
