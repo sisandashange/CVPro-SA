@@ -3455,80 +3455,208 @@ async function saveCv() {
 ========================================================= */
 
 async function downloadCvPdf() {
-updatePreview();
+  updatePreview();
 
-const button = $("printButton");
+  const button = $("printButton");
 
-button.disabled = true;
-button.textContent = "Preparing PDF...";
+  button.disabled = true;
+  button.textContent = "Preparing PDF...";
 
-try {
-if (typeof window.html2pdf !== "function") {
-throw new Error("PDF generator is unavailable.");
-}
+  try {
+    if (typeof window.html2pdf !== "function") {
+      throw new Error("PDF generator is unavailable.");
+    }
 
-const cv = $("cvPreview");  
+    const cv = $("cvPreview");
 
-const filename = (  
-  valueOf("fullName") || "My_CV"  
-).replace(/[^a-z0-9_-]+/gi, "_");  
+    if (!cv) {
+      throw new Error("CV preview could not be found.");
+    }
 
-await window.html2pdf()  
-  .set({  
-    margin: [6, 8, 6, 8],  
+    const filename = (
+      valueOf("fullName") || "My_CV"
+    ).replace(/[^a-z0-9_-]+/gi, "_");
 
-    filename: `${filename}_CV.pdf`,  
+    // Make a temporary copy of the CV.
+    const pdfCv = cv.cloneNode(true);
 
-    image: {  
-      type: "jpeg",  
-      quality: 0.98  
-    },  
+    pdfCv.style.width = "100%";
+    pdfCv.style.height = "auto";
+    pdfCv.style.minHeight = "0";
+    pdfCv.style.margin = "0";
+    pdfCv.style.boxSizing = "border-box";
+    pdfCv.style.overflow = "visible";
+    pdfCv.style.position = "fixed";
+    pdfCv.style.left = "0";
+    pdfCv.style.top = "0";
+    pdfCv.style.zIndex = "-1";
+    pdfCv.style.background = "#ffffff";
 
-    html2canvas: {
+    // Compact spacing for longer CVs.
+    pdfCv.querySelectorAll(".cv-header").forEach(el => {
+      el.style.marginBottom = "8px";
+    });
 
-scale: 1.5,
-useCORS: true,
-backgroundColor: "#ffffff",
-scrollY: 0,
-windowWidth: cv.scrollWidth,
-windowHeight: cv.scrollHeight
-},
+    pdfCv.querySelectorAll(".cv-section").forEach(el => {
+      el.style.marginTop = "7px";
+      el.style.breakInside = "auto";
+      el.style.pageBreakInside = "auto";
+    });
 
-jsPDF: {  
-      unit: "mm",  
-      format: "a4",  
-      orientation: "portrait"  
-    },  
+    pdfCv.querySelectorAll(".cv-section h3").forEach(el => {
+      el.style.marginBottom = "4px";
+      el.style.paddingBottom = "3px";
+    });
 
-    pagebreak: {  
-      mode: ["legacy"],  
-      avoid: [  
-        ".cv-header",  
-        ".cv-subject-group",  
-        ".cv-skill-group"  
-      ]  
-    }  
-  })  
-  .from(cv)  
-  .save();  
+    pdfCv.querySelectorAll(".cv-section p").forEach(el => {
+      el.style.margin = "2px 0";
+      el.style.lineHeight = "1.2";
+    });
 
-showMessage(  
-  "Your CV PDF download has started.",  
-  "success"  
-);
+    pdfCv.querySelectorAll(
+      ".cv-subject-group, .cv-skill-group"
+    ).forEach(el => {
+      el.style.marginBottom = "4px";
+      el.style.breakInside = "auto";
+      el.style.pageBreakInside = "auto";
+    });
 
-} catch (error) {
-console.error("PDF error:", error);
+    pdfCv.querySelectorAll(
+      ".cv-subject-heading, .cv-skill-heading"
+    ).forEach(el => {
+      el.style.margin = "4px 0 2px";
+    });
 
-showMessage(  
-  error.message || "Could not download your PDF.",  
-  "error"  
-);
+    pdfCv.querySelectorAll(
+      ".cv-subject-list, .cv-skill-list"
+    ).forEach(el => {
+      el.style.marginBottom = "3px";
+      el.style.paddingLeft = "16px";
+    });
 
-} finally {
-button.disabled = false;
-button.textContent = "Download Professional PDF";
-}
+    pdfCv.querySelectorAll(
+      ".cv-subject-list li, .cv-skill-list li"
+    ).forEach(el => {
+      el.style.marginBottom = "1px";
+      el.style.lineHeight = "1.2";
+    });
+
+    document.body.appendChild(pdfCv);
+
+    try {
+      // Measure the complete CV.
+      const contentWidth = pdfCv.scrollWidth;
+      const contentHeight = pdfCv.scrollHeight;
+
+      if (!contentWidth || !contentHeight) {
+        throw new Error("Could not measure your CV.");
+      }
+
+      // A4 page dimensions in millimetres.
+      const pageWidth = 210;
+      const pageHeight = 297;
+      const margin = 8;
+
+      const usableWidth = pageWidth - margin * 2;
+      const usableHeight = pageHeight - margin * 2;
+
+      // Convert CSS pixels to millimetres.
+      const pxToMm = 25.4 / 96;
+
+      const contentWidthMm = contentWidth * pxToMm;
+      const contentHeightMm = contentHeight * pxToMm;
+
+      // Fit long CVs to the available page.
+      const fitScale = Math.min(
+        usableWidth / contentWidthMm,
+        usableHeight / contentHeightMm
+      );
+
+      // Never shrink below the required fit scale.
+      // Shorter CVs keep their natural font sizes.
+      pdfCv.style.width = `${contentWidth}px`;
+      pdfCv.style.height = `${contentHeight}px`;
+      pdfCv.style.transformOrigin = "top left";
+
+      // html2pdf renders the temporary CV as an image.
+      // Use an A4 page and prevent automatic page splitting.
+      const canvas = await html2canvasForPdf(pdfCv);
+
+      const imageData = canvas.toDataURL(
+        "image/jpeg",
+        0.98
+      );
+
+      const pdf = await window.html2pdf()
+        .set({
+          margin: 0,
+          filename: `${filename}_CV.pdf`,
+          image: {
+            type: "jpeg",
+            quality: 0.98
+          },
+          html2canvas: {
+            scale: 2,
+            useCORS: true,
+            backgroundColor: "#ffffff",
+            scrollY: 0
+          },
+          jsPDF: {
+            unit: "mm",
+            format: "a4",
+            orientation: "portrait"
+          },
+          pagebreak: {
+            mode: []
+          }
+        })
+        .from(pdfCv)
+        .toPdf()
+        .get("pdf");
+
+      // Keep exactly one A4 page.
+      while (pdf.getNumberOfPages() > 1) {
+        pdf.deletePage(pdf.getNumberOfPages());
+      }
+
+      const imageWidthMm = contentWidthMm * fitScale;
+      const imageHeightMm = contentHeightMm * fitScale;
+
+      const x = (pageWidth - imageWidthMm) / 2;
+      const y = margin + (usableHeight - imageHeightMm) / 2;
+
+      pdf.addImage(
+        imageData,
+        "JPEG",
+        x,
+        y,
+        imageWidthMm,
+        imageHeightMm
+      );
+
+      pdf.save(`${filename}_CV.pdf`);
+
+    } finally {
+      pdfCv.remove();
+    }
+
+    showMessage(
+      "Your CV PDF download has started.",
+      "success"
+    );
+
+  } catch (error) {
+    console.error("PDF error:", error);
+
+    showMessage(
+      error.message || "Could not download your PDF.",
+      "error"
+    );
+
+  } finally {
+    button.disabled = false;
+    button.textContent = "Download Professional PDF";
+  }
 }
 
 /* =========================================================
