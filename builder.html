@@ -3171,6 +3171,8 @@ async function checkPurchaseAccess() {
 
   $("builderArea").style.display = "none";
 
+console.log("[CV DEBUG] Purchase check started");
+
   try {
     const {
       data: { session },
@@ -3190,11 +3192,18 @@ async function checkPurchaseAccess() {
 
     currentUser = session.user;
 
+console.log("[CV DEBUG] Session found");
+
     const purchaseResult =
       await callEdgeFunction(
         "get-cv-purchase-status",
         {}
       );
+
+console.log(
+  "[CV DEBUG] Purchase response received",
+  purchaseResult
+);
 
     const purchases = Array.isArray(
       purchaseResult.purchases
@@ -3252,6 +3261,11 @@ async function checkPurchaseAccess() {
 
     activePurchase =
       eligiblePurchases[0];
+
+console.log(
+  "[CV DEBUG] Eligible purchase found",
+  activePurchase
+);
 
     purchasedTemplate =
       determinePurchasedTemplate(
