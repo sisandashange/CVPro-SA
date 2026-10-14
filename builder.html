@@ -3477,85 +3477,38 @@ async function downloadCvPdf() {
       valueOf("fullName") || "My_CV"
     ).replace(/[^a-z0-9_-]+/gi, "_");
 
-    // Capture the CV using the existing PDF library.
-    const worker = window.html2pdf()
+    await window.html2pdf()
       .set({
-        margin: 0,
+        margin: [6, 8, 6, 8],
+        filename: `${filename}_CV.pdf`,
+
+        image: {
+          type: "jpeg",
+          quality: 0.98
+        },
+
         html2canvas: {
-          scale: 2,
+          scale: 1.5,
           useCORS: true,
           backgroundColor: "#ffffff",
           scrollY: 0
         },
+
         jsPDF: {
           unit: "mm",
           format: "a4",
           orientation: "portrait"
         },
+
         pagebreak: {
-          mode: []
+          mode: ["legacy"]
         }
       })
       .from(cv)
-      .toCanvas();
-
-    const canvas = await worker.get("canvas");
-
-    if (!canvas || !canvas.width || !canvas.height) {
-      throw new Error("Could not capture your CV.");
-    }
-
-    // Get the PDF object from the same worker.
-    await worker.toPdf();
-
-    const pdf = await worker.get("pdf");
-
-    if (!pdf) {
-      throw new Error("Could not generate your PDF.");
-    }
-
-    const pageWidth = 210;
-    const pageHeight = 297;
-    const margin = 8;
-
-    const usableWidth = pageWidth - margin * 2;
-    const usableHeight = pageHeight - margin * 2;
-
-    // Fit the complete CV within one A4 page.
-    const scale = Math.min(
-      usableWidth / canvas.width,
-      usableHeight / canvas.height
-    );
-
-    const imageWidth = canvas.width * scale;
-    const imageHeight = canvas.height * scale;
-
-    const x = (pageWidth - imageWidth) / 2;
-    const y = (pageHeight - imageHeight) / 2;
-
-    const imageData = canvas.toDataURL("image/jpeg", 0.98);
-
-    // Remove all generated pages.
-    while (pdf.getNumberOfPages() > 0) {
-      pdf.deletePage(pdf.getNumberOfPages());
-    }
-
-    // Add one page containing the complete CV.
-    pdf.addPage("a4", "portrait");
-
-    pdf.addImage(
-      imageData,
-      "JPEG",
-      x,
-      y,
-      imageWidth,
-      imageHeight
-    );
-
-    pdf.save(`${filename}_CV.pdf`);
+      .save();
 
     showMessage(
-      "Your one-page CV PDF download has started.",
+      "Your CV PDF download has started.",
       "success"
     );
 
