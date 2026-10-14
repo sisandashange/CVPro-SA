@@ -3469,47 +3469,184 @@ async function downloadCvPdf() {
 
     const cv = $("cvPreview");
 
+    if (!cv) {
+      throw new Error("CV preview could not be found.");
+    }
+
     const filename = (
       valueOf("fullName") || "My_CV"
     ).replace(/[^a-z0-9_-]+/gi, "_");
 
-    await window.html2pdf()
-      .set({
-        margin: [7, 9, 7, 9],
+    /*
+      Create a temporary copy so PDF adjustments
+      do not change the visible CV preview.
+    */
 
-        filename: `${filename}_CV.pdf`,
+    const pdfCv = cv.cloneNode(true);
 
-        image: {
-          type: "jpeg",
-          quality: 0.98
-        },
+    pdfCv.style.width = "100%";
+    pdfCv.style.height = "auto";
+    pdfCv.style.minHeight = "0";
+    pdfCv.style.margin = "0";
+    pdfCv.style.boxSizing = "border-box";
+    pdfCv.style.overflow = "visible";
 
-        html2canvas: {
-  scale: 1.5,
-  useCORS: true,
-  backgroundColor: "#ffffff",
-  scrollY: 0,
-  windowWidth: cv.scrollWidth,
-  windowHeight: cv.scrollHeight
-},
+    /*
+      Reduce unnecessary spacing in the PDF copy.
+    */
 
-        jsPDF: {
-          unit: "mm",
-          format: "a4",
-          orientation: "portrait"
-        },
+    pdfCv.querySelectorAll(".cv-header").forEach(el => {
+      el.style.marginBottom = "8px";
+    });
 
-        pagebreak: {
-          mode: ["legacy"],
-          avoid: [
-            ".cv-header",
-            ".cv-subject-group",
-            ".cv-skill-group"
-          ]
-        }
-      })
-      .from(cv)
-      .save();
+    pdfCv.querySelectorAll(".cv-section").forEach(el => {
+      el.style.marginTop = "7px";
+    });
+
+    pdfCv.querySelectorAll(".cv-section h3").forEach(el => {
+      el.style.marginBottom = "3px";
+      el.style.paddingBottom = "2px";
+    });
+
+    pdfCv.querySelectorAll(".cv-section p").forEach(el => {
+      el.style.margin = "2px 0";
+      el.style.lineHeight = "1.2";
+    });
+
+    pdfCv.querySelectorAll(
+      ".cv-subject-group, .cv-skill-group"
+    ).forEach(el => {
+      el.style.marginBottom = "3px";
+      el.style.breakInside = "auto";
+      el.style.pageBreakInside = "auto";
+    });
+
+    pdfCv.querySelectorAll(
+      ".cv-subject-heading, .cv-skill-heading"
+    ).forEach(el => {
+      el.style.margin = "3px 0 2px";
+    });
+
+    pdfCv.querySelectorAll(
+      ".cv-subject-list, .cv-skill-list"
+    ).forEach(el => {
+      el.style.marginBottom = "3px";
+      el.style.paddingLeft = "15px";
+    });
+
+    pdfCv.querySelectorAll(
+      ".cv-subject-list li, .cv-skill-list li"
+    ).forEach(el => {
+      el.style.marginBottom = "1px";
+      el.style.lineHeight = "1.2";
+    });
+
+    /*
+      Place the temporary copy off-screen.
+    */
+
+    pdfCv.style.position = "fixed";
+    pdfCv.style.left = "-10000px";
+    pdfCv.style.top = "0";
+
+    document.body.appendChild(pdfCv);
+
+    try {
+      /*
+        Measure the content and calculate a scale
+        that fits within an A4 page.
+      */
+
+      const pageWidthMm = 210;
+      const pageHeightMm = 297;
+
+      const marginTopMm = 7;
+      const marginBottomMm = 7;
+      const marginLeftMm = 9;
+      const marginRightMm = 9;
+
+      const usableWidthMm =
+        pageWidthMm - marginLeftMm - marginRightMm;
+
+      const usableHeightMm =
+        pageHeightMm - marginTopMm - marginBottomMm;
+
+      const measuredWidth = pdfCv.scrollWidth;
+      const measuredHeight = pdfCv.scrollHeight;
+
+      if (!measuredWidth || !measuredHeight) {
+        throw new Error("Could not measure the CV content.");
+      }
+
+      const scaleToFitWidth =
+        (usableWidthMm * 3.78) / measuredWidth;
+
+      const scaleToFitHeight =
+        (usableHeightMm * 3.78) / measuredHeight;
+
+      const fitScale = Math.min(
+        1,
+        scaleToFitWidth,
+        scaleToFitHeight
+      );
+
+      pdfCv.style.transform = `scale(${fitScale})`;
+      pdfCv.style.transformOrigin = "top left";
+
+      pdfCv.style.width =
+        `${measuredWidth}px`;
+
+      pdfCv.style.height =
+        `${measuredHeight}px`;
+
+      /*
+        Generate one A4 PDF page.
+      */
+
+      await window.html2pdf()
+        .set({
+          margin: [
+            marginTopMm,
+            marginRightMm,
+            marginBottomMm,
+            marginLeftMm
+          ],
+
+          filename: `${filename}_CV.pdf`,
+
+          image: {
+            type: "jpeg",
+            quality: 0.98
+          },
+
+          html2canvas: {
+            scale: 2,
+            useCORS: true,
+            backgroundColor: "#ffffff",
+            scrollY: 0,
+            windowWidth: Math.max(
+              document.documentElement.clientWidth,
+              measuredWidth
+            ),
+            windowHeight: measuredHeight
+          },
+
+          jsPDF: {
+            unit: "mm",
+            format: "a4",
+            orientation: "portrait"
+          },
+
+          pagebreak: {
+            mode: []
+          }
+        })
+        .from(pdfCv)
+        .save();
+
+    } finally {
+      pdfCv.remove();
+    }
 
     showMessage(
       "Your CV PDF download has started.",
