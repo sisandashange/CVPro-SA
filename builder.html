@@ -2502,6 +2502,14 @@ function formatEducation(data) {
    EXPERIENCE AND PRACTICAL TRAINING
 ========================================================= */
 
+function escapeHtml(str) {
+  return String(str ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
 function formatExperience(data) {
   // Preserve genuine work experience.
   if (data.experienceType !== "no-experience") {
