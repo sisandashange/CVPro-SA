@@ -3580,7 +3580,24 @@ async function downloadCvPdf() {
 
       // html2pdf renders the temporary CV as an image.
       // Use an A4 page and prevent automatic page splitting.
-      const canvas = await html2canvasForPdf(pdfCv);
+      const canvas = await window.html2pdf()
+  .set({
+    margin: 0,
+    html2canvas: {
+      scale: 2,
+      useCORS: true,
+      backgroundColor: "#ffffff",
+      scrollY: 0
+    },
+    jsPDF: {
+      unit: "mm",
+      format: "a4",
+      orientation: "portrait"
+    }
+  })
+  .from(pdfCv)
+  .toCanvas()
+  .get("canvas");
 
       const imageData = canvas.toDataURL(
         "image/jpeg",
