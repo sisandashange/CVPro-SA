@@ -3477,79 +3477,80 @@ async function downloadCvPdf() {
       valueOf("fullName") || "My_CV"
     ).replace(/[^a-z0-9_-]+/gi, "_");
 
-    // Capture the actual visible CV.
+    const options = {
+      margin: [7, 9, 7, 9],
+
+      filename: `${filename}_CV.pdf`,
+
+      image: {
+        type: "jpeg",
+        quality: 0.98
+      },
+
+      html2canvas: {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: "#ffffff",
+        scrollY: 0
+      },
+
+      jsPDF: {
+        unit: "mm",
+        format: "a4",
+        orientation: "portrait"
+      },
+
+      pagebreak: {
+        mode: []
+      }
+    };
+
     const worker = window.html2pdf()
-      .set({
-        margin: 0,
-
-        html2canvas: {
-          scale: 2,
-          useCORS: true,
-          backgroundColor: "#ffffff",
-          scrollY: 0
-        },
-
-        jsPDF: {
-          unit: "mm",
-          format: "a4",
-          orientation: "portrait"
-        },
-
-        pagebreak: {
-          mode: []
-        }
-      })
+      .set(options)
       .from(cv)
-      .toCanvas();
+      .toPdf();
 
-    const canvas = await worker.get("canvas");
+    // Keep the PDF to one page by scaling the
+    // rendered CV image to fit the A4 page.
+    const pdf = await worker.get("pdf");
+
+    const canvas = await window.html2pdf()
+      .set(options)
+      .from(cv)
+      .toCanvas()
+      .get("canvas");
 
     if (!canvas || !canvas.width || !canvas.height) {
-      throw new Error("Could not capture the CV. Please try again.");
+      throw new Error("Could not capture your CV.");
     }
 
-    // Find the jsPDF constructor.
-    const JsPDF =
-      window.jspdf?.jsPDF ||
-      window.jsPDF;
+    const imageData = canvas.toDataURL("image/jpeg", 0.98);
 
-    if (typeof JsPDF !== "function") {
-      throw new Error(
-        "PDF library is unavailable. Please refresh the page and try again."
-      );
-    }
-
-    // Create a single A4 page.
-    const pdf = new JsPDF({
-      orientation: "portrait",
-      unit: "mm",
-      format: "a4"
-    });
-
-    const pageWidth = 210;
-    const pageHeight = 297;
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
 
     const margin = 7;
-
     const availableWidth = pageWidth - margin * 2;
     const availableHeight = pageHeight - margin * 2;
 
-    // Calculate the scale needed to fit the complete CV.
-    const imageRatio = canvas.width / canvas.height;
+    const ratio = Math.min(
+      availableWidth / canvas.width,
+      availableHeight / canvas.height
+    );
 
-    let imageWidth = availableWidth;
-    let imageHeight = imageWidth / imageRatio;
+    const imageWidth = canvas.width * ratio;
+    const imageHeight = canvas.height * ratio;
 
-    if (imageHeight > availableHeight) {
-      imageHeight = availableHeight;
-      imageWidth = imageHeight * imageRatio;
-    }
-
-    // Centre the CV on the page.
     const x = (pageWidth - imageWidth) / 2;
     const y = (pageHeight - imageHeight) / 2;
 
-    const imageData = canvas.toDataURL("image/jpeg", 0.98);
+    // Replace the generated pages with one fitted page.
+    while (pdf.getNumberOfPages() > 1) {
+      pdf.deletePage(pdf.getNumberOfPages());
+    }
+
+    pdf.deletePage(1);
+    pdf.addPage("a4", "portrait");
 
     pdf.addImage(
       imageData,
@@ -3560,7 +3561,6 @@ async function downloadCvPdf() {
       imageHeight
     );
 
-    // Download the one-page PDF.
     pdf.save(`${filename}_CV.pdf`);
 
     showMessage(
