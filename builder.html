@@ -2915,15 +2915,16 @@ function updatePreview() {
 
   const experience = formatExperience(data);
 
-  setText(
-    "previewExperience",
-    experience
-  );
+const experiencePreview = $("previewExperience");
 
-  setSectionVisibility(
-    "experienceSection",
-    experience
-  );
+if (experiencePreview) {
+  experiencePreview.innerHTML = experience;
+}
+
+setSectionVisibility(
+  "experienceSection",
+  experience
+);
 
   renderSubjectGroups(data.subjects);
 
