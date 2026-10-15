@@ -2445,28 +2445,89 @@ function getFormData() {
 ========================================================= */
 
 function generateProfile(data) {
-  const strengths =
-    data.strengths ||
-    "reliability, willingness to learn and attention to detail";
+const strengths = String(
+data.strengths ||
+"reliability, willingness to learn and attention to detail"
+).trim();
 
-  const goal =
-    data.careerGoal ||
-    "entry-level employment";
+const goal = String(
+data.careerGoal ||
+"entry-level employment"
+).trim();
 
-  if (data.experienceType === "no-experience") {
-    return (
-      `Motivated candidate seeking opportunities in ${goal}. ` +
-      `Brings strengths in ${strengths}. ` +
-      `Eager to apply knowledge gained through education, ` +
-      `develop workplace skills and contribute positively to a team.`
-    );
-  }
+const school = String(
+data.school ||
+data.schoolName ||
+""
+).trim();
 
-  return (
-    `Motivated candidate interested in ${goal}. ` +
-    `Brings strengths in ${strengths} and is committed ` +
-    `to continuous learning and professional development.`
-  );
+const qualification = String(
+data.qualification ||
+data.educationQualification ||
+""
+).trim();
+
+const year = String(
+data.educationYear ||
+data.completionYear ||
+""
+).trim();
+
+const location = String(
+data.location ||
+data.city ||
+""
+).trim();
+
+const hasNoExperience =
+data.experienceType === "no-experience";
+
+const sentences = [];
+
+// Use the applicant's real qualification when available.
+if (qualification && school && year) {
+sentences.push(
+"Candidate with ${qualification} from ${school}, completed in ${year}."
+);
+} else if (qualification && year) {
+sentences.push(
+"Candidate with ${qualification}, completed in ${year}."
+);
+} else if (qualification && school) {
+sentences.push(
+"Candidate with ${qualification} from ${school}."
+);
+} else if (qualification) {
+sentences.push(
+"Candidate with ${qualification}."
+);
+} else {
+sentences.push(
+"Entry-level candidate seeking an opportunity to develop professionally."
+);
+}
+
+// Add the applicant's target role and location.
+sentences.push(
+"Seeking a ${goal} role${location ? " in ${location}" : ""}."
+);
+
+// Describe strengths without claiming professional experience.
+sentences.push(
+"Brings strengths in ${strengths}."
+);
+
+if (hasNoExperience) {
+sentences.push(
+"Eager to build on educational knowledge, develop practical workplace skills and contribute positively to a team."
+);
+} else {
+sentences.push(
+"Committed to applying existing skills, learning new procedures and contributing positively to the workplace."
+);
+}
+
+return sentences.join(" ");
 }
 
 /* =========================================================
