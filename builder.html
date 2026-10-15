@@ -8,708 +8,539 @@
 <title>CV Builder | CVPro-SA</title>
 
 <style>
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  background: #f3f3f3;
-  color: #111;
-  font-family: Arial, Helvetica, sans-serif;
-  line-height: 1.5;
-}
-
-header {
-  background: #111;
-  color: #fff;
-  padding: 15px 18px;
-}
-
-.nav {
-  max-width: 1200px;
-  margin: auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-}
-
-.logo {
-  color: #fff;
-  font-size: 21px;
-  font-weight: 800;
-  text-decoration: none;
-}
-
-.nav a,
-.nav button {
-  color: #fff;
-  border: 1px solid #666;
-  border-radius: 7px;
-  background: transparent;
-  padding: 8px 11px;
-  text-decoration: none;
-  font-size: 13px;
-  cursor: pointer;
-}
-
-main {
-  max-width: 1200px;
-  margin: 24px auto;
-  padding: 0 14px 35px;
-}
-
-h1 {
-  margin: 0 0 5px;
-  font-size: 29px;
-}
-
-.muted {
-  color: #666;
-}
-
-.notice {
-  margin: 18px 0;
-  padding: 13px;
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 9px;
-  font-size: 13px;
-}
-
-.message {
-  display: none;
-  margin: 15px 0;
-  padding: 12px;
-  border-radius: 7px;
-  overflow-wrap: anywhere;
-}
-
-.message.error {
-  display: block;
-  color: #a11;
-  background: #fff0f0;
-}
-
-.message.success {
-  display: block;
-  color: #155b35;
-  background: #e9f7ef;
-}
-
-#builderArea {
-  display: none;
-}
-
-.workspace {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  align-items: start;
-  gap: 18px;
-  margin-top: 20px;
-}
-
-.panel {
-  padding: 20px;
-  background: #fff;
-  border: 1px solid #e2e2e2;
-  border-radius: 11px;
-  min-width: 0;
-}
-
-.panel h2 {
-  margin: 0 0 15px;
-  font-size: 21px;
-}
-
-.field {
-  margin-bottom: 14px;
-}
-
-label {
-  display: block;
-  margin-bottom: 5px;
-  font-size: 13px;
-  font-weight: 700;
-}
-
-input,
-textarea,
-select {
-  width: 100%;
-  padding: 11px;
-  border: 1px solid #ccc;
-  border-radius: 7px;
-  background: #fff;
-  color: #111;
-  font: inherit;
-  font-size: 14px;
-}
-
-textarea {
-  min-height: 75px;
-  resize: vertical;
-}
-
-.button {
-  display: inline-block;
-  width: 100%;
-  margin-top: 8px;
-  padding: 12px 14px;
-  border: 1px solid #111;
-  border-radius: 7px;
-  background: #111;
-  color: #fff;
-  font-weight: 700;
-  text-align: center;
-  cursor: pointer;
-}
-
-.button.secondary {
-  background: #fff;
-  color: #111;
-}
-
-.button:disabled {
-  opacity: .6;
-  cursor: wait;
-}
-
-.preview-panel {
-  position: sticky;
-  top: 12px;
-  min-width: 0;
-}
-
-.preview-toolbar {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 12px;
-}
-
-.preview-toolbar button {
-  margin: 0;
-}
-
-.template-label {
-  display: inline-block;
-  margin-bottom: 12px;
-  padding: 5px 9px;
-  border: 1px solid #ddd;
-  border-radius: 20px;
-  background: #fafafa;
-  color: #333;
-  font-size: 11px;
-  font-weight: 700;
-}
-
-/* ================================
-   PROFESSIONAL CV PAGE
-================================ */
-
-.cv-page {
-  width: 100%;
-  min-height: 750px;
-  padding: 35px;
-  background: #fff;
-  border: 1px solid #ddd;
-  box-shadow: 0 3px 14px #0000000d;
-  overflow-wrap: anywhere;
-  font-family: Arial, Helvetica, sans-serif;
-  color: #111;
-}
-
-.cv-header {
-  margin-bottom: 22px;
-}
-
-.cv-name {
-  margin: 0;
-  font-size: 27px;
-  line-height: 1.2;
-  text-transform: uppercase;
-  letter-spacing: .5px;
-  overflow-wrap: anywhere;
-}
-
-.cv-contact {
-  margin: 9px 0 0;
-  color: #555;
-  font-size: 12px;
-  overflow-wrap: anywhere;
-  white-space: pre-wrap;
-}
-
-.cv-section {
-  margin-top: 19px;
-  break-inside: avoid;
-  page-break-inside: avoid;
-}
-
-.cv-section h3 {
-  margin: 0 0 8px;
-  padding-bottom: 5px;
-  border-bottom: 1px solid #111;
-  font-size: 13px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  break-after: avoid;
-}
-
-.cv-section p {
-  margin: 5px 0;
-  font-size: 12px;
-  line-height: 1.55;
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
-}
-
-/* ================================
-   PROFESSIONAL SUBJECT GROUPS
-================================ */
-
-.cv-subject-group {
-  margin-bottom: 12px;
-  break-inside: avoid;
-}
-
-.cv-subject-heading {
-  display: block;
-  font-size: 12px;
-  font-weight: 700;
-  margin: 10px 0 5px;
-}
-
-.cv-subject-list {
-  margin: 0 0 10px;
-  padding-left: 20px;
-}
-
-.cv-subject-list li {
-  margin-bottom: 4px;
-  font-size: 12px;
-  line-height: 1.5;
-}
-
-/* ================================
-   PROFESSIONAL SKILL GROUPS
-================================ */
-
-#previewSkills {
-  display: block;
-  width: 100%;
-}
-
-.cv-skill-group {
-  display: block;
-  margin-bottom: 12px;
-  break-inside: avoid;
-}
-
-.cv-skill-heading {
-  font-size: 12px;
-  font-weight: 700;
-  margin: 10px 0 5px;
-  padding-bottom: 4px;
-  border-bottom: 1px solid #ddd;
-}
-
-.cv-skill-list {
-  margin: 0 0 10px;
-  padding-left: 20px;
-}
-
-.cv-skill-list li {
-  margin-bottom: 4px;
-  font-size: 12px;
-  line-height: 1.5;
-}
-
-/* ================================
-   CLASSIC TEMPLATE
-================================ */
-
-.cv-page.classic {
-  border-top: 5px solid #111;
-}
-
-.cv-page.classic .cv-header {
-  padding-bottom: 16px;
-  border-bottom: 1px solid #bbb;
-}
-
-.cv-page.classic .cv-name {
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 29px;
-  font-weight: 700;
-}
-
-.cv-page.classic .cv-contact {
-  line-height: 1.8;
-}
-
-/* ================================
-   MODERN TEMPLATE
-================================ */
-
-.cv-page.modern {
-  border: 0;
-  border-top: 10px solid #202020;
-  padding: 0;
-}
-
-.cv-page.modern .cv-header {
-  margin: 0;
-  padding: 28px 28px 22px;
-  background: #202020;
-  color: #fff;
-}
-
-.cv-page.modern .cv-name {
-  font-size: 30px;
-  letter-spacing: 1.2px;
-}
-
-.cv-page.modern .cv-contact {
-  color: #e5e5e5;
-  line-height: 1.8;
-}
-
-.cv-page.modern .cv-content {
-  padding: 8px 28px 28px;
-}
-
-.cv-page.modern .cv-section {
-  margin-top: 21px;
-}
-
-.cv-page.modern .cv-section h3 {
-  border: 0;
-  border-left: 4px solid #202020;
-  padding: 3px 0 3px 9px;
-}
-
-/* ================================
-   FORM COMPONENTS
-================================ */
-
-.group-title {
-  margin: 22px 0 12px;
-  padding-bottom: 7px;
-  border-bottom: 2px solid #ddd;
-  font-size: 17px;
-}
-
-.choice-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px;
-}
-
-.choice {
-  display: flex;
-  align-items: flex-start;
-  gap: 8px;
-  padding: 9px;
-  border: 1px solid #ddd;
-  border-radius: 7px;
-  background: #fff;
-  font-size: 13px;
-  font-weight: 400;
-}
-
-.choice input {
-  width: auto;
-  margin: 4px 0 0;
-  flex-shrink: 0;
-}
-
-.small-note {
-  font-size: 12px;
-  color: #666;
-  margin-top: 5px;
-}
-
-.two-col {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-
-.hidden {
-  display: none !important;
-}
-
-/* ================================
-   EDUCATION SEARCH
-================================ */
-
-.autocomplete-wrap {
-  position: relative;
-  width: 100%;
-}
-
-.education-results {
-  display: none;
-  width: 100%;
-  max-height: 220px;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  -webkit-overflow-scrolling: touch;
-  margin-top: 5px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background: #fff;
-  box-shadow: 0 4px 12px #00000012;
-}
-
-.education-results.open {
-  display: block;
-}
-
-.education-result {
-  display: block;
-  width: 100%;
-  padding: 12px;
-  border: 0;
-  border-bottom: 1px solid #eee;
-  background: #fff;
-  color: #111;
-  font-size: 14px;
-  text-align: left;
-  cursor: pointer;
-}
-
-.education-result:last-child {
-  border-bottom: 0;
-}
-
-.education-no-results {
-  padding: 12px;
-  color: #666;
-  font-size: 13px;
-}
-
-footer {
-  padding: 20px;
-  color: #777;
-  text-align: center;
-  font-size: 12px;
-}
-
-/* ================================
-   MOBILE RESPONSIVENESS
-================================ */
-
-@media (max-width: 850px) {
-  .workspace {
-    grid-template-columns: 1fr;
+  * {
+    box-sizing: border-box;
   }
 
-  .preview-panel {
-    position: static;
-    grid-row: 1;
-  }
-
-  .cv-page {
-    min-height: 500px;
-    padding: 25px;
-  }
-
-  .cv-page.modern {
-    padding: 0;
-  }
-
-  .cv-page.modern .cv-header {
-    padding: 24px 20px 18px;
-  }
-
-  .cv-page.modern .cv-content {
-    padding: 5px 20px 22px;
-  }
-
-  .education-results {
-    max-height: 180px;
-  }
-}
-
-@media (max-width: 450px) {
-  .choice-grid,
-  .two-col {
-    grid-template-columns: 1fr;
-  }
-
-  .panel {
-    padding: 14px;
-  }
-
-  .cv-page {
-    padding: 18px;
-  }
-}
-
-/* ================================
-   PROFESSIONAL PDF PRINTING
-================================ */
-
-@media print {
-  @page {
-    size: A4;
-    margin: 12mm;
+  :root {
+    --bg: #fdfdfd;
+    --card-bg: #ffffff;
+    --black: #0f172a;
+    --grey: #64748b;
+    --light-grey: #f8fafc;
+    --border: #e2e8f0;
+    --accent: #059669;
+    --accent-dark: #047857;
   }
 
   body {
-    background: #fff;
+    margin: 0;
+    background: var(--bg);
+    color: var(--black);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
   }
 
-  header,
-  main > h1,
-  main > .muted,
-  .notice,
-  #message,
-  #accessMessage,
-  #editorPanel,
-  .preview-toolbar,
-  .template-label,
-  footer,
-  .preview-panel > h2 {
-    display: none !important;
+  header {
+    background: var(--black);
+    color: #fff;
+    padding: 18px 24px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+
+  .nav {
+    max-width: 1200px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .logo {
+    color: #fff;
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    text-decoration: none;
+  }
+
+  .nav-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .nav a,
+  .nav button {
+    color: #94a3b8;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    background: transparent;
+    padding: 8px 14px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .nav a:hover,
+  .nav button:hover {
+    background: #1e293b;
+    color: #fff;
   }
 
   main {
-    max-width: none;
-    margin: 0;
-    padding: 0;
+    max-width: 1200px;
+    margin: 35px auto;
+    padding: 0 20px 60px;
   }
 
-  #builderArea,
-  .workspace,
-  .preview-panel {
-    display: block !important;
-    margin: 0;
-    padding: 0;
-    border: 0;
-    box-shadow: none;
+  h1 {
+    margin: 0 0 6px;
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+  }
+
+  .muted {
+    color: var(--grey);
+    font-size: 15px;
+  }
+
+  .notice {
+    margin: 20px 0;
+    padding: 16px;
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    border-radius: 12px;
+    font-size: 14px;
+    color: #92400e;
+    line-height: 1.5;
+  }
+
+  .message {
+    display: none;
+    margin: 15px 0;
+    padding: 14px;
+    border-radius: 8px;
+    overflow-wrap: anywhere;
+    font-size: 14px;
+  }
+
+  .message.error {
+    display: block;
+    color: #991b1b;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+  }
+
+  .message.success {
+    display: block;
+    color: #065f46;
+    background: #ecfdf5;
+    border: 1px solid #a7f3d0;
+  }
+
+  #builderArea {
+    display: none;
+  }
+
+  .workspace {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: start;
+    gap: 24px;
+    margin-top: 24px;
   }
 
   .panel {
-    padding: 0;
-    border: 0;
-    box-shadow: none;
+    padding: 28px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
+    min-width: 0;
   }
+
+  .panel h2 {
+    margin: 0 0 18px;
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  .field {
+    margin-bottom: 16px;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #334155;
+  }
+
+  input,
+  textarea,
+  select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: #fff;
+    color: var(--black);
+    font: inherit;
+    font-size: 15px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  input:focus,
+  textarea:focus,
+  select:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);
+  }
+
+  textarea {
+    min-height: 85px;
+    resize: vertical;
+  }
+
+  .button {
+    display: inline-block;
+    width: 100%;
+    margin-top: 10px;
+    padding: 12px 16px;
+    border: 0;
+    border-radius: 8px;
+    background: var(--black);
+    color: #fff;
+    font-weight: 700;
+    font-size: 14px;
+    text-align: center;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .button:hover {
+    background: #1e293b;
+  }
+
+  .button.secondary {
+    background: #fff;
+    color: var(--black);
+    border: 1px solid var(--border);
+  }
+
+  .button.secondary:hover {
+    background: #f1f5f9;
+  }
+
+  .button:disabled {
+    opacity: .6;
+    cursor: wait;
+  }
+
+  .preview-panel {
+    position: sticky;
+    top: 20px;
+    min-width: 0;
+  }
+
+  .preview-toolbar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .preview-toolbar button {
+    margin: 0;
+  }
+
+  .template-label {
+    display: inline-block;
+    margin-bottom: 14px;
+    padding: 6px 12px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    background: var(--light-grey);
+    color: #334155;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  /* ================================
+     PROFESSIONAL CV PAGE
+  ================================ */
 
   .cv-page {
     width: 100%;
-    min-height: 0;
+    min-height: 750px;
+    padding: 30px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.05);
+    overflow-wrap: anywhere;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #111;
+  }
+
+  .cv-header {
+    margin-bottom: 22px;
+  }
+
+  .cv-name {
     margin: 0;
-    padding: 0;
-    border: 0;
-    box-shadow: none;
-    break-inside: auto;
-    print-color-adjust: exact;
-    -webkit-print-color-adjust: exact;
+    font-size: 27px;
+    line-height: 1.2;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    overflow-wrap: anywhere;
   }
 
-  .cv-page.modern .cv-header {
-    print-color-adjust: exact;
-    -webkit-print-color-adjust: exact;
+  .cv-contact {
+    margin: 9px 0 0;
+    color: #555;
+    font-size: 12px;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
   }
 
-  .cv-section,
-  .cv-skill-group,
-  .cv-subject-group {
+  .cv-section {
+    margin-top: 19px;
     break-inside: avoid;
     page-break-inside: avoid;
   }
 
-  .cv-name,
   .cv-section h3 {
+    margin: 0 0 8px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #111;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
     break-after: avoid;
-    page-break-after: avoid;
   }
-}
 
-/* =====================================
-   COMPACT PROFESSIONAL CV LAYOUT
-===================================== */
+  .cv-section p {
+    margin: 5px 0;
+    font-size: 12px;
+    line-height: 1.55;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
 
-.cv-page {
-  min-height: 0;
-  padding: 22px;
-}
+  /* ================================
+     SUBJECT & SKILL GROUPS
+  ================================ */
 
-.cv-header {
-  margin-bottom: 12px;
-}
+  .cv-subject-group,
+  .cv-skill-group {
+    margin-bottom: 12px;
+    break-inside: avoid;
+  }
 
-.cv-name {
-  font-size: 24px;
-}
+  .cv-subject-heading,
+  .cv-skill-heading {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    margin: 10px 0 5px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid #ddd;
+  }
 
-.cv-contact {
-  margin-top: 5px;
-  font-size: 10.5px;
-  line-height: 1.4;
-}
+  .cv-subject-list,
+  .cv-skill-list {
+    margin: 0 0 10px;
+    padding-left: 20px;
+  }
 
-.cv-section {
-  margin-top: 11px;
-  break-inside: auto;
-  page-break-inside: auto;
-}
+  .cv-subject-list li,
+  .cv-skill-list li {
+    margin-bottom: 4px;
+    font-size: 12px;
+    line-height: 1.5;
+  }
 
-.cv-section h3 {
-  margin-bottom: 5px;
-  padding-bottom: 3px;
-  font-size: 11px;
-}
+  /* ================================
+     CLASSIC & MODERN TEMPLATES
+  ================================ */
 
-.cv-section p {
-  margin: 3px 0;
-  font-size: 10.5px;
-  line-height: 1.35;
-}
+  .cv-page.classic {
+    border-top: 5px solid #111;
+  }
 
-.cv-subject-group,
-.cv-skill-group {
-  margin-bottom: 5px;
-}
+  .cv-page.classic .cv-header {
+    padding-bottom: 16px;
+    border-bottom: 1px solid #bbb;
+  }
 
-.cv-subject-heading,
-.cv-skill-heading {
-  margin: 5px 0 3px;
-  font-size: 10.5px;
-}
+  .cv-page.classic .cv-name {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 29px;
+    font-weight: 700;
+  }
 
-.cv-subject-list,
-.cv-skill-list {
-  margin: 0 0 5px;
-  padding-left: 16px;
-}
+  .cv-page.modern {
+    border: 0;
+    border-top: 10px solid #202020;
+    padding: 0;
+    border-radius: 12px;
+    overflow: hidden;
+  }
 
-.cv-subject-list li,
-.cv-skill-list li {
-  margin-bottom: 2px;
-  font-size: 10.5px;
-  line-height: 1.3;
-}
+  .cv-page.modern .cv-header {
+    margin: 0;
+    padding: 28px 28px 22px;
+    background: #202020;
+    color: #fff;
+  }
 
-.cv-page.classic .cv-header {
-  padding-bottom: 9px;
-}
+  .cv-page.modern .cv-name {
+    font-size: 30px;
+    letter-spacing: 1.2px;
+  }
 
-.cv-page.modern .cv-header {
-  padding: 17px 20px 14px;
-}
+  .cv-page.modern .cv-contact {
+    color: #e5e5e5;
+    line-height: 1.8;
+  }
 
-.cv-page.modern .cv-content {
-  padding: 5px 20px 17px;
-}
+  .cv-page.modern .cv-content {
+    padding: 8px 28px 28px;
+  }
 
-.cv-page.modern .cv-section {
-  margin-top: 12px;
-}
+  .cv-page.modern .cv-section h3 {
+    border: 0;
+    border-left: 4px solid #202020;
+    padding: 3px 0 3px 9px;
+  }
+
+  /* ================================
+     FORM COMPONENTS
+  ================================ */
+
+  .group-title {
+    margin: 26px 0 14px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--border);
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--black);
+  }
+
+  .choice-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .choice {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--light-grey);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  .choice input {
+    width: auto;
+    margin: 3px 0 0;
+    flex-shrink: 0;
+  }
+
+  .small-note {
+    font-size: 12px;
+    color: var(--grey);
+    margin-top: 6px;
+  }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  /* ================================
+     EDUCATION SEARCH AUTOCOMPLETE
+  ================================ */
+
+  .autocomplete-wrap {
+    position: relative;
+    width: 100%;
+  }
+
+  .education-results {
+    display: none;
+    width: 100%;
+    max-height: 220px;
+    overflow-y: auto;
+    margin-top: 6px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+    z-index: 10;
+  }
+
+  .education-results.open {
+    display: block;
+  }
+
+  .education-result {
+    display: block;
+    width: 100%;
+    padding: 12px 14px;
+    border: 0;
+    border-bottom: 1px solid var(--border);
+    background: #fff;
+    color: var(--black);
+    font-size: 14px;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .education-result:hover {
+    background: var(--light-grey);
+  }
+
+  .education-no-results {
+    padding: 14px;
+    color: var(--grey);
+    font-size: 13px;
+  }
+
+  footer {
+    padding: 30px 20px;
+    color: var(--grey);
+    text-align: center;
+    font-size: 13px;
+    border-top: 1px solid var(--border);
+    margin-top: 40px;
+  }
+
+  @media (max-width: 950px) {
+    .workspace {
+      grid-template-columns: 1fr;
+    }
+    .preview-panel {
+      position: static;
+    }
+  }
+
+  @media (max-width: 500px) {
+    .choice-grid,
+    .two-col {
+      grid-template-columns: 1fr;
+    }
+    .panel {
+      padding: 18px;
+    }
+  }
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -720,7 +551,7 @@ footer {
 <header>
   <nav class="nav">
     <a class="logo" href="./">CVPro-SA</a>
-    <div>
+    <div class="nav-actions">
       <a href="./my-account.html">My Account</a>
       <button type="button" id="signOutButton">Sign Out</button>
     </div>
@@ -730,7 +561,7 @@ footer {
 <main>
   <h1>Smart CV Builder</h1>
   <div class="muted">
-    Choose your details. Your professional CV updates automatically.
+    Complete your details below. Your professional CV updates automatically in real-time.
   </div>
 
   <div id="accessMessage" class="notice">
@@ -741,13 +572,13 @@ footer {
 
   <div id="builderArea">
     <div class="notice">
-      <strong>One purchase, one CV.</strong>
-      Edit and save this CV whenever you need it.
-      A new CV requires a new purchase.
+      <strong>One purchase, one active CV.</strong> 
+      Edit, update, and download your verified PDF whenever needed.
     </div>
 
     <div class="workspace">
 
+      <!-- PREVIEW PANEL -->
       <section class="panel preview-panel">
         <h2>Live CV Preview</h2>
 
@@ -756,7 +587,7 @@ footer {
         </div>
 
         <div class="preview-toolbar">
-          <button type="button" class="button" id="printButton">
+          <button type="button" class="button accent" id="printButton" style="background: var(--accent);">
             Download Professional PDF
           </button>
         </div>
@@ -816,12 +647,14 @@ footer {
           </div>
         </article>
       </section>
+
+      <!-- EDITOR PANEL -->
       <section class="panel" id="editorPanel">
         <h2>Build Your CV</h2>
 
         <form id="cvForm">
 
-          <!-- PERSONAL INFORMATION -->
+          <!-- 1. PERSONAL INFORMATION -->
           <h3 class="group-title">1. Personal Information</h3>
 
           <div class="field">
@@ -831,6 +664,7 @@ footer {
               type="text"
               autocomplete="name"
               required
+              placeholder="e.g. Sipho Dlamini"
             >
           </div>
 
@@ -850,6 +684,7 @@ footer {
                 id="phone"
                 type="tel"
                 autocomplete="tel"
+                placeholder="e.g. 072 123 4567"
               >
             </div>
 
@@ -863,60 +698,34 @@ footer {
             </div>
           </div>
 
-          <!-- EDUCATION -->
+          <!-- 2. EDUCATION -->
           <h3 class="group-title">2. Education</h3>
 
           <div class="field">
             <label for="educationLevel">Education level *</label>
             <select id="educationLevel" required>
               <option value="">Select education level</option>
-              <option value="school">
-                High School / Secondary School
-              </option>
+              <option value="school">High School / Secondary School</option>
               <option value="tvet">TVET College</option>
               <option value="university">University</option>
-              <option value="private-college">
-                Private College
-              </option>
-              <option value="training">
-                Private Training Institution
-              </option>
-              <option value="other">
-                Other Institution
-              </option>
+              <option value="private-college">Private College</option>
+              <option value="training">Private Training Institution</option>
+              <option value="other">Other Institution</option>
             </select>
           </div>
 
           <div class="field">
-            <label for="institutionSearch">
-              Search for your school or institution
-            </label>
-
+            <label for="institutionSearch">Search for your school or institution</label>
             <div class="autocomplete-wrap">
               <input
                 id="institutionSearch"
                 type="search"
                 autocomplete="off"
-                enterkeyhint="search"
                 placeholder="Type a school, college or university"
-                aria-controls="institutionResults"
-                aria-expanded="false"
-                aria-autocomplete="list"
               >
-
-              <div
-                id="institutionResults"
-                class="education-results"
-                role="listbox"
-                aria-label="Matching educational institutions"
-              ></div>
+              <div id="institutionResults" class="education-results"></div>
             </div>
-
-            <div class="small-note">
-              Type a few letters and select a result.
-              If your institution is missing, enter its full
-              name in the Institution name field below.
-            </div>
+            <div class="small-note">Type to search, or enter manually below if not listed.</div>
           </div>
 
           <div class="field">
@@ -930,10 +739,7 @@ footer {
           </div>
 
           <div class="field">
-            <label for="qualification">
-              Qualification / Grade
-            </label>
-
+            <label for="qualification">Qualification / Grade</label>
             <select id="qualification">
               <option value="">Select qualification</option>
             </select>
@@ -942,23 +748,15 @@ footer {
           <div class="two-col">
             <div class="field">
               <label for="educationStatus">Study status</label>
-
               <select id="educationStatus">
                 <option value="completed">Completed</option>
-                <option value="currently studying">
-                  Currently studying
-                </option>
-                <option value="incomplete">
-                  Attended but did not complete
-                </option>
+                <option value="currently studying">Currently studying</option>
+                <option value="incomplete">Attended but did not complete</option>
               </select>
             </div>
 
             <div class="field">
-              <label for="educationYear">
-                Year completed / expected
-              </label>
-
+              <label for="educationYear">Year completed / expected</label>
               <select id="educationYear">
                 <option value="">Select year</option>
               </select>
@@ -967,23 +765,12 @@ footer {
 
           <div class="field">
             <label>Subjects / study areas</label>
-
-            <div
-              class="choice-grid"
-              id="subjectChoices"
-            ></div>
-
-            <div class="small-note">
-              Select only subjects you studied.
-              Add missing subjects below.
-            </div>
+            <div class="choice-grid" id="subjectChoices"></div>
+            <div class="small-note">Select subjects you studied.</div>
           </div>
 
           <div class="field">
-            <label for="otherSubjects">
-              Other subjects (optional)
-            </label>
-
+            <label for="otherSubjects">Other subjects (optional)</label>
             <input
               id="otherSubjects"
               type="text"
@@ -991,546 +778,184 @@ footer {
             >
           </div>
 
-          <!-- CAREER GOALS -->
+          <!-- 3. CAREER GOALS -->
           <h3 class="group-title">3. Career Goals</h3>
 
           <div class="field">
-            <label for="careerGoal">
-              What type of job are you looking for?
-            </label>
-
+            <label for="careerGoal">What type of job are you looking for?</label>
             <select id="careerGoal">
-              <option value="">
-                Select your career goal
-              </option>
-
-              <option value="General employment">
-                General employment
-              </option>
-
-              <option value="Administration">
-                Administration / Office Work
-              </option>
-
-              <option value="Customer Service">
-                Customer Service
-              </option>
-
-              <option value="Retail">
-                Retail / Shop Assistant
-              </option>
-
-              <option value="Warehouse">
-                Warehouse / Stock Control
-              </option>
-
-              <option value="Factory">
-                Factory / Production
-              </option>
-
-              <option value="Welding">
-                Welding / Metalwork
-              </option>
-
-              <option value="Engineering">
-                Engineering / Technical Work
-              </option>
-
-              <option value="Construction">
-                Construction
-              </option>
-
-              <option value="IT">
-                Information Technology
-              </option>
-
-              <option value="Finance">
-                Finance / Accounting
-              </option>
-
-              <option value="Hospitality">
-                Hospitality / Tourism
-              </option>
-
-              <option value="Healthcare">
-                Healthcare
-              </option>
-
-              <option value="Education">
-                Education
-              </option>
-
-              <option value="Learnership">
-                Learnership / Internship
-              </option>
-
-              <option value="Apprenticeship">
-                Apprenticeship
-              </option>
-
-              <option value="Other">
-                Other
-              </option>
+              <option value="">Select your career goal</option>
+              <option value="General employment">General employment</option>
+              <option value="Administration">Administration / Office Work</option>
+              <option value="Customer Service">Customer Service</option>
+              <option value="Retail">Retail / Shop Assistant</option>
+              <option value="Warehouse">Warehouse / Stock Control</option>
+              <option value="Factory">Factory / Production</option>
+              <option value="Welding">Welding / Metalwork</option>
+              <option value="Engineering">Engineering / Technical Work</option>
+              <option value="Construction">Construction</option>
+              <option value="IT">Information Technology</option>
+              <option value="Finance">Finance / Accounting</option>
+              <option value="Hospitality">Hospitality / Tourism</option>
+              <option value="Healthcare">Healthcare</option>
+              <option value="Education">Education</option>
+              <option value="Learnership">Learnership / Internship</option>
+              <option value="Apprenticeship">Apprenticeship</option>
+              <option value="Other">Other</option>
             </select>
           </div>
 
           <div class="field">
-            <label for="strengths">
-              Your strengths
-            </label>
-
+            <label for="strengths">Your strengths</label>
             <textarea
               id="strengths"
               placeholder="e.g. reliable, willing to learn, practical and hardworking"
             ></textarea>
           </div>
 
-          <!-- EXPERIENCE -->
-          <h3 class="group-title">
-            4. Work Experience and Practical Training
-          </h3>
+          <!-- 4. EXPERIENCE -->
+          <h3 class="group-title">4. Work Experience & Practical Training</h3>
 
           <div class="field">
-            <label for="experienceType">
-              Which best describes you?
-            </label>
-
+            <label for="experienceType">Which best describes you?</label>
             <select id="experienceType">
-              <option value="no-experience">
-                No formal work experience yet
-              </option>
-
-              <option value="work">
-                I have work experience
-              </option>
-
-              <option value="informal">
-                Informal work / family business
-              </option>
-
-              <option value="volunteer">
-                Volunteering / community work
-              </option>
-
-              <option value="practical">
-                Practical training / workplace exposure
-              </option>
+              <option value="no-experience">No formal work experience yet</option>
+              <option value="work">I have work experience</option>
+              <option value="informal">Informal work / family business</option>
+              <option value="volunteer">Volunteering / community work</option>
+              <option value="practical">Practical training / workplace exposure</option>
             </select>
-
-            <div class="small-note">
-              If you studied technical subjects, the builder
-              can describe relevant school-based learning
-              without claiming that you held a formal job.
-            </div>
           </div>
 
           <div id="experienceDetails" class="hidden">
-
             <div class="field">
-              <label for="jobTitle">
-                Job title / role
-              </label>
-
-              <input
-                id="jobTitle"
-                type="text"
-                placeholder="e.g. Shop Assistant"
-              >
+              <label for="jobTitle">Job title / role</label>
+              <input id="jobTitle" type="text" placeholder="e.g. Shop Assistant">
             </div>
 
             <div class="field">
-              <label for="employer">
-                Employer / organisation
-              </label>
-
-              <input
-                id="employer"
-                type="text"
-                placeholder="Employer or organisation name"
-              >
+              <label for="employer">Employer / organisation</label>
+              <input id="employer" type="text" placeholder="Employer name">
             </div>
 
             <div class="two-col">
               <div class="field">
-                <label for="experienceStart">
-                  Start date
-                </label>
-
-                <input
-                  id="experienceStart"
-                  type="month"
-                >
+                <label for="experienceStart">Start date</label>
+                <input id="experienceStart" type="month">
               </div>
-
               <div class="field">
-                <label for="experienceEnd">
-                  End date
-                </label>
-
-                <input
-                  id="experienceEnd"
-                  type="month"
-                >
+                <label for="experienceEnd">End date</label>
+                <input id="experienceEnd" type="month">
               </div>
             </div>
 
             <div class="field">
-              <label for="experienceDescription">
-                Responsibilities and achievements
-              </label>
-
-              <textarea
-                id="experienceDescription"
-                placeholder="Describe the tasks you actually performed."
-              ></textarea>
+              <label for="experienceDescription">Responsibilities and achievements</label>
+              <textarea id="experienceDescription" placeholder="Describe your tasks."></textarea>
             </div>
-
           </div>
 
-          <!-- SKILLS -->
+          <!-- 5. SKILLS -->
           <h3 class="group-title">5. Skills</h3>
-
           <div class="field">
-            <label>
-              Select the skills you genuinely have
-            </label>
-
-            <div
-              class="choice-grid"
-              id="skillChoices"
-            ></div>
+            <label>Select your skills</label>
+            <div class="choice-grid" id="skillChoices"></div>
           </div>
 
           <div class="field">
-            <label for="otherSkills">
-              Other skills (optional)
-            </label>
-
-            <input
-              id="otherSkills"
-              type="text"
-              placeholder="Add other skills separated by commas"
-            >
+            <label for="otherSkills">Other skills (optional)</label>
+            <input id="otherSkills" type="text" placeholder="Add other skills separated by commas">
           </div>
 
-          <!-- LANGUAGES -->
+          <!-- 6. LANGUAGES -->
           <h3 class="group-title">6. Languages</h3>
-
           <div class="field">
-            <label>
-              Select the South African languages
-              you speak or understand
-            </label>
-
-            <div
-              class="choice-grid"
-              id="languageChoices"
-            ></div>
-
-            <div class="small-note">
-              Choose only languages you genuinely
-              speak or understand.
-            </div>
+            <label>Select South African languages you speak</label>
+            <div class="choice-grid" id="languageChoices"></div>
           </div>
 
           <div class="field">
-            <label for="otherLanguages">
-              Other languages (optional)
-            </label>
-
-            <input
-              id="otherLanguages"
-              type="text"
-              placeholder="Add other languages separated by commas"
-            >
+            <label for="otherLanguages">Other languages (optional)</label>
+            <input id="otherLanguages" type="text" placeholder="Add other languages">
           </div>
 
           <div class="field">
-            <label for="languageProficiency">
-              General language proficiency
-            </label>
-
+            <label for="languageProficiency">General language proficiency</label>
             <select id="languageProficiency">
-              <option value="">
-                Select proficiency (optional)
-              </option>
-
-              <option value="Basic">
-                Basic
-              </option>
-
-              <option value="Conversational">
-                Conversational
-              </option>
-
-              <option value="Fluent">
-                Fluent
-              </option>
-
-              <option value="Native / home language">
-                Native / home language
-              </option>
-
-              <option value="Multiple levels">
-                Different levels for different languages
-              </option>
+              <option value="">Select proficiency (optional)</option>
+              <option value="Basic">Basic</option>
+              <option value="Conversational">Conversational</option>
+              <option value="Fluent">Fluent</option>
+              <option value="Native / home language">Native / home language</option>
             </select>
           </div>
 
+          <!-- 7. DISABILITY (OPTIONAL) -->
+          <h3 class="group-title">7. Disability & Accessibility (Optional)</h3>
           <div class="field">
-            <label for="languageDetails">
-              Language proficiency details (optional)
-            </label>
-
-            <textarea
-              id="languageDetails"
-              placeholder="e.g. isiZulu – home language; English – fluent"
-            ></textarea>
-          </div>
-
-          <!-- DISABILITY AND ACCESSIBILITY -->
-          <h3 class="group-title">
-            7. Disability and Accessibility (Optional)
-          </h3>
-
-          <div class="notice">
-            You do not have to disclose disability information.
-            Only information you choose to include will
-            appear on your CV.
-          </div>
-
-          <div class="field">
-            <label for="disabilityStatus">
-              Disability information
-            </label>
-
+            <label for="disabilityStatus">Disability information</label>
             <select id="disabilityStatus">
-              <option value="">
-                Prefer not to say / leave blank
-              </option>
-
-              <option value="No disability disclosed">
-                No disability
-              </option>
-
-              <option value="Physical disability">
-                Physical disability
-              </option>
-
-              <option value="Visual impairment">
-                Visual impairment
-              </option>
-
-              <option value="Hearing impairment">
-                Hearing impairment
-              </option>
-
-              <option value="Speech impairment">
-                Speech impairment
-              </option>
-
-              <option value="Intellectual disability">
-                Intellectual disability
-              </option>
-
-              <option value="Learning disability">
-                Learning disability
-              </option>
-
-              <option value="Psychosocial disability">
-                Psychosocial disability
-              </option>
-
-              <option value="Neurodevelopmental disability">
-                Neurodevelopmental disability
-              </option>
-
-              <option value="Multiple disabilities">
-                Multiple disabilities
-              </option>
-
-              <option value="Other disability">
-                Other disability
-              </option>
+              <option value="">Prefer not to say / leave blank</option>
+              <option value="No disability disclosed">No disability</option>
+              <option value="Physical disability">Physical disability</option>
+              <option value="Visual impairment">Visual impairment</option>
+              <option value="Hearing impairment">Hearing impairment</option>
+              <option value="Other disability">Other disability</option>
             </select>
           </div>
 
           <div class="field">
-            <label for="disabilityDetails">
-              Optional disability details
+            <label class="choice" for="includeDisabilityOnCv">
+              <input id="includeDisabilityOnCv" type="checkbox">
+              <span>Include disability information on my CV</span>
             </label>
-
-            <textarea
-              id="disabilityDetails"
-              placeholder="Add only information you are comfortable sharing."
-            ></textarea>
           </div>
 
-          <div class="field">
-            <label for="accessibilityNeeds">
-              Workplace accessibility /
-              reasonable accommodation
-            </label>
-
-            <textarea
-              id="accessibilityNeeds"
-              placeholder="e.g. step-free access, assistive technology, sign-language interpretation"
-            ></textarea>
-          </div>
+          <!-- 8. ADDITIONAL -->
+          <h3 class="group-title">8. Additional Information</h3>
 
           <div class="field">
-            <label
-              class="choice"
-              for="includeDisabilityOnCv"
-            >
-              <input
-                id="includeDisabilityOnCv"
-                type="checkbox"
-              >
-
-              <span>
-                Include disability and accessibility
-                information on my CV
-              </span>
-            </label>
-
-            <div class="small-note">
-              This box is unchecked by default.
-              Leave it unchecked to keep these
-              details out of the CV and PDF.
-            </div>
-          </div>
-
-          <!-- ADDITIONAL INFORMATION -->
-          <h3 class="group-title">
-            8. Additional Information
-          </h3>
-
-          <div class="field">
-            <label for="availability">
-              Availability
-            </label>
-
+            <label for="availability">Availability</label>
             <select id="availability">
-              <option value="">
-                Select availability
-              </option>
-
-              <option value="Immediately available">
-                Immediately available
-              </option>
-
-              <option value="Available with notice">
-                Available with notice
-              </option>
-
-              <option value="Currently studying">
-                Currently studying
-              </option>
+              <option value="">Select availability</option>
+              <option value="Immediately available">Immediately available</option>
+              <option value="Available with notice">Available with notice</option>
             </select>
           </div>
 
           <div class="field">
-            <label for="driversLicence">
-              Driver's licence
-            </label>
-
+            <label for="driversLicence">Driver's licence</label>
             <select id="driversLicence">
-              <option value="Not specified">
-                Prefer not to specify
-              </option>
-
-              <option value="No driver's licence">
-                No driver's licence
-              </option>
-
-              <option value="Learner's licence">
-                Learner's licence
-              </option>
-
-              <option value="Code B / Code 8">
-                Code B / Code 8
-              </option>
-
-              <option value="Code C1 / Code 10">
-                Code C1 / Code 10
-              </option>
-
-              <option value="Code C / Code 14">
-                Code C / Code 14
-              </option>
-
-              <option value="Other driver's licence">
-                Other driver's licence
-              </option>
+              <option value="Not specified">Prefer not to specify</option>
+              <option value="No driver's licence">No driver's licence</option>
+              <option value="Learner's licence">Learner's licence</option>
+              <option value="Code B / Code 8">Code B / Code 8</option>
+              <option value="Code C1 / Code 10">Code C1 / Code 10</option>
             </select>
           </div>
 
           <div class="field">
-            <label for="certificates">
-              Certificates / additional training
-            </label>
-
-            <textarea
-              id="certificates"
-              placeholder="Add relevant certificates or training, if any."
-            ></textarea>
+            <label for="certificates">Certificates / additional training</label>
+            <textarea id="certificates" placeholder="Add certificates if any."></textarea>
           </div>
 
+          <!-- 9. TEMPLATE -->
+          <h3 class="group-title">9. CV Template</h3>
           <div class="field">
-            <label for="interests">
-              Interests (optional)
-            </label>
-
-            <textarea
-              id="interests"
-              placeholder="Add relevant interests or activities."
-            ></textarea>
-          </div>
-
-          <!-- TEMPLATE -->
-          <h3 class="group-title">
-            9. CV Template
-          </h3>
-
-          <div class="field">
-            <label for="templateChoice">
-              Template unlocked by your approved purchase
-            </label>
-
+            <label for="templateChoice">Unlocked Template</label>
             <select id="templateChoice" disabled>
-              <option value="classic">
-                Classic CV — R15
-              </option>
-
-              <option value="modern">
-                Modern CV — R25
-              </option>
+              <option value="classic">Classic CV</option>
+              <option value="modern">Modern CV</option>
             </select>
-
-            <div
-              id="templateAccessNote"
-              class="small-note"
-            >
-              Your approved purchase determines
-              which template is available.
-            </div>
+            <div id="templateAccessNote" class="small-note"></div>
           </div>
 
           <!-- ACTION BUTTONS -->
-          <button
-            class="button"
-            id="saveButton"
-            type="button"
-          >
+          <button class="button" id="saveButton" type="button" style="background: var(--black);">
             Save My CV
           </button>
 
-          <button
-            class="button secondary"
-            id="updatePreviewButton"
-            type="button"
-          >
+          <button class="button secondary" id="updatePreviewButton" type="button">
             Update Preview
           </button>
 
@@ -1542,500 +967,109 @@ footer {
 </main>
 
 <footer>
-  CVPro-SA · Create a professional CV from your phone.
+  &copy; <span id="currentYear"></span> CVPro-SA. All rights reserved.
 </footer>
+
 <script>
-/* =========================================================
-   CVPRO-SA — EDUCATION DATA
-========================================================= */
+  document.getElementById("currentYear").textContent = new Date().getFullYear();
 
-const institutionLists = {
-  school: [
-    "Amanzimtoti High School",
-    "Asoka Secondary School",
-    "Bechet High School",
-    "Bonela Secondary School",
-    "Brettonwood High School",
-    "Burnwood Secondary School",
-    "Centenary Secondary School",
-    "Clairwood Secondary School",
-    "Danville Park Girls' High School",
-    "Dr A.D. Lazarus Secondary School",
-    "Durban Academy High School",
-    "Durban Girls' College",
-    "Durban Girls' High School",
-    "Durban Girls' Secondary School",
-    "Durban High School",
-    "Durban North College",
-    "Durban Secondary and FET Academy",
-    "Folweni High School",
-    "George Campbell School of Technology",
-    "Glenwood High School",
-    "Grosvenor Boys' High School",
-    "Grosvenor Girls' High School",
-    "Hillcrest High School",
-    "Hunt Road Secondary School",
-    "Inanda Newtown Comprehensive High School",
-    "Isipingo Secondary School",
-    "Kharwastan Secondary School",
-    "Kingsway High School",
-    "Kloof High School",
-    "KwaMashu Secondary School",
-    "Mowat Park High School",
-    "Newlands East Secondary School",
-    "Northlands Girls' High School",
-    "Ohlange High School",
-    "Ogwini Comprehensive Technical High School",
-    "Orient Islamic School",
-    "Port Natal School",
-    "Sibusisiwe Comprehensive High School",
-    "St Henry's Marist Brothers' College",
-    "Umlazi Commercial High School",
-    "Umlazi Comprehensive Technical High School"
-  ],
+  const institutionLists = {
+    school: [
+      "Amanzimtoti High School", "Bechet High School", "Durban High School", "Glenwood High School",
+      "Hillcrest High School", "Kloof High School", "Kingsway High School", "Umlazi Comprehensive"
+    ],
+    tvet: [
+      "Coastal KZN TVET College", "Elangeni TVET College", "Thekwini TVET College", "Umgungundlovu TVET College"
+    ],
+    university: [
+      "Durban University of Technology (DUT)", "Mangosuthu University of Technology (MUT)",
+      "University of KwaZulu-Natal (UKZN)", "University of South Africa (UNISA)"
+    ],
+    "private-college": ["Boston City Campus", "Damelin", "Rosebank College", "Richfield"],
+    training: ["Accredited training provider", "Skills development centre"],
+    other: ["Other educational institution"]
+  };
 
-  tvet: [
-    "Coastal KZN TVET College",
-    "Elangeni TVET College",
-    "Esayidi TVET College",
-    "Majuba TVET College",
-    "Mnambithi TVET College",
-    "Mthashana TVET College",
-    "Thekwini TVET College",
-    "Umfolozi TVET College",
-    "Umgungundlovu TVET College"
-  ],
+  const qualificationsByLevel = {
+    school: ["Grade 10", "Grade 11", "Grade 12", "National Senior Certificate (NSC / Matric)"],
+    tvet: ["NC(V) Level 4", "NATED N3", "NATED N6", "National Diploma", "Trade Test"],
+    university: ["Higher Certificate", "Diploma", "Bachelor's Degree", "Honours Degree"],
+    "private-college": ["Certificate", "Diploma", "Higher Certificate"],
+    training: ["Skills Programme", "Occupational Certificate", "Trade Certificate"],
+    other: ["Certificate", "Diploma"]
+  };
 
-  university: [
-    "Durban University of Technology (DUT)",
-    "Mangosuthu University of Technology (MUT)",
-    "University of KwaZulu-Natal (UKZN)",
-    "University of South Africa (UNISA)",
-    "University of Zululand",
-    "University of Johannesburg",
-    "University of Pretoria",
-    "University of the Witwatersrand (Wits)"
-  ],
+  const subjectsByLevel = {
+    school: [
+      "English Home Language", "English First Additional Language", "isiZulu Home Language",
+      "Mathematics", "Mathematical Literacy", "Physical Sciences", "Life Sciences",
+      "Accounting", "Business Studies", "Economics", "Computer Applications Technology (CAT)",
+      "Information Technology (IT)", "Engineering Graphics and Design (EGD)", "Tourism"
+    ],
+    tvet: ["Engineering Mathematics", "Engineering Science", "Electrical Engineering", "Business Management"],
+    university: ["Accounting", "Business Management", "Economics", "Computer Science", "Information Technology"],
+    "private-college": ["Business Administration", "Bookkeeping", "Computer Literacy"],
+    training: ["Welding", "First Aid", "Occupational Health and Safety", "Computer Literacy"],
+    other: ["General Studies"]
+  };
 
-  "private-college": [
-    "Boston City Campus",
-    "Damelin",
-    "Rosebank College",
-    "Richfield Graduate Institute of Technology",
-    "Regent Business School"
-  ],
+  const availableSkills = [
+    "Communication", "Teamwork", "Problem Solving", "Customer Service",
+    "Computer Skills", "Time Management", "Leadership", "Attention to Detail",
+    "Hardworking", "Reliability", "Microsoft Word", "Microsoft Excel", "Sales"
+  ];
 
-  training: [
-    "Accredited training provider",
-    "Private skills development centre",
-    "Occupational training institution",
-    "Apprenticeship training centre"
-  ],
+  const southAfricanLanguages = [
+    "isiZulu", "isiXhosa", "Afrikaans", "English", "Sepedi", "Setswana", "Sesotho", "South African Sign Language"
+  ];
 
-  other: [
-    "Other educational institution"
-  ]
-};
+  const SUPABASE_URL = "https://tnxlhpenttcynlmlohao.supabase.co";
+  const SUPABASE_ANON_KEY = "sb_publishable_n4XzrnraET_AEMbCYtHV7Q_DJ8--zCL";
 
-const qualificationsByLevel = {
-  school: [
-    "Grade 8",
-    "Grade 9",
-    "Grade 10",
-    "Grade 11",
-    "Grade 12",
-    "National Senior Certificate (NSC / Matric)",
-    "Other school qualification"
-  ],
+  const $ = (id) => document.getElementById(id);
+  let supabaseClient = null;
+  let currentUser = null;
+  let activePurchase = null;
+  let saveInProgress = false;
+  let purchasedTemplate = "classic";
 
-  tvet: [
-    "NC(V) Level 2",
-    "NC(V) Level 3",
-    "NC(V) Level 4",
-    "NATED N1",
-    "NATED N2",
-    "NATED N3",
-    "NATED N4",
-    "NATED N5",
-    "NATED N6",
-    "National Certificate",
-    "National Diploma",
-    "Occupational Certificate",
-    "Trade Test"
-  ],
-
-  university: [
-    "Higher Certificate",
-    "Advanced Certificate",
-    "Diploma",
-    "Advanced Diploma",
-    "Bachelor's Degree",
-    "Honours Degree",
-    "Postgraduate Diploma",
-    "Master's Degree",
-    "Doctoral Degree / PhD"
-  ],
-
-  "private-college": [
-    "Certificate",
-    "Higher Certificate",
-    "Diploma",
-    "Advanced Diploma",
-    "Bachelor's Degree",
-    "Short Course Certificate"
-  ],
-
-  training: [
-    "Skills Programme",
-    "Occupational Certificate",
-    "Trade Certificate",
-    "Apprenticeship",
-    "Short Course Certificate"
-  ],
-
-  other: [
-    "Certificate",
-    "Diploma",
-    "Other qualification"
-  ]
-};
-
-const subjectsByLevel = {
-  school: [
-    "English Home Language",
-    "English First Additional Language",
-    "English Second Additional Language",
-    "isiZulu Home Language",
-    "isiZulu First Additional Language",
-    "isiXhosa",
-    "Afrikaans",
-    "Sesotho",
-    "Setswana",
-    "Mathematics",
-    "Mathematical Literacy",
-    "Technical Mathematics",
-    "Physical Sciences",
-    "Technical Sciences",
-    "Life Sciences",
-    "Natural Sciences",
-    "Agricultural Sciences",
-    "Agricultural Technology",
-    "Geography",
-    "History",
-    "Life Orientation",
-    "Accounting",
-    "Business Studies",
-    "Economics",
-    "Computer Applications Technology (CAT)",
-    "Information Technology (IT)",
-    "Engineering Graphics and Design (EGD)",
-    "Mechanical Technology",
-    "Electrical Technology",
-    "Civil Technology",
-    "Technical Drawing",
-    "Welding and Metalwork",
-    "Engineering Studies",
-    "Tourism",
-    "Hospitality Studies",
-    "Consumer Studies",
-    "Visual Arts",
-    "Dramatic Arts",
-    "Music",
-    "Design"
-  ],
-
-  tvet: [
-    "Engineering Mathematics",
-    "Engineering Science",
-    "Engineering Drawing",
-    "Mechanical Engineering",
-    "Electrical Engineering",
-    "Civil Engineering",
-    "Fitting and Turning",
-    "Welding",
-    "Metalwork",
-    "Boilermaking",
-    "Plumbing",
-    "Automotive Repair",
-    "Motor Mechanics",
-    "Mechatronics",
-    "Construction",
-    "Bricklaying",
-    "Carpentry",
-    "Business Management",
-    "Financial Management",
-    "Human Resource Management",
-    "Marketing Management",
-    "Public Management",
-    "Management Assistant",
-    "Office Administration",
-    "Information Technology",
-    "Computer Practice",
-    "Hospitality",
-    "Tourism",
-    "Educare",
-    "Primary Agriculture"
-  ],
-
-  university: [
-    "Accounting",
-    "Auditing",
-    "Business Management",
-    "Economics",
-    "Finance",
-    "Human Resources",
-    "Marketing",
-    "Public Management",
-    "Law",
-    "Political Science",
-    "Sociology",
-    "Psychology",
-    "Social Work",
-    "Education",
-    "Mathematics",
-    "Statistics",
-    "Physics",
-    "Chemistry",
-    "Biology",
-    "Environmental Science",
-    "Computer Science",
-    "Information Technology",
-    "Software Development",
-    "Cybersecurity",
-    "Data Science",
-    "Mechanical Engineering",
-    "Electrical Engineering",
-    "Civil Engineering",
-    "Chemical Engineering",
-    "Industrial Engineering",
-    "Architecture",
-    "Quantity Surveying",
-    "Construction Management",
-    "Nursing",
-    "Public Health",
-    "Medicine",
-    "Pharmacy",
-    "Physiotherapy",
-    "Radiography",
-    "Agriculture",
-    "Food Science",
-    "Journalism",
-    "Media Studies",
-    "Languages",
-    "History",
-    "Geography",
-    "Tourism",
-    "Hospitality"
-  ],
-
-  "private-college": [
-    "Business Administration",
-    "Business Management",
-    "Accounting",
-    "Bookkeeping",
-    "Financial Management",
-    "Human Resources",
-    "Marketing",
-    "Project Management",
-    "Office Administration",
-    "Computer Literacy",
-    "Information Technology",
-    "Software Development",
-    "Graphic Design",
-    "Digital Marketing",
-    "Hospitality",
-    "Tourism",
-    "Education",
-    "Occupational Health and Safety"
-  ],
-
-  training: [
-    "Welding",
-    "Metalwork",
-    "Fitting and Turning",
-    "Plumbing",
-    "Electrical Installation",
-    "Construction",
-    "First Aid",
-    "Fire Safety",
-    "Occupational Health and Safety",
-    "Computer Literacy",
-    "Forklift Operation",
-    "Warehousing",
-    "Stock Control",
-    "Customer Service"
-  ],
-
-  other: [
-    "General Studies",
-    "Business Skills",
-    "Computer Skills"
-  ]
-};
-
-const availableSkills = [
-  "Communication",
-  "Teamwork",
-  "Problem Solving",
-  "Customer Service",
-  "Computer Skills",
-  "Time Management",
-  "Leadership",
-  "Attention to Detail",
-  "Fast Learner",
-  "Hardworking",
-  "Hands-on Work",
-  "Stock Management",
-  "Organisation",
-  "Reliability",
-  "Adaptability",
-  "Basic Numeracy",
-  "Written Communication",
-  "Verbal Communication",
-  "Microsoft Word",
-  "Microsoft Excel",
-  "Data Entry",
-  "Cash Handling",
-  "Sales",
-  "Cleaning and Hygiene",
-  "Welding",
-  "Metalwork",
-  "Technical Drawing",
-  "Basic Maintenance",
-  "Health and Safety Awareness",
-  "Planning",
-  "Customer Relations",
-  "Conflict Resolution"
-];
-
-const southAfricanLanguages = [
-  "isiZulu",
-  "isiXhosa",
-  "Afrikaans",
-  "English",
-  "Sepedi",
-  "Setswana",
-  "Sesotho",
-  "itsonga",
-  "siSwati",
-  "Tshivenda",
-  "isiNdebele",
-  "South African Sign Language"
-];
-
-/* =========================================================
-   SUPABASE CONFIGURATION
-========================================================= */
-
-const SUPABASE_URL =
-  "https://tnxlhpenttcynlmlohao.supabase.co";
-
-const SUPABASE_ANON_KEY =
-  "sb_publishable_n4XzrnraET_AEMbCYtHV7Q_DJ8--zCL";
-
-const $ = (id) => document.getElementById(id);
-
-let supabaseClient = null;
-
-let currentUser = null;
-let activePurchase = null;
-let savedCvData = {};
-let saveInProgress = false;
-let purchasedTemplate = "classic";
-
-/* =========================================================
-   GENERAL HELPERS
-========================================================= */
-
-function showMessage(message, type = "error") {
-  const box = $("message");
-
-  if (!box) return;
-
-  box.textContent = message;
-  box.className = "message " + type;
-  box.style.display = "block";
-}
-
-function clearMessage() {
-  const box = $("message");
-
-  if (!box) return;
-
-  box.textContent = "";
-  box.className = "message";
-  box.style.display = "none";
-}
-
-function valueOf(id) {
-  const element = $(id);
-
-  return element ? String(element.value || "").trim() : "";
-}
-
-function setText(id, value) {
-  const element = $(id);
-
-  if (element) {
-    element.textContent = value || "";
-  }
-}
-
-function splitCommaSeparated(value) {
-  return String(value || "")
-    .split(",")
-    .map(item => item.trim())
-    .filter(Boolean);
-}
-
-function uniqueValues(values) {
-  return [...new Set(values.filter(Boolean))];
-}
-
-function getCheckedValues(name) {
-  return Array.from(
-    document.querySelectorAll(
-      `input[name="${name}"]:checked`
-    )
-  ).map(input => input.value);
-}
-
-function setSectionVisibility(sectionId, content) {
-  const section = $(sectionId);
-
-  if (!section) return;
-
-  section.style.display =
-    content && String(content).trim()
-      ? ""
-      : "none";
-}
-
-/* =========================================================
-   SUPABASE EDGE FUNCTION HELPER
-========================================================= */
-
-async function callEdgeFunction(functionName, body = {}) {
-  if (!supabaseClient) {
-    throw new Error("Supabase has not loaded.");
+  function showMessage(message, type = "error") {
+    const box = $("message");
+    if (!box) return;
+    box.textContent = message;
+    box.className = "message " + type;
+    box.style.display = "block";
   }
 
-  const {
-    data: { session },
-    error: sessionError
-  } = await supabaseClient.auth.getSession();
-
-  if (sessionError) throw sessionError;
-
-  if (!session) {
-    throw new Error(
-      "Your session has expired. Please sign in again."
-    );
+  function clearMessage() {
+    const box = $("message");
+    if (!box) return;
+    box.textContent = "";
+    box.className = "message";
+    box.style.display = "none";
   }
 
-  const response = await fetch(
-    `${SUPABASE_URL}/functions/v1/${functionName}`,
-    {
+  function valueOf(id) {
+    const element = $(id);
+    return element ? String(element.value || "").trim() : "";
+  }
+
+  function setText(id, value) {
+    const element = $(id);
+    if (element) element.textContent = value || "";
+  }
+
+  function setSectionVisibility(sectionId, content) {
+    const section = $(sectionId);
+    if (section) section.style.display = content && String(content).trim() ? "" : "none";
+  }
+
+  async function callEdgeFunction(functionName, body = {}) {
+    const { data: { session }, error } = await supabaseClient.auth.getSession();
+    if (error) throw error;
+    if (!session) throw new Error("Session expired. Please sign in again.");
+
+    const res = await fetch(`${SUPABASE_URL}/functions/v1/${functionName}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -2043,1825 +1077,327 @@ async function callEdgeFunction(functionName, body = {}) {
         "Authorization": `Bearer ${session.access_token}`
       },
       body: JSON.stringify(body)
-    }
-  );
+    });
 
-  const rawText = await response.text();
+    const result = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(result.error || result.message || "Request failed.");
+    return result;
+  }
 
-  let result = {};
+  function populateQualifications(selected = "") {
+    const select = $("qualification");
+    if (!select) return;
+    const level = valueOf("educationLevel");
+    const options = qualificationsByLevel[level] || [];
+    select.innerHTML = '<option value="">Select qualification</option>';
+    options.forEach(q => {
+      const opt = document.createElement("option");
+      opt.value = q;
+      opt.textContent = q;
+      select.appendChild(opt);
+    });
+    select.value = selected || "";
+  }
 
-  try {
-    result = rawText
-      ? JSON.parse(rawText)
-      : {};
-  } catch {
-    result = {
-      message: rawText
+  function renderSubjectChoices(selected = []) {
+    const container = $("subjectChoices");
+    if (!container) return;
+    container.innerHTML = "";
+    const level = valueOf("educationLevel");
+    (subjectsByLevel[level] || []).forEach((sub, i) => {
+      const label = document.createElement("label");
+      label.className = "choice";
+      const cb = document.createElement("input");
+      cb.type = "checkbox";
+      cb.name = "subjects";
+      cb.value = sub;
+      cb.checked = selected.includes(sub);
+      cb.addEventListener("change", updatePreview);
+      const span = document.createElement("span");
+      span.textContent = sub;
+      label.append(cb, span);
+      container.appendChild(label);
+    });
+  }
+
+  function renderSkillChoices(selected = []) {
+    const container = $("skillChoices");
+    if (!container) return;
+    container.innerHTML = "";
+    availableSkills.forEach((skill, i) => {
+      const label = document.createElement("label");
+      label.className = "choice";
+      const cb = document.createElement("input");
+      cb.type = "checkbox";
+      cb.name = "skills";
+      cb.value = skill;
+      cb.checked = selected.includes(skill);
+      cb.addEventListener("change", updatePreview);
+      const span = document.createElement("span");
+      span.textContent = skill;
+      label.append(cb, span);
+      container.appendChild(label);
+    });
+  }
+
+  function renderLanguageChoices(selected = []) {
+    const container = $("languageChoices");
+    if (!container) return;
+    container.innerHTML = "";
+    southAfricanLanguages.forEach((lang, i) => {
+      const label = document.createElement("label");
+      label.className = "choice";
+      const cb = document.createElement("input");
+      cb.type = "checkbox";
+      cb.name = "languages";
+      cb.value = lang;
+      cb.checked = selected.includes(lang);
+      cb.addEventListener("change", updatePreview);
+      const span = document.createElement("span");
+      span.textContent = lang;
+      label.append(cb, span);
+      container.appendChild(label);
+    });
+  }
+
+  function updateExperienceVisibility() {
+    const type = valueOf("experienceType");
+    const show = ["work", "informal", "volunteer", "practical"].includes(type);
+    $("experienceDetails").classList.toggle("hidden", !show);
+    updatePreview();
+  }
+
+  function getFormData() {
+    const getChecked = (name) => Array.from(document.querySelectorAll(`input[name="${name}"]:checked`)).map(i => i.value);
+    const splitComma = (val) => String(val || "").split(",").map(s => s.trim()).filter(Boolean);
+
+    return {
+      fullName: valueOf("fullName"),
+      email: valueOf("email"),
+      phone: valueOf("phone"),
+      location: valueOf("location"),
+      educationLevel: valueOf("educationLevel"),
+      institution: valueOf("institution"),
+      qualification: valueOf("qualification"),
+      educationStatus: valueOf("educationStatus"),
+      educationYear: valueOf("educationYear"),
+      subjects: [...getChecked("subjects"), ...splitComma(valueOf("otherSubjects"))],
+      careerGoal: valueOf("careerGoal"),
+      strengths: valueOf("strengths"),
+      experienceType: valueOf("experienceType"),
+      jobTitle: valueOf("jobTitle"),
+      employer: valueOf("employer"),
+      experienceStart: valueOf("experienceStart"),
+      experienceEnd: valueOf("experienceEnd"),
+      experienceDescription: valueOf("experienceDescription"),
+      skills: [...getChecked("skills"), ...splitComma(valueOf("otherSkills"))],
+      languages: [...getChecked("languages"), ...splitComma(valueOf("otherLanguages"))],
+      languageProficiency: valueOf("languageProficiency"),
+      disabilityStatus: valueOf("disabilityStatus"),
+      includeDisabilityOnCv: $("includeDisabilityOnCv")?.checked || false,
+      availability: valueOf("availability"),
+      driversLicence: valueOf("driversLicence"),
+      certificates: valueOf("certificates"),
+      template: purchasedTemplate
     };
   }
 
-  if (!response.ok) {
-    throw new Error(
-      result.error ||
-      result.message ||
-      `Request failed (${response.status}).`
-    );
+  function generateProfile(data) {
+    const goal = data.careerGoal || "General employment";
+    const school = data.institution || "High School";
+    const year = data.educationYear ? ` completed in ${data.educationYear}` : "";
+    const loc = data.location ? ` based in ${data.location}` : "";
+    const strengths = data.strengths ? ` Key strengths include ${data.strengths}.` : "";
+    return `Motivated candidate${loc} holding a ${data.qualification || "Matric"} from ${school}${year}. Seeking an entry-level position in ${goal}.${strengths} Eager to learn, contribute effectively, and grow professionally within a dedicated team.`;
   }
 
-  if (result.error) {
-    throw new Error(result.error);
+  function formatEducation(data) {
+    return [data.qualification, data.institution, [data.educationStatus, data.educationYear].filter(Boolean).join(" · ")].filter(Boolean).join("\n");
   }
 
-  return result;
-}
-
-/* =========================================================
-   EDUCATION HELPERS
-========================================================= */
-
-function getSelectedLevel() {
-  return valueOf("educationLevel");
-}
-
-function getLevelList(collection) {
-  return collection[getSelectedLevel()] || [];
-}
-
-function populateQualifications(selectedValue = "") {
-  const select = $("qualification");
-
-  if (!select) return;
-
-  const options = getLevelList(
-    qualificationsByLevel
-  );
-
-  select.innerHTML = "";
-
-  const placeholder = document.createElement("option");
-
-  placeholder.value = "";
-  placeholder.textContent =
-    "Select qualification";
-
-  select.appendChild(placeholder);
-
-  options.forEach(qualification => {
-    const option = document.createElement("option");
-
-    option.value = qualification;
-    option.textContent = qualification;
-
-    select.appendChild(option);
-  });
-
-  if (
-    selectedValue &&
-    !options.includes(selectedValue)
-  ) {
-    const option = document.createElement("option");
-
-    option.value = selectedValue;
-    option.textContent = selectedValue;
-
-    select.appendChild(option);
-  }
-
-  select.value = selectedValue || "";
-}
-
-function renderSubjectChoices(selectedValues = []) {
-  const container = $("subjectChoices");
-
-  if (!container) return;
-
-  container.innerHTML = "";
-
-  getLevelList(subjectsByLevel).forEach(
-    (subject, index) => {
-      const label = document.createElement("label");
-      label.className = "choice";
-
-      const checkbox = document.createElement("input");
-
-      checkbox.type = "checkbox";
-      checkbox.name = "subjects";
-      checkbox.value = subject;
-      checkbox.id = `subject-${index}`;
-      checkbox.checked =
-        selectedValues.includes(subject);
-
-      checkbox.addEventListener(
-        "change",
-        updatePreview
-      );
-
-      const text = document.createElement("span");
-      text.textContent = subject;
-
-      label.append(checkbox, text);
-      container.appendChild(label);
+  function formatExperience(data) {
+    if (data.experienceType !== "no-experience") {
+      if (!data.jobTitle && !data.employer) return "";
+      return `<div class="experience-item"><h3>${data.jobTitle || ""}</h3><p><strong>${data.employer || ""}</strong> ${data.experienceStart || ""} – ${data.experienceEnd || ""}</p><p>${data.experienceDescription || ""}</p></div>`;
     }
-  );
-}
-
-/* =========================================================
-   INSTITUTION SEARCH
-========================================================= */
-
-function closeInstitutionResults() {
-  const results = $("institutionResults");
-  const search = $("institutionSearch");
-
-  if (results) {
-    results.classList.remove("open");
+    return `<div class="experience-item"><h3>Relevant School & Academic Learning</h3><p>Developed core foundational knowledge, discipline, and analytical problem-solving through secondary curriculum coursework.</p></div>`;
   }
 
-  if (search) {
-    search.setAttribute(
-      "aria-expanded",
-      "false"
-    );
-  }
-}
-
-function selectInstitution(name) {
-  $("institutionSearch").value = name;
-  $("institution").value = name;
-
-  closeInstitutionResults();
-  updatePreview();
-}
-
-function renderInstitutionResults() {
-  const searchInput = $("institutionSearch");
-  const results = $("institutionResults");
-
-  if (!searchInput || !results) return;
-
-  const level = getSelectedLevel();
-
-  const query = searchInput.value
-    .trim()
-    .toLowerCase();
-
-  results.innerHTML = "";
-
-  if (!level || !query) {
-    closeInstitutionResults();
-    return;
-  }
-
-  const matches = (
-    institutionLists[level] || []
-  )
-    .filter(name =>
-      name.toLowerCase().includes(query)
-    )
-    .slice(0, 40);
-
-  if (!matches.length) {
-    const message = document.createElement("div");
-
-    message.className =
-      "education-no-results";
-
-    message.textContent =
-      "No matching institution. Enter its name manually.";
-
-    results.appendChild(message);
-  } else {
-    matches.forEach(name => {
-      const button = document.createElement("button");
-
-      button.type = "button";
-      button.className = "education-result";
-      button.textContent = name;
-
-      button.addEventListener(
-        "pointerdown",
-        event => {
-          event.preventDefault();
-          selectInstitution(name);
-        }
-      );
-
-      button.addEventListener(
-        "click",
-        () => selectInstitution(name)
-      );
-
-      results.appendChild(button);
-    });
-  }
-
-  results.classList.add("open");
-
-  searchInput.setAttribute(
-    "aria-expanded",
-    "true"
-  );
-}
-
-/* =========================================================
-   SKILLS AND LANGUAGES
-========================================================= */
-
-function renderSkillChoices(selectedValues = []) {
-  const container = $("skillChoices");
-
-  if (!container) return;
-
-  container.innerHTML = "";
-
-  availableSkills.forEach((skill, index) => {
-    const label = document.createElement("label");
-    label.className = "choice";
-
-    const checkbox = document.createElement("input");
-
-    checkbox.type = "checkbox";
-    checkbox.name = "skills";
-    checkbox.value = skill;
-    checkbox.id = `skill-${index}`;
-    checkbox.checked =
-      selectedValues.includes(skill);
-
-    checkbox.addEventListener(
-      "change",
-      updatePreview
-    );
-
-    const text = document.createElement("span");
-    text.textContent = skill;
-
-    label.append(checkbox, text);
-    container.appendChild(label);
-  });
-}
-
-function renderLanguageChoices(selectedValues = []) {
-  const container = $("languageChoices");
-
-  if (!container) return;
-
-  container.innerHTML = "";
-
-  southAfricanLanguages.forEach(
-    (language, index) => {
-      const label = document.createElement("label");
-      label.className = "choice";
-
-      const checkbox = document.createElement("input");
-
-      checkbox.type = "checkbox";
-      checkbox.name = "languages";
-      checkbox.value = language;
-      checkbox.id = `language-${index}`;
-      checkbox.checked =
-        selectedValues.includes(language);
-
-      checkbox.addEventListener(
-        "change",
-        updatePreview
-      );
-
-      const text = document.createElement("span");
-      text.textContent = language;
-
-      label.append(checkbox, text);
-      container.appendChild(label);
-    }
-  );
-}
-
-/* =========================================================
-   EXPERIENCE VISIBILITY
-========================================================= */
-
-function updateExperienceVisibility() {
-  const type = valueOf("experienceType");
-
-  const shouldShow = [
-    "work",
-    "informal",
-    "volunteer",
-    "practical"
-  ].includes(type);
-
-  const details = $("experienceDetails");
-
-  if (details) {
-    details.classList.toggle(
-      "hidden",
-      !shouldShow
-    );
-  }
-
-  updatePreview();
-}
-
-/* =========================================================
-   COLLECT CV DATA
-========================================================= */
-
-function getFormData() {
-  const skills = uniqueValues([
-    ...getCheckedValues("skills"),
-    ...splitCommaSeparated(
-      valueOf("otherSkills")
-    )
-  ]);
-
-  const subjects = uniqueValues([
-    ...getCheckedValues("subjects"),
-    ...splitCommaSeparated(
-      valueOf("otherSubjects")
-    )
-  ]);
-
-  const languages = uniqueValues([
-    ...getCheckedValues("languages"),
-    ...splitCommaSeparated(
-      valueOf("otherLanguages")
-    )
-  ]);
-
-  return {
-    fullName: valueOf("fullName"),
-    email: valueOf("email"),
-    phone: valueOf("phone"),
-    location: valueOf("location"),
-
-    educationLevel: getSelectedLevel(),
-    institution: valueOf("institution"),
-    qualification: valueOf("qualification"),
-    educationStatus: valueOf("educationStatus"),
-    educationYear: valueOf("educationYear"),
-
-    subjects,
-    otherSubjects: valueOf("otherSubjects"),
-
-    careerGoal: valueOf("careerGoal"),
-    strengths: valueOf("strengths"),
-
-    experienceType: valueOf("experienceType"),
-    jobTitle: valueOf("jobTitle"),
-    employer: valueOf("employer"),
-    experienceStart: valueOf("experienceStart"),
-    experienceEnd: valueOf("experienceEnd"),
-    experienceDescription:
-      valueOf("experienceDescription"),
-
-    skills,
-    otherSkills: valueOf("otherSkills"),
-
-    languages,
-    otherLanguages: valueOf("otherLanguages"),
-    languageProficiency:
-      valueOf("languageProficiency"),
-    languageDetails: valueOf("languageDetails"),
-
-    disabilityStatus: valueOf("disabilityStatus"),
-    disabilityDetails:
-      valueOf("disabilityDetails"),
-    accessibilityNeeds:
-      valueOf("accessibilityNeeds"),
-
-    includeDisabilityOnCv:
-      $("includeDisabilityOnCv")?.checked || false,
-
-    availability: valueOf("availability"),
-    driversLicence: valueOf("driversLicence"),
-    certificates: valueOf("certificates"),
-    interests: valueOf("interests"),
-
-    template: purchasedTemplate
-  };
-}
-
-/* =========================================================
-   PROFESSIONAL PROFILE
-========================================================= */
-
-function generateProfile(data = {}) {
-  // 1. Inputs & Extraction
-  const rawGoal = String(data.careerGoal || "").trim();
-  const school = String(data.institution || data.school || data.schoolName || "").trim();
-  const year = String(data.educationYear || data.completionYear || "").trim();
-  const location = String(data.location || data.city || "").trim();
-  const hasNoExperience = data.experienceType === "no-experience";
-  const userConfirmedStrengths = String(data.strengths || "").trim();
-
-  let qualification = String(data.qualification || data.educationQualification || "").trim();
-  if (!qualification && (school || year)) {
-    qualification = "National Senior Certificate (NSC / Matric)";
-  }
-
-  const subjectsInput = data.subjects || data.technicalSubjects || [];
-  const subjectsList = Array.isArray(subjectsInput)
-    ? subjectsInput.map((s) => String(s).toLowerCase())
-    : String(subjectsInput).toLowerCase().split(",").map((s) => s.trim());
-
-  // 2. Stream Detection (Exact Word Boundaries)
-  const hasSubject = (keywords) => {
-    return subjectsList.some((s) =>
-      keywords.some((k) => {
-        const re = new RegExp(`\\b${k.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`, "i");
-        return re.test(s) || s === k;
-      })
-    );
-  };
-
-  const isTechnical = hasSubject([
-    "mechanical technology", "egd", "engineering graphics and design",
-    "electrical technology", "civil technology", "technical mathematics",
-    "technical sciences", "fitting and machining", "fitting and turning", "welding"
-  ]);
-  const isBusiness = hasSubject([
-    "accounting", "business studies", "economics", "financial management", "entrepreneurship"
-  ]);
-  const isIT = hasSubject([
-    "information technology", "computer applications technology", "cat", "computer science", "coding"
-  ]);
-  const isScience = hasSubject([
-    "physical sciences", "life sciences", "agricultural sciences", "physics", "chemistry", "biology"
-  ]);
-  const isRetailHumanities = hasSubject([
-    "consumer studies", "hospitality studies", "tourism", "mathematical literacy",
-    "geography", "history", "life orientation", "dramatic arts"
-  ]);
-
-  // 3. Goal Selection & Natural List Phrasing
-  const goalLower = rawGoal.toLowerCase();
-  const isGeneralGoal = !rawGoal || goalLower === "general employment" || goalLower === "general worker";
-
-  let goalSentence = "";
-  const locationText = location ? ` in ${location}` : "";
-
-  if (isGeneralGoal) {
-    if (isTechnical) {
-      goalSentence = `Seeking an entry-level opportunity in technical assistance, workshop support, or an apprenticeship${locationText}.`;
-    } else if (isIT) {
-      goalSentence = `Seeking an entry-level opportunity in IT support, data entry, or systems assistance${locationText}.`;
-    } else if (isBusiness) {
-      goalSentence = `Seeking an entry-level opportunity in administrative support, clerical work, or retail${locationText}.`;
-    } else if (isScience) {
-      goalSentence = `Seeking an entry-level opportunity in laboratory assistance, operations, or technical support${locationText}.`;
-    } else if (isRetailHumanities) {
-      goalSentence = `Seeking an entry-level opportunity in retail assistance, customer service, or hospitality support${locationText}.`;
-    } else {
-      goalSentence = `Seeking an entry-level position as a General Worker or Retail Assistant${locationText}.`;
-    }
-  } else {
-    // Determine proper indefinite article (a / an) for user-typed goals
-    const firstLetter = rawGoal.trim().charAt(0).toLowerCase();
-    const article = ["a", "e", "i", "o", "u"].includes(firstLetter) ? "an" : "a";
-    goalSentence = `Seeking ${article} ${rawGoal} role${locationText}.`;
-  }
-
-  // 4. Academic Background Description
-  let fieldDescription = "";
-  if (isTechnical) fieldDescription = " with school-level knowledge of mechanical and technical concepts";
-  else if (isBusiness) fieldDescription = " with school-level knowledge of business and financial concepts";
-  else if (isIT) fieldDescription = " with school-level knowledge of computing and digital concepts";
-  else if (isScience) fieldDescription = " with school-level knowledge of scientific concepts";
-  else if (isRetailHumanities) fieldDescription = " with school-level knowledge of practical numeracy and customer service concepts";
-
-  // 5. Construct Sentences
-  const sentences = [];
-
-  // Sentence 1: Education & School Background
-  if (qualification && school && year) {
-    sentences.push(`Candidate with ${qualification} from ${school}, completed in ${year}${fieldDescription}.`);
-  } else if (qualification && year) {
-    sentences.push(`Candidate with ${qualification}, completed in ${year}${fieldDescription}.`);
-  } else if (qualification && school) {
-    sentences.push(`Candidate with ${qualification} from ${school}${fieldDescription}.`);
-  } else if (qualification) {
-    sentences.push(`Candidate with ${qualification}${fieldDescription}.`);
-  } else {
-    sentences.push("Entry-level candidate seeking an opportunity to develop professionally.");
-  }
-
-  // Sentence 2: Target Goal (Natural Phrasing)
-  sentences.push(goalSentence);
-
-  // Sentence 3: Strengths (ONLY if user supplied them; otherwise topic-focused subject fallback)
-  if (userConfirmedStrengths) {
-    sentences.push(`Key strengths include ${userConfirmedStrengths}.`);
-  } else {
-    if (isTechnical) {
-      sentences.push("School subjects include topics related to technical concepts and workshop safety.");
-    } else if (isBusiness) {
-      sentences.push("School subjects include topics related to financial concepts and business operations.");
-    } else if (isIT) {
-      sentences.push("School subjects include topics related to computer applications and digital information management.");
-    } else if (isScience) {
-      sentences.push("School subjects include topics related to scientific principles and laboratory concepts.");
-    } else if (isRetailHumanities) {
-      sentences.push("School subjects include topics related to practical numeracy and customer service principles.");
-    } else {
-      sentences.push("Motivated to learn, develop workplace skills, and contribute positively to a team.");
-    }
-  }
-
-  // Sentence 4: Closing Statement
-  if (hasNoExperience) {
-    sentences.push("Eager to build on educational knowledge, learn workplace procedures, and contribute positively to a team.");
-  } else {
-    sentences.push("Eager to apply relevant knowledge, learn workplace procedures, and contribute positively to a team.");
-  }
-
-  return sentences.join(" ");
-}
-
-
-
-/* =========================================================
-   EDUCATION FORMATTING
-========================================================= */
-
-function formatEducation(data) {
-  const lines = [];
-
-  if (data.qualification) {
-    lines.push(data.qualification);
-  }
-
-  if (data.institution) {
-    lines.push(data.institution);
-  }
-
-  const status = [
-    data.educationStatus,
-    data.educationYear
-  ]
-    .filter(Boolean)
-    .join(" · ");
-
-  if (status) {
-    lines.push(status);
-  }
-
-  return lines.join("\n");
-}
-
-/* =========================================================
-   EXPERIENCE AND PRACTICAL TRAINING
-========================================================= */
-
-function escapeHtml(str) {
-  return String(str ?? "")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-}
-function formatExperience(data = {}) {
-  // 1. Applicants with actual work experience
-  if (data.experienceType !== "no-experience") {
-    const jobTitle = String(data.jobTitle || "").trim();
-    const employer = String(data.employer || "").trim();
-    
-    // Combine start and end dates gracefully if dates string is not pre-formatted
-    const start = String(data.experienceStart || "").trim();
-    const end = String(data.experienceEnd || "").trim();
-    let dates = String(data.dates || "").trim();
-    if (!dates && (start || end)) {
-      dates = start && end ? `${start} – ${end}` : (start || end);
-    }
-
-    const description = String(data.description || "").trim();
-
-    if (!jobTitle && !employer && !description) {
-      return "";
-    }
-
-    return `
-      <div class="experience-item">
-        ${jobTitle ? `<h3>${escapeHtml(jobTitle)}</h3>` : ""}
-        ${employer || dates ? `<p><strong>${escapeHtml(employer)}</strong>${dates ? escapeHtml(dates) : ""}</p>` : ""}
-        ${description ? `<p>${escapeHtml(description)}</p>` : ""}
-      </div>
-    `;
-  }
-
-  // 2. Applicants without formal work experience (Accurate School Learning)
-  const subjects = Array.isArray(data.subjects)
-    ? data.subjects
-    : String(data.subjects || "")
-        .split(",")
-        .map((s) => s.trim())
-        .filter(Boolean);
-
-  const subjectText = subjects.join(" ").toLowerCase();
-  const descriptions = [];
-
-  // --- STREAM 1: TECHNICAL & MECHANICAL ---
-  if (/\bmechanical technology\b|\bwelding\b|\bfitting and machining\b|\bfitting\b|\bcivil technology\b|\belectrical technology\b/.test(subjectText)) {
-    descriptions.push(
-      "Studied mechanical processes, materials, workshop concepts and safety principles."
-    );
-  }
-  if (/\bengineering graphics\b|\begd\b|\btechnical drawing\b/.test(subjectText)) {
-    descriptions.push(
-      "Studied technical drawings, scale design concepts and graphical communication."
-    );
-  }
-  if (/\btechnical sciences\b/.test(subjectText)) {
-    descriptions.push(
-      "Studied scientific principles and their applications in technical contexts."
-    );
-  }
-
-  // --- STREAM 2: COMMERCIAL & BUSINESS ---
-  if (/\baccounting\b|\bfinancial management\b/.test(subjectText)) {
-    descriptions.push(
-      "Studied financial concepts, accounting principles, ledgers and numerical calculations."
-    );
-  }
-  if (/\bbusiness studies\b|\beconomics\b|\bentrepreneurship\b/.test(subjectText)) {
-    descriptions.push(
-      "Learned about business operations, organizational structures, customer relations and market environments."
-    );
-  }
-
-  // --- STREAM 3: IT & DIGITAL LITERACY ---
-  if (/\bcomputer applications technology\b|\bcat\b|\binformation technology\b|\bcomputer science\b|\bcoding\b/.test(subjectText)) {
-    descriptions.push(
-      "Studied computer applications, digital information management and related computing concepts."
-    );
-  }
-
-  // --- STREAM 4: PHYSICAL & LIFE SCIENCES ---
-  if (/\bphysical sciences\b|\bchemistry\b|\bphysics\b/.test(subjectText)) {
-    descriptions.push(
-      "Studied physical and chemical principles, laboratory methodology and scientific problem-solving."
-    );
-  }
-  if (/\blife sciences\b|\bbiology\b/.test(subjectText)) {
-    descriptions.push(
-      "Studied biological processes, observational methodology and scientific reporting."
-    );
-  }
-
-  // --- STREAM 5: AGRICULTURAL SCIENCES ---
-  if (/\bagricultural sciences\b|\bagricultural technology\b|\bagricultural management\b/.test(subjectText)) {
-    descriptions.push(
-      "Studied agricultural principles, resource management and related environmental concepts."
-    );
-  }
-
-  // --- STREAM 6: MATHEMATICS & NUMERACY ---
-  if (/\btechnical mathematics\b/.test(subjectText)) {
-    descriptions.push(
-      "Studied technical calculations, mathematical formulas and numerical problem-solving relevant to technical subjects."
-    );
-  } else if (/\bmathematics\b/.test(subjectText)) {
-    descriptions.push(
-      "Studied mathematical concepts, calculations, formulas and numerical problem-solving through schoolwork."
-    );
-  }
-  if (/\bmathematical literacy\b/.test(subjectText)) {
-    descriptions.push(
-      "Studied practical numerical reasoning for everyday financial, measurement and data tasks."
-    );
-  }
-
-  // --- STREAM 7: RETAIL, HOSPITALITY & HUMANITIES ---
-  if (/\bconsumer studies\b|\bhospitality studies\b|\btourism\b|\bdramatic arts\b/.test(subjectText)) {
-    descriptions.push(
-      "Studied customer service principles, product standards and hospitality/tourism fundamentals."
-    );
-  }
-  if (/\bgeography\b|\bhistory\b|\blife orientation\b/.test(subjectText)) {
-    descriptions.push(
-      "Studied environmental, historical, social and personal-development topics through school coursework."
-    );
-  }
-
-  // Safe fallback if no subjects match rules
-  if (descriptions.length === 0) {
-    descriptions.push(
-      "Studied core foundational subject matter, coursework concepts and general problem-solving through matric curriculum."
-    );
-  }
-
-  // Eliminate duplicate descriptions
-  const uniqueDescriptions = [...new Set(descriptions)];
-
-  return `
-    <div class="experience-item">
-      <h3>Relevant School Learning</h3>
-      <ul>
-        ${uniqueDescriptions
-          .map((description) => `<li>${escapeHtml(description)}</li>`)
-          .join("\n        ")}
-      </ul>
-    </div>
-  `;
-}
-
-
-
-
-/* =========================================================
-   SUBJECT GROUPS
-========================================================= */
-
-function renderSubjectGroups(subjects) {
-  const container = $("previewSubjects");
-
-  if (!container) return;
-
-  container.innerHTML = "";
-
-  const technicalNames = [
-    "Technical Mathematics",
-    "Technical Sciences",
-    "Engineering Graphics and Design (EGD)",
-    "Mechanical Technology",
-    "Electrical Technology",
-    "Civil Technology",
-    "Technical Drawing",
-    "Engineering Drawing",
-    "Welding and Metalwork",
-    "Welding",
-    "Metalwork",
-    "Fitting and Turning",
-    "Mechanical Engineering",
-    "Electrical Engineering",
-    "Civil Engineering",
-    "Engineering Mathematics",
-    "Engineering Science",
-    "Engineering Studies"
-  ];
-
-  const technical = subjects.filter(
-    subject => technicalNames.includes(subject)
-  );
-
-  const other = subjects.filter(
-    subject => !technicalNames.includes(subject)
-  );
-
-  function addGroup(title, items) {
-    if (!items.length) return;
-
-    const group = document.createElement("div");
-    group.className = "cv-subject-group";
-
-    const heading = document.createElement("strong");
-    heading.className = "cv-subject-heading";
-    heading.textContent = title;
-
-    const list = document.createElement("ul");
-    list.className = "cv-subject-list";
-
-    items.forEach(subject => {
-      const item = document.createElement("li");
-      item.textContent = subject;
-      list.appendChild(item);
-    });
-
-    group.append(heading, list);
-    container.appendChild(group);
-  }
-
-  addGroup("Technical Subjects", technical);
-  addGroup("Other Subjects", other);
-}
-
-/* =========================================================
-   PROFESSIONAL SKILLS (Clean Flat List Preview Rendering)
-========================================================= */
-
-function renderSkillTags(skills) {
-  const container = $("previewSkills");
-
-  if (!container) return;
-
-  container.innerHTML = "";
-
-  // Accept only skills supplied directly to this function.
-  // Do not generate default skills or auto-categorize.
-  const skillList = (Array.isArray(skills) ? skills : [])
-    .map(skill => String(skill).trim())
-    .filter(Boolean);
-
-  // Remove duplicate skills without changing displayed casing.
-  const uniqueSkills = [
-    ...new Map(
-      skillList.map(skill => [skill.toLowerCase(), skill])
-    ).values()
-  ];
-
-  // If no skills are selected, omit preview content entirely.
-  if (uniqueSkills.length === 0) {
-    return;
-  }
-
-  const heading = document.createElement("div");
-  heading.className = "cv-skill-heading";
-  heading.textContent = "Skills & Abilities";
-
-  const list = document.createElement("ul");
-  list.className = "cv-skill-list";
-
-  uniqueSkills.forEach(skill => {
-    const item = document.createElement("li");
-    item.textContent = skill;
-    list.appendChild(item);
-  });
-
-  container.append(heading, list);
-}
-
-
-/* =========================================================
-   DISABILITY INFORMATION
-========================================================= */
-
-function formatDisability(data) {
-  if (!data.includeDisabilityOnCv) {
-    return "";
-  }
-
-  const lines = [];
-
-  if (
-    data.disabilityStatus &&
-    data.disabilityStatus !== "No disability disclosed"
-  ) {
-    lines.push(
-      `Disability: ${data.disabilityStatus}`
-    );
-  }
-
-  if (data.disabilityDetails) {
-    lines.push(
-      `Details: ${data.disabilityDetails}`
-    );
-  }
-
-  if (data.accessibilityNeeds) {
-    lines.push(
-      `Workplace accommodations: ${data.accessibilityNeeds}`
-    );
-  }
-
-  return lines.join("\n");
-}
-
-/* =========================================================
-   ADDITIONAL INFORMATION
-========================================================= */
-
-function formatAdditional(data) {
-  const lines = [];
-
-  if (data.availability) {
-    lines.push(
-      `Availability: ${data.availability}`
-    );
-  }
-
-  if (
-    data.driversLicence &&
-    data.driversLicence !== "Not specified"
-  ) {
-    lines.push(
-      `Driver's licence: ${data.driversLicence}`
-    );
-  }
-
-  if (data.certificates) {
-    lines.push(
-      `Certificates / training: ${data.certificates}`
-    );
-  }
-
-  if (data.interests) {
-    lines.push(
-      `Interests: ${data.interests}`
-    );
-  }
-
-  return lines.join("\n");
-}
-
-/* =========================================================
-   UPDATE CV PREVIEW
-========================================================= */
-
-function updatePreview() {
-  const data = getFormData();
-
-  setText(
-    "previewName",
-    data.fullName || "YOUR FULL NAME"
-  );
-
-  setText(
-    "previewContact",
-    [
-      data.email,
-      data.phone,
-      data.location
-    ]
-      .filter(Boolean)
-      .join(" | ")
-  );
-
-  setText(
-    "previewProfile",
-    generateProfile(data)
-  );
-
-  setText(
-    "previewEducation",
-    formatEducation(data)
-  );
-
-  const experience = formatExperience(data);
-
-const experiencePreview = $("previewExperience");
-
-if (experiencePreview) {
-  experiencePreview.innerHTML = experience;
-}
-
-setSectionVisibility(
-  "experienceSection",
-  experience
-);
-
-  renderSubjectGroups(data.subjects);
-
-  setSectionVisibility(
-    "subjectsSection",
-    data.subjects.length
-      ? "Subjects selected"
-      : ""
-  );
-
-  renderSkillTags(data.skills);
-
-  const languageText = [
-    data.languages.join(", "),
-    data.languageDetails,
-    data.languageProficiency
-  ]
-    .filter(Boolean)
-    .join(" · ");
-
-  setText(
-    "previewLanguages",
-    languageText
-  );
-
-  const disability = formatDisability(data);
-
-  setText(
-    "previewDisability",
-    disability
-  );
-
-  setSectionVisibility(
-    "disabilitySection",
-    disability
-  );
-
-  const additional = formatAdditional(data);
-
-  setText(
-    "previewAdditional",
-    additional
-  );
-
-  setSectionVisibility(
-    "additionalSection",
-    additional
-  );
-
-  const preview = $("cvPreview");
-
-  if (preview) {
-    preview.classList.toggle(
-      "classic",
-      purchasedTemplate === "classic"
-    );
-
-    preview.classList.toggle(
-      "modern",
-      purchasedTemplate === "modern"
-    );
-  }
-
-  setText(
-    "templateLabel",
-    purchasedTemplate === "modern"
-      ? "Modern CV — approved purchase"
-      : "Classic CV — approved purchase"
-  );
-}
-
-/* =========================================================
-   RESTORE SAVED CV
-========================================================= */
-
-function assignIfPresent(id, value) {
-  const element = $(id);
-
-  if (
-    element &&
-    value !== undefined &&
-    value !== null
-  ) {
-    element.value = value;
-  }
-}
-
-function restoreCvData(data = {}) {
-  const mappings = {
-    fullName: ["fullName", "full_name"],
-    phone: ["phone"],
-    location: ["location"],
-    educationLevel: [
-      "educationLevel",
-      "education_level"
-    ],
-    institution: ["institution"],
-    qualification: ["qualification"],
-    educationStatus: [
-      "educationStatus",
-      "education_status"
-    ],
-    educationYear: [
-      "educationYear",
-      "education_year"
-    ],
-    otherSubjects: [
-      "otherSubjects",
-      "other_subjects"
-    ],
-    careerGoal: [
-      "careerGoal",
-      "career_goal"
-    ],
-    strengths: ["strengths"],
-    experienceType: [
-      "experienceType",
-      "experience_type"
-    ],
-    jobTitle: [
-      "jobTitle",
-      "job_title"
-    ],
-    employer: ["employer"],
-    experienceStart: [
-      "experienceStart",
-      "experience_start"
-    ],
-    experienceEnd: [
-      "experienceEnd",
-      "experience_end"
-    ],
-    experienceDescription: [
-      "experienceDescription",
-      "experience_description"
-    ],
-    otherSkills: [
-      "otherSkills",
-      "other_skills"
-    ],
-    otherLanguages: [
-      "otherLanguages",
-      "other_languages"
-    ],
-    languageProficiency: [
-      "languageProficiency",
-      "language_proficiency"
-    ],
-    languageDetails: [
-      "languageDetails",
-      "language_details"
-    ],
-    disabilityStatus: [
-      "disabilityStatus",
-      "disability_status"
-    ],
-    disabilityDetails: [
-      "disabilityDetails",
-      "disability_details"
-    ],
-    accessibilityNeeds: [
-      "accessibilityNeeds",
-      "accessibility_needs"
-    ],
-    availability: ["availability"],
-    driversLicence: [
-      "driversLicence",
-      "drivers_licence"
-    ],
-    certificates: ["certificates"],
-    interests: ["interests"]
-  };
-
-  Object.entries(mappings).forEach(
-    ([fieldId, keys]) => {
-      for (const key of keys) {
-        if (
-          Object.prototype.hasOwnProperty.call(
-            data,
-            key
-          )
-        ) {
-          assignIfPresent(
-            fieldId,
-            data[key]
-          );
-
-          break;
-        }
-      }
-    }
-  );
-
-  $("email").value =
-    currentUser?.email ||
-    data.email ||
-    "";
-
-  $("institutionSearch").value =
-    valueOf("institution");
-
-  const subjects = Array.isArray(data.subjects)
-    ? data.subjects
-    : [];
-
-  const skills = Array.isArray(data.skills)
-    ? data.skills
-    : [];
-
-  const languages = Array.isArray(data.languages)
-    ? data.languages
-    : ["English", "isiZulu"];
-
-  populateQualifications(
-    valueOf("qualification")
-  );
-
-  renderSubjectChoices(subjects);
-  renderSkillChoices(skills);
-  renderLanguageChoices(languages);
-
-  $("includeDisabilityOnCv").checked =
-    data.includeDisabilityOnCv === true ||
-    data.include_disability_on_cv === true;
-
-  $("templateChoice").value =
-    purchasedTemplate;
-
-  updateExperienceVisibility();
-  updatePreview();
-}
-
-/* =========================================================
-   PURCHASED TEMPLATE
-========================================================= */
-
-function determinePurchasedTemplate(purchase) {
-  const candidate = [
-    purchase.template,
-    purchase.template_name,
-    purchase.cv_template,
-    purchase.product_name,
-    purchase.product,
-    purchase.plan,
-    purchase.purchase_type
-  ]
-    .filter(Boolean)
-    .join(" ")
-    .toLowerCase();
-
-  return candidate.includes("modern")
-    ? "modern"
-    : "classic";
-}
-
-function enforcePurchasedTemplate() {
-  const select = $("templateChoice");
-
-  if (select) {
-    select.value = purchasedTemplate;
-    select.disabled = true;
-  }
-
-  setText(
-    "templateAccessNote",
-    purchasedTemplate === "modern"
-      ? "Your approved Modern purchase unlocks the Modern CV template."
-      : "Your approved Classic purchase unlocks Classic only. Modern requires a separate approved purchase."
-  );
-}
-
-/* =========================================================
-   PURCHASE VERIFICATION
-========================================================= */
-
-async function checkPurchaseAccess() {
-  setText(
-    "accessMessage",
-    "Checking your account and CV purchase..."
-  );
-
-  $("builderArea").style.display = "none";
-
-console.log("[CV DEBUG] Purchase check started");
-
-  try {
-    const {
-      data: { session },
-      error: sessionError
-    } = await supabaseClient.auth.getSession();
-
-    if (sessionError) {
-      throw sessionError;
-    }
-
-    if (!session) {
-      window.location.href =
-        "./account.html";
-
-      return;
-    }
-
-    currentUser = session.user;
-
-console.log("[CV DEBUG] Session found");
-
-    const purchaseResult =
-      await callEdgeFunction(
-        "get-cv-purchase-status",
-        {}
-      );
-
-console.log(
-  "[CV DEBUG] Purchase response received",
-  purchaseResult
-);
-
-    const purchases = Array.isArray(
-      purchaseResult.purchases
-    )
-      ? purchaseResult.purchases
-      : purchaseResult.purchase
-        ? [purchaseResult.purchase]
-        : [];
-
-    const params =
-      new URLSearchParams(
-        window.location.search
-      );
-
-    const requestedPurchaseId =
-      params.get("purchase_id");
-
-    let eligiblePurchases =
-      purchases.filter(purchase => {
-        const status = String(
-          purchase.payment_status ||
-          purchase.status ||
-          ""
-        ).toLowerCase();
-
-        return [
-          "paid",
-          "approved",
-          "completed",
-          "success"
-        ].includes(status);
+  function updatePreview() {
+    const data = getFormData();
+    setText("previewName", data.fullName || "YOUR FULL NAME");
+    setText("previewContact", [data.email, data.phone, data.location].filter(Boolean).join(" | "));
+    setText("previewProfile", generateProfile(data));
+    setText("previewEducation", formatEducation(data));
+
+    const exp = formatExperience(data);
+    $("previewExperience").innerHTML = exp;
+    setSectionVisibility("experienceSection", exp);
+
+    const skillsContainer = $("previewSkills");
+    skillsContainer.innerHTML = "";
+    if (data.skills.length) {
+      const ul = document.createElement("ul");
+      ul.className = "cv-skill-list";
+      data.skills.forEach(s => {
+        const li = document.createElement("li");
+        li.textContent = s;
+        ul.appendChild(li);
       });
-
-    if (requestedPurchaseId) {
-      eligiblePurchases =
-        eligiblePurchases.filter(
-          purchase =>
-            String(purchase.id) ===
-              requestedPurchaseId ||
-            String(purchase.purchase_id) ===
-              requestedPurchaseId ||
-            String(purchase.order_number) ===
-              requestedPurchaseId
-        );
+      skillsContainer.appendChild(ul);
     }
 
-    if (!eligiblePurchases.length) {
-      setText(
-        "accessMessage",
-        "No approved CV purchase was found. If you have paid, wait for payment approval or contact support."
-      );
+    setText("previewLanguages", [data.languages.join(", "), data.languageProficiency].filter(Boolean).join(" · "));
+    
+    const disabilityText = data.includeDisabilityOnCv ? data.disabilityStatus : "";
+    setText("previewDisability", disabilityText);
+    setSectionVisibility("disabilitySection", disabilityText);
 
-      return;
-    }
+    setText("previewAdditional", [data.availability, data.driversLicence !== "Not specified" ? data.driversLicence : "", data.certificates].filter(Boolean).join("\n"));
 
-    activePurchase =
-      eligiblePurchases[0];
+    const preview = $("cvPreview");
+    preview.classList.toggle("classic", purchasedTemplate === "classic");
+    preview.classList.toggle("modern", purchasedTemplate === "modern");
+    setText("templateLabel", purchasedTemplate === "modern" ? "Modern CV — Approved" : "Classic CV — Approved");
+  }
 
-console.log(
-  "[CV DEBUG] Eligible purchase found",
-  activePurchase
-);
-
-    purchasedTemplate =
-      determinePurchasedTemplate(
-        activePurchase
-      );
-
-    enforcePurchasedTemplate();
-
-    let savedResult = {};
+  async function checkPurchaseAccess() {
+    setText("accessMessage", "Checking your account and CV purchase...");
+    $("builderArea").style.display = "none";
 
     try {
-      savedResult =
-        await callEdgeFunction(
-          "get-customer-cv",
-          {
-            purchase_id:
-              activePurchase.id
-          }
-        );
-    } catch (error) {
-      const text = String(
-        error.message || ""
-      ).toLowerCase();
-
-      if (
-        !text.includes("not found") &&
-        !text.includes("no cv") &&
-        !text.includes("no saved")
-      ) {
-        throw error;
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      if (!session) {
+        window.location.href = "./account.html";
+        return;
       }
+      currentUser = session.user;
+
+      const res = await callEdgeFunction("get-cv-purchase-status", {});
+      const purchases = Array.isArray(res.purchases) ? res.purchases : res.purchase ? [res.purchase] : [];
+      const approved = purchases.filter(p => ["paid", "approved", "completed", "success"].includes(String(p.payment_status || "").toLowerCase()));
+
+      if (!approved.length) {
+        setText("accessMessage", "No approved CV purchase found. Please complete payment or contact support.");
+        return;
+      }
+
+      activePurchase = approved[0];
+      purchasedTemplate = String(activePurchase.cv_template || "").toLowerCase().includes("modern") ? "modern" : "classic";
+      $("templateChoice").value = purchasedTemplate;
+
+      let saved = {};
+      try {
+        saved = await callEdgeFunction("get-customer-cv", { purchase_id: activePurchase.id });
+      } catch (e) {}
+
+      const cvData = saved.cv?.cv_data || saved.cv_data || {};
+      
+      // Populate fields
+      $("fullName").value = cvData.fullName || currentUser.user_metadata?.full_name || "";
+      $("email").value = currentUser.email || "";
+      $("phone").value = cvData.phone || "";
+      $("location").value = cvData.location || "";
+      if (cvData.educationLevel) {
+        $("educationLevel").value = cvData.educationLevel;
+        populateQualifications(cvData.qualification);
+        renderSubjectChoices(cvData.subjects || []);
+      }
+      renderSkillChoices(cvData.skills || []);
+      renderLanguageChoices(cvData.languages || ["English", "isiZulu"]);
+
+      updatePreview();
+      setText("accessMessage", "Your approved CV purchase is active.");
+      $("builderArea").style.display = "block";
+    } catch (err) {
+      setText("accessMessage", "Could not verify your purchase.");
+      showMessage(err.message, "error");
     }
-
-    const cvRecord =
-      savedResult.cv || {};
-
-    const cvData =
-      cvRecord.cv_data ||
-      savedResult.cv_data ||
-      {};
-
-    savedCvData = cvData;
-
-    restoreCvData(cvData);
-
-    setText(
-      "accessMessage",
-      "Your approved CV purchase is active."
-    );
-
-    $("builderArea").style.display =
-      "block";
-
-  } catch (error) {
-    console.error(
-      "CV access error:",
-      error
-    );
-
-    setText(
-      "accessMessage",
-      "Could not verify your CV purchase. Please check your connection and try again."
-    );
-
-    showMessage(
-      error.message ||
-      "Could not load your CV.",
-      "error"
-    );
-  }
-}
-
-/* =========================================================
-   SAVE CV
-========================================================= */
-
-async function saveCv() {
-  if (saveInProgress) return;
-
-  if (
-    !currentUser ||
-    !activePurchase
-  ) {
-    showMessage(
-      "Your approved purchase could not be confirmed.",
-      "error"
-    );
-
-    return;
   }
 
-  if (!$("cvForm").reportValidity()) {
-    return;
+  async function saveCv() {
+    if (saveInProgress) return;
+    saveInProgress = true;
+    const btn = $("saveButton");
+    btn.disabled = true;
+    btn.textContent = "Saving...";
+
+    try {
+      const cvData = getFormData();
+      await callEdgeFunction("save-customer-cv", { purchase_id: activePurchase.id, cv_data: cvData });
+      showMessage("Your CV has been saved successfully.", "success");
+    } catch (err) {
+      showMessage(err.message || "Could not save CV.", "error");
+    } finally {
+      saveInProgress = false;
+      btn.disabled = false;
+      btn.textContent = "Save My CV";
+    }
   }
 
-  saveInProgress = true;
-
-  const button = $("saveButton");
-
-  button.disabled = true;
-  button.textContent = "Saving...";
-
-  try {
-    const cvData = getFormData();
-
-    const result =
-      await callEdgeFunction(
-        "save-customer-cv",
-        {
-          purchase_id:
-            activePurchase.id,
-          cv_data: cvData
-        }
-      );
-
-    savedCvData = cvData;
-
+  async function downloadCvPdf() {
     updatePreview();
+    const btn = $("printButton");
+    btn.disabled = true;
+    btn.textContent = "Preparing PDF...";
 
-    showMessage(
-      result.message ||
-      "Your CV has been saved successfully.",
-      "success"
-    );
-
-  } catch (error) {
-    console.error(
-      "CV save error:",
-      error
-    );
-
-    showMessage(
-      error.message ||
-      "Could not save your CV.",
-      "error"
-    );
-
-  } finally {
-    saveInProgress = false;
-
-    button.disabled = false;
-    button.textContent =
-      "Save My CV";
-  }
-}
-
-
-/* =========================================================
-   PROFESSIONAL PDF DOWNLOAD
-========================================================= */
-
-async function downloadCvPdf() {
-  updatePreview();
-
-  const button = $("printButton");
-
-  button.disabled = true;
-  button.textContent = "Preparing PDF...";
-
-  try {
-    if (typeof window.html2pdf !== "function") {
-      throw new Error("PDF generator is unavailable.");
-    }
-
-    const cv = $("cvPreview");
-
-    if (!cv) {
-      throw new Error("CV preview could not be found.");
-    }
-
-    const filename = (
-      valueOf("fullName") || "My_CV"
-    ).replace(/[^a-z0-9_-]+/gi, "_");
-
-    await window.html2pdf()
-      .set({
-        margin: [6, 8, 6, 8],
+    try {
+      const element = $("cvPreview");
+      const filename = (valueOf("fullName") || "My_CV").replace(/[^a-z0-9_-]+/gi, "_");
+      await window.html2pdf().set({
+        margin: [8, 8, 8, 8],
         filename: `${filename}_CV.pdf`,
-
-        image: {
-          type: "jpeg",
-          quality: 0.98
-        },
-
-        html2canvas: {
-          scale: 1.5,
-          useCORS: true,
-          backgroundColor: "#ffffff",
-          scrollY: 0
-        },
-
-        jsPDF: {
-          unit: "mm",
-          format: "a4",
-          orientation: "portrait"
-        },
-
-        pagebreak: {
-          mode: ["legacy"]
-        }
-      })
-      .from(cv)
-      .save();
-
-    showMessage(
-      "Your CV PDF download has started.",
-      "success"
-    );
-
-  } catch (error) {
-    console.error("PDF error:", error);
-
-    showMessage(
-      error.message || "Could not download your PDF.",
-      "error"
-    );
-
-  } finally {
-    button.disabled = false;
-    button.textContent = "Download Professional PDF";
-  }
-}
-
-/* =========================================================
-   YEAR OPTIONS
-========================================================= */
-
-function populateYears() {
-  const select =
-    $("educationYear");
-
-  if (!select) return;
-
-  const currentYear =
-    new Date().getFullYear();
-
-  select.innerHTML = "";
-
-  const placeholder =
-    document.createElement("option");
-
-  placeholder.value = "";
-  placeholder.textContent =
-    "Select year";
-
-  select.appendChild(
-    placeholder
-  );
-
-  for (
-    let year = currentYear + 5;
-    year >= currentYear - 50;
-    year--
-  ) {
-    const option =
-      document.createElement("option");
-
-    option.value =
-      String(year);
-
-    option.textContent =
-      String(year);
-
-    select.appendChild(
-      option
-    );
-  }
-}
-
-/* =========================================================
-   REGISTER EVENTS
-========================================================= */
-
-function registerEvents() {
-  $("institutionSearch")
-    .addEventListener(
-      "input",
-      renderInstitutionResults
-    );
-
-  $("institutionSearch")
-    .addEventListener(
-      "focus",
-      () => {
-        if (
-          valueOf("institutionSearch")
-        ) {
-          renderInstitutionResults();
-        }
-      }
-    );
-
-  $("institutionSearch")
-    .addEventListener(
-      "keydown",
-      event => {
-        if (
-          event.key === "Escape"
-        ) {
-          closeInstitutionResults();
-        }
-
-        if (
-          event.key === "Enter"
-        ) {
-          const first =
-            $("institutionResults")
-              .querySelector(
-                ".education-result"
-              );
-
-          if (first) {
-            event.preventDefault();
-
-            selectInstitution(
-              first.textContent
-            );
-          }
-        }
-      }
-    );
-
-  document.addEventListener(
-    "click",
-    event => {
-      const wrapper =
-        document.querySelector(
-          ".autocomplete-wrap"
-        );
-
-      if (
-        wrapper &&
-        !wrapper.contains(
-          event.target
-        )
-      ) {
-        closeInstitutionResults();
-      }
+        image: { type: "jpeg", quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true, backgroundColor: "#ffffff" },
+        jsPDF: { unit: "mm", format: "a4", orientation: "portrait" }
+      }).from(element).save();
+      showMessage("PDF download started.", "success");
+    } catch (err) {
+      showMessage("Could not download PDF.", "error");
+    } finally {
+      btn.disabled = false;
+      btn.textContent = "Download Professional PDF";
     }
-  );
+  }
 
-  $("educationLevel")
-    .addEventListener(
-      "change",
-      () => {
-        $("institutionSearch").value = "";
-        $("institution").value = "";
-
-        populateQualifications();
-        renderSubjectChoices();
-        closeInstitutionResults();
-        updatePreview();
-      }
-    );
-
-  $("experienceType")
-    .addEventListener(
-      "change",
-      updateExperienceVisibility
-    );
-
-  $("saveButton")
-    .addEventListener(
-      "click",
-      saveCv
-    );
-
-  $("updatePreviewButton")
-    .addEventListener(
-      "click",
-      () => {
-        updatePreview();
-
-        showMessage(
-          "Your preview has been updated.",
-          "success"
-        );
-      }
-    );
-
-  $("printButton")
-    .addEventListener(
-      "click",
-      downloadCvPdf
-    );
-
-  $("cvForm")
-    .addEventListener(
-      "input",
-      event => {
-        if (
-          event.target.id !==
-          "institutionSearch"
-        ) {
-          updatePreview();
-        }
-      }
-    );
-
-  $("cvForm")
-    .addEventListener(
-      "change",
-      updatePreview
-    );
-
-  $("signOutButton")
-    .addEventListener(
-      "click",
-      async () => {
-        try {
-          await supabaseClient
-            .auth.signOut();
-
-          window.location.href =
-            "./account.html";
-
-        } catch (error) {
-          showMessage(
-            "Could not sign out.",
-            "error"
-          );
-        }
-      }
-    );
-}
-
-/* =========================================================
-   INITIALISE CV BUILDER
-========================================================= */
-
-async function initialiseBuilder() {
-  try {
-    if (
-      !window.supabase ||
-      !window.supabase.createClient
-    ) {
-      throw new Error(
-        "Supabase library failed to load."
-      );
-    }
-
-    supabaseClient =
-      window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_ANON_KEY
-      );
-
-    populateYears();
+  // Event Listeners
+  $("educationLevel").addEventListener("change", () => {
     populateQualifications();
-
     renderSubjectChoices();
-    renderSkillChoices();
-
-    renderLanguageChoices([
-      "English",
-      "isiZulu"
-    ]);
-
-    registerEvents();
-
-    updateExperienceVisibility();
-    enforcePurchasedTemplate();
     updatePreview();
+  });
+  $("experienceType").addEventListener("change", updateExperienceVisibility);
+  $("saveButton").addEventListener("click", saveCv);
+  $("updatePreviewButton").addEventListener("click", () => { updatePreview(); showMessage("Preview updated.", "success"); });
+  $("printButton").addEventListener("click", downloadCvPdf);
+  $("cvForm").addEventListener("input", updatePreview);
+  $("cvForm").addEventListener("change", updatePreview);
 
-    await checkPurchaseAccess();
+  $("signOutButton").addEventListener("click", async () => {
+    await supabaseClient.auth.signOut();
+    window.location.href = "./account.html";
+  });
 
-  } catch (error) {
-    console.error(
-      "Builder startup error:",
-      error
-    );
+  // Init
+  function init() {
+    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    
+    // Populate Years
+    const yearSelect = $("educationYear");
+    const currentYear = new Date().getFullYear();
+    for (let y = currentYear + 3; y >= currentYear - 40; y--) {
+      const opt = document.createElement("option");
+      opt.value = y;
+      opt.textContent = y;
+      yearSelect.appendChild(opt);
+    }
 
-    setText(
-      "accessMessage",
-      "The CV builder could not start."
-    );
-
-    showMessage(
-      error.message ||
-      "An unexpected error occurred.",
-      "error"
-    );
+    renderSkillChoices();
+    renderLanguageChoices(["English", "isiZulu"]);
+    checkPurchaseAccess();
   }
-}
 
-initialiseBuilder();
-
+  init();
 </script>
 </body>
 </html>
