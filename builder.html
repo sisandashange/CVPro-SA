@@ -2973,23 +2973,67 @@ function formatAdditional(data) {
   return lines.join("\n");
 }
 
+
 /* =========================================================
    AUTOMATED PROFESSIONAL COVER LETTER GENERATOR
 ========================================================= */
 
 function generateCoverLetter(data = {}) {
-  const name = String(data.fullName || "APPLICANT NAME").trim();
+  // Helper to properly capitalize names
+  const formatName = (str) => {
+    return String(str || "APPLICANT NAME")
+      .trim()
+      .split(/\s+/)
+      .map(part => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase())
+      .join(" ");
+  };
+
+  const name = formatName(data.fullName);
   const phone = String(data.phone || "").trim();
   const email = String(data.email || "").trim();
   const location = String(data.location || "South Africa").trim();
-  const goal = String(data.careerGoal || "General Worker").trim();
-  const school = String(data.institution || "High School").trim();
-  const year = String(data.educationYear || "").trim();
-  const qualification = String(data.qualification || "National Senior Certificate (Matric)").trim();
   
-  const subjectsInput = data.subjects || [];
-  const subjectsList = Array.isArray(subjectsInput) && subjectsInput.length > 0 
-    ? `including subjects such as ${subjectsInput.join(", ")}` 
+  // Natural Job Title Mapping for Career Goals
+  let rawGoal = String(data.careerGoal || "General Worker").trim();
+  if (rawGoal.toLowerCase() === "general employment" || !rawGoal) {
+    rawGoal = "General Worker";
+  }
+  const goal = rawGoal;
+
+  const school = String(data.institution || "").trim();
+  const year = String(data.educationYear || "").trim();
+  const qualification = String(data.qualification || "").trim();
+  
+  // Normalized Education Status with "completed" fallback
+  const educationStatus = String(
+    data.educationStatus || "completed"
+  ).trim().toLowerCase();
+  
+  // Verified Experience Type Handling
+  const experienceType = String(
+    data.experienceType || "no-experience"
+  ).trim().toLowerCase();
+
+  const experienceLabels = {
+    "work": "previous work experience",
+    "informal": "informal work experience",
+    "volunteer": "volunteer experience",
+    "practical": "practical training or workplace exposure"
+  };
+
+  const hasExperience = Object.prototype.hasOwnProperty.call(
+    experienceLabels,
+    experienceType
+  );
+
+  const jobTitle = String(data.jobTitle || "").trim();
+  const employer = String(data.employer || "").trim();
+
+  // Safe subject selection (first 3 subjects)
+  const subjectsInput = Array.isArray(data.subjects) ? data.subjects : [];
+  const selectedSubjects = subjectsInput.slice(0, 3);
+  const subjectsPhrase = selectedSubjects.length > 0 
+    ? ` My coursework included ${selectedSubjects.join(", ")}, providing me with a solid academic foundation.` 
     : "";
 
   const userStrengths = String(data.strengths || "").trim();
@@ -3000,33 +3044,87 @@ function generateCoverLetter(data = {}) {
     day: "numeric"
   });
 
-  let educationSentence = `I completed my ${qualification} at ${school}${year ? ` in ${year}` : ""}.`;
-  if (subjectsList) {
-    educationSentence += ` My school subjects included ${subjectsList}, which provided me with a solid foundation of academic and practical knowledge.`;
+  // Construct Education / Background Sentence with normalized study status awareness
+  let educationSentence = "";
+  if (qualification) {
+    const atInst = school ? ` at ${school}` : "";
+    const inYear = year ? ` in ${year}` : "";
+    
+    if (educationStatus === "currently studying") {
+      educationSentence = `I am currently pursuing my ${qualification}${atInst}.${subjectsPhrase}`;
+    } else if (educationStatus === "incomplete") {
+      educationSentence = school
+        ? `I previously attended ${school} and studied toward a ${qualification}.${subjectsPhrase}`
+        : `I previously studied toward a ${qualification}.${subjectsPhrase}`;
+    } else {
+      educationSentence = `I completed my ${qualification}${atInst}${inYear}.${subjectsPhrase}`;
+    }
+  } else if (school) {
+    const inYear = year ? ` in ${year}` : "";
+    educationSentence = `I studied at ${school}${inYear}.${subjectsPhrase}`;
+  }
+
+  // Tailored experience paragraph based on verified category
+  let experienceParagraph = "";
+  if (hasExperience) {
+    const labelDesc = experienceLabels[experienceType];
+    const roleDetails = jobTitle && employer
+      ? ` as a ${jobTitle} at ${employer}`
+      : jobTitle
+        ? ` as a ${jobTitle}`
+        : employer
+          ? ` with ${employer}`
+          : "";
+    
+    if (experienceType === "volunteer") {
+      experienceParagraph = `Through my ${labelDesc}${roleDetails}, I have developed strong community engagement, teamwork, and professional responsibility. I would welcome the opportunity to apply these skills within your organisation.`;
+    } else if (experienceType === "practical") {
+      experienceParagraph = `Through my ${labelDesc}${roleDetails}, I have gained practical workplace exposure and hands-on familiarity with professional environments. I am eager to apply and build upon this foundation.`;
+    } else if (experienceType === "informal") {
+      experienceParagraph = `Through my informal work experience${roleDetails}, I have gained exposure to work responsibilities. I am eager to build on this experience and continue developing my skills.`;
+    } else {
+      experienceParagraph = `My previous work experience${roleDetails} has introduced me to work responsibilities and professional expectations. I would welcome the opportunity to apply and further develop my experience within your organisation.`;
+    }
+  } else {
+    experienceParagraph = `Although I am seeking an opportunity to begin my professional career, I am eager to learn workplace procedures, develop practical skills, and contribute positively to your team.`;
   }
 
   let strengthsSentence = "";
   if (userStrengths) {
-    strengthsSentence = `My key strengths include ${userStrengths}. `;
+    strengthsSentence = ` My key strengths include ${userStrengths}.`;
   }
+
+  // Clean contact line formatting
+  const contactParts = [location, phone, email].filter(Boolean);
+  const contactHeader = contactParts.join(" | ");
+
+  // Prevent duplicate "position" or "role" wording in the heading
+  const goalUpper = goal.toUpperCase();
+  const endsWithRoleOrPosition = goalUpper.endsWith("POSITION") || goalUpper.endsWith("ROLE") || goalUpper.endsWith("WORKER");
+  const baseGoalPhrase = endsWithRoleOrPosition ? goalUpper : `${goalUpper} POSITION`;
+  const applicationType = hasExperience ? baseGoalPhrase : `ENTRY-LEVEL ${baseGoalPhrase}`;
+
+  // Smart article selection ('A' vs 'AN') based on starting letter of applicationType
+  const firstLetter = applicationType.trim().charAt(0);
+  const article = ["A", "E", "I", "O", "U"].includes(firstLetter) ? "AN" : "A";
 
   return `
 ${name}
-${location}${phone ? `\n${phone}` : ""}${email ? ` | ${email}` : ""}
+${contactHeader}
 
 ${currentDate}
 
-RE: APPLICATION FOR AN ENTRY-LEVEL ${goal.toUpperCase()} POSITION
+RE: APPLICATION FOR ${article} ${applicationType}
 
 Dear Hiring Manager,
 
-I am writing to express my strong interest in applying for an entry-level ${goal} position within your organisation.
+I am writing to apply for the ${goal} position within your organisation.
 
 ${educationSentence}
 
-Although I am seeking an opportunity to begin my professional career, I am eager to learn workplace procedures, develop practical skills, and contribute positively to your team. ${strengthsSentence}
+${experienceParagraph}${strengthsSentence}
 
-I would appreciate the opportunity to be considered for a suitable role. I am available for an interview at your earliest convenience and would welcome the chance to discuss my application further.
+I would appreciate the opportunity to be considered for a suitable position. I am available for an interview and would welcome the chance to discuss my application further.
 
 Thank you for your time and consideration.
 
@@ -3035,6 +3133,8 @@ Yours faithfully,
 ${name}
   `.trim();
 }
+
+
 
 /* =========================================================
    UPDATE CV PREVIEW
