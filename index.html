@@ -27,17 +27,15 @@
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;  
       background: var(--bg);  
       color: var(--black);  
-      line-height: 1.6;  
+      line-height: 1.4;  
+      height: 100vh;
+      overflow-x: hidden;
     }  
 
     header {  
       background: var(--black);  
-      color: var(--white);  
-      padding: 18px 24px;  
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      color: #fff;  
+      padding: 10px 20px;  
     }  
 
     .nav {  
@@ -49,149 +47,83 @@
     }  
 
     .logo {  
-      color: #ffffff;  
-      font-size: 22px;  
+      color: #fff;  
+      font-size: 18px;  
       font-weight: 800;  
-      letter-spacing: -0.5px;  
       text-decoration: none;  
     }  
 
-    .nav-button {  
-      display: inline-block;  
-      padding: 8px 16px;  
-      border: 1px solid rgba(255,255,255,0.2);  
-      border-radius: 6px;  
-      color: #ffffff;  
-      text-decoration: none;  
-      font-size: 13px;  
-      font-weight: 600;  
-      transition: background 0.2s;  
-    }  
+    .nav-contacts {
+      font-size: 12px;
+      color: #cbd5e1;
+      display: flex;
+      gap: 15px;
+    }
 
-    .nav-button:hover {  
-      background: rgba(255,255,255,0.1);  
-    }  
+    .nav-contacts a {
+      color: #34d399;
+      text-decoration: none;
+    }
 
     main {  
       max-width: 1200px;  
       margin: auto;  
-      padding: 40px 20px 70px;  
+      padding: 15px 15px;  
     }  
 
-    /* HERO SECTION */  
+    /* HERO SECTION - COMPACT */  
     .hero {  
       background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);  
-      color: #ffffff;  
-      border-radius: 20px;  
-      padding: 60px 30px;  
+      color: #fff;  
+      border-radius: 12px;  
+      padding: 20px 20px;  
       text-align: center;  
-      margin-bottom: 50px;  
-      box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.2);
+      margin-bottom: 15px;  
     }  
 
     .badge {  
       display: inline-block;  
-      padding: 6px 14px;  
+      padding: 3px 10px;  
       border-radius: 20px;  
       background: rgba(5, 150, 105, 0.2);  
       color: #34d399;  
-      font-size: 11px;  
+      font-size: 10px;  
       font-weight: 700;  
-      letter-spacing: 1px;  
       text-transform: uppercase;
-      margin-bottom: 16px;
+      margin-bottom: 6px;
     }  
 
     h1 {  
-      max-width: 780px;  
-      margin: 0 auto 16px;  
-      font-size: clamp(32px, 5vw, 50px);  
+      margin: 0 auto 6px;  
+      font-size: clamp(22px, 3.5vw, 32px);  
       line-height: 1.15;  
-      letter-spacing: -1px;  
       font-weight: 800;
     }  
 
     .hero p {  
-      max-width: 620px;  
-      margin: 0 auto 30px;  
+      max-width: 550px;  
+      margin: 0 auto 12px;  
       color: #94a3b8;  
-      font-size: 17px;  
+      font-size: 13px;  
     }  
 
-    .primary-button {  
-      display: inline-block;  
-      padding: 14px 28px;  
-      border: 0;  
-      border-radius: 8px;  
-      background: var(--accent);  
-      color: #ffffff;  
-      text-decoration: none;  
-      font-size: 15px;  
-      font-weight: 700;  
-      cursor: pointer;  
-      transition: background 0.2s, transform 0.1s;  
-      box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
-    }  
-
-    .primary-button:hover {  
-      background: var(--accent-dark);  
-      transform: translateY(-1px);
-    }  
-
-    .section-header {  
-      text-align: center;
-      max-width: 650px;
-      margin: 0 auto 40px;
-    }
-
-    .section-heading {  
-      margin: 0 0 10px;  
-      font-size: 30px;  
-      font-weight: 800;
-      letter-spacing: -0.5px;
-    }  
-
-    .section-description {  
-      margin: 0;  
-      color: var(--grey);  
-      font-size: 16px;  
-    }  
-
-    /* PRICING SECTIONS */
-    .category-title {
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--black);
-      margin: 40px 0 20px;
-      padding-bottom: 8px;
-      border-bottom: 2px solid var(--border);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
+    /* ULTRA COMPACT PRICING GRID (5 CARDS IN 1 ROW OR TIGHT WRAP) */  
     .pricing-grid {  
       display: grid;  
-      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));  
-      gap: 24px;  
+      grid-template-columns: repeat(5, minmax(0, 1fr));  
+      gap: 10px;  
       align-items: stretch;  
     }  
 
     .template-card {  
-      overflow: hidden;  
       border: 1px solid var(--border);  
-      border-radius: 16px;  
+      border-radius: 10px;  
       background: var(--card-bg);  
       display: flex;  
       flex-direction: column;  
       justify-content: space-between;  
-      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02), 0 2px 4px -1px rgba(0,0,0,0.01);  
-      transition: transform 0.2s ease, box-shadow 0.2s ease;  
-    }  
-
-    .template-card:hover {  
-      transform: translateY(-4px);  
-      box-shadow: 0 12px 20px -3px rgba(0,0,0,0.06);  
+      padding: 12px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
     }  
 
     .template-card.popular {  
@@ -200,71 +132,61 @@
     }  
 
     .template-card.popular::before {  
-      content: "BEST VALUE BUNDLE";  
+      content: "BEST";  
       position: absolute;  
-      top: 14px;  
-      right: 14px;  
+      top: -8px;  
+      right: 10px;  
       background: var(--accent);  
-      color: #ffffff;  
-      font-size: 10px;  
+      color: #fff;  
+      font-size: 8px;  
       font-weight: 800;  
-      padding: 4px 10px;  
-      border-radius: 20px;  
-      letter-spacing: 0.5px;  
-      z-index: 10;  
-    }  
-
-    .card-content {  
-      padding: 28px;  
-      display: flex;  
-      flex-direction: column;  
-      justify-content: space-between;  
-      flex-grow: 1;  
+      padding: 2px 6px;  
+      border-radius: 10px;  
     }  
 
     .card-top {  
       display: flex;  
       justify-content: space-between;  
-      align-items: flex-start;  
-      gap: 10px;  
-      margin-bottom: 12px;
+      align-items: center;  
+      margin-bottom: 6px;
     }  
 
     .card-top h3 {  
       margin: 0;  
-      font-size: 20px;  
+      font-size: 13px;  
       font-weight: 700;
     }  
 
     .price {  
-      font-size: 26px;  
+      font-size: 15px;  
       font-weight: 800;  
       color: var(--black);  
     }  
 
-    .card-content p {  
+    .template-card p {  
       color: var(--grey);  
-      font-size: 14px;  
-      margin: 0 0 20px;  
+      font-size: 11px;  
+      margin: 0 0 8px;  
+      line-height: 1.2;
     }  
 
     .features {  
       list-style: none;
       padding: 0;  
-      margin: 0 0 24px;  
-      font-size: 14px;  
+      margin: 0 0 10px;  
+      font-size: 11px;  
       color: #334155;  
     }  
 
     .features li {  
-      margin-bottom: 10px;  
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      margin-bottom: 2px;  
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }  
 
     .features li::before {
-      content: "✓";
+      content: "✓ ";
       color: var(--accent);
       font-weight: bold;
     }
@@ -272,21 +194,16 @@
     .select-button {  
       display: block;  
       width: 100%;  
-      padding: 14px;  
+      padding: 8px;  
       border: 1px solid var(--black);  
-      border-radius: 8px;  
+      border-radius: 6px;  
       background: var(--black);  
-      color: #ffffff;  
-      font-size: 14px;  
+      color: #fff;  
+      font-size: 11px;  
       font-weight: 700;  
       cursor: pointer;  
       text-align: center;  
       text-decoration: none;  
-      transition: background 0.2s;  
-    }  
-
-    .select-button:hover {  
-      background: #1e293b;  
     }  
 
     .select-button.accent {  
@@ -294,140 +211,31 @@
       border-color: var(--accent);  
     }  
 
-    .select-button.accent:hover {  
-      background: var(--accent-dark);  
-    }  
-
-    /* HOW IT WORKS */  
-    .steps-container {  
-      margin-top: 70px;  
-      padding-top: 50px;  
-      border-top: 1px solid var(--border);  
-    }  
-
-    .steps {  
-      display: grid;  
-      grid-template-columns: repeat(3, minmax(0, 1fr));  
-      gap: 24px;  
-      margin-top: 30px;  
-    }  
-
-    .step {  
-      padding: 28px;  
-      border: 1px solid var(--border);  
-      border-radius: 14px;  
-      background: var(--light-grey);  
-    }  
-
-    .step-number {  
-      display: inline-flex;  
-      width: 36px;  
-      height: 36px;  
-      justify-content: center;  
-      align-items: center;  
-      border-radius: 50%;  
-      background: var(--black);  
-      color: #ffffff;  
-      font-weight: 700;  
-      font-size: 14px;  
-    }  
-
-    .step h3 {  
-      margin: 16px 0 8px;  
-      font-size: 18px;  
-      font-weight: 700;
-    }  
-
-    .step p {  
-      margin: 0;  
-      color: var(--grey);  
-      font-size: 14px;  
-    }  
-
-    /* SUPPORT BOX */  
-    .support-box {  
-      margin-top: 50px;  
-      padding: 35px;  
-      border-radius: 16px;  
-      background: var(--black);  
-      color: #ffffff;  
-      display: flex;  
-      justify-content: space-between;  
-      align-items: center;  
-      flex-wrap: wrap;  
-      gap: 24px;  
-      box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.3);
-    }  
-
-    .support-text h3 {  
-      margin: 0 0 6px;  
-      font-size: 22px;  
-      font-weight: 700;
-    }  
-
-    .support-text p {  
-      margin: 0;  
-      color: #94a3b8;  
-      font-size: 15px;  
-    }  
-
-    .support-contacts {  
-      display: flex;  
-      gap: 12px;  
-      flex-wrap: wrap;  
-    }  
-
-    .support-btn {  
-      display: inline-flex;  
-      align-items: center;  
-      gap: 8px;  
-      padding: 12px 18px;  
-      background: #1e293b;  
-      border: 1px solid #334155;  
-      color: #ffffff;  
-      border-radius: 8px;  
-      text-decoration: none;  
-      font-size: 14px;  
-      font-weight: 600;  
-      transition: background 0.2s;  
-    }  
-
-    .support-btn:hover {  
-      background: #334155;  
-    }  
-
-    .notice {  
-      margin-top: 30px;  
-      padding: 20px;  
-      border: 1px solid var(--border);  
-      border-radius: 12px;  
-      background: #fffbeb;  
-      color: #92400e;  
-      font-size: 13px;  
-    }  
-
     footer {  
-      padding: 40px 20px;  
+      padding: 10px 20px;  
       background: #090d16;  
       color: #64748b;  
       text-align: center;  
-      font-size: 13px;  
-      border-top: 1px solid #1e293b;  
-      margin-top: 60px;
+      font-size: 11px;  
+      margin-top: 15px;  
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }  
 
-    footer p {  
-      margin: 6px 0;  
-    }  
+    @media (max-width: 1024px) {  
+      .pricing-grid {  
+        grid-template-columns: repeat(3, minmax(0, 1fr));  
+      }  
+    }
 
-    @media (max-width: 850px) {  
-      .steps, .support-box {  
+    @media (max-width: 650px) {  
+      .pricing-grid {  
         grid-template-columns: 1fr;  
       }  
-      .support-box {  
-        flex-direction: column;  
-        align-items: flex-start;  
-      }  
+      .nav-contacts {
+        display: none;
+      }
     }  
   </style>  
 </head>  
@@ -435,198 +243,108 @@
   <header>  
     <nav class="nav">  
       <a class="logo" href="./">CVPro-SA</a>  
-      <a class="nav-button" href="#pricing">View Packages</a>  
+      <div class="nav-contacts">
+        <span>📞 <a href="tel:+27752978917">+27 75 297 8917</a> (24/7)</span>
+        <span>💬 <a href="https://wa.me/27752978917" target="_blank">WhatsApp</a></span>
+        <span>✉️ <a href="mailto:mfanarhshange43@gmail.com">Email Us</a></span>
+      </div>
     </nav>  
   </header>    
 
   <main>  
     <section class="hero">  
-      <span class="badge">Trusted by Job Seekers Across South Africa</span>  
-      <h1>Stand Out With an Honest CV & Tailored Cover Letter</h1>  
-      <p>  
-        Build a professional, truthful CV and automated cover letter straight from your phone. 
-        Securely save your documents and download employer-ready PDFs anytime.  
-      </p>  
-      <a class="primary-button" href="#pricing">Explore Pricing Packages</a>  
+      <span class="badge">100% Honest & Matriculant-Friendly</span>  
+      <h1>Professional CVs & Cover Letters Made Simple</h1>  
+      <p>Build from your phone, save your documents securely, and download verified PDFs instantly.</p>  
     </section>  
 
-    <section id="pricing">  
-      <div class="section-header">
-        <h2 class="section-heading">Transparent Pricing</h2>  
-        <p class="section-description">  
-          Choose a money-saving bundle or select individual documents. Pay once, edit and download anytime.  
-        </p>  
-      </div>
-
-      <!-- BUNDLES CATEGORY -->
-      <div class="category-title">⭐ Recommended Value Bundles (CV + Cover Letter)</div>
-      <div class="pricing-grid">  
-        <!-- Modern Bundle (Best Value) -->  
-        <article class="template-card popular">  
-          <div class="card-content">  
-            <div>  
-              <div class="card-top">  
-                <h3>Modern CV + Cover Letter</h3>  
-                <span class="price">R40</span>  
-              </div>  
-              <p>Our complete top-tier application package for maximum job hunt success.</p>  
-              <ul class="features">  
-                <li>Sleek Modern Two-Column CV Template</li>  
-                <li>Automated Tailored Cover Letter</li>  
-                <li>Advanced subject disambiguation</li>  
-                <li>Instant PDF downloads & lifetime edits</li>  
-              </ul>  
-            </div>  
-            <button class="select-button accent" data-template="modern-bundle">  
-              Choose Modern Bundle — R40  
-            </button>  
+    <!-- ALL 5 PACKAGES IN ONE COMPACT ROW -->  
+    <div class="pricing-grid">  
+      <!-- 1. Classic CV -->  
+      <article class="template-card">  
+        <div>  
+          <div class="card-top">  
+            <h3>Classic CV</h3>  
+            <span class="price">R15</span>  
           </div>  
-        </article>  
+          <p>Traditional clean single-page format.</p>  
+          <ul class="features">  
+            <li>Factual learning highlights</li>  
+            <li>Instant PDF download</li>  
+          </ul>  
+        </div>  
+        <button class="select-button" data-template="classic">Select — R15</button>  
+      </article>  
 
-        <!-- Classic Bundle -->  
-        <article class="template-card">  
-          <div class="card-content">  
-            <div>  
-              <div class="card-top">  
-                <h3>Classic CV + Cover Letter</h3>  
-                <span class="price">R30</span>  
-              </div>  
-              <p>Get both the traditional Classic CV layout and a tailored cover letter together.</p>  
-              <ul class="features">  
-                <li>Classic Professional CV Template</li>  
-                <li>Automated Tailored Cover Letter</li>  
-                <li>Factual school learning highlights</li>  
-                <li>Instant PDF downloads & lifetime edits</li>  
-              </ul>  
-            </div>  
-            <button class="select-button" data-template="classic-bundle">  
-              Choose Classic Bundle — R30  
-            </button>  
+      <!-- 2. Modern CV -->  
+      <article class="template-card">  
+        <div>  
+          <div class="card-top">  
+            <h3>Modern CV</h3>  
+            <span class="price">R25</span>  
           </div>  
-        </article>  
-      </div>
+          <p>Contemporary two-column sidebar layout.</p>  
+          <ul class="features">  
+            <li>Organized contact details</li>  
+            <li>Instant PDF download</li>  
+          </ul>  
+        </div>  
+        <button class="select-button" data-template="modern">Select — R25</button>  
+      </article>  
 
-      <!-- INDIVIDUAL DOCUMENTS CATEGORY -->
-      <div class="category-title">📄 Individual Documents (Standalone)</div>
-      <div class="pricing-grid">  
-        <!-- Modern CV Alone -->  
-        <article class="template-card">  
-          <div class="card-content">  
-            <div>  
-              <div class="card-top">  
-                <h3>Modern CV Only</h3>  
-                <span class="price">R25</span>  
-              </div>  
-              <p>A contemporary two-column design with a strong professional visual style.</p>  
-              <ul class="features">  
-                <li>Distinctive sidebar layout</li>  
-                <li>Organized skills & contact details</li>  
-                <li>Instant PDF download</li>  
-              </ul>  
-            </div>  
-            <button class="select-button" data-template="modern">  
-              Choose Modern CV — R25  
-            </button>  
+      <!-- 3. Cover Letter Only -->  
+      <article class="template-card">  
+        <div>  
+          <div class="card-top">  
+            <h3>Cover Letter</h3>  
+            <span class="price">R15</span>  
           </div>  
-        </article>  
+          <p>Tailored letter matched to your goal.</p>  
+          <ul class="features">  
+            <li>Highlights matric & subjects</li>  
+            <li>Ready to email recruiters</li>  
+          </ul>  
+        </div>  
+        <button class="select-button" data-template="cover-letter">Select — R15</button>  
+      </article>  
 
-        <!-- Classic CV Alone -->  
-        <article class="template-card">  
-          <div class="card-content">  
-            <div>  
-              <div class="card-top">  
-                <h3>Classic CV Only</h3>  
-                <span class="price">R15</span>  
-              </div>  
-              <p>Traditional clean layout well-suited for general job applications.</p>  
-              <ul class="features">  
-                <li>Classic single-page format</li>  
-                <li>Factual school learning highlights</li>  
-                <li>Instant PDF download</li>  
-              </ul>  
-            </div>  
-            <button class="select-button" data-template="classic">  
-              Choose Classic CV — R15  
-            </button>  
+      <!-- 4. Classic Bundle -->  
+      <article class="template-card">  
+        <div>  
+          <div class="card-top">  
+            <h3>Classic + Letter</h3>  
+            <span class="price">R30</span>  
           </div>  
-        </article>  
+          <p>Classic CV & tailored cover letter.</p>  
+          <ul class="features">  
+            <li>Complete document set</li>  
+            <li>Lifetime edits & downloads</li>  
+          </ul>  
+        </div>  
+        <button class="select-button" data-template="classic-bundle">Select — R30</button>  
+      </article>  
 
-        <!-- Cover Letter Alone -->  
-        <article class="template-card">  
-          <div class="card-content">  
-            <div>  
-              <div class="card-top">  
-                <h3>Cover Letter Only</h3>  
-                <span class="price">R15</span>  
-              </div>  
-              <p>A professionally generated cover letter matched to your exact job target.</p>  
-              <ul class="features">  
-                <li>Tailored to your career choice</li>  
-                <li>Highlights matric and subjects</li>  
-                <li>Ready to email to recruiters</li>  
-              </ul>  
-            </div>  
-            <button class="select-button" data-template="cover-letter">  
-              Choose Cover Letter — R15  
-            </button>  
+      <!-- 5. Modern Bundle (Best Value) -->  
+      <article class="template-card popular">  
+        <div>  
+          <div class="card-top">  
+            <h3>Modern + Letter</h3>  
+            <span class="price">R40</span>  
           </div>  
-        </article>  
-      </div>  
-    </section>  
-
-    <!-- HOW IT WORKS SECTION -->  
-    <div class="steps-container">  
-      <div class="section-header">
-        <h2 class="section-heading">How CVPro-SA Works</h2>  
-        <p class="section-description">  
-          A straightforward process from choosing your package to downloading your documents.  
-        </p>  
-      </div>
-
-      <div class="steps">  
-        <article class="step">  
-          <span class="step-number">1</span>  
-          <h3>Create an account</h3>  
-          <p>Register and confirm your email before signing in.</p>  
-        </article>  
-
-        <article class="step">  
-          <span class="step-number">2</span>  
-          <h3>Choose and pay</h3>  
-          <p>Select your preferred package and complete the payment instructions.</p>  
-        </article>  
-
-        <article class="step">  
-          <span class="step-number">3</span>  
-          <h3>Build and download</h3>  
-          <p>Once approved, edit, save, and download your professional documents anytime.</p>  
-        </article>  
-      </div>  
-
-      <div class="notice">  
-        <strong>Payment Security Notice:</strong> Access is unlocked after payment confirmation. Your order reference helps identify your payment. Do not transfer money until official payment instructions are available on your account dashboard.  
-      </div>  
+          <p>Top-tier bundle for maximum success.</p>  
+          <ul class="features">  
+            <li>Modern CV & Cover Letter</li>  
+            <li>Instant downloads & edits</li>  
+          </ul>  
+        </div>  
+        <button class="select-button accent" data-template="modern-bundle">Select — R40</button>  
+      </article>  
     </div>  
-
-    <!-- PROFESSIONAL SUPPORT SECTION -->  
-    <section class="support-box">  
-      <div class="support-text">  
-        <h3>Need Help or Have a Question?</h3>  
-        <p>Our support team is available 24/7 to assist you with your CV, cover letter, or order verification.</p>  
-      </div>  
-      <div class="support-contacts">  
-        <a class="support-btn" href="tel:+27752978917">📞 Call +27 75 297 8917</a>  
-        <a class="support-btn" href="https://wa.me/27752978917" target="_blank">💬 WhatsApp Support</a>  
-        <a class="support-btn" href="mailto:mfanarhshange43@gmail.com">✉️ Email Us</a>  
-      </div>  
-    </section>  
-
   </main>    
 
   <footer>  
-    <p><strong>CVPro-SA</strong></p>  
-    <p>Professional, honest CVs and cover letters made simple.</p>  
     <p>&copy; <span id="year"></span> CVPro-SA. All rights reserved.</p>  
+    <p>Support: mfanarhshange43@gmail.com | +27 75 297 8917 (24/7)</p>  
   </footer>    
 
   <script>  
@@ -635,14 +353,8 @@
     document.querySelectorAll("[data-template]").forEach((button) => {  
       button.addEventListener("click", () => {  
         const template = button.dataset.template;  
-
-        // Remember the selected package while the customer signs in.  
         sessionStorage.setItem("cvpro_selected_template", template);  
-
-        // Continue to the account page with the selection.  
-        window.location.href =  
-          "./account.html?template=" +  
-          encodeURIComponent(template);  
+        window.location.href = "./account.html?template=" + encodeURIComponent(template);  
       });  
     });  
   </script>  
