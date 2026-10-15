@@ -28,18 +28,19 @@
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;  
       background: var(--bg);  
       color: var(--black);  
-      line-height: 1.5;  
+      line-height: 1.3;  
+      height: 100vh;
+      overflow-x: hidden;
     }  
 
     header {  
       background: var(--black);  
       color: #fff;  
-      padding: 18px 24px;  
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);  
+      padding: 10px 20px;  
     }  
 
     .nav {  
-      max-width: 1100px;  
+      max-width: 1200px;  
       margin: auto;  
       display: flex;  
       align-items: center;  
@@ -49,106 +50,70 @@
 
     .logo {  
       color: #fff;  
-      font-size: 22px;  
+      font-size: 18px;  
       font-weight: 800;  
-      letter-spacing: -0.5px;  
       text-decoration: none;  
     }  
 
     .nav-actions {  
       display: flex;  
-      gap: 12px;  
+      gap: 10px;  
       align-items: center;  
     }  
 
     .nav-link, .logout-button {  
-      color: #94a3b8;  
+      color: #cbd5e1;  
       background: transparent;  
       border: 1px solid #334155;  
-      border-radius: 8px;  
-      padding: 8px 14px;  
+      border-radius: 6px;  
+      padding: 5px 10px;  
       text-decoration: none;  
-      font-size: 13px;  
+      font-size: 12px;  
       font-weight: 600;  
       cursor: pointer;  
-      transition: all 0.2s;  
-    }  
-
-    .nav-link:hover, .logout-button:hover {  
-      background: #1e293b;  
-      color: #fff;  
     }  
 
     main {  
-      max-width: 1100px;  
-      margin: 35px auto;  
-      padding: 0 20px 60px;  
+      max-width: 1200px;  
+      margin: auto;  
+      padding: 12px 15px;  
     }  
 
     .welcome {  
-      margin-bottom: 28px;  
+      margin-bottom: 10px;  
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }  
 
     h1 {  
-      margin: 0 0 6px;  
-      font-size: 28px;  
+      margin: 0;  
+      font-size: 20px;  
       font-weight: 800;  
-      letter-spacing: -0.5px;  
     }  
 
     .muted {  
       color: var(--grey);  
-      font-size: 15px; 
+      font-size: 12px; 
     }  
 
-    .panel {  
-      margin-bottom: 28px;  
-      padding: 28px;  
-      background: var(--card-bg);  
-      border: 1px solid var(--border);  
-      border-radius: 16px;  
-      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);  
-    }  
-
-    .panel h2 {  
-      margin: 0 0 6px;  
-      font-size: 20px;  
-      font-weight: 700;  
-    }  
-
-    /* CATEGORY HEADINGS */
-    .category-title {
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--black);
-      margin: 22px 0 14px;
-      padding-bottom: 6px;
-      border-bottom: 2px solid var(--border);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
+    /* COMPACT GRID FOR ALL 5 PACKAGES IN ONE ROW */
     .template-grid {  
       display: grid;  
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));  
-      gap: 18px;  
+      grid-template-columns: repeat(5, minmax(0, 1fr));  
+      gap: 10px;  
+      margin-bottom: 12px;
     }  
 
     .template-card {  
-      padding: 22px;  
+      padding: 10px;  
       border: 1px solid var(--border);  
-      border-radius: 14px;  
+      border-radius: 8px;  
       background: var(--light-grey);  
       display: flex; 
       flex-direction: column; 
       justify-content: space-between; 
-      transition: transform 0.2s ease;
     }  
-
-    .template-card:hover {
-      transform: translateY(-2px);
-    }
 
     .template-card.popular {
       border: 2px solid var(--accent);
@@ -157,87 +122,66 @@
     }
 
     .template-card.popular::before {
-      content: "BEST VALUE";
+      content: "BEST";
       position: absolute;
-      top: -10px;
-      right: 14px;
+      top: -8px;
+      right: 8px;
       background: var(--accent);
       color: #fff;
-      font-size: 9px;
+      font-size: 8px;
       font-weight: 800;
-      padding: 3px 8px;
+      padding: 2px 6px;
       border-radius: 10px;
     }
 
     .template-card h3 {  
-      margin: 0 0 4px;  
-      font-size: 17px;  
+      margin: 0;  
+      font-size: 12px;  
       font-weight: 700;  
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }  
 
     .price {  
-      margin: 4px 0 10px;  
-      font-size: 22px;  
+      margin: 2px 0 6px;  
+      font-size: 15px;  
       font-weight: 800;  
       color: var(--black);  
     }  
 
     .template-card p {
-      margin: 0 0 16px;
-      font-size: 13px;
+      margin: 0 0 8px;
+      font-size: 10px;
       color: var(--grey);
+      line-height: 1.2;
     }
 
     .button {  
-      display: inline-block;  
+      display: block;  
       width: 100%;  
-      padding: 12px 16px;  
+      padding: 6px;  
       border: 0;  
-      border-radius: 8px;  
+      border-radius: 6px;  
       background: var(--black);  
       color: white;  
-      font-size: 14px;  
+      font-size: 11px;  
       font-weight: 700;  
       text-align: center;  
       text-decoration: none;  
       cursor: pointer;  
-      transition: background 0.2s;  
-    }  
-
-    .button:hover { 
-      background: #1e293b; 
     }  
 
     .button.accent {
       background: var(--accent);
     }
 
-    .button.accent:hover {
-      background: var(--accent-dark);
-    }
-
-    .button:disabled {  
-      opacity: 0.6;  
-      cursor: wait;  
-    }  
-
-    .secondary {  
-      background: #fff;  
-      color: var(--black);  
-      border: 1px solid var(--border);  
-    }  
-
-    .secondary:hover { 
-      background: #f1f5f9; 
-    }  
-
     .message {  
       display: none;  
-      margin-bottom: 20px;  
-      padding: 14px;  
-      border-radius: 8px;  
-      overflow-wrap: anywhere;  
-      font-size: 14px;  
+      margin-bottom: 10px;  
+      padding: 8px 12px;  
+      border-radius: 6px;  
+      font-size: 12px;  
     }  
 
     .message.success {  
@@ -254,43 +198,63 @@
       border: 1px solid #fecaca;  
     }  
 
+    /* COMPACT DASHBOARD LAYOUT */
+    .dashboard-layout {
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 15px;
+      align-items: start;
+    }
+
+    .panel {  
+      padding: 14px;  
+      background: var(--card-bg);  
+      border: 1px solid var(--border);  
+      border-radius: 10px;  
+    }  
+
+    .panel h2 {  
+      margin: 0 0 6px;  
+      font-size: 15px;  
+      font-weight: 700;  
+    }  
+
     .purchase-list {  
       display: grid;  
-      gap: 16px;  
-      margin-top: 20px;  
+      gap: 8px;  
+      max-height: 220px;
+      overflow-y: auto;
     }  
 
     .purchase-card {  
-      padding: 20px;  
+      padding: 10px;  
       border: 1px solid var(--border);  
-      border-radius: 12px;  
+      border-radius: 8px;  
       background: #fff;  
+      font-size: 12px;
     }  
 
     .purchase-heading {  
       display: flex;  
-      align-items: flex-start;  
+      align-items: center;  
       justify-content: space-between;  
-      gap: 12px;  
-      margin-bottom: 12px;  
+      gap: 8px;  
+      margin-bottom: 4px;  
     }  
 
     .purchase-heading h3 {  
       margin: 0;  
-      font-size: 17px;  
+      font-size: 13px;  
       font-weight: 700;  
-      overflow-wrap: anywhere;  
     }  
 
     .status {  
-      display: inline-block;  
-      padding: 5px 12px;  
-      border-radius: 20px;  
+      padding: 2px 8px;  
+      border-radius: 12px;  
       background: #fef3c7;  
       color: #92400e;  
-      font-size: 12px;  
+      font-size: 10px;  
       font-weight: 700;  
-      white-space: nowrap;  
     }  
 
     .status.paid {  
@@ -298,154 +262,64 @@
       color: #065f46;  
     }  
 
-    .status.declined {  
-      background: #fef2f2;  
-      color: #991b1b;  
-    }  
-
-    .purchase-card p {  
-      margin: 6px 0;  
-      color: var(--grey);  
-      font-size: 14px;  
-      overflow-wrap: anywhere;  
-    }  
-
-    .purchase-actions {  
-      margin-top: 16px;  
-      display: grid;  
-      gap: 10px;  
-    }  
-
-    .notice {  
-      padding: 18px;  
-      background: #fffbeb;  
-      border: 1px solid #fde68a;  
-      border-radius: 12px;  
-      color: #92400e;  
-      font-size: 14px;  
-      line-height: 1.6;  
-    }  
-
     .empty {  
-      padding: 24px 0;  
+      padding: 10px 0;  
       color: var(--grey);  
-      font-size: 14px;  
+      font-size: 12px;  
       text-align: center;  
     }  
 
-    .payment-box {  
-      margin-top: 16px;  
-      padding: 18px;  
-      border: 1px solid var(--border);  
-      border-radius: 10px;  
-      background: var(--light-grey);  
-    }  
-
-    .payment-box h4 {  
-      margin: 0 0 12px;  
-      font-size: 17px;  
-      font-weight: 700;  
-    }  
-
-    .payment-row {  
-      padding: 8px 0;  
-      border-bottom: 1px solid var(--border);  
-      font-size: 14px;  
-      overflow-wrap: anywhere;  
-    }  
-
-    .payment-row:last-child {  
-      border-bottom: none;  
-    }  
-
-    .payment-warning {  
-      margin-top: 14px;  
-      padding: 12px;  
-      border-radius: 8px;  
-      background: #fef3c7;  
-      color: #92400e;  
-      font-size: 13px;  
-      line-height: 1.5;  
-    }  
-
-    .payment-error {  
-      color: #991b1b !important;  
-      font-weight: 600;  
-    }  
-
-    /* SUPPORT BOX */
-    .support-box {
-      margin-top: 30px;
-      padding: 28px;
-      border-radius: 16px;
+    /* SIDEBAR SUPPORT */
+    .support-card {
       background: var(--black);
       color: #fff;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 20px;
+      padding: 14px;
+      border-radius: 10px;
+      font-size: 12px;
     }
 
-    .support-text h3 {
+    .support-card h3 {
       margin: 0 0 4px;
-      font-size: 20px;
-      font-weight: 700;
-    }
-
-    .support-text p {
-      margin: 0;
-      color: #94a3b8;
       font-size: 14px;
     }
 
-    .support-contacts {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
+    .support-card p {
+      margin: 0 0 10px;
+      color: #94a3b8;
+      font-size: 11px;
     }
 
     .support-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 10px 16px;
+      display: block;
+      width: 100%;
+      text-align: center;
+      padding: 6px;
+      margin-bottom: 6px;
       background: #1e293b;
       border: 1px solid #334155;
-      color: #ffffff;
-      border-radius: 8px;
+      color: #fff;
+      border-radius: 6px;
       text-decoration: none;
-      font-size: 13px;
+      font-size: 11px;
       font-weight: 600;
-      transition: background 0.2s;
-    }
-
-    .support-btn:hover {
-      background: #334155;
     }
 
     footer {  
-      padding: 30px 20px;  
+      padding: 8px 15px;  
       text-align: center;  
       color: var(--grey);  
-      font-size: 13px;  
+      font-size: 11px;  
       border-top: 1px solid var(--border);  
-      margin-top: 40px;  
+      margin-top: 10px;  
     }  
 
-    @media (max-width: 768px) {  
+    @media (max-width: 1024px) {  
+      .template-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }  
+      .dashboard-layout { grid-template-columns: 1fr; }
+    }  
+
+    @media (max-width: 650px) {  
       .template-grid { grid-template-columns: 1fr; }  
-      .nav { align-items: flex-start; }  
-      .nav-actions {  
-        flex-wrap: wrap;  
-        justify-content: flex-end;  
-      }  
-      h1 { font-size: 24px; }  
-      .panel { padding: 20px; }  
-      .support-box {
-        flex-direction: column;
-        align-items: flex-start;
-      }
     }  
   </style>  
 </head>  
@@ -456,122 +330,85 @@
       <a class="logo" href="./">CVPro-SA</a>  
       <div class="nav-actions">  
         <a class="nav-link" href="./">Homepage</a>  
-        <button class="logout-button" id="logoutButton" type="button">  
-          Sign Out  
-        </button>  
+        <button class="logout-button" id="logoutButton" type="button">Sign Out</button>  
       </div>  
     </nav>  
   </header>  
 
   <main>  
-    <section class="welcome">  
+    <div class="welcome">  
       <h1>My Account Dashboard</h1>  
-      <div class="muted" id="accountEmail">Checking your account...</div>  
-    </section>  
+      <div class="muted" id="accountEmail">Checking account...</div>  
+    </div>  
 
     <div class="message" id="message" role="status" aria-live="polite"></div>  
 
-    <section class="panel">  
-      <h2>Purchase CV or Cover Letter Package</h2>  
-      <p class="muted">  
-        Select an option below. Your CV builder or Cover Letter will unlock immediately after  
-        your payment is verified.  
-      </p>  
+    <!-- ALL 5 PACKAGES IN 1 ROW -->
+    <div class="template-grid">  
+      <article class="template-card">  
+        <div>
+          <h3>Classic CV</h3>  
+          <div class="price">R15</div>  
+          <p>Traditional clean format.</p>  
+        </div>
+        <button class="button purchase-button" data-template="classic" type="button">Select R15</button>  
+      </article>  
 
-      <!-- 1. BUNDLES -->
-      <div class="category-title">⭐ Recommended Value Bundles</div>
-      <div class="template-grid">  
-        <article class="template-card popular">  
-          <div>
-            <h3>Modern CV + Cover Letter</h3>  
-            <div class="price">R40</div>  
-            <p>Our complete top-tier application package for maximum job hunt success.</p>  
-          </div>
-          <button class="button purchase-button accent" data-template="modern-bundle" type="button">  
-            Purchase Modern Bundle — R40  
-          </button>  
-        </article>  
+      <article class="template-card">  
+        <div>
+          <h3>Modern CV</h3>  
+          <div class="price">R25</div>  
+          <p>Two-column sidebar format.</p>  
+        </div>
+        <button class="button purchase-button" data-template="modern" type="button">Select R25</button>  
+      </article>  
 
-        <article class="template-card">  
-          <div>
-            <h3>Classic CV + Cover Letter</h3>  
-            <div class="price">R30</div>  
-            <p>Get both the traditional Classic CV layout and a tailored cover letter together.</p>  
-          </div>
-          <button class="button purchase-button" data-template="classic-bundle" type="button">  
-            Purchase Classic Bundle — R30  
-          </button>  
-        </article>  
-      </div>
+      <article class="template-card">  
+        <div>
+          <h3>Cover Letter</h3>  
+          <div class="price">R15</div>  
+          <p>Tailored letter for job target.</p>  
+        </div>
+        <button class="button purchase-button" data-template="cover-letter" type="button">Select R15</button>  
+      </article>  
 
-      <!-- 2. INDIVIDUAL DOCUMENTS -->
-      <div class="category-title">📄 Individual Standalone Documents</div>
-      <div class="template-grid">  
-        <article class="template-card">  
-          <div>
-            <h3>Modern CV Only</h3>  
-            <div class="price">R25</div>  
-            <p>Contemporary two-column design with strong visual styling.</p>  
-          </div>
-          <button class="button purchase-button" data-template="modern" type="button">  
-            Purchase Modern CV — R25  
-          </button>  
-        </article>  
+      <article class="template-card">  
+        <div>
+          <h3>Classic Bundle</h3>  
+          <div class="price">R30</div>  
+          <p>Classic CV & Cover Letter.</p>  
+        </div>
+        <button class="button purchase-button" data-template="classic-bundle" type="button">Select R30</button>  
+      </article>  
 
-        <article class="template-card">  
-          <div>
-            <h3>Classic CV Only</h3>  
-            <div class="price">R15</div>  
-            <p>A clean, traditional black-and-white single-page design.</p>  
-          </div>
-          <button class="button purchase-button" data-template="classic" type="button">  
-            Purchase Classic CV — R15  
-          </button>  
-        </article>  
+      <article class="template-card popular">  
+        <div>
+          <h3>Modern Bundle</h3>  
+          <div class="price">R40</div>  
+          <p>Modern CV & Cover Letter.</p>  
+        </div>
+        <button class="button purchase-button accent" data-template="modern-bundle" type="button">Select R40</button>  
+      </article>  
+    </div>
 
-        <article class="template-card">  
-          <div>
-            <h3>Cover Letter Only</h3>  
-            <div class="price">R15</div>  
-            <p>A tailored cover letter matched to your specific job target.</p>  
-          </div>
-          <button class="button purchase-button" data-template="cover-letter" type="button">  
-            Purchase Cover Letter — R15  
-          </button>  
-        </article>  
-      </div>  
-    </section>  
+    <div class="dashboard-layout">
+      <!-- ORDERS SECTION -->
+      <section class="panel">  
+        <h2>My Purchases & Orders</h2>  
+        <div id="purchaseList" class="purchase-list">  
+          <div class="empty">Loading your purchases...</div>  
+        </div>  
+      </section>  
 
-    <section class="panel">  
-      <h2>My Purchases & Orders</h2>  
-      <p class="muted">  
-        View your orders, payment instructions, and approval status.  
-      </p>  
-
-      <div id="purchaseList" class="purchase-list">  
-        <div class="empty">Loading your purchases...</div>  
-      </div>  
-    </section>  
-
-    <section class="notice">  
-      <strong>Payment Safety Notice:</strong>  
-      Pay only using the payment instructions displayed for your own specific order.  
-      Always use your exact order number as the payment reference. Payments are  
-      manually verified. A pending order does not unlock the CV builder.  
-    </section>  
-
-    <!-- PROFESSIONAL SUPPORT SECTION -->
-    <section class="support-box">
-      <div class="support-text">
-        <h3>Need Help or Payment Support?</h3>
-        <p>Our team is available 24/7 to assist with payment verification or account setup.</p>
-      </div>
-      <div class="support-contacts">
-        <a class="support-btn" href="tel:+27752978917">📞 Call +27 75 297 8917</a>
+      <!-- SUPPORT SIDEBAR -->
+      <section class="support-card">
+        <h3>24/7 Support</h3>
+        <p>Need help with payments or your account?</p>
         <a class="support-btn" href="https://wa.me/27752978917" target="_blank">💬 WhatsApp Support</a>
+        <a class="support-btn" href="tel:+27752978917">📞 Call +27 75 297 8917</a>
         <a class="support-btn" href="mailto:mfanarhshange43@gmail.com">✉️ Email Us</a>
-      </div>
-    </section>
+      </section>
+    </div>
   </main>  
 
   <footer>  
@@ -614,21 +451,18 @@
 
     async function getSessionOrRedirect() {  
       const { data, error } = await supabaseClient.auth.getSession();  
-
       if (error || !data.session) {  
         window.location.replace("./account.html");  
         return null;  
       }  
-
       accountEmail.textContent = data.session.user.email || "Signed in";  
       return data.session;  
     }  
 
     async function callFunction(functionName, body) {  
       const { data, error } = await supabaseClient.auth.getSession();  
-
       if (error || !data.session) {  
-        throw new Error("Your session has expired. Please sign in again.");  
+        throw new Error("Session expired. Please sign in again.");  
       }  
 
       const response = await fetch(  
@@ -645,145 +479,33 @@
       );  
 
       const result = await response.json().catch(() => ({}));  
-
       if (!response.ok) {  
-        throw new Error(  
-          result.error || result.message || "The request could not be completed."  
-        );  
+        throw new Error(result.error || result.message || "Request failed.");  
       }  
-
       return result;  
-    }  
-
-    function formatDate(value) {  
-      if (!value) return "Date unavailable";  
-      const date = new Date(value);  
-      if (Number.isNaN(date.getTime())) return "Date unavailable";  
-      return date.toLocaleString("en-ZA", {  
-        dateStyle: "medium",  
-        timeStyle: "short"  
-      });  
-    }  
-
-    function statusLabel(status) {  
-      if (status === "paid") return "Paid";  
-      if (status === "declined") return "Declined";  
-      return "Payment Under Review";  
     }  
 
     function getProductDisplayName(templateKey) {
       switch (String(templateKey).toLowerCase()) {
         case "modern": return "Modern CV (R25)";
-        case "cover-letter": return "Cover Letter Only (R15)";
-        case "classic-bundle": return "Classic CV + Cover Letter (R30)";
-        case "modern-bundle": return "Modern CV + Cover Letter (R40)";
+        case "cover-letter": return "Cover Letter (R15)";
+        case "classic-bundle": return "Classic Bundle (R30)";
+        case "modern-bundle": return "Modern Bundle (R40)";
         default: return "Classic CV (R15)";
       }
     }
 
-    function paymentRow(label, value) {  
-      const row = document.createElement("div");  
-      row.className = "payment-row";  
-
-      const strong = document.createElement("strong");  
-      strong.textContent = label + ": ";  
-
-      const span = document.createElement("span");  
-      span.textContent = value || "Not provided";  
-
-      row.append(strong, span);  
-      return row;  
-    }  
-
-    async function showPaymentInstructions(purchase, button, card) {  
-      const originalText = button.textContent;  
-      button.disabled = true;  
-      button.textContent = "Loading instructions...";  
-
-      let paymentBox = card.querySelector(".payment-box");  
-      if (paymentBox) {  
-        paymentBox.remove();  
-      }  
-
-      try {  
-        const result = await callFunction(  
-          "get-cv-payment-instructions",  
-          { purchase_id: purchase.id }  
-        );  
-
-        paymentBox = document.createElement("div");  
-        paymentBox.className = "payment-box";  
-
-        const heading = document.createElement("h4");  
-        heading.textContent = "Payment Instructions";  
-        paymentBox.appendChild(heading);  
-
-        if (!result.configured) {  
-          const warning = document.createElement("div");  
-          warning.className = "payment-warning";  
-          warning.textContent =  
-            result.message ||  
-            "Payment instructions are not configured. Do not transfer money.";  
-          paymentBox.appendChild(warning);  
-          card.appendChild(paymentBox);  
-          return;  
-        }  
-
-        const payment = result.payment || {};  
-        const verifiedPurchase = result.purchase || purchase;  
-
-        paymentBox.appendChild(paymentRow("Order number", verifiedPurchase.order_number));  
-        paymentBox.appendChild(paymentRow("Amount to pay", "R" + Number(verifiedPurchase.amount).toFixed(2)));  
-        paymentBox.appendChild(paymentRow("Bank", payment.bank_name));  
-        paymentBox.appendChild(paymentRow("Account holder", payment.account_holder));  
-        paymentBox.appendChild(paymentRow("Account type", payment.account_type));  
-        paymentBox.appendChild(paymentRow("Account number", payment.account_number));  
-
-        if (payment.branch_code) {  
-          paymentBox.appendChild(paymentRow("Branch code", payment.branch_code));  
-        }  
-
-        paymentBox.appendChild(paymentRow("Payment reference", verifiedPurchase.order_number));  
-        paymentBox.appendChild(paymentRow("Instructions", payment.payment_instructions));  
-
-        const warning = document.createElement("div");  
-        warning.className = "payment-warning";  
-        warning.textContent =  
-          "Pay the exact amount and use the order number above as your reference. Your documents remain locked until the owner confirms receipt of payment.";  
-        paymentBox.appendChild(warning);  
-        card.appendChild(paymentBox);  
-      } catch (error) {  
-        paymentBox = document.createElement("div");  
-        paymentBox.className = "payment-box";  
-
-        const warning = document.createElement("p");  
-        warning.className = "payment-error";  
-        warning.textContent = "Could not load payment instructions: " + error.message;  
-        paymentBox.appendChild(warning);  
-        card.appendChild(paymentBox);  
-      } finally {  
-        button.disabled = false;  
-        button.textContent = originalText;  
-      }  
-    }  
-
     async function loadPurchases() {  
-      purchaseList.innerHTML = '<div class="empty">Loading your purchases...</div>';  
+      purchaseList.innerHTML = '<div class="empty">Loading purchases...</div>';  
 
       try {  
         const result = await callFunction("get-cv-purchase-status", {});  
-
         const purchases = Array.isArray(result.purchases)  
           ? result.purchases  
-          : Array.isArray(result)  
-            ? result  
-            : result.purchase  
-              ? [result.purchase]  
-              : [];  
+          : Array.isArray(result) ? result : result.purchase ? [result.purchase] : [];  
 
         if (purchases.length === 0) {  
-          purchaseList.innerHTML =  
-            '<div class="empty">You have no purchases yet. Select a package above to begin.</div>';  
+          purchaseList.innerHTML = '<div class="empty">No purchases yet. Select a package above.</div>';  
           return;  
         }  
 
@@ -792,11 +514,7 @@
         purchases.forEach((purchase) => {  
           const templateName = getProductDisplayName(purchase.cv_template || purchase.product_name);  
           const status = purchase.payment_status || "pending";  
-          const orderNumber = purchase.order_number || "Order reference unavailable";  
-          const amount = Number(purchase.amount);  
-          const safeAmount = Number.isFinite(amount)  
-            ? "R" + amount.toFixed(2)  
-            : "Amount unavailable";  
+          const orderNumber = purchase.order_number || "Ref unavailable";  
 
           const card = document.createElement("article");  
           card.className = "purchase-card";  
@@ -809,92 +527,50 @@
 
           const badge = document.createElement("span");  
           badge.className = "status " + status;  
-          badge.textContent = statusLabel(status);  
+          badge.textContent = status === "paid" ? "Paid" : "Pending";  
 
           heading.append(title, badge);  
           card.appendChild(heading);  
 
-          card.appendChild(paymentRow("Order", orderNumber));  
-          card.appendChild(paymentRow("Amount", safeAmount));  
-          card.appendChild(paymentRow("Created", formatDate(purchase.created_at)));  
-
-          const actions = document.createElement("div");  
-          actions.className = "purchase-actions";  
-
           if (status === "paid") {  
-            const note = document.createElement("p");  
-            note.textContent = "Your payment has been approved. You can now open, edit and download your documents.";  
-            actions.appendChild(note);  
-
             const builderButton = document.createElement("a");  
             builderButton.className = "button";  
             builderButton.href = "./builder.html?purchase_id=" + encodeURIComponent(purchase.id);  
             builderButton.textContent = "Open Builder";  
-            builderButton.style.display = "inline-block";  
-            builderButton.style.textDecoration = "none";  
-            actions.appendChild(builderButton);  
-          } else if (status === "declined") {  
-            const note = document.createElement("p");  
-            note.textContent = "This order was declined. Contact support before making another payment.";  
-            actions.appendChild(note);  
+            builderButton.style.marginTop = "6px";
+            card.appendChild(builderButton);  
           } else {  
-            const note = document.createElement("p");  
-            note.textContent = "Your documents remain locked while you arrange payment and wait for verification.";  
-            actions.appendChild(note);  
-
-            const paymentButton = document.createElement("button");  
-            paymentButton.type = "button";  
-            paymentButton.className = "button secondary";  
-            paymentButton.textContent = "View Payment Instructions";  
-            paymentButton.addEventListener("click", () => {  
-              showPaymentInstructions(purchase, paymentButton, card);  
-            });  
-            actions.appendChild(paymentButton);  
+            const note = document.createElement("div");  
+            note.style.fontSize = "11px";
+            note.style.color = "#64748b";
+            note.textContent = "Order #" + orderNumber + " · Verification Pending";
+            card.appendChild(note);  
           }  
 
-          card.appendChild(actions);  
           purchaseList.appendChild(card);  
         });  
       } catch (error) {  
-        console.error("Purchase loading error:", error);  
-        purchaseList.innerHTML = "";  
-
-        const errorMessage = document.createElement("div");  
-        errorMessage.className = "empty";  
-        errorMessage.textContent = "Could not load purchases: " + error.message;  
-        purchaseList.appendChild(errorMessage);  
+        purchaseList.innerHTML = '<div class="empty">Could not load purchases.</div>';  
       }  
     }  
 
     async function createPurchase(template, button) {  
       clearMessage();  
-      const originalText = button.textContent;  
       button.disabled = true;  
-      button.textContent = "Creating order...";  
+      button.textContent = "Creating...";  
 
       try {  
-        const result = await callFunction("create-cv-purchase", {  
-          cv_template: template  
-        });  
-
+        const result = await callFunction("create-cv-purchase", { cv_template: template });  
         const purchase = result.purchase || result;  
+        if (!purchase || !purchase.id) throw new Error("Invalid order response.");  
 
-        if (!purchase || !purchase.id) {  
-          throw new Error("The server did not return a valid order. Please try again.");  
-        }  
-
-        showMessage(  
-          "Your order " + (purchase.order_number || "") + " was created. Click View Payment Instructions on your order to see payment details.",  
-          "success"  
-        );  
-
+        showMessage("Order " + (purchase.order_number || "") + " created. Please follow payment details.", "success");  
         await loadPurchases();  
       } catch (error) {  
-        console.error("Purchase creation error:", error);  
         showMessage(error.message, "error");  
       } finally {  
         button.disabled = false;  
-        button.textContent = originalText;  
+        button.textContent = "Select";  
       }  
     }  
 
@@ -906,28 +582,13 @@
 
     logoutButton.addEventListener("click", async () => {  
       logoutButton.disabled = true;  
-      const { error } = await supabaseClient.auth.signOut();  
-
-      if (error) {  
-        showMessage("Unable to sign out: " + error.message, "error");  
-        logoutButton.disabled = false;  
-        return;  
-      }  
-
+      await supabaseClient.auth.signOut();  
       window.location.replace("./account.html");  
     });  
 
     async function initialise() {  
       const session = await getSessionOrRedirect();  
       if (!session) return;  
-
-      // Auto-trigger package creation if redirected with a selected template from Homepage
-      const params = new URLSearchParams(window.location.search);
-      const preselected = params.get("template") || sessionStorage.getItem("cvpro_selected_template");
-      if (preselected) {
-        sessionStorage.removeItem("cvpro_selected_template");
-      }
-
       await loadPurchases();  
     }  
 
