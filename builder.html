@@ -2610,7 +2610,15 @@ function formatExperience(data = {}) {
   if (data.experienceType !== "no-experience") {
     const jobTitle = String(data.jobTitle || "").trim();
     const employer = String(data.employer || "").trim();
-    const dates = String(data.dates || "").trim();
+    
+    // Combine start and end dates gracefully if dates string is not pre-formatted
+    const start = String(data.experienceStart || "").trim();
+    const end = String(data.experienceEnd || "").trim();
+    let dates = String(data.dates || "").trim();
+    if (!dates && (start || end)) {
+      dates = start && end ? `${start} – ${end}` : (start || end);
+    }
+
     const description = String(data.description || "").trim();
 
     if (!jobTitle && !employer && !description) {
@@ -2620,13 +2628,13 @@ function formatExperience(data = {}) {
     return `
       <div class="experience-item">
         ${jobTitle ? `<h3>${escapeHtml(jobTitle)}</h3>` : ""}
-        ${employer || dates ? `<p><strong>${escapeHtml(employer)}</strong>${escapeHtml(dates)}</p>` : ""}
+        ${employer || dates ? `<p><strong>${escapeHtml(employer)}</strong>${dates ? escapeHtml(dates) : ""}</p>` : ""}
         ${description ? `<p>${escapeHtml(description)}</p>` : ""}
       </div>
     `;
   }
 
-  // 2. Applicants without formal work experience (Practical Subject Mapping)
+  // 2. Applicants without formal work experience (Accurate School Learning)
   const subjects = Array.isArray(data.subjects)
     ? data.subjects
     : String(data.subjects || "")
@@ -2638,92 +2646,101 @@ function formatExperience(data = {}) {
   const descriptions = [];
 
   // --- STREAM 1: TECHNICAL & MECHANICAL ---
-  if (/mechanical technology|welding|fitting and machining|fitting|civil technology|electrical technology/.test(subjectText)) {
+  if (/\bmechanical technology\b|\bwelding\b|\bfitting and machining\b|\bfitting\b|\bcivil technology\b|\belectrical technology\b/.test(subjectText)) {
     descriptions.push(
-      "Workshop Operations & Safety: Practiced workplace health and safety protocols, hand tool operation, and foundational mechanical principles."
+      "Studied mechanical processes, materials, workshop concepts and safety principles."
     );
   }
-  if (/engineering graphics|egd|technical drawing/.test(subjectText)) {
+  if (/\bengineering graphics\b|\begd\b|\btechnical drawing\b/.test(subjectText)) {
     descriptions.push(
-      "Technical Drawings & Blueprints: Developed skill in interpreting 2D/3D engineering drawings, scale measurements, and design specifications."
+      "Studied technical drawings, scale design concepts and graphical communication."
+    );
+  }
+  if (/\btechnical sciences\b/.test(subjectText)) {
+    descriptions.push(
+      "Studied scientific principles and their applications in technical contexts."
     );
   }
 
   // --- STREAM 2: COMMERCIAL & BUSINESS ---
-  if (/accounting|financial management/.test(subjectText)) {
+  if (/\baccounting\b|\bfinancial management\b/.test(subjectText)) {
     descriptions.push(
-      "Financial Accuracy & Bookkeeping: Practiced accurate ledger entries, trial balances, inventory tracking, and basic financial calculations."
+      "Studied financial concepts, accounting principles, ledgers and numerical calculations."
     );
   }
-  if (/business studies|economics|entrepreneurship/.test(subjectText)) {
+  if (/\bbusiness studies\b|\beconomics\b|\bentrepreneurship\b/.test(subjectText)) {
     descriptions.push(
-      "Business Operations & Customer Awareness: Gained understanding of workplace structure, stock control concepts, customer service, and business ethics."
+      "Learned about business operations, organizational structures, customer relations and market environments."
     );
   }
 
   // --- STREAM 3: IT & DIGITAL LITERACY ---
-  if (/computer applications technology|cat|information technology|coding|computer science/.test(subjectText)) {
+  if (/\bcomputer applications technology\b|\bcat\b|\binformation technology\b|\bcomputer science\b|\bcoding\b/.test(subjectText)) {
     descriptions.push(
-      "Digital & Data Literacy: Proficient in document formatting, spreadsheet data processing, accurate file management, and basic software troubleshooting."
+      "Studied computer applications, digital information management and related computing concepts."
     );
   }
 
   // --- STREAM 4: PHYSICAL & LIFE SCIENCES ---
-  if (/physical sciences|chemistry|physics/.test(subjectText)) {
+  if (/\bphysical sciences\b|\bchemistry\b|\bphysics\b/.test(subjectText)) {
     descriptions.push(
-      "Scientific Observation & Lab Safety: Applied structured observation, lab procedure safety standards, and analytical problem-solving techniques."
+      "Studied physical and chemical principles, laboratory methodology and scientific problem-solving."
     );
   }
-  if (/life sciences|biology/.test(subjectText)) {
+  if (/\blife sciences\b|\bbiology\b/.test(subjectText)) {
     descriptions.push(
-      "Data Collection & Analysis: Practiced detailed record-keeping, biological safety principles, and structured data analysis."
+      "Studied biological processes, observational methodology and scientific reporting."
     );
   }
 
   // --- STREAM 5: AGRICULTURAL SCIENCES ---
-  if (/agricultural sciences|agricultural technology|agricultural management/.test(subjectText)) {
+  if (/\bagricultural sciences\b|\bagricultural technology\b|\bagricultural management\b/.test(subjectText)) {
     descriptions.push(
-      "Agricultural & Operational Research: Practical experience in environmental observation, equipment principles, and resource management projects."
+      "Studied agricultural principles, resource management and related environmental concepts."
     );
   }
 
   // --- STREAM 6: MATHEMATICS & NUMERACY ---
-  if (/technical mathematics|mathematics/.test(subjectText)) {
+  if (/\btechnical mathematics\b/.test(subjectText)) {
     descriptions.push(
-      "Analytical Calculations: Applied mathematical formulas to practical workplace measurements, calculations, and spatial problem-solving."
+      "Studied technical calculations, mathematical formulas and numerical problem-solving relevant to technical subjects."
+    );
+  } else if (/\bmathematics\b/.test(subjectText)) {
+    descriptions.push(
+      "Studied mathematical concepts, calculations, formulas and numerical problem-solving through schoolwork."
     );
   }
-  if (/mathematical literacy/.test(subjectText)) {
+  if (/\bmathematical literacy\b/.test(subjectText)) {
     descriptions.push(
-      "Cash Handling & Numeracy: Comfortable with everyday math calculations, stock sheets, till procedures, and basic budgeting."
+      "Studied practical numerical reasoning for everyday financial, measurement and data tasks."
     );
   }
 
   // --- STREAM 7: RETAIL, HOSPITALITY & HUMANITIES ---
-  if (/consumer studies|hospitality studies|tourism|dramatic arts/.test(subjectText)) {
+  if (/\bconsumer studies\b|\bhospitality studies\b|\btourism\b|\bdramatic arts\b/.test(subjectText)) {
     descriptions.push(
-      "Sales & Service Etiquette: Learned basics of customer needs, service presentation, hygiene standards, and hospitality/tourism operations."
+      "Studied customer service principles, product standards and hospitality/tourism fundamentals."
     );
   }
-  if (/geography|history|life orientation/.test(subjectText)) {
+  if (/\bgeography\b|\bhistory\b|\blife orientation\b/.test(subjectText)) {
     descriptions.push(
-      "Workplace Communication & Admin: Strong skills in active listening, structured record-keeping, and following operational guidelines."
+      "Studied environmental, historical, social and personal-development topics through school coursework."
     );
   }
 
-  // Default fallback if no specific subjects matched
+  // Safe fallback if no subjects match rules
   if (descriptions.length === 0) {
     descriptions.push(
-      "Practical Workplace Readiness: Applied foundational concepts to team collaboration, problem-solving, and clear written communication."
+      "Studied core foundational subject matter, coursework concepts and general problem-solving through matric curriculum."
     );
   }
 
-  // Eliminate duplicates
+  // Eliminate duplicate descriptions
   const uniqueDescriptions = [...new Set(descriptions)];
 
   return `
     <div class="experience-item">
-      <h3>Relevant Practical Knowledge & Training</h3>
+      <h3>Relevant School Learning</h3>
       <ul>
         ${uniqueDescriptions
           .map((description) => `<li>${escapeHtml(description)}</li>`)
@@ -2732,6 +2749,8 @@ function formatExperience(data = {}) {
     </div>
   `;
 }
+
+
 
 
 /* =========================================================
