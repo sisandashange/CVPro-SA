@@ -2511,143 +2511,161 @@ function escapeHtml(str) {
     .replace(/'/g, "&#039;");
 }
 function formatExperience(data) {
-  // Preserve genuine work experience.
+
+  // Applicants with actual experience.
   if (data.experienceType !== "no-experience") {
+
+    const jobTitle = String(data.jobTitle || "").trim();
+    const employer = String(data.employer || "").trim();
+    const dates = String(data.dates || "").trim();
+    const description = String(data.description || "").trim();
+
+    // Never display empty experience entries.
+    if (!jobTitle && !employer && !description) {
+      return "";
+    }
+
     return `
       <div class="experience-item">
-        <h3>${escapeHtml(data.jobTitle)}</h3>
-        <p>
-          <strong>${escapeHtml(data.employer)}</strong>
-          ${escapeHtml(data.dates)}
-        </p>
-        <p>${escapeHtml(data.description)}</p>
+
+        ${
+          jobTitle
+            ? `<h3>${escapeHtml(jobTitle)}</h3>`
+            : ""
+        }
+
+        ${
+          employer || dates
+            ? `<p><strong>${escapeHtml(employer)}</strong>
+               ${escapeHtml(dates)}</p>`
+            : ""
+        }
+
+        ${
+          description
+            ? `<p>${escapeHtml(description)}</p>`
+            : ""
+        }
+
       </div>
     `;
   }
 
-  // Read the selected subjects.
+  // Applicants without formal work experience.
   const subjects = Array.isArray(data.subjects)
     ? data.subjects
     : String(data.subjects || "")
         .split(",")
-        .map(subject => subject.trim())
+        .map(s => s.trim())
         .filter(Boolean);
 
-  // Exclude English, isiZulu and Life Orientation.
-  const excluded = new Set([
-    "english",
-    "english home language",
-    "english first additional language",
-    "english second additional language",
-    "isizulu",
-    "isizulu home language",
-    "isizulu first additional language",
-    "isizulu second additional language",
-    "life orientation",
-    "lo"
-  ]);
+  const subjectText = subjects.join(" ").toLowerCase();
 
-  const relevantSubjects = subjects.filter(subject => {
-    const normalised = subject.toLowerCase().replace(/\s+/g, " ").trim();
-    return !excluded.has(normalised);
-  });
+  const descriptions = [];
 
-  const subjectNames = relevantSubjects.join(", ");
-  const allSubjects = relevantSubjects.join(" ").toLowerCase();
-
-  // Create ONE combined description for related subjects.
-  let summary;
-
-  const isTechnical =
-    /technical mathematics|technical sciences|engineering graphics|mechanical technology|civil technology|electrical technology|welding|fitting and machining/.test(allSubjects);
-
-  const isBusiness =
-    /accounting|business studies|business management|economics|consumer studies|entrepreneurship/.test(allSubjects);
-
-  const isComputing =
-    /computer applications technology|information technology|computer science|digital technology/.test(allSubjects);
-
-  const isScience =
-    /physical sciences|life sciences|agricultural sciences|biology|chemistry|physics/.test(allSubjects);
-
-  const isMaths =
-    /mathematics|mathematical literacy|technical mathematics/.test(allSubjects);
-
-  const isGeography =
-    /geography/.test(allSubjects);
-
-  const isHistory =
-    /history/.test(allSubjects);
-
-  const isCreative =
-    /visual arts|design|dramatic arts|music/.test(allSubjects);
-
-  if (isTechnical) {
-    summary =
-      "Developed foundational technical knowledge through studies involving technical calculations, scientific principles, technical drawings and mechanical processes. Built an understanding of measurements, materials, design interpretation and structured problem-solving, providing a foundation for further practical training and workplace development.";
-  } else if (isComputing) {
-    summary =
-      "Developed foundational digital and information-management skills through computer-related studies. Built knowledge of computer applications, handling information and solving problems logically, providing a foundation for further learning and workplace development.";
-  } else if (isBusiness) {
-    summary =
-      "Developed foundational business and financial knowledge through studies involving calculations, budgeting, resource management and business principles. Built analytical and organisational skills that can support further learning and development in the workplace.";
-  } else if (isScience) {
-    summary =
-      "Developed scientific knowledge and analytical thinking through studies involving scientific principles, observation and interpretation of information. Built a foundation in accuracy, logical reasoning and problem-solving that can support further training and workplace development.";
-  } else if (isMaths && isGeography && isHistory) {
-    summary =
-      "Developed numerical reasoning and information-analysis skills through mathematical studies, alongside geographical interpretation and historical research. Built a foundation in calculations, interpreting information and evidence-based thinking that can support further learning and workplace development.";
-  } else if (isMaths && isGeography) {
-    summary =
-      "Developed numerical reasoning and problem-solving skills through mathematical studies, alongside the ability to interpret geographical information and maps. Built a foundation in analysis, accuracy and understanding information.";
-  } else if (isMaths && isHistory) {
-    summary =
-      "Developed numerical reasoning and structured problem-solving skills through mathematical studies, alongside research and critical-thinking skills through historical studies.";
-  } else if (isGeography && isHistory) {
-    summary =
-      "Developed research, information interpretation and analytical skills through geographical and historical studies. Built an understanding of maps, environmental patterns, historical evidence and different perspectives.";
-  } else if (isMaths) {
-    summary =
-      "Developed numerical reasoning, accurate calculations and structured problem-solving skills through mathematical studies. Built a foundation for learning new procedures and applying information logically.";
-  } else if (isGeography) {
-    summary =
-      "Developed skills in interpreting geographical information, understanding environmental patterns and analysing information through geographical studies.";
-  } else if (isHistory) {
-    summary =
-      "Developed research, critical thinking and information-interpretation skills through historical studies, including examining evidence and understanding events in context.";
-  } else if (isCreative) {
-    summary =
-      "Developed creative thinking, planning and presentation skills through creative studies. Built a foundation in communicating ideas and approaching tasks thoughtfully.";
-  } else {
-    summary =
-      "Developed foundational subject knowledge, analytical thinking and problem-solving skills through educational studies. Prepared to build on this knowledge through further training and workplace experience.";
+  // Technical subjects
+  if (
+    /mechanical technology|welding|fitting and machining/.test(
+      subjectText
+    )
+  ) {
+    descriptions.push(
+      "Studied mechanical processes, materials and workshop-related principles."
+    );
   }
 
-  const targetJob = String(
-    data.targetJob ||
-    data.desiredJob ||
-    data.jobApplyingFor ||
-    ""
-  ).trim();
+  if (
+    /engineering graphics|egd|technical drawing/.test(
+      subjectText
+    )
+  ) {
+    descriptions.push(
+      "Developed knowledge of technical drawing and design interpretation."
+    );
+  }
 
-  const closing = targetJob
-    ? ` Eager to build on this foundation in a ${targetJob} role.`
-    : " Eager to build on this foundation, gain practical experience and develop professionally.";
+  if (
+    /technical mathematics|mathematics|mathematical literacy/.test(
+      subjectText
+    )
+  ) {
+    descriptions.push(
+      "Applied mathematical concepts to calculations and problem-solving."
+    );
+  }
+
+  // Business subjects
+  if (
+    /accounting|business studies|economics/.test(
+      subjectText
+    )
+  ) {
+    descriptions.push(
+      "Studied business principles, financial concepts and organisational practices."
+    );
+  }
+
+  // Computer subjects
+  if (
+    /computer applications technology|information technology/.test(
+      subjectText
+    )
+  ) {
+    descriptions.push(
+      "Developed knowledge of computer applications and digital information."
+    );
+  }
+
+  // Science subjects
+  if (
+    /physical sciences|life sciences|agricultural sciences/.test(
+      subjectText
+    )
+  ) {
+    descriptions.push(
+      "Studied scientific principles, observation and analytical problem-solving."
+    );
+  }
+
+  // Geography and History
+  if (/geography/.test(subjectText)) {
+    descriptions.push(
+      "Developed knowledge of geographical information and map interpretation."
+    );
+  }
+
+  if (/history/.test(subjectText)) {
+    descriptions.push(
+      "Developed research and information-analysis skills through historical studies."
+    );
+  }
+
+  // Avoid an empty experience section.
+  if (descriptions.length === 0) {
+    return "";
+  }
+
+  // Keep the content compact.
+  const uniqueDescriptions = [...new Set(descriptions)];
 
   return `
     <div class="experience-item">
-      <h3>Relevant Educational Experience</h3>
 
-      ${
-        subjectNames
-          ? `<p><strong>Relevant Subjects:</strong> ${escapeHtml(subjectNames)}</p>`
-          : ""
-      }
+      <h3>Relevant Educational Learning</h3>
 
-      <p>${escapeHtml(summary + closing)}</p>
+      <ul>
+        ${uniqueDescriptions
+          .map(
+            description =>
+              `<li>${escapeHtml(description)}</li>`
+          )
+          .join("")}
+      </ul>
+
     </div>
   `;
 }
+
 /* =========================================================
    SUBJECT GROUPS
 ========================================================= */
