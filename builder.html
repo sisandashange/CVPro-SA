@@ -428,6 +428,9 @@
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 10px;
+    max-height: 260px;
+    overflow-y: auto;
+    padding-right: 4px;
   }
 
   .choice {
@@ -992,8 +995,12 @@
 
   const institutionLists = {
     school: [
-      "Amanzimtoti High School", "Bechet High School", "Durban High School", "Folweni High School",
-      "Glenwood High School", "Hillcrest High School", "Kloof High School", "Kingsway High School", "Umlazi Comprehensive"
+      "Adams College", "Amanzimtoti High School", "Bechet High School", " Brettonwood High School", 
+      "Clifton School", "Durban Girls' College", "Durban Girls' High School", "Durban High School", 
+      "Durban North College", "Folweni High School", "Glenwood High School", "Hillcrest High School", 
+      "Isibonelo High School", "Kingsway High School", "Kloof High School", "Nqabakazulu Comprehensive High School", 
+      "Our Lady of Fatima Dominican Convent School", "Sastri College", "St. Henry's Marist College", 
+      "Umlazi Comprehensive Technical High School", "Westville Boys' High School", "Westville Girls' High School"
     ],
     tvet: [
       "Coastal KZN TVET College", "Elangeni TVET College", "Thekwini TVET College", "Umgungundlovu TVET College"
@@ -1002,7 +1009,7 @@
       "Durban University of Technology (DUT)", "Mangosuthu University of Technology (MUT)",
       "University of KwaZulu-Natal (UKZN)", "University of South Africa (UNISA)"
     ],
-    "private-college": ["Boston City Campus", "Damelin", "Rosebank College", "Richfield"],
+    "private-college": ["Boston City Campus", "Damelin", "Rosebank College", "Richfield Graduate Institute of Technology"],
     training: ["Accredited training provider", "Skills development centre"],
     other: ["Other educational institution"]
   };
@@ -1018,10 +1025,17 @@
 
   const subjectsByLevel = {
     school: [
-      "English Home Language", "English First Additional Language", "isiZulu Home Language",
-      "Mathematics", "Mathematical Literacy", "Physical Sciences", "Life Sciences",
-      "Accounting", "Business Studies", "Economics", "Computer Applications Technology (CAT)",
-      "Information Technology (IT)", "Engineering Graphics and Design (EGD)", "Tourism"
+      "English Home Language", "English First Additional Language", "isiZulu Home Language", 
+      "isiZulu First Additional Language", "Afrikaans Home Language", "Afrikaans First Additional Language", 
+      "Sepedi Home Language", "Sepedi First Additional Language", "Sesotho Home Language", 
+      "Sesotho First Additional Language", "Setswana Home Language", "Setswana First Additional Language", 
+      "isiXhosa Home Language", "isiXhosa First Additional Language", "Mathematics", "Mathematical Literacy", 
+      "Life Orientation", "Accounting", "Business Studies", "Economics", "Physical Sciences", 
+      "Life Sciences", "Geography", "History", "Computer Applications Technology (CAT)", 
+      "Information Technology (IT)", "Engineering Graphics and Design (EGD)", "Agricultural Sciences", 
+      "Agricultural Management Practices", "Agricultural Technology", "Consumer Studies", 
+      "Hospitality Studies", "Tourism", "Visual Arts", "Dramatic Arts", "Music", "Dance Studies", 
+      "Design", "Religion Studies", "Civil Technology", "Electrical Technology", "Mechanical Technology"
     ],
     tvet: ["Engineering Mathematics", "Engineering Science", "Electrical Engineering", "Business Management"],
     university: ["Accounting", "Business Management", "Economics", "Computer Science", "Information Technology"],
@@ -1121,8 +1135,8 @@
     const container = $("subjectChoices");
     if (!container) return;
     container.innerHTML = "";
-    const level = valueOf("educationLevel");
-    (subjectsByLevel[level] || []).forEach((sub, i) => {
+    const level = valueOf("educationLevel") || "school";
+    (subjectsByLevel[level] || subjectsByLevel["school"]).forEach((sub, i) => {
       const label = document.createElement("label");
       label.className = "choice";
       const cb = document.createElement("input");
@@ -1198,16 +1212,16 @@
     const results = $("institutionResults");
     if (!searchInput || !results) return;
 
-    const level = valueOf("educationLevel");
+    const level = valueOf("educationLevel") || "school";
     const query = searchInput.value.trim().toLowerCase();
     results.innerHTML = "";
 
-    if (!level || !query) {
+    if (!query) {
       closeInstitutionResults();
       return;
     }
 
-    const matches = (institutionLists[level] || []).filter(name =>
+    const matches = (institutionLists[level] || institutionLists["school"]).filter(name =>
       name.toLowerCase().includes(query)
     ).slice(0, 40);
 
@@ -1479,6 +1493,8 @@ ${name}
         $("educationLevel").value = cvData.educationLevel;
         populateQualifications(cvData.qualification);
         renderSubjectChoices(cvData.subjects || []);
+      } else {
+        renderSubjectChoices([]);
       }
       renderSkillChoices(cvData.skills || []);
       renderLanguageChoices(cvData.languages || ["English", "isiZulu"]);
@@ -1606,6 +1622,7 @@ ${name}
       yearSelect.appendChild(opt);
     }
 
+    renderSubjectChoices();
     renderSkillChoices();
     renderLanguageChoices(["English", "isiZulu"]);
     checkPurchaseAccess();
