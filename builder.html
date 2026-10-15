@@ -681,7 +681,7 @@
               type="text"
               autocomplete="name"
               required
-              placeholder="e.g. Sipho Dlamini"
+              placeholder="e.g. Sisanda Shange"
             >
           </div>
 
@@ -701,7 +701,7 @@
                 id="phone"
                 type="tel"
                 autocomplete="tel"
-                placeholder="e.g. 072 123 4567"
+                placeholder="e.g. +27752978917"
               >
             </div>
 
@@ -802,7 +802,7 @@
             <label for="careerGoal">What type of job are you looking for?</label>
             <select id="careerGoal">
               <option value="">Select your career goal</option>
-              <option value="General employment">General employment</option>
+              <option value="General Worker">General Worker</option>
               <option value="Administration">Administration / Office Work</option>
               <option value="Customer Service">Customer Service</option>
               <option value="Retail">Retail / Shop Assistant</option>
@@ -823,10 +823,10 @@
           </div>
 
           <div class="field">
-            <label for="strengths">Your strengths</label>
+            <label for="strengths">Your strengths (optional)</label>
             <textarea
               id="strengths"
-              placeholder="e.g. reliable, willing to learn, practical and hardworking"
+              placeholder="Leave blank or add confirmed personal strengths"
             ></textarea>
           </div>
 
@@ -992,8 +992,8 @@
 
   const institutionLists = {
     school: [
-      "Amanzimtoti High School", "Bechet High School", "Durban High School", "Glenwood High School",
-      "Hillcrest High School", "Kloof High School", "Kingsway High School", "Umlazi Comprehensive"
+      "Amanzimtoti High School", "Bechet High School", "Durban High School", "Folweni High School",
+      "Glenwood High School", "Hillcrest High School", "Kloof High School", "Kingsway High School", "Umlazi Comprehensive"
     ],
     tvet: [
       "Coastal KZN TVET College", "Elangeni TVET College", "Thekwini TVET College", "Umgungundlovu TVET College"
@@ -1178,6 +1178,60 @@
     });
   }
 
+  /* =========================================================
+     INSTITUTION SEARCH AUTOCOMPLETE LOGIC
+  ========================================================= */
+  function closeInstitutionResults() {
+    const results = $("institutionResults");
+    if (results) results.classList.remove("open");
+  }
+
+  function selectInstitution(name) {
+    $("institutionSearch").value = name;
+    $("institution").value = name;
+    closeInstitutionResults();
+    updatePreview();
+  }
+
+  function renderInstitutionResults() {
+    const searchInput = $("institutionSearch");
+    const results = $("institutionResults");
+    if (!searchInput || !results) return;
+
+    const level = valueOf("educationLevel");
+    const query = searchInput.value.trim().toLowerCase();
+    results.innerHTML = "";
+
+    if (!level || !query) {
+      closeInstitutionResults();
+      return;
+    }
+
+    const matches = (institutionLists[level] || []).filter(name =>
+      name.toLowerCase().includes(query)
+    ).slice(0, 40);
+
+    if (!matches.length) {
+      const msg = document.createElement("div");
+      msg.className = "education-no-results";
+      msg.textContent = "No matching institution. Enter its name manually.";
+      results.appendChild(msg);
+    } else {
+      matches.forEach(name => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "education-result";
+        btn.textContent = name;
+        btn.addEventListener("pointerdown", e => {
+          e.preventDefault();
+          selectInstitution(name);
+        });
+        results.appendChild(btn);
+      });
+    }
+    results.classList.add("open");
+  }
+
   function updateExperienceVisibility() {
     const type = valueOf("experienceType");
     const show = ["work", "informal", "volunteer", "practical"].includes(type);
@@ -1221,32 +1275,33 @@
   }
 
   function generateProfile(data) {
-    const goal = data.careerGoal || "General employment";
+    const goal = data.careerGoal || "entry-level position";
     const school = data.institution || "High School";
-    const year = data.educationYear ? ` completed in ${data.educationYear}` : "";
+    const year = data.educationYear ? ` in ${data.educationYear}` : "";
     const loc = data.location ? ` based in ${data.location}` : "";
-    const strengths = data.strengths ? ` Key strengths include ${data.strengths}.` : "";
-    return `Motivated candidate${loc} holding a ${data.qualification || "Matric"} from ${school}${year}. Seeking an entry-level position in ${goal}.${strengths} Eager to learn, contribute effectively, and grow professionally within a dedicated team.`;
+    const qual = data.qualification || "National Senior Certificate";
+    return `Motivated candidate${loc} holding a ${qual} from ${school}${year}. Seeking an entry-level opportunity as a ${goal}. Eager to apply acquired knowledge, learn workplace procedures, and contribute positively to a dedicated team.`;
   }
 
   /* =========================================================
-     AUTOMATED COVER LETTER GENERATOR
+     IMPROVED AUTOMATED COVER LETTER GENERATOR
   ========================================================= */
   function generateCoverLetter(data = {}) {
     const name = String(data.fullName || "APPLICANT NAME").trim();
     const phone = String(data.phone || "").trim();
     const email = String(data.email || "").trim();
     const location = String(data.location || "South Africa").trim();
-    const goal = String(data.careerGoal || "entry-level opportunity").trim();
+    const goal = String(data.careerGoal || "General Worker").trim();
     const school = String(data.institution || "High School").trim();
     const year = String(data.educationYear || "").trim();
+    const qualification = String(data.qualification || "National Senior Certificate (Matric)").trim();
     
     const subjectsInput = data.subjects || [];
-    const subjects = Array.isArray(subjectsInput) && subjectsInput.length > 0 
-      ? subjectsInput.join(", ") 
-      : "core foundational subjects";
+    const subjectsList = Array.isArray(subjectsInput) && subjectsInput.length > 0 
+      ? `including subjects such as ${subjectsInput.join(", ")}` 
+      : "";
 
-    const strengths = String(data.strengths || "").trim();
+    const userStrengths = String(data.strengths || "").trim();
 
     const currentDate = new Date().toLocaleDateString("en-ZA", {
       year: "numeric",
@@ -1254,9 +1309,19 @@
       day: "numeric"
     });
 
+    let educationSentence = `I completed my ${qualification} at ${school}${year ? ` in ${year}` : ""}.`;
+    if (subjectsList) {
+      educationSentence += ` My school subjects included ${subjectsList}, which provided me with a foundation of academic and technical knowledge.`;
+    }
+
+    let strengthsSentence = "";
+    if (userStrengths) {
+      strengthsSentence = `My key strengths include ${userStrengths}. `;
+    }
+
     return `
-${name.toUpperCase()}
-${location}${phone ? ` | ${phone}` : ""}${email ? ` | ${email}` : ""}
+${name}
+${location}${phone ? `\n${phone}` : ""}${email ? ` | ${email}` : ""}
 
 ${currentDate}
 
@@ -1264,13 +1329,15 @@ RE: APPLICATION FOR AN ENTRY-LEVEL ${goal.toUpperCase()} POSITION
 
 Dear Hiring Manager,
 
-I am writing to formally express my strong interest in securing an entry-level ${goal} position${location ? ` in ${location}` : ""}.
+I am writing to apply for an entry-level ${goal} position within your organisation.
 
-As a dedicated and motivated candidate from ${school}${year ? `, who completed my qualification in ${year}` : ""}, I have built a solid foundation of academic knowledge through my coursework, including subjects such as ${subjects}.
+${educationSentence}
 
-${strengths ? `My key strengths include being ${strengths}. ` : ""}I am eager to apply my educational background, learn your workplace procedures quickly, and contribute positively to your team operations. I pride myself on my work ethic, reliability, and readiness to adapt to a professional environment.
+Although I am seeking an opportunity to begin my professional career, I am eager to learn workplace procedures, develop practical skills, and contribute positively to your organisation. ${strengthsSentence}
 
-Thank you for taking the time to review my application. I am available for an interview at your earliest convenience and look forward to discussing how my background aligns with your operational needs.
+I would appreciate the opportunity to be considered for a suitable position. I am available for an interview and would welcome the chance to discuss my application further.
+
+Thank you for your time and consideration.
 
 Yours faithfully,
 
@@ -1304,6 +1371,10 @@ ${name}
     const skillsContainer = $("previewSkills");
     skillsContainer.innerHTML = "";
     if (data.skills.length) {
+      const heading = document.createElement("div");
+      heading.className = "cv-skill-heading";
+      heading.textContent = "Skills & Abilities";
+
       const ul = document.createElement("ul");
       ul.className = "cv-skill-list";
       data.skills.forEach(s => {
@@ -1311,7 +1382,7 @@ ${name}
         li.textContent = s;
         ul.appendChild(li);
       });
-      skillsContainer.appendChild(ul);
+      skillsContainer.append(heading, ul);
     }
 
     setText("previewLanguages", [data.languages.join(", "), data.languageProficiency].filter(Boolean).join(" · "));
@@ -1453,17 +1524,32 @@ ${name}
     $("showCvTab").classList.add("secondary");
   });
 
-  // Event Listeners
+  // Event Listeners for Institution Search
+  $("institutionSearch").addEventListener("input", renderInstitutionResults);
+  $("institutionSearch").addEventListener("focus", () => {
+    if (valueOf("institutionSearch")) renderInstitutionResults();
+  });
+  document.addEventListener("click", e => {
+    const wrap = document.querySelector(".autocomplete-wrap");
+    if (wrap && !wrap.contains(e.target)) closeInstitutionResults();
+  });
+
   $("educationLevel").addEventListener("change", () => {
+    $("institutionSearch").value = "";
+    $("institution").value = "";
     populateQualifications();
     renderSubjectChoices();
+    closeInstitutionResults();
     updatePreview();
   });
+
   $("experienceType").addEventListener("change", updateExperienceVisibility);
   $("saveButton").addEventListener("click", saveCv);
   $("updatePreviewButton").addEventListener("click", () => { updatePreview(); showMessage("Preview updated.", "success"); });
   $("printButton").addEventListener("click", downloadCvPdf);
-  $("cvForm").addEventListener("input", updatePreview);
+  $("cvForm").addEventListener("input", e => {
+    if (e.target.id !== "institutionSearch") updatePreview();
+  });
   $("cvForm").addEventListener("change", updatePreview);
 
   $("signOutButton").addEventListener("click", async () => {
