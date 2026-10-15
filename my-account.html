@@ -1,751 +1,769 @@
-<!DOCTYPE html><html lang="en">  <head>  
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
   <meta charset="UTF-8">  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">  
   <meta name="theme-color" content="#111111">  
   <meta name="description" content="Manage your CVPro-SA account and CV purchases.">  
-  <title>My Account | CVPro-SA</title>  <style>  
-    * { box-sizing: border-box; }  body {  
-  margin: 0;  
-  font-family: Arial, Helvetica, sans-serif;  
-  background: #f5f5f5;  
-  color: #111;  
-  line-height: 1.5;  
-}  
+  <title>My Account | CVPro-SA</title>  
+  
+  <style>  
+    * { 
+      box-sizing: border-box; 
+    }  
 
-header {  
-  background: #111;  
-  color: white;  
-  padding: 16px 20px;  
-}  
+    :root {  
+      --bg: #fdfdfd;  
+      --card-bg: #ffffff;  
+      --black: #0f172a;  
+      --grey: #64748b;  
+      --light-grey: #f8fafc;  
+      --border: #e2e8f0;  
+      --accent: #059669;  
+      --accent-dark: #047857;  
+    }  
 
-.nav {  
-  max-width: 1000px;  
-  margin: auto;  
-  display: flex;  
-  align-items: center;  
-  justify-content: space-between;  
-  gap: 12px;  
-}  
+    body {  
+      margin: 0;  
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;  
+      background: var(--bg);  
+      color: var(--black);  
+      line-height: 1.5;  
+    }  
 
-.logo {  
-  color: white;  
-  font-size: 22px;  
-  font-weight: 800;  
-  text-decoration: none;  
-}  
+    header {  
+      background: var(--black);  
+      color: #fff;  
+      padding: 18px 24px;  
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);  
+    }  
 
-.nav-actions {  
-  display: flex;  
-  gap: 10px;  
-  align-items: center;  
-}  
+    .nav {  
+      max-width: 1000px;  
+      margin: auto;  
+      display: flex;  
+      align-items: center;  
+      justify-content: space-between;  
+      gap: 12px;  
+    }  
 
-.nav-link, .logout-button {  
-  color: white;  
-  background: transparent;  
-  border: 1px solid #777;  
-  border-radius: 7px;  
-  padding: 8px 11px;  
-  text-decoration: none;  
-  font-size: 13px;  
-  cursor: pointer;  
-}  
+    .logo {  
+      color: #fff;  
+      font-size: 22px;  
+      font-weight: 800;  
+      letter-spacing: -0.5px;  
+      text-decoration: none;  
+    }  
 
-main {  
-  max-width: 1000px;  
-  margin: 28px auto;  
-  padding: 0 16px 40px;  
-}  
+    .nav-actions {  
+      display: flex;  
+      gap: 12px;  
+      align-items: center;  
+    }  
 
-.welcome { margin-bottom: 22px; }  
+    .nav-link, .logout-button {  
+      color: #94a3b8;  
+      background: transparent;  
+      border: 1px solid #334155;  
+      border-radius: 8px;  
+      padding: 8px 14px;  
+      text-decoration: none;  
+      font-size: 13px;  
+      font-weight: 600;  
+      cursor: pointer;  
+      transition: all 0.2s;  
+    }  
 
-h1 {  
-  margin: 0 0 6px;  
-  font-size: 30px;  
-  letter-spacing: -0.7px;  
-}  
+    .nav-link:hover, .logout-button:hover {  
+      background: #1e293b;  
+      color: #fff;  
+    }  
 
-.muted { color: #666; }  
+    main {  
+      max-width: 1000px;  
+      margin: 35px auto;  
+      padding: 0 20px 60px;  
+    }  
 
-.panel {  
-  margin-bottom: 20px;  
-  padding: 22px;  
-  background: white;  
-  border: 1px solid #e5e5e5;  
-  border-radius: 12px;  
-}  
+    .welcome { 
+      margin-bottom: 28px; 
+    }  
 
-.panel h2 {  
-  margin: 0 0 8px;  
-  font-size: 21px;  
-}  
+    h1 {  
+      margin: 0 0 6px;  
+      font-size: 28px;  
+      font-weight: 800;  
+      letter-spacing: -0.5px;  
+    }  
 
-.template-grid {  
-  display: grid;  
-  grid-template-columns: repeat(2, minmax(0, 1fr));  
-  gap: 16px;  
-  margin-top: 18px;  
-}  
+    .muted { 
+      color: var(--grey); 
+      font-size: 15px;
+    }  
 
-.template-card {  
-  padding: 18px;  
-  border: 1px solid #ddd;  
-  border-radius: 10px;  
-}  
+    .panel {  
+      margin-bottom: 24px;  
+      padding: 28px;  
+      background: var(--card-bg);  
+      border: 1px solid var(--border);  
+      border-radius: 16px;  
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);  
+    }  
 
-.template-card h3 {  
-  margin: 0 0 5px;  
-  font-size: 18px;  
-}  
+    .panel h2 {  
+      margin: 0 0 8px;  
+      font-size: 20px;  
+      font-weight: 700;  
+    }  
 
-.price {  
-  margin: 5px 0 12px;  
-  font-size: 23px;  
-  font-weight: 800;  
-}  
+    .template-grid {  
+      display: grid;  
+      grid-template-columns: repeat(2, minmax(0, 1fr));  
+      gap: 20px;  
+      margin-top: 20px;  
+    }  
 
-.button {  
-  display: inline-block;  
-  width: 100%;  
-  padding: 12px 14px;  
-  border: 1px solid #111;  
-  border-radius: 7px;  
-  background: #111;  
-  color: white;  
-  font-size: 14px;  
-  font-weight: 700;  
-  text-align: center;  
-  text-decoration: none;  
-  cursor: pointer;  
-}  
+    .template-card {  
+      padding: 22px;  
+      border: 1px solid var(--border);  
+      border-radius: 12px;  
+      background: var(--light-grey);  
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }  
 
-.button:disabled {  
-  opacity: 0.6;  
-  cursor: wait;  
-}  
+    .template-card h3 {  
+      margin: 0 0 4px;  
+      font-size: 18px;  
+      font-weight: 700;  
+    }  
 
-.secondary {  
-  background: white;  
-  color: #111;  
-}  
+    .price {  
+      margin: 6px 0 14px;  
+      font-size: 24px;  
+      font-weight: 800;  
+      color: var(--black);  
+    }  
 
-.message {  
-  display: none;  
-  margin-bottom: 18px;  
-  padding: 12px;  
-  border-radius: 7px;  
-  overflow-wrap: anywhere;  
-  font-size: 14px;  
-}  
+    .button {  
+      display: inline-block;  
+      width: 100%;  
+      padding: 12px 16px;  
+      border: 0;  
+      border-radius: 8px;  
+      background: var(--black);  
+      color: white;  
+      font-size: 14px;  
+      font-weight: 700;  
+      text-align: center;  
+      text-decoration: none;  
+      cursor: pointer;  
+      transition: background 0.2s;  
+    }  
 
-.message.success {  
-  display: block;  
-  background: #e9f7ef;  
-  color: #155b35;  
-}  
+    .button:hover {
+      background: #1e293b;
+    }
 
-.message.error {  
-  display: block;  
-  background: #fff0f0;  
-  color: #a11;  
-}  
+    .button:disabled {  
+      opacity: 0.6;  
+      cursor: wait;  
+    }  
 
-.purchase-list {  
-  display: grid;  
-  gap: 12px;  
-  margin-top: 18px;  
-}  
+    .secondary {  
+      background: #fff;  
+      color: var(--black);  
+      border: 1px solid var(--border);  
+    }  
 
-.purchase-card {  
-  padding: 16px;  
-  border: 1px solid #e3e3e3;  
-  border-radius: 9px;  
-}  
+    .secondary:hover {
+      background: #f1f5f9;
+    }
 
-.purchase-heading {  
-  display: flex;  
-  align-items: flex-start;  
-  justify-content: space-between;  
-  gap: 12px;  
-}  
+    .message {  
+      display: none;  
+      margin-bottom: 20px;  
+      padding: 14px;  
+      border-radius: 8px;  
+      overflow-wrap: anywhere;  
+      font-size: 14px;  
+    }  
 
-.purchase-heading h3 {  
-  margin: 0;  
-  font-size: 16px;  
-  overflow-wrap: anywhere;  
-}  
+    .message.success {  
+      display: block;  
+      background: #ecfdf5;  
+      color: #065f46;  
+      border: 1px solid #a7f3d0;  
+    }  
 
-.status {  
-  display: inline-block;  
-  padding: 5px 9px;  
-  border-radius: 20px;  
-  background: #fff1cc;  
-  color: #765300;  
-  font-size: 12px;  
-  font-weight: 700;  
-  white-space: nowrap;  
-}  
+    .message.error {  
+      display: block;  
+      background: #fef2f2;  
+      color: #991b1b;  
+      border: 1px solid #fecaca;  
+    }  
 
-.status.paid {  
-  background: #e1f5e9;  
-  color: #17663b;  
-}  
+    .purchase-list {  
+      display: grid;  
+      gap: 16px;  
+      margin-top: 20px;  
+    }  
 
-.status.declined {  
-  background: #ffe5e5;  
-  color: #a11;  
-}  
+    .purchase-card {  
+      padding: 20px;  
+      border: 1px solid var(--border);  
+      border-radius: 12px;  
+      background: #fff;  
+    }  
 
-.purchase-card p {  
-  margin: 7px 0;  
-  color: #666;  
-  font-size: 14px;  
-  overflow-wrap: anywhere;  
-}  
+    .purchase-heading {  
+      display: flex;  
+      align-items: flex-start;  
+      justify-content: space-between;  
+      gap: 12px;  
+      margin-bottom: 12px;  
+    }  
 
-.purchase-actions {  
-  margin-top: 13px;  
-  display: grid;  
-  gap: 8px;  
-}  
+    .purchase-heading h3 {  
+      margin: 0;  
+      font-size: 17px;  
+      font-weight: 700;  
+      overflow-wrap: anywhere;  
+    }  
 
-.notice {  
-  padding: 14px;  
-  background: #fafafa;  
-  border: 1px solid #e5e5e5;  
-  border-radius: 8px;  
-  color: #555;  
-  font-size: 13px;  
-}  
+    .status {  
+      display: inline-block;  
+      padding: 5px 12px;  
+      border-radius: 20px;  
+      background: #fef3c7;  
+      color: #92400e;  
+      font-size: 12px;  
+      font-weight: 700;  
+      white-space: nowrap;  
+    }  
 
-.empty {  
-  padding: 20px 0;  
-  color: #666;  
-  font-size: 14px;  
-}  
+    .status.paid {  
+      background: #ecfdf5;  
+      color: #065f46;  
+    }  
 
-.payment-box {  
-  margin-top: 14px;  
-  padding: 16px;  
-  border: 1px solid #ddd;  
-  border-radius: 9px;  
-  background: #fafafa;  
-}  
+    .status.declined {  
+      background: #fef2f2;  
+      color: #991b1b;  
+    }  
 
-.payment-box h4 {  
-  margin: 0 0 10px;  
-  font-size: 17px;  
-}  
+    .purchase-card p {  
+      margin: 6px 0;  
+      color: var(--grey);  
+      font-size: 14px;  
+      overflow-wrap: anywhere;  
+    }  
 
-.payment-row {  
-  padding: 8px 0;  
-  border-bottom: 1px solid #e5e5e5;  
-  overflow-wrap: anywhere;  
-}  
+    .purchase-actions {  
+      margin-top: 16px;  
+      display: grid;  
+      gap: 10px;  
+    }  
 
-.payment-row:last-child {  
-  border-bottom: none;  
-}  
+    .notice {  
+      padding: 18px;  
+      background: #fffbeb;  
+      border: 1px solid #fde68a;  
+      border-radius: 12px;  
+      color: #92400e;  
+      font-size: 14px;  
+      line-height: 1.6;  
+    }  
 
-.payment-warning {  
-  margin-top: 12px;  
-  padding: 11px;  
-  border-radius: 7px;  
-  background: #fff1cc;  
-  color: #765300;  
-  font-size: 13px;  
-}  
+    .empty {  
+      padding: 24px 0;  
+      color: var(--grey);  
+      font-size: 14px;  
+      text-align: center;  
+    }  
 
-.payment-error {  
-  color: #a11 !important;  
-}  
+    .payment-box {  
+      margin-top: 16px;  
+      padding: 18px;  
+      border: 1px solid var(--border);  
+      border-radius: 10px;  
+      background: var(--light-grey);  
+    }  
 
-footer {  
-  padding: 20px;  
-  text-align: center;  
-  color: #777;  
-  font-size: 12px;  
-}  
+    .payment-box h4 {  
+      margin: 0 0 12px;  
+      font-size: 17px;  
+      font-weight: 700;  
+    }  
 
-@media (max-width: 650px) {  
-  .template-grid { grid-template-columns: 1fr; }  
+    .payment-row {  
+      padding: 8px 0;  
+      border-bottom: 1px solid var(--border);  
+      font-size: 14px;  
+      overflow-wrap: anywhere;  
+    }  
 
-  .nav { align-items: flex-start; }  
+    .payment-row:last-child {  
+      border-bottom: none;  
+    }  
 
-  .nav-actions {  
-    flex-wrap: wrap;  
-    justify-content: flex-end;  
-  }  
+    .payment-warning {  
+      margin-top: 14px;  
+      padding: 12px;  
+      border-radius: 8px;  
+      background: #fef3c7;  
+      color: #92400e;  
+      font-size: 13px;  
+      line-height: 1.5;  
+    }  
 
-  h1 { font-size: 25px; }  
+    .payment-error {  
+      color: #991b1b !important;  
+      font-weight: 600;  
+    }  
 
-  .panel { padding: 18px; }  
+    footer {  
+      padding: 30px 20px;  
+      text-align: center;  
+      color: var(--grey);  
+      font-size: 13px;  
+      border-top: 1px solid var(--border);  
+      margin-top: 40px;  
+    }  
 
-  .purchase-heading {  
-    flex-direction: column;  
-    gap: 8px;  
-  }  
-}
-
-</style></head><body>
+    @media (max-width: 650px) {  
+      .template-grid { grid-template-columns: 1fr; }  
+      .nav { align-items: flex-start; }  
+      .nav-actions {  
+        flex-wrap: wrap;  
+        justify-content: flex-end;  
+      }  
+      h1 { font-size: 24px; }  
+      .panel { padding: 20px; }  
+      .purchase-heading {  
+        flex-direction: column;  
+        gap: 8px;  
+      }  
+    }  
+  </style>  
+</head>  
+<body>  
 
   <header>  
     <nav class="nav">  
-      <a class="logo" href="./">CVPro-SA</a>  <div class="nav-actions">  
-    <a class="nav-link" href="./">Homepage</a>  
-    <button class="logout-button" id="logoutButton" type="button">  
-      Sign Out  
-    </button>  
-  </div>  
-</nav>    </header>  <main>  
+      <a class="logo" href="./">CVPro-SA</a>  
+      <div class="nav-actions">  
+        <a class="nav-link" href="./">Homepage</a>  
+        <button class="logout-button" id="logoutButton" type="button">  
+          Sign Out  
+        </button>  
+      </div>  
+    </nav>  
+  </header>  
+
+  <main>  
     <section class="welcome">  
-      <h1>My Account</h1>  
+      <h1>My Account Dashboard</h1>  
       <div class="muted" id="accountEmail">Checking your account...</div>  
-    </section><div class="message" id="message" role="status" aria-live="polite"></div>  <section class="panel">  
-  <h2>Choose a CV</h2>  
-  <p class="muted">  
-    Select a template to purchase. Your CV builder will unlock only after  
-    the owner verifies your payment.  
-  </p>    <div class="template-grid">  
-    <article class="template-card">  
-      <h3>Classic CV</h3>  
-      <div class="price">R15</div>  
-      <p class="muted">A clean, traditional black-and-white design.</p>  
-      <button class="button purchase-button" data-template="classic" type="button">  
-        Purchase Classic CV  
-      </button>  
-    </article>  <article class="template-card">  
-  <h3>Modern CV</h3>  
-  <div class="price">R25</div>  
-  <p class="muted">A contemporary two-column design.</p>  
-  <button class="button purchase-button" data-template="modern" type="button">  
-    Purchase Modern CV  
-  </button>  
-</article>
+    </section>  
 
-  </div>  
-</section>  <section class="panel">  
-  <h2>My CV Purchases</h2>  
-  <p class="muted">  
-    View your orders, payment instructions and approval status.  
-  </p>    <div id="purchaseList" class="purchase-list">  
-    <div class="empty">Loading your purchases...</div>  
-  </div>  
-</section>  <section class="notice">  
-  <strong>Payment safety:</strong>  
-  Pay only using the payment instructions displayed for your own order.  
-  Always use the exact order number as the payment reference. Payments are  
-  manually verified. A pending order does not unlock the CV builder.  
-</section>    </main>  <footer>  
+    <div class="message" id="message" role="status" aria-live="polite"></div>  
+
+    <section class="panel">  
+      <h2>Choose a CV Template</h2>  
+      <p class="muted">  
+        Select a template to purchase. Your CV builder will unlock only after  
+        the owner verifies your payment.  
+      </p>  
+
+      <div class="template-grid">  
+        <article class="template-card">  
+          <div>
+            <h3>Classic CV</h3>  
+            <div class="price">R15</div>  
+            <p class="muted">A clean, traditional black-and-white design.</p>  
+          </div>
+          <button class="button purchase-button" data-template="classic" type="button" style="margin-top: 15px;">  
+            Purchase Classic CV  
+          </button>  
+        </article>  
+
+        <article class="template-card">  
+          <div>
+            <h3>Modern CV</h3>  
+            <div class="price">R25</div>  
+            <p class="muted">A contemporary two-column design.</p>  
+          </div>
+          <button class="button purchase-button" data-template="modern" type="button" style="margin-top: 15px;">  
+            Purchase Modern CV  
+          </button>  
+        </article>  
+      </div>  
+    </section>  
+
+    <section class="panel">  
+      <h2>My CV Purchases</h2>  
+      <p class="muted">  
+        View your orders, payment instructions, and approval status.  
+      </p>  
+
+      <div id="purchaseList" class="purchase-list">  
+        <div class="empty">Loading your purchases...</div>  
+      </div>  
+    </section>  
+
+    <section class="notice">  
+      <strong>Payment Safety Notice:</strong>  
+      Pay only using the payment instructions displayed for your own specific order.  
+      Always use your exact order number as the payment reference. Payments are  
+      manually verified. A pending order does not unlock the CV builder.  
+    </section>  
+  </main>  
+
+  <footer>  
     &copy; <span id="year"></span> CVPro-SA. All rights reserved.  
-  </footer>  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>  <script>  
-    const SUPABASE_URL =  
-      "https://tnxlhpenttcynlmlohao.supabase.co";  const SUPABASE_PUBLISHABLE_KEY =  
-  "sb_publishable_n4XzrnraET_AEMbCYtHV7Q_DJ8--zCL";  
+  </footer>  
 
-const supabaseClient = window.supabase.createClient(  
-  SUPABASE_URL,  
-  SUPABASE_PUBLISHABLE_KEY,  
-  {  
-    auth: {  
-      persistSession: true,  
-      autoRefreshToken: true,  
-      detectSessionInUrl: true  
-    }  
-  }  
-);  
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>  
+  <script>  
+    const SUPABASE_URL = "https://tnxlhpenttcynlmlohao.supabase.co";  
+    const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_n4XzrnraET_AEMbCYtHV7Q_DJ8--zCL";  
 
-const accountEmail = document.getElementById("accountEmail");  
-const purchaseList = document.getElementById("purchaseList");  
-const messageBox = document.getElementById("message");  
-const logoutButton = document.getElementById("logoutButton");  
-
-document.getElementById("year").textContent =  
-  new Date().getFullYear();  
-
-function showMessage(text, type) {  
-  messageBox.textContent = text;  
-  messageBox.className = "message " + type;  
-}  
-
-function clearMessage() {  
-  messageBox.textContent = "";  
-  messageBox.className = "message";  
-}  
-
-async function getSessionOrRedirect() {  
-  const { data, error } = await supabaseClient.auth.getSession();  
-
-  if (error || !data.session) {  
-    window.location.replace("./account.html");  
-    return null;  
-  }  
-
-  accountEmail.textContent = data.session.user.email || "Signed in";  
-  return data.session;  
-}  
-
-async function callFunction(functionName, body) {  
-  const { data, error } = await supabaseClient.auth.getSession();  
-
-  if (error || !data.session) {  
-    throw new Error("Your session has expired. Please sign in again.");  
-  }  
-
-  const response = await fetch(  
-    SUPABASE_URL + "/functions/v1/" + functionName,  
-    {  
-      method: "POST",  
-      headers: {  
-        "Content-Type": "application/json",  
-        "Authorization": "Bearer " + data.session.access_token,  
-        "apikey": SUPABASE_PUBLISHABLE_KEY  
-      },  
-      body: JSON.stringify(body || {})  
-    }  
-  );  
-
-  const result = await response.json().catch(() => ({}));  
-
-  if (!response.ok) {  
-    throw new Error(  
-      result.error || result.message || "The request could not be completed."  
-    );  
-  }  
-
-  return result;  
-}  
-
-function escapeHtml(value) {  
-  return String(value ?? "").replace(/[&<>"']/g, (character) => ({  
-    "&": "&amp;",  
-    "<": "&lt;",  
-    ">": "&gt;",  
-    '"': "&quot;",  
-    "'": "&#039;"  
-  })[character]);  
-}  
-
-function formatDate(value) {  
-  if (!value) return "Date unavailable";  
-
-  const date = new Date(value);  
-
-  if (Number.isNaN(date.getTime())) return "Date unavailable";  
-
-  return date.toLocaleString("en-ZA", {  
-    dateStyle: "medium",  
-    timeStyle: "short"  
-  });  
-}  
-
-function statusLabel(status) {  
-  if (status === "paid") return "Paid";  
-  if (status === "declined") return "Declined";  
-  return "Payment Under Review";  
-}  
-
-function paymentRow(label, value) {  
-  const row = document.createElement("div");  
-  row.className = "payment-row";  
-
-  const strong = document.createElement("strong");  
-  strong.textContent = label + ": ";  
-
-  const span = document.createElement("span");  
-  span.textContent = value || "Not provided";  
-
-  row.append(strong, span);  
-  return row;  
-}  
-
-async function showPaymentInstructions(purchase, button, card) {  
-  const originalText = button.textContent;  
-  button.disabled = true;  
-  button.textContent = "Loading instructions...";  
-
-  let paymentBox = card.querySelector(".payment-box");  
-
-  if (paymentBox) {  
-    paymentBox.remove();  
-  }  
-
-  try {  
-    const result = await callFunction(  
-      "get-cv-payment-instructions",  
-      { purchase_id: purchase.id }  
+    const supabaseClient = window.supabase.createClient(  
+      SUPABASE_URL,  
+      SUPABASE_PUBLISHABLE_KEY,  
+      {  
+        auth: {  
+          persistSession: true,  
+          autoRefreshToken: true,  
+          detectSessionInUrl: true  
+        }  
+      }  
     );  
 
-    paymentBox = document.createElement("div");  
-    paymentBox.className = "payment-box";  
+    const accountEmail = document.getElementById("accountEmail");  
+    const purchaseList = document.getElementById("purchaseList");  
+    const messageBox = document.getElementById("message");  
+    const logoutButton = document.getElementById("logoutButton");  
 
-    const heading = document.createElement("h4");  
-    heading.textContent = "Payment Instructions";  
-    paymentBox.appendChild(heading);  
+    document.getElementById("year").textContent = new Date().getFullYear();  
 
-    if (!result.configured) {  
-      const warning = document.createElement("div");  
-      warning.className = "payment-warning";  
-      warning.textContent =  
-        result.message ||  
-        "Payment instructions are not configured. Do not transfer money.";  
-
-      paymentBox.appendChild(warning);  
-      card.appendChild(paymentBox);  
-      return;  
+    function showMessage(text, type) {  
+      messageBox.textContent = text;  
+      messageBox.className = "message " + type;  
     }  
 
-    const payment = result.payment || {};  
-    const verifiedPurchase = result.purchase || purchase;  
-
-    paymentBox.appendChild(  
-      paymentRow("Order number", verifiedPurchase.order_number)  
-    );  
-    paymentBox.appendChild(  
-      paymentRow(  
-        "Amount to pay",  
-        "R" + Number(verifiedPurchase.amount).toFixed(2)  
-      )  
-    );  
-    paymentBox.appendChild(  
-      paymentRow("Bank", payment.bank_name)  
-    );  
-    paymentBox.appendChild(  
-      paymentRow("Account holder", payment.account_holder)  
-    );  
-    paymentBox.appendChild(  
-      paymentRow("Account type", payment.account_type)  
-    );  
-    paymentBox.appendChild(  
-      paymentRow("Account number", payment.account_number)  
-    );  
-
-    if (payment.branch_code) {  
-      paymentBox.appendChild(  
-        paymentRow("Branch code", payment.branch_code)  
-      );  
+    function clearMessage() {  
+      messageBox.textContent = "";  
+      messageBox.className = "message";  
     }  
 
-    paymentBox.appendChild(  
-      paymentRow(  
-        "Payment reference",  
-        verifiedPurchase.order_number  
-      )  
-    );  
+    async function getSessionOrRedirect() {  
+      const { data, error } = await supabaseClient.auth.getSession();  
 
-    paymentBox.appendChild(  
-      paymentRow(  
-        "Instructions",  
-        payment.payment_instructions  
-      )  
-    );  
-
-    const warning = document.createElement("div");  
-    warning.className = "payment-warning";  
-    warning.textContent =  
-      "Pay the exact amount and use the order number above as your reference. Your CV remains locked until the owner confirms receipt of the money and approves this order.";  
-
-    paymentBox.appendChild(warning);  
-    card.appendChild(paymentBox);  
-  } catch (error) {  
-    paymentBox = document.createElement("div");  
-    paymentBox.className = "payment-box";  
-
-    const warning = document.createElement("p");  
-    warning.className = "payment-error";  
-    warning.textContent =  
-      "Could not load payment instructions: " + error.message;  
-
-    paymentBox.appendChild(warning);  
-    card.appendChild(paymentBox);  
-  } finally {  
-    button.disabled = false;  
-    button.textContent = originalText;  
-  }  
-}  
-
-async function loadPurchases() {  
-  purchaseList.innerHTML =  
-    '<div class="empty">Loading your purchases...</div>';  
-
-  try {  
-    const result = await callFunction("get-cv-purchase-status", {});  
-
-    const purchases = Array.isArray(result.purchases)  
-      ? result.purchases  
-      : Array.isArray(result)  
-        ? result  
-        : result.purchase  
-          ? [result.purchase]  
-          : [];  
-
-    if (purchases.length === 0) {  
-      purchaseList.innerHTML =  
-        '<div class="empty">You have no CV purchases yet. Choose a template above to begin.</div>';  
-      return;  
-    }  
-
-    purchaseList.innerHTML = "";  
-
-    purchases.forEach((purchase) => {  
-      const template = purchase.cv_template === "modern"  
-        ? "Modern CV"  
-        : "Classic CV";  
-
-      const status = purchase.payment_status || "pending";  
-      const orderNumber = purchase.order_number || "Order reference unavailable";  
-      const amount = Number(purchase.amount);  
-      const safeAmount = Number.isFinite(amount)  
-        ? "R" + amount.toFixed(2)  
-        : "Amount unavailable";  
-
-      const card = document.createElement("article");  
-      card.className = "purchase-card";  
-
-      const heading = document.createElement("div");  
-      heading.className = "purchase-heading";  
-
-      const title = document.createElement("h3");  
-      title.textContent = template;  
-
-      const badge = document.createElement("span");  
-      badge.className = "status " + status;  
-      badge.textContent = statusLabel(status);  
-
-      heading.append(title, badge);  
-      card.appendChild(heading);  
-
-      card.appendChild(paymentRow("Order", orderNumber));  
-      card.appendChild(paymentRow("Amount", safeAmount));  
-      card.appendChild(  
-        paymentRow("Created", formatDate(purchase.created_at))  
-      );  
-
-      const actions = document.createElement("div");  
-      actions.className = "purchase-actions";  
-
-      if (status === "paid") {
-
-const note = document.createElement("p");
-note.textContent =
-"Your payment has been approved. You can now open, edit and download your CV.";
-actions.appendChild(note);
-
-const builderButton = document.createElement("a");
-builderButton.className = "button";
-builderButton.href =
-"./builder.html?purchase_id=" +
-encodeURIComponent(purchase.id);
-builderButton.textContent = "Open My CV";
-builderButton.style.display = "inline-block";
-builderButton.style.textDecoration = "none";
-
-actions.appendChild(builderButton);
-} else if (status === "declined") {
-const note = document.createElement("p");
-note.textContent =
-"This order was declined. Contact the website owner before making another payment.";
-actions.appendChild(note);
-} else {
-const note = document.createElement("p");
-note.textContent =
-"Your CV is locked while you arrange payment and wait for the owner to verify it.";
-actions.appendChild(note);
-
-const paymentButton = document.createElement("button");  
-        paymentButton.type = "button";  
-        paymentButton.className = "button";  
-        paymentButton.textContent = "View Payment Instructions";  
-        paymentButton.addEventListener("click", () => {  
-          showPaymentInstructions(purchase, paymentButton, card);  
-        });  
-
-        actions.appendChild(paymentButton);  
+      if (error || !data.session) {  
+        window.location.replace("./account.html");  
+        return null;  
       }  
 
-      card.appendChild(actions);  
-      purchaseList.appendChild(card);  
-    });  
-  } catch (error) {  
-    console.error("Purchase loading error:", error);  
-    purchaseList.innerHTML = "";  
-
-    const errorMessage = document.createElement("div");  
-    errorMessage.className = "empty";  
-    errorMessage.textContent =  
-      "Could not load purchases: " + error.message;  
-
-    purchaseList.appendChild(errorMessage);  
-  }  
-}  
-
-async function createPurchase(template, button) {  
-  clearMessage();  
-
-  const originalText = button.textContent;  
-  button.disabled = true;  
-  button.textContent = "Creating order...";  
-
-  try {  
-    const result = await callFunction("create-cv-purchase", {  
-      cv_template: template  
-    });  
-
-    const purchase = result.purchase || result;  
-
-    if (!purchase || !purchase.id) {  
-      throw new Error(  
-        "The server did not return a valid order. Please try again."  
-      );  
+      accountEmail.textContent = data.session.user.email || "Signed in";  
+      return data.session;  
     }  
 
-    showMessage(  
-      "Your order " +  
-        (purchase.order_number || "") +  
-        " was created. Use View Payment Instructions on your order to see how to pay. If instructions are not configured, do not transfer money.",  
-      "success"  
-    );  
+    async function callFunction(functionName, body) {  
+      const { data, error } = await supabaseClient.auth.getSession();  
 
-    await loadPurchases();  
-  } catch (error) {  
-    console.error("Purchase creation error:", error);  
-    showMessage(error.message, "error");  
-  } finally {  
-    button.disabled = false;  
-    button.textContent = originalText;  
-  }  
-}  
+      if (error || !data.session) {  
+        throw new Error("Your session has expired. Please sign in again.");  
+      }  
 
-document.querySelectorAll(".purchase-button").forEach((button) => {  
-  button.addEventListener("click", () => {  
-    createPurchase(button.dataset.template, button);  
-  });  
-});  
+      const response = await fetch(  
+        SUPABASE_URL + "/functions/v1/" + functionName,  
+        {  
+          method: "POST",  
+          headers: {  
+            "Content-Type": "application/json",  
+            "Authorization": "Bearer " + data.session.access_token,  
+            "apikey": SUPABASE_PUBLISHABLE_KEY  
+          },  
+          body: JSON.stringify(body || {})  
+        }  
+      );  
 
-logoutButton.addEventListener("click", async () => {  
-  logoutButton.disabled = true;  
+      const result = await response.json().catch(() => ({}));  
 
-  const { error } = await supabaseClient.auth.signOut();  
+      if (!response.ok) {  
+        throw new Error(  
+          result.error || result.message || "The request could not be completed."  
+        );  
+      }  
 
-  if (error) {  
-    showMessage("Unable to sign out: " + error.message, "error");  
-    logoutButton.disabled = false;  
-    return;  
-  }  
+      return result;  
+    }  
 
-  window.location.replace("./account.html");  
-});  
+    function formatDate(value) {  
+      if (!value) return "Date unavailable";  
+      const date = new Date(value);  
+      if (Number.isNaN(date.getTime())) return "Date unavailable";  
+      return date.toLocaleString("en-ZA", {  
+        dateStyle: "medium",  
+        timeStyle: "short"  
+      });  
+    }  
 
-async function initialise() {  
-  const session = await getSessionOrRedirect();  
+    function statusLabel(status) {  
+      if (status === "paid") return "Paid";  
+      if (status === "declined") return "Declined";  
+      return "Payment Under Review";  
+    }  
 
-  if (!session) return;  
+    function paymentRow(label, value) {  
+      const row = document.createElement("div");  
+      row.className = "payment-row";  
 
-  await loadPurchases();  
-}  
+      const strong = document.createElement("strong");  
+      strong.textContent = label + ": ";  
 
-initialise();
+      const span = document.createElement("span");  
+      span.textContent = value || "Not provided";  
 
-</script></body>
+      row.append(strong, span);  
+      return row;  
+    }  
 
+    async function showPaymentInstructions(purchase, button, card) {  
+      const originalText = button.textContent;  
+      button.disabled = true;  
+      button.textContent = "Loading instructions...";  
+
+      let paymentBox = card.querySelector(".payment-box");  
+      if (paymentBox) {  
+        paymentBox.remove();  
+      }  
+
+      try {  
+        const result = await callFunction(  
+          "get-cv-payment-instructions",  
+          { purchase_id: purchase.id }  
+        );  
+
+        paymentBox = document.createElement("div");  
+        paymentBox.className = "payment-box";  
+
+        const heading = document.createElement("h4");  
+        heading.textContent = "Payment Instructions";  
+        paymentBox.appendChild(heading);  
+
+        if (!result.configured) {  
+          const warning = document.createElement("div");  
+          warning.className = "payment-warning";  
+          warning.textContent =  
+            result.message ||  
+            "Payment instructions are not configured. Do not transfer money.";  
+          paymentBox.appendChild(warning);  
+          card.appendChild(paymentBox);  
+          return;  
+        }  
+
+        const payment = result.payment || {};  
+        const verifiedPurchase = result.purchase || purchase;  
+
+        paymentBox.appendChild(paymentRow("Order number", verifiedPurchase.order_number));  
+        paymentBox.appendChild(paymentRow("Amount to pay", "R" + Number(verifiedPurchase.amount).toFixed(2)));  
+        paymentBox.appendChild(paymentRow("Bank", payment.bank_name));  
+        paymentBox.appendChild(paymentRow("Account holder", payment.account_holder));  
+        paymentBox.appendChild(paymentRow("Account type", payment.account_type));  
+        paymentBox.appendChild(paymentRow("Account number", payment.account_number));  
+
+        if (payment.branch_code) {  
+          paymentBox.appendChild(paymentRow("Branch code", payment.branch_code));  
+        }  
+
+        paymentBox.appendChild(paymentRow("Payment reference", verifiedPurchase.order_number));  
+        paymentBox.appendChild(paymentRow("Instructions", payment.payment_instructions));  
+
+        const warning = document.createElement("div");  
+        warning.className = "payment-warning";  
+        warning.textContent =  
+          "Pay the exact amount and use the order number above as your reference. Your CV remains locked until the owner confirms receipt of the money and approves this order.";  
+        paymentBox.appendChild(warning);  
+        card.appendChild(paymentBox);  
+      } catch (error) {  
+        paymentBox = document.createElement("div");  
+        paymentBox.className = "payment-box";  
+
+        const warning = document.createElement("p");  
+        warning.className = "payment-error";  
+        warning.textContent = "Could not load payment instructions: " + error.message;  
+        paymentBox.appendChild(warning);  
+        card.appendChild(paymentBox);  
+      } finally {  
+        button.disabled = false;  
+        button.textContent = originalText;  
+      }  
+    }  
+
+    async function loadPurchases() {  
+      purchaseList.innerHTML = '<div class="empty">Loading your purchases...</div>';  
+
+      try {  
+        const result = await callFunction("get-cv-purchase-status", {});  
+
+        const purchases = Array.isArray(result.purchases)  
+          ? result.purchases  
+          : Array.isArray(result)  
+            ? result  
+            : result.purchase  
+              ? [result.purchase]  
+              : [];  
+
+        if (purchases.length === 0) {  
+          purchaseList.innerHTML =  
+            '<div class="empty">You have no CV purchases yet. Choose a template above to begin.</div>';  
+          return;  
+        }  
+
+        purchaseList.innerHTML = "";  
+
+        purchases.forEach((purchase) => {  
+          const template = purchase.cv_template === "modern"  
+            ? "Modern CV"  
+            : "Classic CV";  
+
+          const status = purchase.payment_status || "pending";  
+          const orderNumber = purchase.order_number || "Order reference unavailable";  
+          const amount = Number(purchase.amount);  
+          const safeAmount = Number.isFinite(amount)  
+            ? "R" + amount.toFixed(2)  
+            : "Amount unavailable";  
+
+          const card = document.createElement("article");  
+          card.className = "purchase-card";  
+
+          const heading = document.createElement("div");  
+          heading.className = "purchase-heading";  
+
+          const title = document.createElement("h3");  
+          title.textContent = template;  
+
+          const badge = document.createElement("span");  
+          badge.className = "status " + status;  
+          badge.textContent = statusLabel(status);  
+
+          heading.append(title, badge);  
+          card.appendChild(heading);  
+
+          card.appendChild(paymentRow("Order", orderNumber));  
+          card.appendChild(paymentRow("Amount", safeAmount));  
+          card.appendChild(paymentRow("Created", formatDate(purchase.created_at)));  
+
+          const actions = document.createElement("div");  
+          actions.className = "purchase-actions";  
+
+          if (status === "paid") {  
+            const note = document.createElement("p");  
+            note.textContent = "Your payment has been approved. You can now open, edit and download your CV.";  
+            actions.appendChild(note);  
+
+            const builderButton = document.createElement("a");  
+            builderButton.className = "button";  
+            builderButton.href = "./builder.html?purchase_id=" + encodeURIComponent(purchase.id);  
+            builderButton.textContent = "Open My CV";  
+            builderButton.style.display = "inline-block";  
+            builderButton.style.textDecoration = "none";  
+            actions.appendChild(builderButton);  
+          } else if (status === "declined") {  
+            const note = document.createElement("p");  
+            note.textContent = "This order was declined. Contact the website owner before making another payment.";  
+            actions.appendChild(note);  
+          } else {  
+            const note = document.createElement("p");  
+            note.textContent = "Your CV is locked while you arrange payment and wait for the owner to verify it.";  
+            actions.appendChild(note);  
+
+            const paymentButton = document.createElement("button");  
+            paymentButton.type = "button";  
+            paymentButton.className = "button secondary";  
+            paymentButton.textContent = "View Payment Instructions";  
+            paymentButton.addEventListener("click", () => {  
+              showPaymentInstructions(purchase, paymentButton, card);  
+            });  
+            actions.appendChild(paymentButton);  
+          }  
+
+          card.appendChild(actions);  
+          purchaseList.appendChild(card);  
+        });  
+      } catch (error) {  
+        console.error("Purchase loading error:", error);  
+        purchaseList.innerHTML = "";  
+
+        const errorMessage = document.createElement("div");  
+        errorMessage.className = "empty";  
+        errorMessage.textContent = "Could not load purchases: " + error.message;  
+        purchaseList.appendChild(errorMessage);  
+      }  
+    }  
+
+    async function createPurchase(template, button) {  
+      clearMessage();  
+      const originalText = button.textContent;  
+      button.disabled = true;  
+      button.textContent = "Creating order...";  
+
+      try {  
+        const result = await callFunction("create-cv-purchase", {  
+          cv_template: template  
+        });  
+
+        const purchase = result.purchase || result;  
+
+        if (!purchase || !purchase.id) {  
+          throw new Error("The server did not return a valid order. Please try again.");  
+        }  
+
+        showMessage(  
+          "Your order " + (purchase.order_number || "") + " was created. Use View Payment Instructions on your order to see how to pay.",  
+          "success"  
+        );  
+
+        await loadPurchases();  
+      } catch (error) {  
+        console.error("Purchase creation error:", error);  
+        showMessage(error.message, "error");  
+      } finally {  
+        button.disabled = false;  
+        button.textContent = originalText;  
+      }  
+    }  
+
+    document.querySelectorAll(".purchase-button").forEach((button) => {  
+      button.addEventListener("click", () => {  
+        createPurchase(button.dataset.template, button);  
+      });  
+    });  
+
+    logoutButton.addEventListener("click", async () => {  
+      logoutButton.disabled = true;  
+      const { error } = await supabaseClient.auth.signOut();  
+
+      if (error) {  
+        showMessage("Unable to sign out: " + error.message, "error");  
+        logoutButton.disabled = false;  
+        return;  
+      }  
+
+      window.location.replace("./account.html");  
+    });  
+
+    async function initialise() {  
+      const session = await getSessionOrRedirect();  
+      if (!session) return;  
+      await loadPurchases();  
+    }  
+
+    initialise();  
+  </script>  
+</body>  
 </html>
