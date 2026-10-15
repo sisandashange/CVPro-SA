@@ -2478,13 +2478,13 @@ function generateProfile(data = {}) {
     ? subjectsInput.map((s) => String(s).toLowerCase())
     : String(subjectsInput).toLowerCase().split(",").map((s) => s.trim());
 
-  // 2. Subject Detection Logic
+  // 2. Subject Detection Logic (All Streams Included)
   const isTechnical = subjectsList.some((s) =>
     ["mechanical technology", "egd", "engineering graphics", "electrical technology", "civil technology", "technical mathematics", "technical sciences", "fitting and turning"].some((keyword) => s.includes(keyword))
   );
 
   const isBusiness = subjectsList.some((s) =>
-    ["accounting", "business studies", "economics", "financial management"].some((keyword) => s.includes(keyword))
+    ["accounting", "business studies", "economics", "financial management", "entrepreneurship"].some((keyword) => s.includes(keyword))
   );
 
   const isIT = subjectsList.some((s) =>
@@ -2492,33 +2492,46 @@ function generateProfile(data = {}) {
   );
 
   const isScience = subjectsList.some((s) =>
-    ["physical sciences", "life sciences", "chemistry", "physics"].some((keyword) => s.includes(keyword))
+    ["physical sciences", "life sciences", "chemistry", "physics", "biology"].some((keyword) => s.includes(keyword))
   );
 
-  // 3. Dynamic Goal Determination based on Subjects
+  const isRetailHumanities = subjectsList.some((s) =>
+    ["consumer studies", "hospitality studies", "tourism", "mathematical literacy", "geography", "history"].some((keyword) => s.includes(keyword))
+  );
+
+  // 3. Dynamic Goal Determination based on Streams
   let goalClean = rawGoal;
   if (!goalClean || goalClean.toLowerCase() === "general employment") {
     if (isTechnical) {
-      goalClean = "Technical Assistant, Workshop, or General Support";
+      goalClean = "Technical Assistant, Workshop Support, or General Apprentice";
     } else if (isBusiness) {
-      goalClean = "Admin Assistant, Clerical, or Retail";
+      goalClean = "Admin Assistant, Clerical Support, or Retail";
     } else if (isIT) {
-      goalClean = "Junior IT Support, Data Entry, or Systems";
+      goalClean = "Junior IT Support, Data Entry, or Systems Assistant";
     } else if (isScience) {
-      goalClean = "Lab Assistant, Operations, or Technical Support";
+      goalClean = "Laboratory Assistant, Operations, or Technical Support";
+    } else if (isRetailHumanities) {
+      goalClean = "Retail Assistant, Customer Service, or Hospitality Support";
     } else {
-      goalClean = "General Worker or Retail";
+      goalClean = "General Worker or Retail Assistant";
     }
   }
 
   const sentences = [];
 
-  // 4. Education & Qualification Sentence with Field Context
+  // 4. Education & Qualification Sentence with Tailored Field Context
   let fieldDescription = "";
-  if (isTechnical) fieldDescription = " with a strong foundation in Mechanical and Technical principles";
-  else if (isBusiness) fieldDescription = " with a solid background in Commercial and Financial subjects";
-  else if (isIT) fieldDescription = " with practical knowledge in Information and Computer Technology";
-  else if (isScience) fieldDescription = " with a solid foundation in Physical and Life Sciences";
+  if (isTechnical) {
+    fieldDescription = " with a strong foundation in Mechanical, Technical, and Workshop principles";
+  } else if (isBusiness) {
+    fieldDescription = " with a solid foundation in Commercial, Financial, and Business principles";
+  } else if (isIT) {
+    fieldDescription = " with practical knowledge in Information Technology and Digital Literacy";
+  } else if (isScience) {
+    fieldDescription = " with a solid foundation in Physical Sciences, Research, and Analytical Methods";
+  } else if (isRetailHumanities) {
+    fieldDescription = " with a strong background in Practical Numeracy, Customer Awareness, and Service Principles";
+  }
 
   if (qualification && school && year) {
     sentences.push(
