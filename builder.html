@@ -2606,7 +2606,7 @@ function escapeHtml(str) {
     .replace(/'/g, "&#039;");
 }
 function formatExperience(data = {}) {
-  // 1. Applicants with actual experience
+  // 1. Applicants with actual work experience
   if (data.experienceType !== "no-experience") {
     const jobTitle = String(data.jobTitle || "").trim();
     const employer = String(data.employer || "").trim();
@@ -2626,7 +2626,7 @@ function formatExperience(data = {}) {
     `;
   }
 
-  // 2. Applicants without formal work experience (Practical School Learning)
+  // 2. Applicants without formal work experience (Practical Subject Mapping)
   const subjects = Array.isArray(data.subjects)
     ? data.subjects
     : String(data.subjects || "")
@@ -2637,59 +2637,88 @@ function formatExperience(data = {}) {
   const subjectText = subjects.join(" ").toLowerCase();
   const descriptions = [];
 
-  // --- TECHNICAL & MECHANICAL ---
-  if (/mechanical technology|welding|fitting and machining|fitting/.test(subjectText)) {
-    descriptions.push("Practical Workshop Principles: Applied safety protocols, hand tool operation, and mechanical processes in school assignments.");
+  // --- STREAM 1: TECHNICAL & MECHANICAL ---
+  if (/mechanical technology|welding|fitting and machining|fitting|civil technology|electrical technology/.test(subjectText)) {
+    descriptions.push(
+      "Workshop Operations & Safety: Practiced workplace health and safety protocols, hand tool operation, and foundational mechanical principles."
+    );
   }
   if (/engineering graphics|egd|technical drawing/.test(subjectText)) {
-    descriptions.push("Technical Drawing & Blueprint Interpretation: Interpreted 2D/3D engineering drawings and design specifications accurately.");
+    descriptions.push(
+      "Technical Drawings & Blueprints: Developed skill in interpreting 2D/3D engineering drawings, scale measurements, and design specifications."
+    );
   }
 
-  // --- SCIENCES ---
-  if (/physical sciences|life sciences/.test(subjectText)) {
-    descriptions.push("Scientific Principles & Lab Safety: Foundational knowledge of lab observation, safety standards, and analytical problem-solving.");
-  }
-  if (/agricultural sciences/.test(subjectText)) {
-    descriptions.push("Practical Investigation: Applied structured data recording, environmental observation, and agricultural principles.");
-  }
-
-  // --- BUSINESS & COMMERCE ---
+  // --- STREAM 2: COMMERCIAL & BUSINESS ---
   if (/accounting|financial management/.test(subjectText)) {
-    descriptions.push("Financial Numeracy: Practiced accurate record-keeping, ledger concepts, and financial accuracy.");
+    descriptions.push(
+      "Financial Accuracy & Bookkeeping: Practiced accurate ledger entries, trial balances, inventory tracking, and basic financial calculations."
+    );
   }
   if (/business studies|economics|entrepreneurship/.test(subjectText)) {
-    descriptions.push("Business & Operations Understanding: Developed foundational knowledge of workplace organization, customer orientation, and stock concepts.");
+    descriptions.push(
+      "Business Operations & Customer Awareness: Gained understanding of workplace structure, stock control concepts, customer service, and business ethics."
+    );
   }
 
-  // --- IT & DIGITAL LITERACY ---
-  if (/computer applications technology|cat|information technology|coding/.test(subjectText)) {
-    descriptions.push("Digital & Data Literacy: Developed practical skills in document formatting, spreadsheet calculations, data processing, and basic IT troubleshooting.");
+  // --- STREAM 3: IT & DIGITAL LITERACY ---
+  if (/computer applications technology|cat|information technology|coding|computer science/.test(subjectText)) {
+    descriptions.push(
+      "Digital & Data Literacy: Proficient in document formatting, spreadsheet data processing, accurate file management, and basic software troubleshooting."
+    );
   }
 
-  // --- MATHEMATICS ---
+  // --- STREAM 4: PHYSICAL & LIFE SCIENCES ---
+  if (/physical sciences|chemistry|physics/.test(subjectText)) {
+    descriptions.push(
+      "Scientific Observation & Lab Safety: Applied structured observation, lab procedure safety standards, and analytical problem-solving techniques."
+    );
+  }
+  if (/life sciences|biology/.test(subjectText)) {
+    descriptions.push(
+      "Data Collection & Analysis: Practiced detailed record-keeping, biological safety principles, and structured data analysis."
+    );
+  }
+
+  // --- STREAM 5: AGRICULTURAL SCIENCES ---
+  if (/agricultural sciences|agricultural technology|agricultural management/.test(subjectText)) {
+    descriptions.push(
+      "Agricultural & Operational Research: Practical experience in environmental observation, equipment principles, and resource management projects."
+    );
+  }
+
+  // --- STREAM 6: MATHEMATICS & NUMERACY ---
   if (/technical mathematics|mathematics/.test(subjectText)) {
-    descriptions.push("Analytical Problem-Solving: Applied mathematical calculations to technical tasks and practical measurements.");
+    descriptions.push(
+      "Analytical Calculations: Applied mathematical formulas to practical workplace measurements, calculations, and spatial problem-solving."
+    );
   }
   if (/mathematical literacy/.test(subjectText)) {
-    descriptions.push("Practical Numeracy: Applied everyday math concepts to budgeting, stock counting, and measurements.");
+    descriptions.push(
+      "Cash Handling & Numeracy: Comfortable with everyday math calculations, stock sheets, till procedures, and basic budgeting."
+    );
   }
 
-  // --- HUMANITIES, RETAIL & HOSPITALITY ---
-  if (/consumer studies|hospitality studies|tourism/.test(subjectText)) {
-    descriptions.push("Customer Care & Quality Control: Practiced foundational principles of customer service, health/hygiene standards, and product quality.");
+  // --- STREAM 7: RETAIL, HOSPITALITY & HUMANITIES ---
+  if (/consumer studies|hospitality studies|tourism|dramatic arts/.test(subjectText)) {
+    descriptions.push(
+      "Sales & Service Etiquette: Learned basics of customer needs, service presentation, hygiene standards, and hospitality/tourism operations."
+    );
   }
-  if (/geography/.test(subjectText)) {
-    descriptions.push("Spatial & Logistics Awareness: Developed ability to interpret maps, route directions, and spatial data.");
-  }
-  if (/history/.test(subjectText)) {
-    descriptions.push("Information Analysis & Reporting: Practiced structured information gathering, fact checking, and clear written summaries.");
+  if (/geography|history|life orientation/.test(subjectText)) {
+    descriptions.push(
+      "Workplace Communication & Admin: Strong skills in active listening, structured record-keeping, and following operational guidelines."
+    );
   }
 
   // Default fallback if no specific subjects matched
   if (descriptions.length === 0) {
-    descriptions.push("Practical Workplace Readiness: Applied core educational concepts to problem-solving, team collaboration, and written communication.");
+    descriptions.push(
+      "Practical Workplace Readiness: Applied foundational concepts to team collaboration, problem-solving, and clear written communication."
+    );
   }
 
+  // Eliminate duplicates
   const uniqueDescriptions = [...new Set(descriptions)];
 
   return `
