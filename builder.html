@@ -2445,103 +2445,93 @@ function getFormData() {
 ========================================================= */
 
 function generateProfile(data = {}) {
-  // 1. Inputs Extraction & Defaults
+  // 1. Inputs & Extraction
   const rawGoal = String(data.careerGoal || "").trim();
   const school = String(data.institution || data.school || data.schoolName || "").trim();
   const year = String(data.educationYear || data.completionYear || "").trim();
   const location = String(data.location || data.city || "").trim();
   const hasNoExperience = data.experienceType === "no-experience";
+  const userConfirmedStrengths = String(data.strengths || "").trim();
 
-  // Force qualification fallback if school or year exists
-  let qualification = String(
-    data.qualification || data.educationQualification || ""
-  ).trim();
-
+  let qualification = String(data.qualification || data.educationQualification || "").trim();
   if (!qualification && (school || year)) {
     qualification = "National Senior Certificate (NSC / Matric)";
   }
 
-  // Normalize subjects array
   const subjectsInput = data.subjects || data.technicalSubjects || [];
   const subjectsList = Array.isArray(subjectsInput)
     ? subjectsInput.map((s) => String(s).toLowerCase())
     : String(subjectsInput).toLowerCase().split(",").map((s) => s.trim());
 
-  // 2. Stream Detection Logic
-  const isTechnical = subjectsList.some((s) =>
-    ["mechanical technology", "egd", "engineering graphics", "electrical technology", "civil technology", "technical mathematics", "technical sciences", "fitting and turning"].some((k) => s.includes(k))
-  );
+  // 2. Stream Detection (Exact Word Boundaries)
+  const hasSubject = (keywords) => {
+    return subjectsList.some((s) =>
+      keywords.some((k) => {
+        const re = new RegExp(`\\b${k.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`, "i");
+        return re.test(s) || s === k;
+      })
+    );
+  };
 
-  const isBusiness = subjectsList.some((s) =>
-    ["accounting", "business studies", "economics", "financial management", "entrepreneurship"].some((k) => s.includes(k))
-  );
+  const isTechnical = hasSubject([
+    "mechanical technology", "egd", "engineering graphics and design",
+    "electrical technology", "civil technology", "technical mathematics",
+    "technical sciences", "fitting and machining", "fitting and turning", "welding"
+  ]);
+  const isBusiness = hasSubject([
+    "accounting", "business studies", "economics", "financial management", "entrepreneurship"
+  ]);
+  const isIT = hasSubject([
+    "information technology", "computer applications technology", "cat", "computer science", "coding"
+  ]);
+  const isScience = hasSubject([
+    "physical sciences", "life sciences", "agricultural sciences", "physics", "chemistry", "biology"
+  ]);
+  const isRetailHumanities = hasSubject([
+    "consumer studies", "hospitality studies", "tourism", "mathematical literacy",
+    "geography", "history", "life orientation", "dramatic arts"
+  ]);
 
-  const isIT = subjectsList.some((s) =>
-    ["information technology", "computer applications technology", "cat", "coding", "computer science"].some((k) => s.includes(k))
-  );
-
-  const isScience = subjectsList.some((s) =>
-    ["physical sciences", "life sciences", "chemistry", "physics", "biology", "agricultural sciences"].some((k) => s.includes(k))
-  );
-
-  const isRetailHumanities = subjectsList.some((s) =>
-    ["consumer studies", "hospitality studies", "tourism", "mathematical literacy", "geography", "history"].some((k) => s.includes(k))
-  );
-
-  // 3. Goal & Stream Conflict Resolution
+  // 3. Goal Selection & Natural List Phrasing
   const goalLower = rawGoal.toLowerCase();
-  const isGoalMismatch =
-    (!rawGoal || goalLower === "general employment") ||
-    (isScience && (goalLower.includes("technical assistant") || goalLower.includes("workshop"))) ||
-    (isTechnical && (goalLower.includes("lab") || goalLower.includes("clerical"))) ||
-    (isBusiness && (goalLower.includes("workshop") || goalLower.includes("lab"))) ||
-    (isIT && (goalLower.includes("workshop") || goalLower.includes("lab")));
+  const isGeneralGoal = !rawGoal || goalLower === "general employment" || goalLower === "general worker";
 
-  let goalClean = rawGoal;
+  let goalSentence = "";
+  const locationText = location ? ` in ${location}` : "";
 
-  if (isGoalMismatch) {
-    if (isScience) goalClean = "Laboratory Assistant, Operations, or Technical Support";
-    else if (isTechnical) goalClean = "Technical Assistant, Workshop Support, or General Apprentice";
-    else if (isBusiness) goalClean = "Admin Assistant, Clerical Support, or Retail";
-    else if (isIT) goalClean = "Junior IT Support, Data Entry, or Systems Assistant";
-    else if (isRetailHumanities) goalClean = "Retail Assistant, Customer Service, or Hospitality Support";
-    else goalClean = "General Worker or Retail Assistant";
+  if (isGeneralGoal) {
+    if (isTechnical) {
+      goalSentence = `Seeking an entry-level opportunity in technical assistance, workshop support, or an apprenticeship${locationText}.`;
+    } else if (isIT) {
+      goalSentence = `Seeking an entry-level opportunity in IT support, data entry, or systems assistance${locationText}.`;
+    } else if (isBusiness) {
+      goalSentence = `Seeking an entry-level opportunity in administrative support, clerical work, or retail${locationText}.`;
+    } else if (isScience) {
+      goalSentence = `Seeking an entry-level opportunity in laboratory assistance, operations, or technical support${locationText}.`;
+    } else if (isRetailHumanities) {
+      goalSentence = `Seeking an entry-level opportunity in retail assistance, customer service, or hospitality support${locationText}.`;
+    } else {
+      goalSentence = `Seeking an entry-level position as a General Worker or Retail Assistant${locationText}.`;
+    }
+  } else {
+    // Determine proper indefinite article (a / an) for user-typed goals
+    const firstLetter = rawGoal.trim().charAt(0).toLowerCase();
+    const article = ["a", "e", "i", "o", "u"].includes(firstLetter) ? "an" : "a";
+    goalSentence = `Seeking ${article} ${rawGoal} role${locationText}.`;
   }
 
-  // 4. Stream-Specific Descriptions, Strengths & Closings
+  // 4. Academic Background Description
   let fieldDescription = "";
-  let defaultStrengths = "reliability, willingness to learn and attention to detail";
-  let closingStatement = hasNoExperience
-    ? "Eager to build on educational knowledge, develop practical workplace skills and contribute positively to a team."
-    : "Committed to applying existing skills, learning new procedures and contributing positively to the workplace.";
-
-  if (isScience) {
-    fieldDescription = " with a solid foundation in Physical, Life, and Agricultural Sciences";
-    defaultStrengths = "observation and analytical problem-solving, attention to detail, and willingness to learn laboratory procedures";
-    closingStatement = "Eager to apply scientific knowledge, develop practical lab skills and contribute positively to a team.";
-  } else if (isTechnical) {
-    fieldDescription = " with a strong foundation in Mechanical, Technical, and Workshop principles";
-    defaultStrengths = "practical problem-solving, workshop safety awareness, blueprint reading, and hand tool operation";
-    closingStatement = "Eager to apply technical knowledge, develop practical workshop skills and contribute positively to operational tasks.";
-  } else if (isBusiness) {
-    fieldDescription = " with a solid foundation in Commercial, Financial, and Business principles";
-    defaultStrengths = "numerical accuracy, organized record-keeping, financial discipline, and clear communication";
-    closingStatement = "Eager to apply commercial understanding, develop administrative skills and support business operations efficiently.";
-  } else if (isIT) {
-    fieldDescription = " with practical knowledge in Information Technology and Digital Literacy";
-    defaultStrengths = "digital troubleshooting, accurate data processing, software adaptability, and logical reasoning";
-    closingStatement = "Eager to apply IT skills, adapt to new systems and assist in efficient technical operations.";
-  } else if (isRetailHumanities) {
-    fieldDescription = " with a strong background in Practical Numeracy, Customer Awareness, and Service Principles";
-    defaultStrengths = "customer service orientation, practical numeracy, active listening, and strong workplace discipline";
-    closingStatement = "Eager to deliver excellent service, build operational knowledge and contribute positively to customer satisfaction.";
-  }
-
-  const strengths = String(data.strengths || defaultStrengths).trim();
+  if (isTechnical) fieldDescription = " with school-level knowledge of mechanical and technical concepts";
+  else if (isBusiness) fieldDescription = " with school-level knowledge of business and financial concepts";
+  else if (isIT) fieldDescription = " with school-level knowledge of computing and digital concepts";
+  else if (isScience) fieldDescription = " with school-level knowledge of scientific concepts";
+  else if (isRetailHumanities) fieldDescription = " with school-level knowledge of practical numeracy and customer service concepts";
 
   // 5. Construct Sentences
   const sentences = [];
 
+  // Sentence 1: Education & School Background
   if (qualification && school && year) {
     sentences.push(`Candidate with ${qualification} from ${school}, completed in ${year}${fieldDescription}.`);
   } else if (qualification && year) {
@@ -2554,10 +2544,34 @@ function generateProfile(data = {}) {
     sentences.push("Entry-level candidate seeking an opportunity to develop professionally.");
   }
 
-  const locationText = location ? ` in ${location}` : "";
-  sentences.push(`Seeking a ${goalClean} role${locationText}.`);
-  sentences.push(`Brings strengths in ${strengths}.`);
-  sentences.push(closingStatement);
+  // Sentence 2: Target Goal (Natural Phrasing)
+  sentences.push(goalSentence);
+
+  // Sentence 3: Strengths (ONLY if user supplied them; otherwise topic-focused subject fallback)
+  if (userConfirmedStrengths) {
+    sentences.push(`Key strengths include ${userConfirmedStrengths}.`);
+  } else {
+    if (isTechnical) {
+      sentences.push("School subjects include topics related to technical concepts and workshop safety.");
+    } else if (isBusiness) {
+      sentences.push("School subjects include topics related to financial concepts and business operations.");
+    } else if (isIT) {
+      sentences.push("School subjects include topics related to computer applications and digital information management.");
+    } else if (isScience) {
+      sentences.push("School subjects include topics related to scientific principles and laboratory concepts.");
+    } else if (isRetailHumanities) {
+      sentences.push("School subjects include topics related to practical numeracy and customer service principles.");
+    } else {
+      sentences.push("Motivated to learn, develop workplace skills, and contribute positively to a team.");
+    }
+  }
+
+  // Sentence 4: Closing Statement
+  if (hasNoExperience) {
+    sentences.push("Eager to build on educational knowledge, learn workplace procedures, and contribute positively to a team.");
+  } else {
+    sentences.push("Eager to apply relevant knowledge, learn workplace procedures, and contribute positively to a team.");
+  }
 
   return sentences.join(" ");
 }
