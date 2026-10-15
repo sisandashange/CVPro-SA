@@ -72,6 +72,34 @@
     }
     .error { background: #ffe8e8; color: #8b0000; }
     .success { background: #e6f7e9; color: #145c25; }
+    
+    /* Metrics Summary Bar */
+    .metrics-bar {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin: 16px 0;
+    }
+    .metric-card {
+      background: #fafafa;
+      border: 1px solid #e0e0e0;
+      border-radius: 9px;
+      padding: 12px 16px;
+    }
+    .metric-card span {
+      display: block;
+      font-size: 12px;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .metric-card strong {
+      font-size: 20px;
+      color: #111;
+      margin-top: 4px;
+      display: block;
+    }
+
     .order {
       border: 1px solid #ddd;
       border-radius: 9px;
@@ -93,6 +121,7 @@
       .header-inner { align-items: flex-start; flex-direction: column; }
       main { margin-top: 16px; }
       .panel { padding: 14px; }
+      .metrics-bar { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -102,7 +131,8 @@
     <h1>CVPro-SA | Owner Dashboard</h1>
     <button id="signOutButton" class="secondary hidden" type="button">Sign Out</button>
   </div>
-</header><main>
+</header>
+<main>
   <section id="loginPanel" class="panel">
     <h2>Owner Sign In</h2>
     <p class="muted">Sign in with the registered CVPro-SA owner account.</p>
@@ -114,10 +144,25 @@
       <button id="loginButton" type="submit">Sign In</button>
     </form>
     <div id="loginMessage" class="status" role="status">Enter your owner account details.</div>
-  </section>  <section id="dashboardPanel" class="hidden">
+  </section>
+
+  <section id="dashboardPanel" class="hidden">
     <div class="panel">
       <h2>Pending CV Purchases</h2>
       <p id="ownerEmail" class="muted"></p>
+      
+      <!-- Metrics Summary Bar -->
+      <div class="metrics-bar" id="metricsBar" style="display: none;">
+        <div class="metric-card">
+          <span>Pending Orders</span>
+          <strong id="metricCount">0</strong>
+        </div>
+        <div class="metric-card">
+          <span>Pending Revenue</span>
+          <strong id="metricRevenue">R0.00</strong>
+        </div>
+      </div>
+
       <div class="warning">
         <strong>Payment safety:</strong> Check your actual Capitec account and confirm that the full amount has arrived before approving an order. Never approve based only on a screenshot or customer-provided reference.
       </div>
@@ -127,7 +172,10 @@
       <div id="ordersList"></div>
     </div>
   </section>
-</main><footer>CVPro-SA · Private owner area</footer><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
+</main>
+<footer>CVPro-SA · Private owner area</footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
 "use strict";
 
 const SUPABASE_URL = "https://tnxlhpenttcynlmlohao.supabase.co";
@@ -146,6 +194,28 @@ const dashboardMessage = document.getElementById("dashboardMessage");
 const ordersList = document.getElementById("ordersList");
 const signOutButton = document.getElementById("signOutButton");
 const refreshButton = document.getElementById("refreshButton");
+const metricsBar = document.getElementById("metricsBar");
+const metricCount = document.getElementById("metricCount");
+const metricRevenue = document.getElementById("metricRevenue");
+
+// Idle timeout handling (15 minutes)
+let idleTimer = null;
+const IDLE_TIMEOUT_MS = 15 * 60 * 1000;
+
+function resetIdleTimer() {
+  clearTimeout(idleTimer);
+  if (!dashboardPanel.classList.contains("hidden")) {
+    idleTimer = setTimeout(async () => {
+      await supabaseClient.auth.signOut();
+      showLogin();
+      showMessage(loginMessage, "Signed out automatically due to 15 minutes of inactivity.", "error");
+    }, IDLE_TIMEOUT_MS);
+  }
+}
+
+["mousemove", "keydown", "click", "touchstart"].forEach(event => {
+  window.addEventListener(event, resetIdleTimer, { passive: true });
+});
 
 function showMessage(element, message, type = "") {
   element.textContent = message;
@@ -198,8 +268,6 @@ async function checkOwner() {
     return false;
   }
 
-  // The Edge Function independently checks owner registration.
-  // Never rely on the page UI alone to protect owner operations.
   const { data: owner, error: ownerError } = await supabaseClient
     .from("cv_owner_accounts")
     .select("user_id")
@@ -221,6 +289,7 @@ async function checkOwner() {
   dashboardPanel.classList.remove("hidden");
   signOutButton.classList.remove("hidden");
   document.getElementById("ownerEmail").textContent = "Signed in as " + user.email;
+  resetIdleTimer();
   await loadPendingOrders();
   return true;
 }
@@ -229,11 +298,13 @@ function showLogin() {
   loginPanel.classList.remove("hidden");
   dashboardPanel.classList.add("hidden");
   signOutButton.classList.add("hidden");
+  clearTimeout(idleTimer);
 }
 
 async function loadPendingOrders() {
   ordersList.replaceChildren();
   refreshButton.disabled = true;
+  metricsBar.style.display = "none";
   showMessage(dashboardMessage, "Loading pending orders…");
 
   try {
@@ -242,10 +313,21 @@ async function loadPendingOrders() {
 
     if (purchases.length === 0) {
       showMessage(dashboardMessage, "There are no pending purchases.");
+      metricCount.textContent = "0";
+      metricRevenue.textContent = "R0.00";
+      metricsBar.style.display = "grid";
       return;
     }
 
-    showMessage(dashboardMessage, `${purchases.length} pending purchase(s) found.`);
+    // Calculate metrics summary
+    const totalCount = purchases.length;
+    const totalRevenue = purchases.reduce((sum, p) => sum + Number(p.amount || 0), 0);
+
+    metricCount.textContent = totalCount;
+    metricRevenue.textContent = `R${totalRevenue.toFixed(2)}`;
+    metricsBar.style.display = "grid";
+
+    showMessage(dashboardMessage, `${totalCount} pending purchase(s) found.`);
 
     for (const purchase of purchases) {
       const card = document.createElement("article");
@@ -277,7 +359,7 @@ async function loadPendingOrders() {
         event.preventDefault();
 
         const form = event.currentTarget;
-        const button = form.querySelector("button");
+        const allCardButtons = ordersList.querySelectorAll("button");
         const message = card.querySelector(".approvalMessage");
         const transactionReference =
           new FormData(form).get("transaction_reference").toString().trim();
@@ -293,7 +375,9 @@ async function loadPendingOrders() {
 
         if (!confirmed) return;
 
-        button.disabled = true;
+        // Global lock on buttons during submission
+        allCardButtons.forEach(btn => btn.disabled = true);
+        refreshButton.disabled = true;
         showMessage(message, "Submitting approval…");
 
         try {
@@ -303,35 +387,37 @@ async function loadPendingOrders() {
           });
 
           if (
-  !approval.success ||
-  !approval.purchase ||
-  approval.purchase.payment_status !== "paid"
-) {
-  throw new Error(
-    approval.error ||
-    "Approval was not confirmed. The order has not been verified as paid."
-  );
-}
+            !approval.success ||
+            !approval.purchase ||
+            approval.purchase.payment_status !== "paid"
+          ) {
+            throw new Error(
+              approval.error ||
+              "Approval was not confirmed. The order has not been verified as paid."
+            );
+          }
 
-// Confirm that the server approved the correct order.
-if (approval.purchase.id !== purchase.id) {
-  throw new Error(
-    "The server returned a different order. Please refresh and check the order."
-  );
-}
+          if (approval.purchase.id !== purchase.id) {
+            throw new Error(
+              "The server returned a different order. Please refresh and check the order."
+            );
+          }
 
-// Refresh the pending list after confirmed approval.
-await loadPendingOrders();
+          await loadPendingOrders();
 
-// Show the success message outside the order cards.
-showMessage(
-  dashboardMessage,
-  `Order ${purchase.order_number} approved successfully. Refresh complete.`,
-  "success"
-);
+          showMessage(
+            dashboardMessage,
+            `Order ${purchase.order_number} approved successfully. Refresh complete.`,
+            "success"
+          );
+
+          // Shift focus back to refresh button for accessibility & navigation
+          refreshButton.focus();
+
         } catch (error) {
           showMessage(message, error.message || "Approval failed.", "error");
-          button.disabled = false;
+          allCardButtons.forEach(btn => btn.disabled = false);
+          refreshButton.disabled = false;
         }
       });
 
@@ -389,5 +475,6 @@ signOutButton.addEventListener("click", async () => {
     showLogin();
   }
 })();
-</script></body>
+</script>
+</body>
 </html>
