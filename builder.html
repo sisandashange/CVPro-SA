@@ -635,7 +635,7 @@
               <div id="previewSubjects"></div>
             </section>
 
-            <section class="cv-section">
+            <section class="cv-section" id="skillsSection">
               <h3>Skills</h3>
               <div id="previewSkills"></div>
             </section>
@@ -1357,6 +1357,56 @@ ${name}
     return `<div class="experience-item"><h3>Relevant School & Academic Learning</h3><p>Developed core foundational knowledge, discipline, and analytical problem-solving through secondary curriculum coursework.</p></div>`;
   }
 
+  function renderSubjectsPreview(subjects = []) {
+    const container = $("previewSubjects");
+    if (!container) return;
+    container.innerHTML = "";
+
+    if (!subjects.length) {
+      setSectionVisibility("subjectsSection", "");
+      return;
+    }
+
+    const group = document.createElement("div");
+    group.className = "cv-subject-group";
+
+    const list = document.createElement("ul");
+    list.className = "cv-subject-list";
+
+    subjects.forEach(sub => {
+      const li = document.createElement("li");
+      li.textContent = sub;
+      list.appendChild(li);
+    });
+
+    group.appendChild(list);
+    container.appendChild(group);
+    setSectionVisibility("subjectsSection", "Subjects selected");
+  }
+
+  function renderSkillsPreview(skills = []) {
+    const container = $("previewSkills");
+    if (!container) return;
+    container.innerHTML = "";
+
+    if (!skills.length) {
+      setSectionVisibility("skillsSection", "");
+      return;
+    }
+
+    const list = document.createElement("ul");
+    list.className = "cv-skill-list";
+
+    skills.forEach(skill => {
+      const li = document.createElement("li");
+      li.textContent = skill;
+      list.appendChild(li);
+    });
+
+    container.appendChild(list);
+    setSectionVisibility("skillsSection", "Skills selected");
+  }
+
   function updatePreview() {
     const data = getFormData();
     setText("previewName", data.fullName || "YOUR FULL NAME");
@@ -1368,22 +1418,8 @@ ${name}
     $("previewExperience").innerHTML = exp;
     setSectionVisibility("experienceSection", exp);
 
-    const skillsContainer = $("previewSkills");
-    skillsContainer.innerHTML = "";
-    if (data.skills.length) {
-      const heading = document.createElement("div");
-      heading.className = "cv-skill-heading";
-      heading.textContent = "Skills & Abilities";
-
-      const ul = document.createElement("ul");
-      ul.className = "cv-skill-list";
-      data.skills.forEach(s => {
-        const li = document.createElement("li");
-        li.textContent = s;
-        ul.appendChild(li);
-      });
-      skillsContainer.append(heading, ul);
-    }
+    renderSubjectsPreview(data.subjects);
+    renderSkillsPreview(data.skills);
 
     setText("previewLanguages", [data.languages.join(", "), data.languageProficiency].filter(Boolean).join(" · "));
     
