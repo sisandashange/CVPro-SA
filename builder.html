@@ -2445,16 +2445,17 @@ function getFormData() {
 ========================================================= */
 
 function generateProfile(data = {}) {
+  // 1. Inputs Extraction & Cleaning
   const strengths = String(
     data.strengths || "reliability, willingness to learn and attention to detail"
   ).trim();
 
-  const goal = String(
-    data.careerGoal || "entry-level employment"
+  const rawGoal = String(
+    data.careerGoal || ""
   ).trim();
 
   const school = String(
-    data.school || data.schoolName || ""
+    data.institution || data.school || data.schoolName || ""
   ).trim();
 
   const qualification = String(
@@ -2471,29 +2472,84 @@ function generateProfile(data = {}) {
 
   const hasNoExperience = data.experienceType === "no-experience";
 
-  const sentences = [];
+  // Process subjects into a clean lowercase array for subject-matching
+  const subjectsInput = data.subjects || data.technicalSubjects || [];
+  const subjectsList = Array.isArray(subjectsInput)
+    ? subjectsInput.map((s) => String(s).toLowerCase())
+    : String(subjectsInput).toLowerCase().split(",").map((s) => s.trim());
 
-  // 1. Education / Qualification
-  if (qualification && school && year) {
-    sentences.push(`Candidate with ${qualification} from ${school}, completed in ${year}.`);
-  } else if (qualification && year) {
-    sentences.push(`Candidate with ${qualification}, completed in ${year}.`);
-  } else if (qualification && school) {
-    sentences.push(`Candidate with ${qualification} from ${school}.`);
-  } else if (qualification) {
-    sentences.push(`Candidate with ${qualification}.`);
-  } else {
-    sentences.push("Entry-level candidate seeking an opportunity to develop professionally.");
+  // 2. Subject Detection Logic
+  const isTechnical = subjectsList.some((s) =>
+    ["mechanical technology", "egd", "engineering graphics", "electrical technology", "civil technology", "technical mathematics", "technical sciences", "fitting and turning"].some((keyword) => s.includes(keyword))
+  );
+
+  const isBusiness = subjectsList.some((s) =>
+    ["accounting", "business studies", "economics", "financial management"].some((keyword) => s.includes(keyword))
+  );
+
+  const isIT = subjectsList.some((s) =>
+    ["information technology", "computer applications technology", "cat", "coding", "computer science"].some((keyword) => s.includes(keyword))
+  );
+
+  const isScience = subjectsList.some((s) =>
+    ["physical sciences", "life sciences", "chemistry", "physics"].some((keyword) => s.includes(keyword))
+  );
+
+  // 3. Dynamic Goal Determination based on Subjects
+  let goalClean = rawGoal;
+  if (!goalClean || goalClean.toLowerCase() === "general employment") {
+    if (isTechnical) {
+      goalClean = "Technical Assistant, Workshop, or General Support";
+    } else if (isBusiness) {
+      goalClean = "Admin Assistant, Clerical, or Retail";
+    } else if (isIT) {
+      goalClean = "Junior IT Support, Data Entry, or Systems";
+    } else if (isScience) {
+      goalClean = "Lab Assistant, Operations, or Technical Support";
+    } else {
+      goalClean = "General Worker or Retail";
+    }
   }
 
-  // 2. Goal and Location
-  const locationText = location ? ` in ${location}` : "";
-  sentences.push(`Seeking a ${goal} role${locationText}.`);
+  const sentences = [];
 
-  // 3. Strengths
+  // 4. Education & Qualification Sentence with Field Context
+  let fieldDescription = "";
+  if (isTechnical) fieldDescription = " with a strong foundation in Mechanical and Technical principles";
+  else if (isBusiness) fieldDescription = " with a solid background in Commercial and Financial subjects";
+  else if (isIT) fieldDescription = " with practical knowledge in Information and Computer Technology";
+  else if (isScience) fieldDescription = " with a solid foundation in Physical and Life Sciences";
+
+  if (qualification && school && year) {
+    sentences.push(
+      `Candidate with ${qualification} from ${school}, completed in ${year}${fieldDescription}.`
+    );
+  } else if (qualification && year) {
+    sentences.push(
+      `Candidate with ${qualification}, completed in ${year}${fieldDescription}.`
+    );
+  } else if (qualification && school) {
+    sentences.push(
+      `Candidate with ${qualification} from ${school}${fieldDescription}.`
+    );
+  } else if (qualification) {
+    sentences.push(
+      `Candidate with ${qualification}${fieldDescription}.`
+    );
+  } else {
+    sentences.push(
+      "Entry-level candidate seeking an opportunity to develop professionally."
+    );
+  }
+
+  // 5. Target Job and Location
+  const locationText = location ? ` in ${location}` : "";
+  sentences.push(`Seeking a ${goalClean} role${locationText}.`);
+
+  // 6. Strengths
   sentences.push(`Brings strengths in ${strengths}.`);
 
-  // 4. Experience summary
+  // 7. Experience / Eagerness Summary
   if (hasNoExperience) {
     sentences.push(
       "Eager to build on educational knowledge, develop practical workplace skills and contribute positively to a team."
@@ -2506,6 +2562,7 @@ function generateProfile(data = {}) {
 
   return sentences.join(" ");
 }
+
 
 
 /* =========================================================
