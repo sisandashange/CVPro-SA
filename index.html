@@ -1,14 +1,16 @@
-<!DOCTYPE html>  <html lang="en">  
+<!DOCTYPE html>  
+<html lang="en">  
 <head>  
   <meta charset="UTF-8">  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">  
   <meta name="theme-color" content="#111111">  
-  <meta name="description" content="Create and save a professional CV online with CVPro-SA. Choose Classic or Modern CV templates.">  
-  <title>CVPro-SA | Professional CV Builder</title>    <style>  
+  <meta name="description" content="Create and save a professional CV and tailored cover letter online with CVPro-SA. Choose Classic, Modern, or Cover Letter packages.">  
+  <title>CVPro-SA | Professional CV & Cover Letter Builder</title>    
+  <style>  
     * {  
       box-sizing: border-box;  
     }  
-  
+
     :root {  
       --black: #111111;  
       --white: #ffffff;  
@@ -17,7 +19,7 @@
       --border: #e5e5e5;  
       --green: #18794e;  
     }  
-  
+
     body {  
       margin: 0;  
       font-family: Arial, Helvetica, sans-serif;  
@@ -25,13 +27,13 @@
       color: var(--black);  
       line-height: 1.6;  
     }  
-  
+
     header {  
       background: var(--black);  
       color: var(--white);  
       padding: 16px 20px;  
     }  
-  
+
     .nav {  
       max-width: 1100px;  
       margin: auto;  
@@ -40,7 +42,7 @@
       justify-content: space-between;  
       gap: 16px;  
     }  
-  
+
     .logo {  
       color: var(--white);  
       font-size: 23px;  
@@ -48,7 +50,7 @@
       letter-spacing: -0.7px;  
       text-decoration: none;  
     }  
-  
+
     .nav-button {  
       display: inline-block;  
       padding: 10px 16px;  
@@ -59,20 +61,20 @@
       font-size: 14px;  
       font-weight: 700;  
     }  
-  
+
     main {  
       max-width: 1100px;  
       margin: auto;  
       padding: 28px 20px 55px;  
     }  
-  
+
     .hero {  
       background: var(--light);  
       border-radius: 18px;  
       padding: 48px 25px;  
       text-align: center;  
     }  
-  
+
     .badge {  
       display: inline-block;  
       padding: 6px 12px;  
@@ -82,7 +84,7 @@
       font-weight: 700;  
       letter-spacing: 0.5px;  
     }  
-  
+
     h1 {  
       max-width: 720px;  
       margin: 18px auto 12px;  
@@ -90,14 +92,14 @@
       line-height: 1.12;  
       letter-spacing: -1.5px;  
     }  
-  
+
     .hero p {  
       max-width: 600px;  
       margin: 0 auto 24px;  
       color: #555555;  
       font-size: 17px;  
     }  
-  
+
     .primary-button {  
       display: inline-block;  
       padding: 14px 22px;  
@@ -110,43 +112,66 @@
       font-weight: 700;  
       cursor: pointer;  
     }  
-  
+
     .section-heading {  
       margin: 42px 0 8px;  
       text-align: center;  
       font-size: 28px;  
       line-height: 1.25;  
     }  
-  
+
     .section-description {  
       margin: 0 auto 25px;  
       max-width: 600px;  
       color: var(--grey);  
       text-align: center;  
     }  
-  
+
     .templates {  
       display: grid;  
-      grid-template-columns: repeat(2, minmax(0, 1fr));  
+      grid-template-columns: repeat(3, minmax(0, 1fr));  
       gap: 20px;  
     }  
-  
+
     .template-card {  
       overflow: hidden;  
       border: 1px solid var(--border);  
       border-radius: 14px;  
       background: #ffffff;  
+      display: flex;  
+      flex-direction: column;  
+      justify-content: space-between;  
     }  
-  
+
+    .template-card.popular {  
+      border: 2px solid var(--black);  
+      position: relative;  
+    }  
+
+    .template-card.popular::before {  
+      content: "POPULAR";  
+      position: absolute;  
+      top: 10px;  
+      right: 10px;  
+      background: var(--black);  
+      color: var(--white);  
+      font-size: 9px;  
+      font-weight: 800;  
+      padding: 3px 8px;  
+      border-radius: 10px;  
+      letter-spacing: 0.5px;  
+      z-index: 10;  
+    }  
+
     .preview-area {  
-      min-height: 250px;  
+      min-height: 230px;  
       padding: 22px;  
       background: #eeeeee;  
       display: flex;  
       justify-content: center;  
       align-items: center;  
     }  
-  
+
     .paper {  
       width: 165px;  
       min-height: 210px;  
@@ -156,129 +181,141 @@
       font-size: 7px;  
       line-height: 1.5;  
     }  
-  
+
     .paper h3 {  
       margin: 0;  
       font-size: 13px;  
       line-height: 1.4;  
     }  
-  
+
     .paper .paper-subtitle {  
       margin: 2px 0 10px;  
       color: #555555;  
       font-size: 7px;  
     }  
-  
+
     .paper hr {  
       border: 0;  
       border-top: 1px solid #222222;  
       margin: 8px 0;  
     }  
-  
+
     .paper h4 {  
       margin: 8px 0 3px;  
       font-size: 7px;  
       text-transform: uppercase;  
     }  
-  
+
     .paper-line {  
       height: 3px;  
       margin: 4px 0;  
       background: #dddddd;  
     }  
-  
+
     .paper-line.short {  
       width: 65%;  
     }  
-  
+
     .modern-paper {  
       display: grid;  
       grid-template-columns: 36% 64%;  
       padding: 0;  
       overflow: hidden;  
     }  
-  
+
     .modern-side {  
       padding: 15px 8px;  
       background: #222222;  
       color: #ffffff;  
     }  
-  
+
     .modern-main {  
       padding: 15px 9px;  
     }  
-  
+
     .modern-side .paper-line {  
       background: #777777;  
     }  
-  
+
     .modern-side h4 {  
       color: #ffffff;  
     }  
-  
+
     .card-content {  
       padding: 20px;  
+      display: flex;  
+      flex-direction: column;  
+      justify-content: space-between;  
+      flex-grow: 1;  
     }  
-  
+
     .card-top {  
       display: flex;  
       justify-content: space-between;  
       align-items: center;  
       gap: 10px;  
     }  
-  
+
     .card-top h3 {  
       margin: 0;  
-      font-size: 21px;  
+      font-size: 19px;  
     }  
-  
+
     .price {  
-      font-size: 22px;  
+      font-size: 20px;  
       font-weight: 800;  
       white-space: nowrap;  
     }  
-  
+
     .card-content p {  
       color: var(--grey);  
-      font-size: 14px;  
+      font-size: 13px;  
+      margin: 10px 0;  
     }  
-  
+
     .features {  
-      padding-left: 19px;  
-      margin: 15px 0 20px;  
-      font-size: 14px;  
+      padding-left: 17px;  
+      margin: 10px 0 20px;  
+      font-size: 13px;  
     }  
-  
+
     .features li {  
       margin-bottom: 5px;  
     }  
-  
+
     .select-button {  
       display: block;  
       width: 100%;  
-      padding: 13px;  
+      padding: 12px;  
       border: 1px solid var(--black);  
       border-radius: 8px;  
       background: var(--black);  
       color: var(--white);  
-      font-size: 15px;  
+      font-size: 14px;  
       font-weight: 700;  
       cursor: pointer;  
+      text-align: center;  
+      text-decoration: none;  
     }  
-  
+
+    .select-button.accent {
+      background: #18794e;
+      border-color: #18794e;
+    }
+
     .steps {  
       display: grid;  
       grid-template-columns: repeat(3, minmax(0, 1fr));  
       gap: 16px;  
       margin-top: 25px;  
     }  
-  
+
     .step {  
       padding: 20px;  
       border: 1px solid var(--border);  
       border-radius: 12px;  
     }  
-  
+
     .step-number {  
       display: inline-flex;  
       width: 34px;  
@@ -290,18 +327,18 @@
       color: var(--white);  
       font-weight: 700;  
     }  
-  
+
     .step h3 {  
       margin: 12px 0 5px;  
       font-size: 17px;  
     }  
-  
+
     .step p {  
       margin: 0;  
       color: var(--grey);  
       font-size: 14px;  
     }  
-  
+
     .notice {  
       margin-top: 30px;  
       padding: 18px;  
@@ -311,7 +348,7 @@
       color: #444444;  
       font-size: 14px;  
     }  
-  
+
     footer {  
       padding: 25px 20px;  
       background: var(--black);  
@@ -319,214 +356,249 @@
       text-align: center;  
       font-size: 13px;  
     }  
-  
+
     footer p {  
       margin: 4px 0;  
     }  
-  
+
+    @media (max-width: 850px) {  
+      .templates {  
+        grid-template-columns: 1fr;  
+      }
+    }
+
     @media (max-width: 650px) {  
       main {  
         padding: 18px 14px 40px;  
       }  
-  
+
       .hero {  
         padding: 35px 18px;  
       }  
-  
-      .templates,  
+
       .steps {  
         grid-template-columns: 1fr;  
       }  
-  
+
       .section-heading {  
         font-size: 25px;  
       }  
-  
+
       .preview-area {  
-        min-height: 235px;  
+        min-height: 210px;  
       }  
-  
+
       .nav-button {  
         padding: 8px 11px;  
       }  
     }  
-  </style>  </head>  <body>  
+  </style>  
+</head>  
+<body>  
   <header>  
     <nav class="nav">  
       <a class="logo" href="./">CVPro-SA</a>  
-      <a class="nav-button" href="#templates">Choose a CV</a>  
+      <a class="nav-button" href="#templates">Choose a Package</a>  
     </nav>  
-  </header>    <main>  
+  </header>    
+
+  <main>  
     <section class="hero">  
-      <span class="badge">SIMPLE · PROFESSIONAL · MOBILE-FRIENDLY</span>  <h1>Create a CV that helps you stand out.</h1>  
+      <span class="badge">100% HONEST · MATRICULANT-FRIENDLY · MOBILE-READY</span>  
+      <h1>Create a CV & Cover Letter that helps you stand out.</h1>  
+      <p>  
+        Build a professional, honest CV and automated tailored cover letter from your phone, 
+        and keep your documents securely saved to your account.  
+      </p>  
+      <a class="primary-button" href="#templates">Explore Packages & Pricing</a>  
+    </section>  
 
-  <p>  
-    Build a professional CV from your phone, choose a design,  
-    and keep your purchased CV saved to your account.  
-  </p>  
+    <section id="templates">  
+      <h2 class="section-heading">Choose Your CV or Cover Letter Package</h2>  
+      <p class="section-description">  
+        Select the option that suits your application needs. Each purchase unlocks documents 
+        that you can edit and download again whenever you need them.  
+      </p>  
 
-  <a class="primary-button" href="#templates">Explore CV Templates</a>  
-</section>  
-
-<section id="templates">  
-  <h2 class="section-heading">Choose Your CV Template</h2>  
-
-  <p class="section-description">  
-    Choose the design that suits you. Each purchase unlocks one CV  
-    that you can edit and download again whenever you need it.  
-  </p>  
-
-  <div class="templates">  
-    <article class="template-card">  
-      <div class="preview-area">  
-        <div class="paper">  
-          <h3>YOUR NAME</h3>  
-          <div class="paper-subtitle">Professional CV</div>  
-          <hr>  
-          <h4>Personal Profile</h4>  
-          <div class="paper-line"></div>  
-          <div class="paper-line"></div>  
-          <div class="paper-line short"></div>  
-          <h4>Education</h4>  
-          <div class="paper-line"></div>  
-          <div class="paper-line short"></div>  
-          <h4>Skills</h4>  
-          <div class="paper-line"></div>  
-          <div class="paper-line"></div>  
-          <h4>Experience</h4>  
-          <div class="paper-line"></div>  
-          <div class="paper-line short"></div>  
-        </div>  
-      </div>  
-
-      <div class="card-content">  
-        <div class="card-top">  
-          <h3>Classic CV</h3>  
-          <span class="price">R15</span>  
-        </div>  
-
-        <p>A clean, traditional design suitable for many job applications.</p>  
-
-        <ul class="features">  
-          <li>Simple black-and-white layout</li>  
-          <li>Clear sections and easy readability</li>  
-          <li>One CV per purchase</li>  
-        </ul>  
-
-        <button class="select-button" data-template="classic">  
-          Choose Classic — R15  
-        </button>  
-      </div>  
-    </article>  
-
-    <article class="template-card">  
-      <div class="preview-area">  
-        <div class="paper modern-paper">  
-          <div class="modern-side">  
-            <h4>Contact</h4>  
-            <div class="paper-line"></div>  
-            <div class="paper-line"></div>  
-            <h4>Skills</h4>  
-            <div class="paper-line"></div>  
-            <div class="paper-line"></div>  
-            <div class="paper-line short"></div>  
+      <div class="templates">  
+        <!-- Classic CV Package -->  
+        <article class="template-card">  
+          <div class="preview-area">  
+            <div class="paper">  
+              <h3>YOUR NAME</h3>  
+              <div class="paper-subtitle">Professional CV</div>  
+              <hr>  
+              <h4>Personal Profile</h4>  
+              <div class="paper-line"></div>  
+              <div class="paper-line"></div>  
+              <div class="paper-line short"></div>  
+              <h4>Education</h4>  
+              <div class="paper-line"></div>  
+              <div class="paper-line short"></div>  
+              <h4>Skills</h4>  
+              <div class="paper-line"></div>  
+              <div class="paper-line"></div>  
+            </div>  
           </div>  
 
-          <div class="modern-main">  
-            <h3>YOUR NAME</h3>  
-            <div class="paper-subtitle">Professional CV</div>  
-            <hr>  
-            <h4>Profile</h4>  
-            <div class="paper-line"></div>  
-            <div class="paper-line"></div>  
-            <h4>Education</h4>  
-            <div class="paper-line"></div>  
-            <div class="paper-line short"></div>  
-            <h4>Experience</h4>  
-            <div class="paper-line"></div>  
-            <div class="paper-line short"></div>  
+          <div class="card-content">  
+            <div>  
+              <div class="card-top">  
+                <h3>Classic CV</h3>  
+                <span class="price">R15</span>  
+              </div>  
+              <p>A clean, traditional design suitable for general job applications.</p>  
+              <ul class="features">  
+                <li>Traditional black-and-white layout</li>  
+                <li>Factual academic learning highlights</li>  
+                <li>Instant PDF download</li>  
+              </ul>  
+            </div>  
+            <button class="select-button" data-template="classic">  
+              Choose Classic CV — R15  
+            </button>  
           </div>  
-        </div>  
+        </article>  
+
+        <!-- Modern CV + Cover Letter Package (Popular) -->  
+        <article class="template-card popular">  
+          <div class="preview-area">  
+            <div class="paper modern-paper">  
+              <div class="modern-side">  
+                <h4>Contact</h4>  
+                <div class="paper-line"></div>  
+                <div class="paper-line"></div>  
+                <h4>Skills</h4>  
+                <div class="paper-line"></div>  
+                <div class="paper-line short"></div>  
+              </div>  
+              <div class="modern-main">  
+                <h3>YOUR NAME</h3>  
+                <div class="paper-subtitle">Professional CV</div>  
+                <hr>  
+                <h4>Profile</h4>  
+                <div class="paper-line"></div>  
+                <div class="paper-line"></div>  
+                <h4>Cover Letter</h4>  
+                <div class="paper-line"></div>  
+                <div class="paper-line short"></div>  
+              </div>  
+            </div>  
+          </div>  
+
+          <div class="card-content">  
+            <div>  
+              <div class="card-top">  
+                <h3>Modern + Cover Letter</h3>  
+                <span class="price">R30</span>  
+              </div>  
+              <p>Our complete job hunter bundle featuring the modern layout and a tailored cover letter.</p>  
+              <ul class="features">  
+                <li>Sleek Modern two-column layout</li>  
+                <li><strong>Automated Tailored Cover Letter</strong></li>  
+                <li>Advanced subject disambiguation</li>  
+                <li>Instant PDF download & lifetime edits</li>  
+              </ul>  
+            </div>  
+            <button class="select-button accent" data-template="modern">  
+              Choose Bundle — R30  
+            </button>  
+          </div>  
+        </article>  
+
+        <!-- Cover Letter Only Package -->  
+        <article class="template-card">  
+          <div class="preview-area">  
+            <div class="paper" style="padding: 12px;">  
+              <h3>DEAR MANAGER,</h3>  
+              <hr style="margin: 4px 0;">  
+              <div class="paper-line"></div>  
+              <div class="paper-line"></div>  
+              <div class="paper-line"></div>  
+              <div class="paper-line short"></div>  
+              <br>  
+              <div class="paper-line"></div>  
+              <div class="paper-line short"></div>  
+            </div>  
+          </div>  
+
+          <div class="card-content">  
+            <div>  
+              <div class="card-top">  
+                <h3>Cover Letter Only</h3>  
+                <span class="price">R15</span>  
+              </div>  
+              <p>A professionally generated cover letter matched to your exact career goals.</p>  
+              <ul class="features">  
+                <li>Tailored to your target job role</li>  
+                <li>Highlights your matric and coursework</li>  
+                <li>Ready to email to recruiters</li>  
+              </ul>  
+            </div>  
+            <button class="select-button" data-template="cover-letter">  
+              Choose Cover Letter — R15  
+            </button>  
+          </div>  
+        </article>  
+      </div>  
+    </section>  
+
+    <section>  
+      <h2 class="section-heading">How CVPro-SA Works</h2>  
+      <p class="section-description">  
+        A straightforward process from choosing your template to downloading your documents.  
+      </p>  
+
+      <div class="steps">  
+        <article class="step">  
+          <span class="step-number">1</span>  
+          <h3>Create an account</h3>  
+          <p>Register and confirm your email before signing in.</p>  
+        </article>  
+
+        <article class="step">  
+          <span class="step-number">2</span>  
+          <h3>Choose and pay</h3>  
+          <p>Select your preferred CV or cover letter package and complete payment.</p>  
+        </article>  
+
+        <article class="step">  
+          <span class="step-number">3</span>  
+          <h3>Build and download</h3>  
+          <p>Once approved, edit, save, and download your professional documents anytime.</p>  
+        </article>  
       </div>  
 
-      <div class="card-content">  
-        <div class="card-top">  
-          <h3>Modern CV</h3>  
-          <span class="price">R25</span>  
-        </div>  
-
-        <p>A contemporary two-column design with a stronger visual style.</p>  
-
-        <ul class="features">  
-          <li>Distinctive sidebar layout</li>  
-          <li>Organised skills and contact details</li>  
-          <li>One CV per purchase</li>  
-        </ul>  
-
-        <button class="select-button" data-template="modern">  
-          Choose Modern — R25  
-        </button>  
+      <div class="notice">  
+        <strong>Payment security:</strong>  
+        Access is unlocked after payment confirmation. Your order reference helps identify your payment. 
+        Do not transfer money until official payment instructions are available on your account dashboard.  
       </div>  
-    </article>  
-  </div>  
-</section>  
+    </section>  
+  </main>    
 
-<section>  
-  <h2 class="section-heading">How CVPro-SA Works</h2>  
-
-  <p class="section-description">  
-    A straightforward process from choosing a template to downloading your CV.  
-  </p>  
-
-  <div class="steps">  
-    <article class="step">  
-      <span class="step-number">1</span>  
-      <h3>Create an account</h3>  
-      <p>Register and confirm your email before signing in.</p>  
-    </article>  
-
-    <article class="step">  
-      <span class="step-number">2</span>  
-      <h3>Choose and pay</h3>  
-      <p>Choose one template and follow the payment instructions for your order.</p>  
-    </article>  
-
-    <article class="step">  
-      <span class="step-number">3</span>  
-      <h3>Build your CV</h3>  
-      <p>Once your payment is verified and approved, edit, save and download your CV.</p>  
-    </article>  
-  </div>  
-
-  <div class="notice">  
-    <strong>Payment security:</strong>  
-    CV access is only unlocked after the owner confirms receipt of payment.  
-    Your order reference helps identify your payment. Do not transfer money  
-    until the official payment instructions and account details are available  
-    on this website.  
-  </div>  
-</section>
-
-  </main>    <footer>  
+  <footer>  
     <p><strong>CVPro-SA</strong></p>  
-    <p>Professional CVs made simple.</p>  
+    <p>Professional, honest CVs and cover letters made simple.</p>  
     <p>&copy; <span id="year"></span> CVPro-SA. All rights reserved.</p>  
-  </footer>    <script>  
-    document.getElementById("year").textContent =  
-      new Date().getFullYear();  
-  
+  </footer>    
+
+  <script>  
+    document.getElementById("year").textContent = new Date().getFullYear();  
+
     document.querySelectorAll("[data-template]").forEach((button) => {
-  button.addEventListener("click", () => {
-    const template = button.dataset.template;
+      button.addEventListener("click", () => {
+        const template = button.dataset.template;
 
-    // Remember the selected template while the customer signs in.
-    sessionStorage.setItem("cvpro_selected_template", template);
+        // Remember the selected template/product while the customer signs in.
+        sessionStorage.setItem("cvpro_selected_template", template);
 
-    // Continue to the existing account page.
-    window.location.href =
-      "./account.html?template=" +
-      encodeURIComponent(template);
-  });
-});
-  </script>  </body>  
+        // Continue to the account page with the selection.
+        window.location.href =
+          "./account.html?template=" +
+          encodeURIComponent(template);
+      });
+    });
+  </script>  
+</body>  
 </html>
