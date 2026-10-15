@@ -4,7 +4,7 @@
   <meta charset="UTF-8">  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">  
   <meta name="theme-color" content="#111111">  
-  <meta name="description" content="Create and save a professional CV and tailored cover letter online with CVPro-SA. Choose Classic, Modern, or Cover Letter packages.">  
+  <meta name="description" content="Create and save a professional CV and tailored cover letter online with CVPro-SA.">  
   <title>CVPro-SA | Professional CV & Cover Letter Builder</title>    
   <style>  
     * {  
@@ -129,7 +129,7 @@
 
     .templates {  
       display: grid;  
-      grid-template-columns: repeat(3, minmax(0, 1fr));  
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));  
       gap: 20px;  
     }  
 
@@ -149,7 +149,7 @@
     }  
 
     .template-card.popular::before {  
-      content: "POPULAR";  
+      content: "BEST VALUE";  
       position: absolute;  
       top: 10px;  
       right: 10px;  
@@ -164,7 +164,7 @@
     }  
 
     .preview-area {  
-      min-height: 230px;  
+      min-height: 220px;  
       padding: 22px;  
       background: #eeeeee;  
       display: flex;  
@@ -258,7 +258,7 @@
 
     .card-top h3 {  
       margin: 0;  
-      font-size: 19px;  
+      font-size: 18px;  
     }  
 
     .price {  
@@ -361,35 +361,18 @@
       margin: 4px 0;  
     }  
 
-    @media (max-width: 850px) {  
-      .templates {  
-        grid-template-columns: 1fr;  
-      }
-    }
-
     @media (max-width: 650px) {  
       main {  
         padding: 18px 14px 40px;  
       }  
-
       .hero {  
         padding: 35px 18px;  
       }  
-
       .steps {  
         grid-template-columns: 1fr;  
       }  
-
       .section-heading {  
         font-size: 25px;  
-      }  
-
-      .preview-area {  
-        min-height: 210px;  
-      }  
-
-      .nav-button {  
-        padding: 8px 11px;  
       }  
     }  
   </style>  
@@ -398,7 +381,7 @@
   <header>  
     <nav class="nav">  
       <a class="logo" href="./">CVPro-SA</a>  
-      <a class="nav-button" href="#templates">Choose a Package</a>  
+      <a class="nav-button" href="#templates">Choose Package</a>  
     </nav>  
   </header>    
 
@@ -410,34 +393,30 @@
         Build a professional, honest CV and automated tailored cover letter from your phone, 
         and keep your documents securely saved to your account.  
       </p>  
-      <a class="primary-button" href="#templates">Explore Packages & Pricing</a>  
+      <a class="primary-button" href="#templates">View Prices & Packages</a>  
     </section>  
 
     <section id="templates">  
-      <h2 class="section-heading">Choose Your CV or Cover Letter Package</h2>  
+      <h2 class="section-heading">Choose Your Package</h2>  
       <p class="section-description">  
-        Select the option that suits your application needs. Each purchase unlocks documents 
-        that you can edit and download again whenever you need them.  
+        Select a standalone document or get a money-saving bundle. Each purchase unlocks documents 
+        you can edit and download anytime.  
       </p>  
 
       <div class="templates">  
-        <!-- Classic CV Package -->  
+        <!-- 1. Classic CV Alone -->  
         <article class="template-card">  
           <div class="preview-area">  
             <div class="paper">  
               <h3>YOUR NAME</h3>  
-              <div class="paper-subtitle">Professional CV</div>  
+              <div class="paper-subtitle">Classic CV</div>  
               <hr>  
-              <h4>Personal Profile</h4>  
+              <h4>Profile</h4>  
               <div class="paper-line"></div>  
               <div class="paper-line"></div>  
-              <div class="paper-line short"></div>  
               <h4>Education</h4>  
               <div class="paper-line"></div>  
               <div class="paper-line short"></div>  
-              <h4>Skills</h4>  
-              <div class="paper-line"></div>  
-              <div class="paper-line"></div>  
             </div>  
           </div>  
 
@@ -447,10 +426,10 @@
                 <h3>Classic CV</h3>  
                 <span class="price">R15</span>  
               </div>  
-              <p>A clean, traditional design suitable for general job applications.</p>  
+              <p>Traditional clean layout suited for general job applications.</p>  
               <ul class="features">  
-                <li>Traditional black-and-white layout</li>  
-                <li>Factual academic learning highlights</li>  
+                <li>Classic single-page CV format</li>  
+                <li>Factual school learning highlights</li>  
                 <li>Instant PDF download</li>  
               </ul>  
             </div>  
@@ -460,26 +439,19 @@
           </div>  
         </article>  
 
-        <!-- Modern CV + Cover Letter Package (Popular) -->  
-        <article class="template-card popular">  
+        <!-- 2. Modern CV Alone -->  
+        <article class="template-card">  
           <div class="preview-area">  
             <div class="paper modern-paper">  
               <div class="modern-side">  
                 <h4>Contact</h4>  
                 <div class="paper-line"></div>  
-                <div class="paper-line"></div>  
-                <h4>Skills</h4>  
-                <div class="paper-line"></div>  
-                <div class="paper-line short"></div>  
               </div>  
               <div class="modern-main">  
                 <h3>YOUR NAME</h3>  
-                <div class="paper-subtitle">Professional CV</div>  
+                <div class="paper-subtitle">Modern CV</div>  
                 <hr>  
                 <h4>Profile</h4>  
-                <div class="paper-line"></div>  
-                <div class="paper-line"></div>  
-                <h4>Cover Letter</h4>  
                 <div class="paper-line"></div>  
                 <div class="paper-line short"></div>  
               </div>  
@@ -489,34 +461,29 @@
           <div class="card-content">  
             <div>  
               <div class="card-top">  
-                <h3>Modern + Cover Letter</h3>  
-                <span class="price">R30</span>  
+                <h3>Modern CV</h3>  
+                <span class="price">R25</span>  
               </div>  
-              <p>Our complete job hunter bundle featuring the modern layout and a tailored cover letter.</p>  
+              <p>A contemporary two-column design with a stronger visual style.</p>  
               <ul class="features">  
-                <li>Sleek Modern two-column layout</li>  
-                <li><strong>Automated Tailored Cover Letter</strong></li>  
-                <li>Advanced subject disambiguation</li>  
-                <li>Instant PDF download & lifetime edits</li>  
+                <li>Distinctive sidebar layout</li>  
+                <li>Organized skills & contact details</li>  
+                <li>Instant PDF download</li>  
               </ul>  
             </div>  
-            <button class="select-button accent" data-template="modern">  
-              Choose Bundle — R30  
+            <button class="select-button" data-template="modern">  
+              Choose Modern CV — R25  
             </button>  
           </div>  
         </article>  
 
-        <!-- Cover Letter Only Package -->  
+        <!-- 3. Cover Letter Alone -->  
         <article class="template-card">  
           <div class="preview-area">  
             <div class="paper" style="padding: 12px;">  
               <h3>DEAR MANAGER,</h3>  
               <hr style="margin: 4px 0;">  
               <div class="paper-line"></div>  
-              <div class="paper-line"></div>  
-              <div class="paper-line"></div>  
-              <div class="paper-line short"></div>  
-              <br>  
               <div class="paper-line"></div>  
               <div class="paper-line short"></div>  
             </div>  
@@ -528,15 +495,84 @@
                 <h3>Cover Letter Only</h3>  
                 <span class="price">R15</span>  
               </div>  
-              <p>A professionally generated cover letter matched to your exact career goals.</p>  
+              <p>A professionally generated cover letter matched to your target job goal.</p>  
               <ul class="features">  
-                <li>Tailored to your target job role</li>  
-                <li>Highlights your matric and coursework</li>  
+                <li>Tailored to your career choice</li>  
+                <li>Highlights matric and subjects</li>  
                 <li>Ready to email to recruiters</li>  
               </ul>  
             </div>  
             <button class="select-button" data-template="cover-letter">  
               Choose Cover Letter — R15  
+            </button>  
+          </div>  
+        </article>  
+
+        <!-- 4. Classic CV + Cover Letter Bundle -->  
+        <article class="template-card">  
+          <div class="preview-area">  
+            <div class="paper">  
+              <h3>CLASSIC CV + LETTER</h3>  
+              <div class="paper-subtitle">Complete Bundle</div>  
+              <hr>  
+              <div class="paper-line"></div>  
+              <div class="paper-line"></div>  
+              <div class="paper-line short"></div>  
+            </div>  
+          </div>  
+
+          <div class="card-content">  
+            <div>  
+              <div class="card-top">  
+                <h3>Classic + Cover Letter</h3>  
+                <span class="price">R30</span>  
+              </div>  
+              <p>Get both the Classic CV layout and a tailored cover letter together.</p>  
+              <ul class="features">  
+                <li>Classic CV Template included</li>  
+                <li>Automated Tailored Cover Letter</li>  
+                <li>Instant PDF downloads</li>  
+              </ul>  
+            </div>  
+            <button class="select-button" data-template="classic-bundle">  
+              Choose Classic Bundle — R30  
+            </button>  
+          </div>  
+        </article>  
+
+        <!-- 5. Modern CV + Cover Letter Bundle (Best Value) -->  
+        <article class="template-card popular">  
+          <div class="preview-area">  
+            <div class="paper modern-paper">  
+              <div class="modern-side">  
+                <h4>Bundle</h4>  
+                <div class="paper-line"></div>  
+              </div>  
+              <div class="modern-main">  
+                <h3>MODERN + LETTER</h3>  
+                <div class="paper-subtitle">Best Value</div>  
+                <hr>  
+                <div class="paper-line"></div>  
+                <div class="paper-line short"></div>  
+              </div>  
+            </div>  
+          </div>  
+
+          <div class="card-content">  
+            <div>  
+              <div class="card-top">  
+                <h3>Modern + Cover Letter</h3>  
+                <span class="price">R40</span>  
+              </div>  
+              <p>Our complete top-tier application bundle for maximum job hunt success.</p>  
+              <ul class="features">  
+                <li>Sleek Modern CV Template</li>  
+                <li>Automated Tailored Cover Letter</li>  
+                <li>Instant PDF downloads & edits</li>  
+              </ul>  
+            </div>  
+            <button class="select-button accent" data-template="modern-bundle">  
+              Choose Modern Bundle — R40  
             </button>  
           </div>  
         </article>  
@@ -546,7 +582,7 @@
     <section>  
       <h2 class="section-heading">How CVPro-SA Works</h2>  
       <p class="section-description">  
-        A straightforward process from choosing your template to downloading your documents.  
+        A straightforward process from choosing your package to downloading your documents.  
       </p>  
 
       <div class="steps">  
@@ -559,7 +595,7 @@
         <article class="step">  
           <span class="step-number">2</span>  
           <h3>Choose and pay</h3>  
-          <p>Select your preferred CV or cover letter package and complete payment.</p>  
+          <p>Select your preferred package and complete the payment instructions.</p>  
         </article>  
 
         <article class="step">  
@@ -590,7 +626,7 @@
       button.addEventListener("click", () => {
         const template = button.dataset.template;
 
-        // Remember the selected template/product while the customer signs in.
+        // Remember the selected package while the customer signs in.
         sessionStorage.setItem("cvpro_selected_template", template);
 
         // Continue to the account page with the selection.
