@@ -2821,7 +2821,7 @@ function renderSubjectGroups(subjects) {
 }
 
 /* =========================================================
-   PROFESSIONAL SKILLS
+   PROFESSIONAL SKILLS (Clean Flat List Preview Rendering)
 ========================================================= */
 
 function renderSkillTags(skills) {
@@ -2831,87 +2831,40 @@ function renderSkillTags(skills) {
 
   container.innerHTML = "";
 
-  const technicalNames = [
-    "Welding",
-    "Metalwork",
-    "Technical Drawing",
-    "Hands-on Work",
-    "Basic Maintenance",
-    "Health and Safety Awareness",
-    "Stock Management",
-    "Computer Skills",
-    "Microsoft Word",
-    "Microsoft Excel",
-    "Data Entry",
-    "Basic Numeracy"
+  // Accept only skills supplied directly to this function.
+  // Do not generate default skills or auto-categorize.
+  const skillList = (Array.isArray(skills) ? skills : [])
+    .map(skill => String(skill).trim())
+    .filter(Boolean);
+
+  // Remove duplicate skills without changing displayed casing.
+  const uniqueSkills = [
+    ...new Map(
+      skillList.map(skill => [skill.toLowerCase(), skill])
+    ).values()
   ];
 
-  const workplaceNames = [
-    "Communication",
-    "Teamwork",
-    "Problem Solving",
-    "Customer Service",
-    "Time Management",
-    "Leadership",
-    "Attention to Detail",
-    "Fast Learner",
-    "Hardworking",
-    "Organisation",
-    "Reliability",
-    "Adaptability",
-    "Written Communication",
-    "Verbal Communication",
-    "Planning",
-    "Customer Relations",
-    "Conflict Resolution"
-  ];
+  // If no skills are selected, omit preview content entirely.
+  if (uniqueSkills.length === 0) {
+    return;
+  }
 
-  const groups = [
-    {
-      title: "Technical and Practical Skills",
-      items: skills.filter(
-        skill => technicalNames.includes(skill)
-      )
-    },
-    {
-      title: "Workplace Skills",
-      items: skills.filter(
-        skill => workplaceNames.includes(skill)
-      )
-    },
-    {
-      title: "Additional Skills",
-      items: skills.filter(
-        skill =>
-          !technicalNames.includes(skill) &&
-          !workplaceNames.includes(skill)
-      )
-    }
-  ];
+  const heading = document.createElement("div");
+  heading.className = "cv-skill-heading";
+  heading.textContent = "Skills & Abilities";
 
-  groups.forEach(groupData => {
-    if (!groupData.items.length) return;
+  const list = document.createElement("ul");
+  list.className = "cv-skill-list";
 
-    const group = document.createElement("div");
-    group.className = "cv-skill-group";
-
-    const heading = document.createElement("div");
-    heading.className = "cv-skill-heading";
-    heading.textContent = groupData.title;
-
-    const list = document.createElement("ul");
-    list.className = "cv-skill-list";
-
-    groupData.items.forEach(skill => {
-      const item = document.createElement("li");
-      item.textContent = skill;
-      list.appendChild(item);
-    });
-
-    group.append(heading, list);
-    container.appendChild(group);
+  uniqueSkills.forEach(skill => {
+    const item = document.createElement("li");
+    item.textContent = skill;
+    list.appendChild(item);
   });
+
+  container.append(heading, list);
 }
+
 
 /* =========================================================
    DISABILITY INFORMATION
