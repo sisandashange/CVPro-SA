@@ -2605,161 +2605,105 @@ function escapeHtml(str) {
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
 }
-function formatExperience(data) {
-
-  // Applicants with actual experience.
+function formatExperience(data = {}) {
+  // 1. Applicants with actual experience
   if (data.experienceType !== "no-experience") {
-
     const jobTitle = String(data.jobTitle || "").trim();
     const employer = String(data.employer || "").trim();
     const dates = String(data.dates || "").trim();
     const description = String(data.description || "").trim();
 
-    // Never display empty experience entries.
     if (!jobTitle && !employer && !description) {
       return "";
     }
 
     return `
       <div class="experience-item">
-
-        ${
-          jobTitle
-            ? `<h3>${escapeHtml(jobTitle)}</h3>`
-            : ""
-        }
-
-        ${
-          employer || dates
-            ? `<p><strong>${escapeHtml(employer)}</strong>
-               ${escapeHtml(dates)}</p>`
-            : ""
-        }
-
-        ${
-          description
-            ? `<p>${escapeHtml(description)}</p>`
-            : ""
-        }
-
+        ${jobTitle ? `<h3>${escapeHtml(jobTitle)}</h3>` : ""}
+        ${employer || dates ? `<p><strong>${escapeHtml(employer)}</strong>${escapeHtml(dates)}</p>` : ""}
+        ${description ? `<p>${escapeHtml(description)}</p>` : ""}
       </div>
     `;
   }
 
-  // Applicants without formal work experience.
+  // 2. Applicants without formal work experience (Practical School Learning)
   const subjects = Array.isArray(data.subjects)
     ? data.subjects
     : String(data.subjects || "")
         .split(",")
-        .map(s => s.trim())
+        .map((s) => s.trim())
         .filter(Boolean);
 
   const subjectText = subjects.join(" ").toLowerCase();
-
   const descriptions = [];
 
-  // Technical subjects
-  if (
-    /mechanical technology|welding|fitting and machining/.test(
-      subjectText
-    )
-  ) {
-    descriptions.push(
-      "Studied mechanical processes, materials and workshop-related principles."
-    );
+  // --- TECHNICAL & MECHANICAL ---
+  if (/mechanical technology|welding|fitting and machining|fitting/.test(subjectText)) {
+    descriptions.push("Practical Workshop Principles: Applied safety protocols, hand tool operation, and mechanical processes in school assignments.");
+  }
+  if (/engineering graphics|egd|technical drawing/.test(subjectText)) {
+    descriptions.push("Technical Drawing & Blueprint Interpretation: Interpreted 2D/3D engineering drawings and design specifications accurately.");
   }
 
-  if (
-    /engineering graphics|egd|technical drawing/.test(
-      subjectText
-    )
-  ) {
-    descriptions.push(
-      "Developed knowledge of technical drawing and design interpretation."
-    );
+  // --- SCIENCES ---
+  if (/physical sciences|life sciences/.test(subjectText)) {
+    descriptions.push("Scientific Principles & Lab Safety: Foundational knowledge of lab observation, safety standards, and analytical problem-solving.");
+  }
+  if (/agricultural sciences/.test(subjectText)) {
+    descriptions.push("Practical Investigation: Applied structured data recording, environmental observation, and agricultural principles.");
   }
 
-  if (
-    /technical mathematics|mathematics|mathematical literacy/.test(
-      subjectText
-    )
-  ) {
-    descriptions.push(
-      "Applied mathematical concepts to calculations and problem-solving."
-    );
+  // --- BUSINESS & COMMERCE ---
+  if (/accounting|financial management/.test(subjectText)) {
+    descriptions.push("Financial Numeracy: Practiced accurate record-keeping, ledger concepts, and financial accuracy.");
+  }
+  if (/business studies|economics|entrepreneurship/.test(subjectText)) {
+    descriptions.push("Business & Operations Understanding: Developed foundational knowledge of workplace organization, customer orientation, and stock concepts.");
   }
 
-  // Business subjects
-  if (
-    /accounting|business studies|economics/.test(
-      subjectText
-    )
-  ) {
-    descriptions.push(
-      "Studied business principles, financial concepts and organisational practices."
-    );
+  // --- IT & DIGITAL LITERACY ---
+  if (/computer applications technology|cat|information technology|coding/.test(subjectText)) {
+    descriptions.push("Digital & Data Literacy: Developed practical skills in document formatting, spreadsheet calculations, data processing, and basic IT troubleshooting.");
   }
 
-  // Computer subjects
-  if (
-    /computer applications technology|information technology/.test(
-      subjectText
-    )
-  ) {
-    descriptions.push(
-      "Developed knowledge of computer applications and digital information."
-    );
+  // --- MATHEMATICS ---
+  if (/technical mathematics|mathematics/.test(subjectText)) {
+    descriptions.push("Analytical Problem-Solving: Applied mathematical calculations to technical tasks and practical measurements.");
+  }
+  if (/mathematical literacy/.test(subjectText)) {
+    descriptions.push("Practical Numeracy: Applied everyday math concepts to budgeting, stock counting, and measurements.");
   }
 
-  // Science subjects
-  if (
-    /physical sciences|life sciences|agricultural sciences/.test(
-      subjectText
-    )
-  ) {
-    descriptions.push(
-      "Studied scientific principles, observation and analytical problem-solving."
-    );
+  // --- HUMANITIES, RETAIL & HOSPITALITY ---
+  if (/consumer studies|hospitality studies|tourism/.test(subjectText)) {
+    descriptions.push("Customer Care & Quality Control: Practiced foundational principles of customer service, health/hygiene standards, and product quality.");
   }
-
-  // Geography and History
   if (/geography/.test(subjectText)) {
-    descriptions.push(
-      "Developed knowledge of geographical information and map interpretation."
-    );
+    descriptions.push("Spatial & Logistics Awareness: Developed ability to interpret maps, route directions, and spatial data.");
   }
-
   if (/history/.test(subjectText)) {
-    descriptions.push(
-      "Developed research and information-analysis skills through historical studies."
-    );
+    descriptions.push("Information Analysis & Reporting: Practiced structured information gathering, fact checking, and clear written summaries.");
   }
 
-  // Avoid an empty experience section.
+  // Default fallback if no specific subjects matched
   if (descriptions.length === 0) {
-    return "";
+    descriptions.push("Practical Workplace Readiness: Applied core educational concepts to problem-solving, team collaboration, and written communication.");
   }
 
-  // Keep the content compact.
   const uniqueDescriptions = [...new Set(descriptions)];
 
   return `
     <div class="experience-item">
-
-      <h3>Relevant School Learning</h3>
-
+      <h3>Relevant Practical Knowledge & Training</h3>
       <ul>
         ${uniqueDescriptions
-          .map(
-            description =>
-              `<li>${escapeHtml(description)}</li>`
-          )
-          .join("")}
+          .map((description) => `<li>${escapeHtml(description)}</li>`)
+          .join("\n        ")}
       </ul>
-
     </div>
   `;
 }
+
 
 /* =========================================================
    SUBJECT GROUPS
