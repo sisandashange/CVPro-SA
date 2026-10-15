@@ -561,29 +561,39 @@
 <main>
   <h1>Smart CV Builder</h1>
   <div class="muted">
-    Complete your details below. Your professional CV updates automatically in real-time.
+    Complete your details below. Your professional CV and Cover Letter update automatically in real-time.
   </div>
 
   <div id="accessMessage" class="notice">
-    Checking your account and CV purchase...
+    Checking your account and purchase...
   </div>
 
   <div id="message" class="message" role="status" aria-live="polite"></div>
 
   <div id="builderArea">
     <div class="notice">
-      <strong>One purchase, one active CV.</strong> 
-      Edit, update, and download your verified PDF whenever needed.
+      <strong>Active Purchase Unlocked.</strong> 
+      Edit, update, and download your verified PDFs whenever needed.
     </div>
 
     <div class="workspace">
 
-      <!-- PREVIEW PANEL -->
+      <!-- PREVIEW PANEL WITH TABS -->
       <section class="panel preview-panel">
-        <h2>Live CV Preview</h2>
+        <h2>Live Document Preview</h2>
 
         <div class="template-label" id="templateLabel">
-          Purchased CV template
+          Purchased Package — Approved
+        </div>
+
+        <!-- DOCUMENT SWITCHING TABS -->
+        <div class="preview-toolbar" style="display: flex; gap: 8px; margin-bottom: 12px;">
+          <button type="button" class="button" id="showCvTab" style="margin: 0; padding: 8px 12px; font-size: 12px;">
+            View CV
+          </button>
+          <button type="button" class="button secondary" id="showLetterTab" style="margin: 0; padding: 8px 12px; font-size: 12px;">
+            View Cover Letter
+          </button>
         </div>
 
         <div class="preview-toolbar">
@@ -592,6 +602,7 @@
           </button>
         </div>
 
+        <!-- CV PREVIEW -->
         <article class="cv-page classic" id="cvPreview">
 
           <div class="cv-header">
@@ -646,11 +657,17 @@
 
           </div>
         </article>
+
+        <!-- COVER LETTER PREVIEW -->
+        <article class="cv-page classic hidden" id="coverLetterPreview" style="padding: 35px; background: #fff;">
+          <div id="previewLetterText" style="font-family: Arial, Helvetica, sans-serif; font-size: 12px; line-height: 1.6; color: #111; white-space: pre-wrap;"></div>
+        </article>
+
       </section>
 
       <!-- EDITOR PANEL -->
       <section class="panel" id="editorPanel">
-        <h2>Build Your CV</h2>
+        <h2>Build Your Documents</h2>
 
         <form id="cvForm">
 
@@ -952,7 +969,7 @@
 
           <!-- ACTION BUTTONS -->
           <button class="button" id="saveButton" type="button" style="background: var(--black);">
-            Save My CV
+            Save My Documents
           </button>
 
           <button class="button secondary" id="updatePreviewButton" type="button">
@@ -1032,6 +1049,7 @@
   let activePurchase = null;
   let saveInProgress = false;
   let purchasedTemplate = "classic";
+  let activeView = "cv"; // Tracks 'cv' or 'letter'
 
   function showMessage(message, type = "error") {
     const box = $("message");
@@ -1211,6 +1229,55 @@
     return `Motivated candidate${loc} holding a ${data.qualification || "Matric"} from ${school}${year}. Seeking an entry-level position in ${goal}.${strengths} Eager to learn, contribute effectively, and grow professionally within a dedicated team.`;
   }
 
+  /* =========================================================
+     AUTOMATED COVER LETTER GENERATOR
+  ========================================================= */
+  function generateCoverLetter(data = {}) {
+    const name = String(data.fullName || "APPLICANT NAME").trim();
+    const phone = String(data.phone || "").trim();
+    const email = String(data.email || "").trim();
+    const location = String(data.location || "South Africa").trim();
+    const goal = String(data.careerGoal || "entry-level opportunity").trim();
+    const school = String(data.institution || "High School").trim();
+    const year = String(data.educationYear || "").trim();
+    
+    const subjectsInput = data.subjects || [];
+    const subjects = Array.isArray(subjectsInput) && subjectsInput.length > 0 
+      ? subjectsInput.join(", ") 
+      : "core foundational subjects";
+
+    const strengths = String(data.strengths || "").trim();
+
+    const currentDate = new Date().toLocaleDateString("en-ZA", {
+      year: "numeric",
+      month: "long",
+      day: "numeric"
+    });
+
+    return `
+${name.toUpperCase()}
+${location}${phone ? ` | ${phone}` : ""}${email ? ` | ${email}` : ""}
+
+${currentDate}
+
+RE: APPLICATION FOR AN ENTRY-LEVEL ${goal.toUpperCase()} POSITION
+
+Dear Hiring Manager,
+
+I am writing to formally express my strong interest in securing an entry-level ${goal} position${location ? ` in ${location}` : ""}.
+
+As a dedicated and motivated candidate from ${school}${year ? `, who completed my qualification in ${year}` : ""}, I have built a solid foundation of academic knowledge through my coursework, including subjects such as ${subjects}.
+
+${strengths ? `My key strengths include being ${strengths}. ` : ""}I am eager to apply my educational background, learn your workplace procedures quickly, and contribute positively to your team operations. I pride myself on my work ethic, reliability, and readiness to adapt to a professional environment.
+
+Thank you for taking the time to review my application. I am available for an interview at your earliest convenience and look forward to discussing how my background aligns with your operational needs.
+
+Yours faithfully,
+
+${name}
+    `.trim();
+  }
+
   function formatEducation(data) {
     return [data.qualification, data.institution, [data.educationStatus, data.educationYear].filter(Boolean).join(" · ")].filter(Boolean).join("\n");
   }
@@ -1255,14 +1322,18 @@
 
     setText("previewAdditional", [data.availability, data.driversLicence !== "Not specified" ? data.driversLicence : "", data.certificates].filter(Boolean).join("\n"));
 
+    // Render Cover Letter Live
+    const letterContent = generateCoverLetter(data);
+    setText("previewLetterText", letterContent);
+
     const preview = $("cvPreview");
     preview.classList.toggle("classic", purchasedTemplate === "classic");
     preview.classList.toggle("modern", purchasedTemplate === "modern");
-    setText("templateLabel", purchasedTemplate === "modern" ? "Modern CV — Approved" : "Classic CV — Approved");
+    setText("templateLabel", purchasedTemplate === "modern" ? "Modern Package — Approved" : "Classic Package — Approved");
   }
 
   async function checkPurchaseAccess() {
-    setText("accessMessage", "Checking your account and CV purchase...");
+    setText("accessMessage", "Checking your account and purchase...");
     $("builderArea").style.display = "none";
 
     try {
@@ -1278,7 +1349,7 @@
       const approved = purchases.filter(p => ["paid", "approved", "completed", "success"].includes(String(p.payment_status || "").toLowerCase()));
 
       if (!approved.length) {
-        setText("accessMessage", "No approved CV purchase found. Please complete payment or contact support.");
+        setText("accessMessage", "No approved purchase found. Please complete payment or contact support.");
         return;
       }
 
@@ -1293,7 +1364,6 @@
 
       const cvData = saved.cv?.cv_data || saved.cv_data || {};
       
-      // Populate fields
       $("fullName").value = cvData.fullName || currentUser.user_metadata?.full_name || "";
       $("email").value = currentUser.email || "";
       $("phone").value = cvData.phone || "";
@@ -1307,7 +1377,7 @@
       renderLanguageChoices(cvData.languages || ["English", "isiZulu"]);
 
       updatePreview();
-      setText("accessMessage", "Your approved CV purchase is active.");
+      setText("accessMessage", "Your approved purchase is active.");
       $("builderArea").style.display = "block";
     } catch (err) {
       setText("accessMessage", "Could not verify your purchase.");
@@ -1325,13 +1395,13 @@
     try {
       const cvData = getFormData();
       await callEdgeFunction("save-customer-cv", { purchase_id: activePurchase.id, cv_data: cvData });
-      showMessage("Your CV has been saved successfully.", "success");
+      showMessage("Your documents have been saved successfully.", "success");
     } catch (err) {
-      showMessage(err.message || "Could not save CV.", "error");
+      showMessage(err.message || "Could not save documents.", "error");
     } finally {
       saveInProgress = false;
       btn.disabled = false;
-      btn.textContent = "Save My CV";
+      btn.textContent = "Save My Documents";
     }
   }
 
@@ -1342,16 +1412,20 @@
     btn.textContent = "Preparing PDF...";
 
     try {
-      const element = $("cvPreview");
-      const filename = (valueOf("fullName") || "My_CV").replace(/[^a-z0-9_-]+/gi, "_");
+      const isCv = activeView === "cv";
+      const targetElement = isCv ? $("cvPreview") : $("coverLetterPreview");
+      const docSuffix = isCv ? "_CV.pdf" : "_Cover_Letter.pdf";
+      const filename = (valueOf("fullName") || "My_Document").replace(/[^a-z0-9_-]+/gi, "_") + docSuffix;
+
       await window.html2pdf().set({
         margin: [8, 8, 8, 8],
-        filename: `${filename}_CV.pdf`,
+        filename: filename,
         image: { type: "jpeg", quality: 0.98 },
         html2canvas: { scale: 2, useCORS: true, backgroundColor: "#ffffff" },
         jsPDF: { unit: "mm", format: "a4", orientation: "portrait" }
-      }).from(element).save();
-      showMessage("PDF download started.", "success");
+      }).from(targetElement).save();
+
+      showMessage(`${isCv ? "CV" : "Cover Letter"} PDF download started.`, "success");
     } catch (err) {
       showMessage("Could not download PDF.", "error");
     } finally {
@@ -1359,6 +1433,25 @@
       btn.textContent = "Download Professional PDF";
     }
   }
+
+  // Tab Switching Logic
+  $("showCvTab")?.addEventListener("click", () => {
+    activeView = "cv";
+    $("cvPreview").classList.remove("hidden");
+    $("coverLetterPreview").classList.add("hidden");
+    
+    $("showCvTab").classList.remove("secondary");
+    $("showLetterTab").classList.add("secondary");
+  });
+
+  $("showLetterTab")?.addEventListener("click", () => {
+    activeView = "letter";
+    $("cvPreview").classList.add("hidden");
+    $("coverLetterPreview").classList.remove("hidden");
+    
+    $("showLetterTab").classList.remove("secondary");
+    $("showCvTab").classList.add("secondary");
+  });
 
   // Event Listeners
   $("educationLevel").addEventListener("change", () => {
@@ -1382,7 +1475,6 @@
   function init() {
     supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     
-    // Populate Years
     const yearSelect = $("educationYear");
     const currentYear = new Date().getFullYear();
     for (let y = currentYear + 3; y >= currentYear - 40; y--) {
