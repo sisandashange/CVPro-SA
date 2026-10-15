@@ -2488,13 +2488,22 @@ function generateProfile(data = {}) {
     ["consumer studies", "hospitality studies", "tourism", "mathematical literacy", "geography", "history"].some((k) => s.includes(k))
   );
 
-  // 3. Stream-Specific Dynamic Goals
+  // 3. Goal & Stream Conflict Resolution
+  const goalLower = rawGoal.toLowerCase();
+  const isGoalMismatch =
+    (!rawGoal || goalLower === "general employment") ||
+    (isScience && (goalLower.includes("technical assistant") || goalLower.includes("workshop"))) ||
+    (isTechnical && (goalLower.includes("lab") || goalLower.includes("clerical"))) ||
+    (isBusiness && (goalLower.includes("workshop") || goalLower.includes("lab"))) ||
+    (isIT && (goalLower.includes("workshop") || goalLower.includes("lab")));
+
   let goalClean = rawGoal;
-  if (!goalClean || goalClean.toLowerCase() === "general employment") {
-    if (isTechnical) goalClean = "Technical Assistant, Workshop Support, or General Apprentice";
+
+  if (isGoalMismatch) {
+    if (isScience) goalClean = "Laboratory Assistant, Operations, or Technical Support";
+    else if (isTechnical) goalClean = "Technical Assistant, Workshop Support, or General Apprentice";
     else if (isBusiness) goalClean = "Admin Assistant, Clerical Support, or Retail";
     else if (isIT) goalClean = "Junior IT Support, Data Entry, or Systems Assistant";
-    else if (isScience) goalClean = "Laboratory Assistant, Operations, or Technical Support";
     else if (isRetailHumanities) goalClean = "Retail Assistant, Customer Service, or Hospitality Support";
     else goalClean = "General Worker or Retail Assistant";
   }
@@ -2528,13 +2537,11 @@ function generateProfile(data = {}) {
     closingStatement = "Eager to deliver excellent service, build operational knowledge and contribute positively to customer satisfaction.";
   }
 
-  // Use custom strengths if user provided them, otherwise use stream defaults
   const strengths = String(data.strengths || defaultStrengths).trim();
 
-  // 5. Construct Profile Sentences
+  // 5. Construct Sentences
   const sentences = [];
 
-  // Sentence 1: Qualification + School + Stream Background
   if (qualification && school && year) {
     sentences.push(`Candidate with ${qualification} from ${school}, completed in ${year}${fieldDescription}.`);
   } else if (qualification && year) {
@@ -2547,14 +2554,9 @@ function generateProfile(data = {}) {
     sentences.push("Entry-level candidate seeking an opportunity to develop professionally.");
   }
 
-  // Sentence 2: Target Role & Location
   const locationText = location ? ` in ${location}` : "";
   sentences.push(`Seeking a ${goalClean} role${locationText}.`);
-
-  // Sentence 3: Tailored Strengths
   sentences.push(`Brings strengths in ${strengths}.`);
-
-  // Sentence 4: Tailored Closing
   sentences.push(closingStatement);
 
   return sentences.join(" ");
