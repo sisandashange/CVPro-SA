@@ -2444,91 +2444,69 @@ function getFormData() {
    PROFESSIONAL PROFILE
 ========================================================= */
 
-function generateProfile(data) {
-const strengths = String(
-data.strengths ||
-"reliability, willingness to learn and attention to detail"
-).trim();
+function generateProfile(data = {}) {
+  const strengths = String(
+    data.strengths || "reliability, willingness to learn and attention to detail"
+  ).trim();
 
-const goal = String(
-data.careerGoal ||
-"entry-level employment"
-).trim();
+  const goal = String(
+    data.careerGoal || "entry-level employment"
+  ).trim();
 
-const school = String(
-data.school ||
-data.schoolName ||
-""
-).trim();
+  const school = String(
+    data.school || data.schoolName || ""
+  ).trim();
 
-const qualification = String(
-data.qualification ||
-data.educationQualification ||
-""
-).trim();
+  const qualification = String(
+    data.qualification || data.educationQualification || ""
+  ).trim();
 
-const year = String(
-data.educationYear ||
-data.completionYear ||
-""
-).trim();
+  const year = String(
+    data.educationYear || data.completionYear || ""
+  ).trim();
 
-const location = String(
-data.location ||
-data.city ||
-""
-).trim();
+  const location = String(
+    data.location || data.city || ""
+  ).trim();
 
-const hasNoExperience =
-data.experienceType === "no-experience";
+  const hasNoExperience = data.experienceType === "no-experience";
 
-const sentences = [];
+  const sentences = [];
 
-// Use the applicant's real qualification when available.
-if (qualification && school && year) {
-sentences.push(
-"Candidate with ${qualification} from ${school}, completed in ${year}."
-);
-} else if (qualification && year) {
-sentences.push(
-"Candidate with ${qualification}, completed in ${year}."
-);
-} else if (qualification && school) {
-sentences.push(
-"Candidate with ${qualification} from ${school}."
-);
-} else if (qualification) {
-sentences.push(
-"Candidate with ${qualification}."
-);
-} else {
-sentences.push(
-"Entry-level candidate seeking an opportunity to develop professionally."
-);
+  // 1. Education / Qualification
+  if (qualification && school && year) {
+    sentences.push(`Candidate with ${qualification} from ${school}, completed in ${year}.`);
+  } else if (qualification && year) {
+    sentences.push(`Candidate with ${qualification}, completed in ${year}.`);
+  } else if (qualification && school) {
+    sentences.push(`Candidate with ${qualification} from ${school}.`);
+  } else if (qualification) {
+    sentences.push(`Candidate with ${qualification}.`);
+  } else {
+    sentences.push("Entry-level candidate seeking an opportunity to develop professionally.");
+  }
+
+  // 2. Goal and Location
+  const locationText = location ? ` in ${location}` : "";
+  sentences.push(`Seeking a ${goal} role${locationText}.`);
+
+  // 3. Strengths
+  sentences.push(`Brings strengths in ${strengths}.`);
+
+  // 4. Experience summary
+  if (hasNoExperience) {
+    sentences.push(
+      "Eager to build on educational knowledge, develop practical workplace skills and contribute positively to a team."
+    );
+  } else {
+    sentences.push(
+      "Committed to applying existing skills, learning new procedures and contributing positively to the workplace."
+    );
+  }
+
+  return sentences.join(" ");
 }
 
-// Add the applicant's target role and location.
-sentences.push(
-"Seeking a ${goal} role${location ? " in ${location}" : ""}."
-);
-
-// Describe strengths without claiming professional experience.
-sentences.push(
-"Brings strengths in ${strengths}."
-);
-
-if (hasNoExperience) {
-sentences.push(
-"Eager to build on educational knowledge, develop practical workplace skills and contribute positively to a team."
-);
-} else {
-sentences.push(
-"Committed to applying existing skills, learning new procedures and contributing positively to the workplace."
-);
-}
-
-return sentences.join(" ");
-}
 
 /* =========================================================
    EDUCATION FORMATTING
