@@ -629,87 +629,6 @@ footer {
     page-break-after: avoid;
   }
 }
-
-/* =====================================
-   COMPACT PROFESSIONAL CV LAYOUT
-===================================== */
-
-.cv-page {
-  min-height: 0;
-  padding: 22px;
-}
-
-.cv-header {
-  margin-bottom: 12px;
-}
-
-.cv-name {
-  font-size: 24px;
-}
-
-.cv-contact {
-  margin-top: 5px;
-  font-size: 10.5px;
-  line-height: 1.4;
-}
-
-.cv-section {
-  margin-top: 11px;
-  break-inside: auto;
-  page-break-inside: auto;
-}
-
-.cv-section h3 {
-  margin-bottom: 5px;
-  padding-bottom: 3px;
-  font-size: 11px;
-}
-
-.cv-section p {
-  margin: 3px 0;
-  font-size: 10.5px;
-  line-height: 1.35;
-}
-
-.cv-subject-group,
-.cv-skill-group {
-  margin-bottom: 5px;
-}
-
-.cv-subject-heading,
-.cv-skill-heading {
-  margin: 5px 0 3px;
-  font-size: 10.5px;
-}
-
-.cv-subject-list,
-.cv-skill-list {
-  margin: 0 0 5px;
-  padding-left: 16px;
-}
-
-.cv-subject-list li,
-.cv-skill-list li {
-  margin-bottom: 2px;
-  font-size: 10.5px;
-  line-height: 1.3;
-}
-
-.cv-page.classic .cv-header {
-  padding-bottom: 9px;
-}
-
-.cv-page.modern .cv-header {
-  padding: 17px 20px 14px;
-}
-
-.cv-page.modern .cv-content {
-  padding: 5px 20px 17px;
-}
-
-.cv-page.modern .cv-section {
-  margin-top: 12px;
-}
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -730,7 +649,7 @@ footer {
 <main>
   <h1>Smart CV Builder</h1>
   <div class="muted">
-    Choose your details. Your professional CV updates automatically.
+    Choose your details. Your professional documents update automatically.
   </div>
 
   <div id="accessMessage" class="notice">
@@ -3083,7 +3002,7 @@ function enforceUIAccessRules() {
     if (!userEntitlements.hasClassic && !userEntitlements.hasModern) {
       const opt = document.createElement("option");
       opt.value = "";
-      opt.textContent = "No CV template purchased (Cover Letter only)";
+      opt.textContent = "Cover Letter Only (No CV Template Purchased)";
       templateSelect.appendChild(opt);
       templateSelect.disabled = true;
     } else {
@@ -3093,6 +3012,8 @@ function enforceUIAccessRules() {
   }
 
   const letterTab = $("showLetterTab");
+  const cvTab = $("showCvTab");
+
   if (letterTab) {
     if (!userEntitlements.hasCoverLetter) {
       letterTab.style.opacity = "0.3";
@@ -3103,14 +3024,23 @@ function enforceUIAccessRules() {
     }
   }
 
+  if (cvTab) {
+    if (!userEntitlements.hasClassic && !userEntitlements.hasModern) {
+      cvTab.style.opacity = "0.3";
+      cvTab.title = "Requires CV purchase (Classic R15 or Modern R25)";
+    } else {
+      cvTab.style.opacity = "1";
+      cvTab.title = "";
+    }
+  }
+
+  // If customer purchased Cover Letter ONLY (R15), default them to the Cover Letter tab
   if (!userEntitlements.hasClassic && !userEntitlements.hasModern && userEntitlements.hasCoverLetter) {
     activeView = "letter";
     $("cvPreview").classList.add("hidden");
     $("coverLetterPreview").classList.remove("hidden");
-    $("showLetterTab").classList.remove("secondary");
-    $("showCvTab").classList.add("secondary");
-    $("showCvTab").style.opacity = "0.3";
-    $("showCvTab").title = "No CV template purchased";
+    if (letterTab) letterTab.classList.remove("secondary");
+    if (cvTab) cvTab.classList.add("secondary");
   }
 }
 
@@ -3211,7 +3141,7 @@ async function checkPurchaseAccess() {
       $("cvPreview").classList.add("hidden");
       $("coverLetterPreview").classList.remove("hidden");
       $("showLetterTab").classList.remove("secondary");
-      $("showCvTab").classList.add("hidden");
+      $("showCvTab").classList.add("secondary");
     }
 
     setText("accessMessage", "Your approved purchases are active.");
@@ -3284,12 +3214,13 @@ async function saveCv() {
 async function downloadCvPdf() {
   const isCv = activeView === "cv";
 
+  // Strict download restriction based on exact purchased products
   if (isCv && !userEntitlements.hasClassic && !userEntitlements.hasModern) {
-    showMessage("Access denied: No CV template unlocked on your account.", "error");
+    showMessage("Access denied: Your purchase is Cover Letter only. You cannot download a CV.", "error");
     return;
   }
   if (!isCv && !userEntitlements.hasCoverLetter) {
-    showMessage("Access denied: Cover Letter not unlocked on your account.", "error");
+    showMessage("Access denied: Your purchase does not include a Cover Letter.", "error");
     return;
   }
 
@@ -3409,10 +3340,10 @@ function registerEvents() {
 
   $("printButton").addEventListener("click", downloadCvPdf);
 
-  // Tab Switching Event Listeners with Strict Entitlement Hard-Blocking
+  // Tab Switching Event Listeners with Exact Product Locking
   $("showCvTab")?.addEventListener("click", () => {
     if (!userEntitlements.hasClassic && !userEntitlements.hasModern) {
-      showMessage("Access denied: No CV template has been purchased on your account.", "error");
+      showMessage("Access denied: You purchased Cover Letter only. CV viewing requires a Classic (R15) or Modern (R25) CV purchase.", "error");
       return;
     }
     clearMessage();
@@ -3425,7 +3356,7 @@ function registerEvents() {
 
   $("showLetterTab")?.addEventListener("click", () => {
     if (!userEntitlements.hasCoverLetter) {
-      showMessage("Access denied: Cover Letter requires a Cover Letter or Bundle purchase.", "error");
+      showMessage("Access denied: Cover Letter requires a Cover Letter (R15) or Bundle (R30/R40) purchase.", "error");
       return;
     }
     clearMessage();
@@ -3434,6 +3365,8 @@ function registerEvents() {
     $("coverLetterPreview").classList.remove("hidden");
     $("showLetterTab").classList.remove("secondary");
     $("showCvTab").classList.add("secondary");
+    
+    // Automatically generate cover letter using current CV form details
     updatePreview();
   });
 
