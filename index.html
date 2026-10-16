@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#000000">
+  <meta name="theme-color" content="#090d16">
   <meta name="description" content="CVPro-SA - Build a Resume That Gets You Hired. Professional South African CV Builder.">
   <title>CVPro-SA | Professional South African CV Builder</title>
   <style>
@@ -15,31 +15,34 @@
     }
 
     :root {
-      --bg: #000000;
-      --card-bg: #111111;
-      --border: #222222;
+      --bg: #090d16;
+      --card-bg: #111827;
+      --border: #1f2937;
       --text: #ffffff;
-      --muted: #888888;
+      --muted: #9ca3af;
+      --accent: #2563eb;
+      --green: #10b981;
     }
 
     html, body {
       background-color: var(--bg);
       color: var(--text);
-      line-height: 1.25;
-      height: 100vh;
-      max-height: 100vh;
-      overflow: hidden;
+      line-height: 1.35;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
     }
 
-    /* HEADER */
+    /* PREMIUM HEADER */
     header {
-      background: #000000;
+      background: rgba(9, 13, 22, 0.95);
       border-bottom: 1px solid var(--border);
-      padding: 8px 12px;
-      flex-shrink: 0;
+      padding: 10px 16px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(8px);
     }
 
     .nav {
@@ -53,180 +56,189 @@
     .brand {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
       text-decoration: none;
       color: var(--text);
     }
 
     .brand-logo {
-      background: #ffffff;
-      color: #000000;
+      background: var(--accent);
+      color: #ffffff;
       font-weight: 900;
-      font-size: 11px;
-      width: 24px;
-      height: 24px;
-      border-radius: 4px;
+      font-size: 12px;
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
       display: flex;
       align-items: center;
       justify-content: center;
     }
 
     .brand-name {
-      font-size: 15px;
-      font-weight: 800;
+      font-size: 17px;
+      font-weight: 900;
       letter-spacing: -0.5px;
     }
 
     .nav-actions {
       display: flex;
       align-items: center;
-      gap: 5px;
+      gap: 8px;
     }
 
     .btn-outline {
-      background: transparent;
+      background: rgba(255,255,255,0.05);
       color: var(--text);
-      border: 1px solid #444444;
-      padding: 5px 8px;
-      border-radius: 4px;
-      font-size: 10.5px;
+      border: 1px solid var(--border);
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 11px;
       font-weight: 700;
       cursor: pointer;
     }
 
     .btn-solid {
-      background: #ffffff;
-      color: #000000;
-      border: 1px solid #ffffff;
-      padding: 5px 10px;
-      border-radius: 4px;
-      font-size: 10.5px;
+      background: var(--accent);
+      color: #ffffff;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 11px;
       font-weight: 800;
       cursor: pointer;
       text-decoration: none;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
     }
 
-    /* MAIN SINGLE SCREEN LAYOUT */
+    /* BALANCED MAIN CONTENT */
     main {
-      padding: 8px 12px;
+      padding: 16px;
       flex: 1;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      gap: 14px;
       max-width: 480px;
       margin: 0 auto;
       width: 100%;
-      overflow: hidden;
     }
 
     .eyebrow {
-      font-size: 8.5px;
+      font-size: 9.5px;
       font-weight: 800;
       text-transform: uppercase;
-      letter-spacing: 0.8px;
-      color: var(--muted);
+      letter-spacing: 1px;
+      color: #60a5fa;
       display: block;
-      margin-bottom: 1px;
-    }
-
-    .hero-title {
-      font-size: 19px;
-      font-weight: 900;
-      line-height: 1.1;
-      letter-spacing: -0.5px;
       margin-bottom: 4px;
     }
 
-    .hero-description {
-      font-size: 10.5px;
-      color: var(--muted);
+    .hero-title {
+      font-size: 24px;
+      font-weight: 900;
+      line-height: 1.15;
+      letter-spacing: -0.5px;
       margin-bottom: 6px;
-      line-height: 1.3;
+    }
+
+    .hero-title span {
+      color: var(--accent);
+    }
+
+    .hero-description {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 10px;
+      line-height: 1.4;
     }
 
     .hero-cta-group {
       display: flex;
-      gap: 6px;
-      margin-bottom: 4px;
+      gap: 10px;
+      margin-bottom: 8px;
     }
 
     .feature-tags {
       display: flex;
-      gap: 8px;
-      font-size: 9px;
+      gap: 12px;
+      font-size: 10px;
       color: var(--muted);
       font-weight: 600;
-      margin-bottom: 6px;
     }
 
     .feature-tags span::before {
       content: "✓ ";
-      color: #ffffff;
+      color: var(--green);
+      font-weight: bold;
     }
 
-    /* COMPACT HERO CARD */
+    /* PROFESSIONAL PREVIEW CARD */
     .hero-visual {
       background: var(--card-bg);
       border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 8px 10px;
+      border-radius: 12px;
+      padding: 12px;
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 10px;
+      box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3);
     }
 
     .mockup-paper {
-      background: #000000;
-      border: 1px solid #333333;
-      border-radius: 5px;
-      padding: 8px;
+      background: #030712;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px;
     }
 
     .mockup-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 1px solid #222222;
-      padding-bottom: 4px;
-      margin-bottom: 4px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 8px;
+      margin-bottom: 8px;
     }
 
     .mockup-name {
-      font-size: 11px;
+      font-size: 13px;
       font-weight: 900;
+      letter-spacing: 0.5px;
     }
 
     .mockup-role {
-      font-size: 8px;
+      font-size: 9.5px;
       color: var(--muted);
     }
 
     .status-badge {
-      border: 1px solid #ffffff;
-      font-size: 6.5px;
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(52, 211, 153, 0.3);
+      font-size: 8px;
       font-weight: 800;
-      padding: 1px 3px;
-      border-radius: 2px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      text-transform: uppercase;
     }
 
     .mockup-body {
-      font-size: 8px;
+      font-size: 9.5px;
       color: var(--muted);
     }
 
     .mockup-bullets {
       display: flex;
-      gap: 3px;
-      margin-top: 3px;
-      font-size: 7.5px;
+      gap: 6px;
+      margin-top: 6px;
+      font-size: 9px;
     }
 
     .mockup-bullets span {
-      background: #1a1a1a;
-      padding: 1px 4px;
-      border-radius: 2px;
-      border: 1px solid #333;
-      color: #fff;
+      background: #1f2937;
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: #e5e7eb;
+      border: 1px solid #374151;
     }
 
     .style-trigger-box {
@@ -234,49 +246,59 @@
     }
 
     .btn-styles {
-      background: #1a1a1a;
+      background: #1f2937;
       color: #ffffff;
-      border: 1px solid #333333;
-      padding: 4px 8px;
-      border-radius: 4px;
-      font-size: 9.5px;
+      border: 1px solid #374151;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 11px;
       font-weight: 700;
       cursor: pointer;
+    }
+
+    .btn-styles:hover {
+      background: #374151;
     }
 
     .ats-support-stack {
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 8px;
     }
 
     .ats-card {
-      background: #ffffff;
-      color: #000000;
-      padding: 5px 8px;
-      border-radius: 5px;
+      background: var(--green);
+      color: #ffffff;
+      padding: 8px 12px;
+      border-radius: 8px;
       font-weight: 900;
-      font-size: 8.5px;
+      font-size: 10px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
     }
 
     .ats-card span {
-      font-size: 13px;
+      font-size: 15px;
       font-weight: 900;
     }
 
     .btn-support-link {
-      background: #111111;
+      background: #1f2937;
       color: #ffffff;
-      border: 1px solid #333333;
-      padding: 5px 8px;
-      border-radius: 5px;
-      font-size: 9.5px;
+      border: 1px solid #374151;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 11px;
       font-weight: 700;
       text-decoration: none;
       text-align: center;
+      display: block;
+    }
+
+    .btn-support-link:hover {
+      background: #374151;
     }
 
     /* MODAL POPUPS */
@@ -287,128 +309,134 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.9);
+      background: rgba(3, 7, 18, 0.85);
+      backdrop-filter: blur(6px);
       z-index: 1000;
       justify-content: center;
       align-items: center;
-      padding: 14px;
+      padding: 16px;
     }
 
     .modal-window {
-      background: #111111;
-      border: 1px solid #333333;
-      border-radius: 10px;
-      max-width: 420px;
+      background: #111827;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      max-width: 440px;
       width: 100%;
       max-height: 85vh;
       overflow-y: auto;
-      padding: 16px;
+      padding: 20px;
       position: relative;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
     }
 
     .modal-close-btn {
       position: absolute;
-      top: 12px;
-      right: 12px;
-      background: #222222;
+      top: 14px;
+      right: 14px;
+      background: #1f2937;
       border: none;
       color: #ffffff;
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 800;
       cursor: pointer;
       border-radius: 50%;
-      width: 24px;
-      height: 24px;
+      width: 26px;
+      height: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .modal-header h3 {
-      font-size: 16px;
+      font-size: 18px;
       font-weight: 900;
       margin-bottom: 4px;
     }
 
     .modal-header p {
-      font-size: 10px;
+      font-size: 11px;
       color: var(--muted);
-      margin-bottom: 12px;
+      margin-bottom: 16px;
     }
 
     .modal-pkg-grid {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 10px;
     }
 
     .modal-pkg-card {
-      border: 1px solid #222222;
-      background: #000000;
-      border-radius: 6px;
-      padding: 8px 10px;
+      border: 1px solid var(--border);
+      background: #030712;
+      border-radius: 8px;
+      padding: 10px 14px;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
     .modal-pkg-card.highlight {
-      border: 1px solid #ffffff;
-      background: #1a1a1a;
+      border: 2px solid var(--accent);
+      background: rgba(37, 99, 235, 0.1);
     }
 
     .pkg-meta h4 {
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 800;
     }
 
     .pkg-meta p {
-      font-size: 9.5px;
+      font-size: 10px;
       color: var(--muted);
     }
 
     .btn-select-pkg {
-      background: #ffffff;
-      color: #000000;
-      padding: 5px 10px;
-      border-radius: 4px;
-      font-size: 10px;
+      background: var(--accent);
+      color: #ffffff;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 11px;
       font-weight: 800;
       text-decoration: none;
       white-space: nowrap;
     }
 
     .preview-block {
-      border: 1px solid #222222;
-      background: #000000;
-      border-radius: 6px;
-      padding: 10px;
-      margin-bottom: 8px;
+      border: 1px solid var(--border);
+      background: #030712;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 10px;
     }
 
     .preview-block h4 {
-      font-size: 11px;
-      margin-bottom: 2px;
+      font-size: 12px;
+      margin-bottom: 3px;
+      color: #60a5fa;
     }
 
     .preview-block p {
-      font-size: 9.5px;
+      font-size: 10.5px;
       color: var(--muted);
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
 
     .use-style-link {
       color: #ffffff;
-      font-size: 10px;
+      font-size: 11px;
       font-weight: 800;
       text-decoration: underline;
     }
 
     /* FOOTER */
     footer {
-      padding: 6px 12px;
+      padding: 10px 16px;
       border-top: 1px solid var(--border);
       color: var(--muted);
       text-align: center;
-      font-size: 9px;
-      flex-shrink: 0;
+      font-size: 10px;
+      background: rgba(9, 13, 22, 0.95);
       max-width: 480px;
       margin: 0 auto;
       width: 100%;
@@ -436,17 +464,17 @@
     </nav>
   </header>
 
-  <!-- MAIN (EXACTLY 1 MOBILE SCREEN FIT) -->
+  <!-- MAIN CONTAINER -->
   <main>
     <div>
       <span class="eyebrow">Professional South African CV Builder</span>
-      <h1 class="hero-title">Build a Resume That Gets You Hired.</h1>
+      <h1 class="hero-title">Build a Resume That Gets You <span>Hired.</span></h1>
       <p class="hero-description">
-        Craft ATS-optimized, recruiters-approved South African CVs and cover letters in minutes for every career level.
+        Craft ATS-optimized, recruiter-approved South African CVs and cover letters in minutes for every career level.
       </p>
 
       <div class="hero-cta-group">
-        <a href="./account.html" class="btn-solid" style="padding: 5px 10px;">Build Your Resume</a>
+        <a href="./account.html" class="btn-solid">Build Your Resume</a>
         <button class="btn-outline" onclick="openModal('pricingModal')">View All 5 Packages</button>
       </div>
 
@@ -457,7 +485,7 @@
       </div>
     </div>
 
-    <!-- HERO CARD VISUAL -->
+    <!-- PREVIEW CARD -->
     <div class="hero-visual">
       <div class="mockup-paper">
         <div class="mockup-header">
@@ -469,8 +497,8 @@
         </div>
 
         <div class="mockup-body">
-          <strong style="color:#fff; font-size:7.5px;">KEY QUALIFICATIONS</strong>
-          <p>Demonstrated mechanical, operational, and technical problem-solving capabilities.</p>
+          <strong style="color:#ffffff; font-size:8.5px; text-transform:uppercase; letter-spacing:0.5px;">Key Qualifications</strong>
+          <p style="margin-top:2px;">Demonstrated mechanical, operational, and technical problem-solving capabilities.</p>
           <div class="mockup-bullets">
             <span>Tailored</span>
             <span>ATS Optimized</span>
@@ -493,7 +521,7 @@
     </div>
   </main>
 
-  <!-- MODAL 1: ALL 5 PACKAGES -->
+  <!-- MODAL 1: PACKAGES -->
   <div class="modal-backdrop" id="pricingModal">
     <div class="modal-window">
       <button class="modal-close-btn" onclick="closeModal('pricingModal')">✕</button>
@@ -506,47 +534,48 @@
         <div class="modal-pkg-card">
           <div class="pkg-meta">
             <h4>Classic CV</h4>
-            <p>Clean single-page layout</p>
+            <p>Clean single-page layout (R15)</p>
           </div>
-          <a href="./account.html?template=classic" class="btn-select-pkg">R15 — Select</a>
+          <a href="./account.html?template=classic" class="btn-select-pkg">Select — R15</a>
         </div>
 
         <div class="modal-pkg-card">
+          <div class="modal-pkg-card" style="border:none; background:transparent; padding:0;"></div>
           <div class="pkg-meta">
             <h4>Modern CV</h4>
-            <p>Contemporary dark banner design</p>
+            <p>Contemporary dark banner design (R25)</p>
           </div>
-          <a href="./account.html?template=modern" class="btn-select-pkg">R25 — Select</a>
+          <a href="./account.html?template=modern" class="btn-select-pkg">Select — R25</a>
         </div>
 
         <div class="modal-pkg-card">
           <div class="pkg-meta">
             <h4>Cover Letter</h4>
-            <p>Vacancy-tailored application letter</p>
+            <p>Vacancy-tailored application letter (R15)</p>
           </div>
-          <a href="./account.html?template=cover-letter" class="btn-select-pkg">R15 — Select</a>
+          <a href="./account.html?template=cover-letter" class="btn-select-pkg">Select — R15</a>
         </div>
 
         <div class="modal-pkg-card">
           <div class="pkg-meta">
             <h4>Classic Bundle</h4>
-            <p>Classic CV + Matched Cover Letter</p>
+            <p>Classic CV + Matched Cover Letter (R30)</p>
           </div>
-          <a href="./account.html?template=classic-bundle" class="btn-select-pkg">R30 — Select</a>
+          <a href="./account.html?template=classic-bundle" class="btn-select-pkg">Select — R30</a>
         </div>
 
         <div class="modal-pkg-card highlight">
           <div class="pkg-meta">
-            <h4>Modern Bundle</h4>
-            <p>Best Value: Modern CV + Cover Letter</p>
+            <h4>Modern Bundle (Best Value)</h4>
+            <p>Modern CV + Matched Cover Letter (R40)</p>
           </div>
-          <a href="./account.html?template=modern-bundle" class="btn-select-pkg">R40 — Select</a>
+          <a href="./account.html?template=modern-bundle" class="btn-select-pkg">Select — R40</a>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- MODAL 2: 3 PREVIEWS -->
+  <!-- MODAL 2: EXAMPLES -->
   <div class="modal-backdrop" id="examplesModal">
     <div class="modal-window">
       <button class="modal-close-btn" onclick="closeModal('examplesModal')">✕</button>
@@ -577,7 +606,7 @@
 
   <!-- FOOTER -->
   <footer>
-    &copy; <span id="year"></span> CVPro-SA • <a href="tel:+27752978917">+27 75 297 8917</a> • <a href="mailto:mfanarhshange43@gmail.com">Email Us</a>
+    &copy; <span id="year"></span> CVPro-SA • <a href="tel:+27752978917">+27 75 297 8917</a>
   </footer>
 
   <script>
@@ -594,8 +623,8 @@
     window.onclick = function(e) {
       const pM = document.getElementById("pricingModal");
       const eM = document.getElementById("examplesModal");
-      if (e.target === pM) pM.style.display = "none";
-      if (e.target === eM) eM.style.display = "none";
+      if (event.target === pM) pM.style.display = "none";
+      if (event.target === eM) eM.style.display = "none";
     };
   </script>
 </body>
