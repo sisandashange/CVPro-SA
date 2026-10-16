@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#0f172a">
-  <meta name="description" content="Manage your CVPro-SA account and CV purchases.">
+  <meta name="description" content="Manage your CVPro-SA account, CV purchases, and automated cover letters.">
   <title>My Account | CVPro-SA</title>
   <style>
     :root {
@@ -26,8 +26,8 @@
       --warning-bg: #fffbeb;
       --warning-border: #fde68a;
       --warning-text: #92400e;
-      --radius: 10px;
-      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --radius: 12px;
+      --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
       --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     }
 
@@ -103,6 +103,7 @@
       margin: 0 0 4px;
       font-size: 28px;
       letter-spacing: -0.025em;
+      font-weight: 800;
     }
 
     .muted { color: var(--text-muted); font-size: 14px; }
@@ -120,12 +121,13 @@
       margin: 0 0 6px;
       font-size: 20px;
       letter-spacing: -0.025em;
+      font-weight: 700;
     }
 
     .template-grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
       margin-top: 20px;
     }
 
@@ -134,24 +136,27 @@
       border: 1px solid var(--border-color);
       border-radius: 10px;
       background: #fafafa;
-      transition: border-color 0.15s, box-shadow 0.15s;
+      transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
     .template-card:hover {
       border-color: #cbd5e1;
-      box-shadow: var(--shadow-sm);
+      box-shadow: var(--shadow);
       background: #ffffff;
     }
 
     .template-card h3 {
       margin: 0 0 4px;
-      font-size: 18px;
+      font-size: 17px;
       font-weight: 700;
     }
 
     .price {
       margin: 6px 0 14px;
-      font-size: 24px;
+      font-size: 22px;
       font-weight: 800;
       color: var(--text-main);
     }
@@ -345,7 +350,7 @@
       background: #ffffff;
     }
 
-    @media (max-width: 650px) {
+    @media (max-width: 768px) {
       .template-grid { grid-template-columns: 1fr; }
       .nav { align-items: flex-start; }
       .nav-actions { flex-wrap: wrap; justify-content: flex-end; }
@@ -376,26 +381,40 @@
     <div class="message" id="message" role="status" aria-live="polite"></div>  
 
     <section class="panel">  
-      <h2>Choose a CV Template</h2>  
-      <p class="muted">Select a template to purchase. Your CV builder will unlock once the owner verifies your payment.</p>  
+      <h2>Choose a Template or Service</h2>  
+      <p class="muted">Select a product to purchase. Unlocks once the owner verifies your payment.</p>  
       <div class="template-grid">  
-        <article class="template-card">  
-          <h3>Classic CV</h3>  
-          <div class="price">R15</div>  
-          <p class="muted">A clean, traditional black-and-white design.</p>  
+        <article class="template-card">
+          <div>
+            <h3>Classic CV</h3>  
+            <div class="price">R15</div>  
+            <p class="muted">A clean, traditional black-and-white design.</p>
+          </div>
           <button class="button purchase-button" data-template="classic" type="button">Purchase Classic CV</button>  
         </article>  
-        <article class="template-card">  
-          <h3>Modern CV</h3>  
-          <div class="price">R25</div>  
-          <p class="muted">A contemporary two-column design.</p>  
+
+        <article class="template-card">
+          <div>
+            <h3>Modern CV</h3>  
+            <div class="price">R25</div>  
+            <p class="muted">A contemporary two-column design.</p>
+          </div>
           <button class="button purchase-button" data-template="modern" type="button">Purchase Modern CV</button>  
+        </article>
+
+        <article class="template-card">
+          <div>
+            <h3>Cover Letter</h3>  
+            <div class="price">R10</div>  
+            <p class="muted">Automated context-aware professional cover letter generator.</p>
+          </div>
+          <button class="button purchase-button" data-template="cover-letter" type="button">Purchase Cover Letter</button>  
         </article>  
       </div>  
     </section>  
 
     <section class="panel">  
-      <h2>My CV Purchases</h2>  
+      <h2>My Purchases & Orders</h2>  
       <p class="muted">View your orders, payment instructions, and approval status.</p>  
       <div id="purchaseList" class="purchase-list">  
         <div class="empty">Loading your purchases...</div>  
@@ -403,7 +422,7 @@
     </section>  
 
     <section class="notice">  
-      <strong>Payment safety:</strong> Pay only using the payment instructions displayed for your own order. Always use the exact order number as the payment reference. Payments are manually verified. A pending order does not unlock the CV builder.  
+      <strong>Payment safety:</strong> Pay only using the payment instructions displayed for your own order. Always use the exact order number as the payment reference. Payments are manually verified. A pending order does not unlock your documents.  
     </section>  
   </main>  
 
@@ -488,16 +507,6 @@
       return result;  
     }  
 
-    function escapeHtml(value) {  
-      return String(value ?? "").replace(/[&<>"']/g, (character) => ({  
-        "&": "&amp;",  
-        "<": "&lt;",  
-        ">": "&gt;",  
-        '"': "&quot;",  
-        "'": "&#039;"  
-      })[character]);  
-    }  
-
     function formatDate(value) {  
       if (!value) return "Date unavailable";  
       const date = new Date(value);  
@@ -576,7 +585,7 @@
 
         const warning = document.createElement("div");  
         warning.className = "payment-warning";  
-        warning.textContent = "Pay the exact amount and use the order number above as your reference. Your CV remains locked until the owner confirms receipt of the money and approves this order.";  
+        warning.textContent = "Pay the exact amount and use the order number above as your reference. Your document remains locked until the owner confirms receipt of the money and approves this order.";  
 
         paymentBox.appendChild(warning);  
         card.appendChild(paymentBox);  
@@ -611,14 +620,17 @@
               : [];  
 
         if (purchases.length === 0) {  
-          purchaseList.innerHTML = '<div class="empty">You have no CV purchases yet. Choose a template above to begin.</div>';  
+          purchaseList.innerHTML = '<div class="empty">You have no purchases yet. Choose a template or cover letter above to begin.</div>';  
           return;  
         }  
 
         purchaseList.innerHTML = "";  
 
         purchases.forEach((purchase) => {  
-          const template = purchase.cv_template === "modern" ? "Modern CV" : "Classic CV";  
+          let templateName = "Classic CV";  
+          if (purchase.cv_template === "modern") templateName = "Modern CV";  
+          if (purchase.cv_template === "cover-letter") templateName = "Automated Cover Letter";  
+
           const status = purchase.payment_status || "pending";  
           const orderNumber = purchase.order_number || "Order reference unavailable";  
           const amount = Number(purchase.amount);  
@@ -631,7 +643,7 @@
           heading.className = "purchase-heading";  
 
           const title = document.createElement("h3");  
-          title.textContent = template;  
+          title.textContent = templateName;  
 
           const badge = document.createElement("span");  
           badge.className = "status " + status;  
@@ -649,13 +661,13 @@
 
           if (status === "paid") {  
             const note = document.createElement("p");  
-            note.textContent = "Your payment has been approved. You can now open, edit and download your CV.";  
+            note.textContent = "Your payment has been approved. You can now open, edit and download your document.";  
             actions.appendChild(note);  
 
             const builderButton = document.createElement("a");  
             builderButton.className = "button";  
             builderButton.href = "./builder.html?purchase_id=" + encodeURIComponent(purchase.id);  
-            builderButton.textContent = "Open My CV Builder";  
+            builderButton.textContent = purchase.cv_template === "cover-letter" ? "Open Cover Letter Generator" : "Open CV Builder";  
             actions.appendChild(builderButton);  
           } else if (status === "declined") {  
             const note = document.createElement("p");  
@@ -663,7 +675,7 @@
             actions.appendChild(note);  
           } else {  
             const note = document.createElement("p");  
-            note.textContent = "Your CV is locked while you arrange payment and wait for the owner to verify it.";  
+            note.textContent = "Your document is locked while you arrange payment and wait for the owner to verify it.";  
             actions.appendChild(note);  
 
             const paymentButton = document.createElement("button");  
