@@ -29,14 +29,13 @@
       background: var(--bg);  
       color: var(--black);  
       line-height: 1.4;  
-      height: 100vh;
-      overflow-x: hidden;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
     }  
 
-    /* TOP NAVBAR - CLEANED WITH NO LINKS EXCEPT BUTTONS */
+    /* TOP NAVBAR */
     header {  
       background: #ffffff;  
       border-bottom: 1px solid var(--border);
@@ -48,7 +47,7 @@
     .nav {  
       max-width: 1140px;  
       margin: auto;  
-      padding: 10px 16px;
+      padding: 12px 16px;
       display: flex;  
       align-items: center;  
       justify-content: space-between;  
@@ -93,8 +92,6 @@
       font-size: 12px;
       font-weight: 700;
       cursor: pointer;
-      text-decoration: none;
-      transition: background 0.2s;
     }
 
     .btn-primary {
@@ -107,7 +104,6 @@
       font-weight: 700;
       cursor: pointer;
       text-decoration: none;
-      transition: background 0.2s;
       display: inline-block;
     }
 
@@ -124,47 +120,46 @@
       font-size: 12px;
       font-weight: 700;
       cursor: pointer;
-      text-decoration: none;
       display: inline-block;
     }
 
     main {  
       max-width: 1140px;  
       margin: auto;  
-      padding: 16px;  
+      padding: 20px 16px;  
       flex: 1;
       display: flex;
       align-items: center;
     }  
 
-    /* SINGLE SCREEN HERO LAYOUT */
+    /* HERO SECTION */
     .hero-container {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 20px;
+      gap: 24px;
       align-items: center;
       width: 100%;
     }
 
     .badge-label {
       display: inline-block;
-      padding: 3px 8px;
+      padding: 4px 10px;
       border-radius: 4px;
       background: var(--light-blue);
       color: var(--blue);
-      font-size: 10px;
+      font-size: 11px;
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
     }
 
     .hero-text h1 {
-      font-size: clamp(24px, 3.5vw, 38px);
+      font-size: clamp(26px, 4vw, 42px);
       line-height: 1.15;
       font-weight: 900;
       color: var(--black);
-      margin: 0 0 10px;
+      margin: 0 0 12px;
       letter-spacing: -0.5px;
     }
 
@@ -173,15 +168,15 @@
     }
 
     .hero-text p {
-      font-size: 13px;
+      font-size: 14px;
       color: var(--grey);
-      margin: 0 0 16px;
+      margin: 0 0 20px;
       max-width: 440px;
     }
 
     .hero-actions {
       display: flex;
-      gap: 10px;
+      gap: 12px;
       align-items: center;
     }
 
@@ -190,12 +185,12 @@
       position: relative;
       background: #f1f5f9;
       border-radius: 12px;
-      padding: 20px;
+      padding: 24px;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      min-height: 280px;
+      min-height: 300px;
     }
 
     .clipboard-mockup {
@@ -203,29 +198,29 @@
       border: 1px solid var(--border);
       border-radius: 8px;
       width: 85%;
-      padding: 16px;
+      padding: 18px;
       box-shadow: 0 8px 20px -5px rgba(0,0,0,0.06);
       transform: rotate(-1deg);
       position: relative;
     }
 
     .mockup-header {
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 900;
       color: var(--black);
       margin-bottom: 2px;
     }
 
     .mockup-sub {
-      font-size: 9px;
+      font-size: 10px;
       color: var(--grey);
-      margin-bottom: 8px;
+      margin-bottom: 10px;
       padding-bottom: 6px;
       border-bottom: 1px solid var(--border);
     }
 
     .mockup-line {
-      height: 5px;
+      height: 6px;
       background: #e2e8f0;
       border-radius: 4px;
       margin-bottom: 6px;
@@ -235,17 +230,16 @@
       width: 45%;
     }
 
-    /* FLOATING BUTTON BOX FOR EXAMPLES */
+    /* FLOATING EXAMPLES BUTTON BOX */
     .badge-examples-box {
       position: absolute;
-      top: 12px;
-      right: -8px;
+      top: 14px;
+      right: -6px;
       background: #ffffff;
       border: 1px solid #bfdbfe;
       padding: 8px 12px;
       border-radius: 8px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-      text-align: center;
     }
 
     .btn-examples {
@@ -263,7 +257,7 @@
     .bottom-visual-group {
       position: absolute;
       bottom: -15px;
-      left: 12px;
+      left: 14px;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
@@ -283,7 +277,7 @@
 
     .badge-ats span {
       display: block;
-      font-size: 15px;
+      font-size: 16px;
       font-weight: 900;
     }
 
@@ -291,9 +285,9 @@
       background: #ffffff;
       color: var(--black);
       border: 1px solid var(--border);
-      padding: 5px 10px;
+      padding: 6px 12px;
       border-radius: 6px;
-      font-size: 10px;
+      font-size: 11px;
       font-weight: 700;
       cursor: pointer;
       box-shadow: 0 2px 8px rgba(0,0,0,0.05);
@@ -319,7 +313,7 @@
     .modal-card {
       background: #ffffff;
       border-radius: 12px;
-      max-width: 500px;
+      max-width: 480px;
       width: 100%;
       max-height: 90vh;
       overflow-y: auto;
@@ -339,8 +333,8 @@
       color: var(--blue);
       cursor: pointer;
       border-radius: 50%;
-      width: 26px;
-      height: 26px;
+      width: 28px;
+      height: 28px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -349,7 +343,7 @@
     .modal-title {
       font-size: 18px;
       font-weight: 900;
-      margin: 0 0 14px;
+      margin: 0 0 16px;
       color: var(--black);
     }
 
@@ -395,14 +389,13 @@
       text-decoration: none;
     }
 
-    /* SAMPLE CV PREVIEWS IN MODAL */
     .sample-preview-card {
       border: 1px solid var(--border);
       border-radius: 8px;
       padding: 12px;
       margin-bottom: 12px;
       background: #ffffff;
-      font-size: 10px;
+      font-size: 11px;
     }
 
     .sample-header-dark {
@@ -414,7 +407,7 @@
     }
 
     footer {  
-      padding: 12px 16px;  
+      padding: 14px 16px;  
       border-top: 1px solid var(--border);
       color: var(--grey);  
       text-align: center;  
@@ -427,13 +420,13 @@
         gap: 20px;
       }
       .hero-visual {
-        min-height: 240px;
+        min-height: 260px;
       }
     }  
   </style>  
 </head>  
 <body>  
-  <!-- NAVBAR - CLEANED (NO NAVIGATION LINKS) -->
+  <!-- NAVBAR -->
   <header>  
     <nav class="nav">  
       <a class="logo" href="./">
@@ -478,13 +471,13 @@
           <button class="btn-examples" onclick="openExamplesModal()">📄 View Examples</button>
         </div>
 
-        <!-- ATS BADGE & CONTACT SUPPORT BUTTON DIRECTLY UNDERNEATH -->
+        <!-- ATS BADGE & CONTACT SUPPORT PLACED DIRECTLY UNDERNEATH -->
         <div class="bottom-visual-group">
           <div class="badge-ats">
             <span>98%</span>
             ATS PASS RATE
           </div>
-          <a href="https://wa.me/27752978917" target="_blank" class="btn-support-under">📞 Contact Support</a>
+          <a href="https://wa.me/27752978917" target="_blank" class="btn-support-under">💬 Contact Support</a>
         </div>
       </div>
     </div>
@@ -552,7 +545,7 @@
           <strong style="font-size:12px;">SISANDA SHANGE</strong><br>
           <span style="font-size:9px; color:#cbd5e1;">sisandashange25@gmail.com | +27 75 297 8917</span>
         </div>
-        <p style="margin:0; color:#64748b; font-size:9.5px;">Contemporary dark top banner layout.</p>
+        <p style="margin:0; color:#64748b; font-size:10px;">Contemporary dark top banner layout.</p>
       </div>
 
       <div class="sample-preview-card">
@@ -561,12 +554,12 @@
           <strong style="font-size:12px; font-family:Georgia, serif;">SISANDA SHANGE</strong><br>
           <span style="font-size:9px; color:#475569;">sisandashange25@gmail.com | +27 75 297 8917</span>
         </div>
-        <p style="margin:0; color:#64748b; font-size:9.5px;">Traditional clean single-page format.</p>
+        <p style="margin:0; color:#64748b; font-size:10px;">Traditional clean single-page format.</p>
       </div>
 
       <div class="sample-preview-card">
         <strong>3. Tailored Cover Letter (R15)</strong>
-        <p style="margin:6px 0 0; color:#334155; font-size:9.5px;">Dear Hiring Manager,<br>I am writing to express my strong interest in the open position...</p>
+        <p style="margin:6px 0 0; color:#334155; font-size:10px;">Dear Hiring Manager,<br>I am writing to express my strong interest in the open position...</p>
       </div>
     </div>
   </div>
@@ -594,7 +587,6 @@
       document.getElementById("examplesModal").style.display = "none";
     }
 
-    // Close modal when clicking outside content card
     window.onclick = function(event) {
       const pricingM = document.getElementById("pricingModal");
       const examplesM = document.getElementById("examplesModal");
