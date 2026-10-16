@@ -3705,23 +3705,45 @@ async function checkPurchaseAccess() {
 async function saveCv() {
   if (saveInProgress) return;
 
-  if (!userEntitlements.hasClassic && !userEntitlements.hasModern) {
+  // Check access to the specific CV template.
+  if (
+    purchasedTemplate === "classic" &&
+    !userEntitlements.hasClassic
+  ) {
     showMessage(
-      "Access denied: Saving CV data requires a Classic or Modern CV purchase.",
+      "Access denied: Classic CV is not unlocked on your account.",
       "error"
     );
     return;
   }
 
   if (
-    !currentUser ||
-    !activePurchase
+    purchasedTemplate === "modern" &&
+    !userEntitlements.hasModern
   ) {
+    showMessage(
+      "Access denied: Modern CV is not unlocked on your account.",
+      "error"
+    );
+    return;
+  }
+
+  if (
+    purchasedTemplate !== "classic" &&
+    purchasedTemplate !== "modern"
+  ) {
+    showMessage(
+      "Access denied: No authorized CV template is selected.",
+      "error"
+    );
+    return;
+  }
+
+  if (!currentUser || !activePurchase) {
     showMessage(
       "Your approved purchase could not be confirmed.",
       "error"
     );
-
     return;
   }
 
@@ -3733,21 +3755,22 @@ async function saveCv() {
 
   const button = $("saveButton");
 
-  button.disabled = true;
-  button.textContent = "Saving...";
+  if (button) {
+    button.disabled = true;
+    button.textContent = "Saving...";
+  }
 
   try {
     const cvData = getFormData();
 
-    const result =
-      await callEdgeFunction(
-        "save-customer-cv",
-        {
-          purchase_id:
-            activePurchase.id,
-          cv_data: cvData
-        }
-      );
+    const result = await callEdgeFunction(
+      "save-customer-cv",
+      {
+        purchase_id: activePurchase.id,
+        cv_template: purchasedTemplate,
+        cv_data: cvData
+      }
+    );
 
     savedCvData = cvData;
 
@@ -3760,10 +3783,7 @@ async function saveCv() {
     );
 
   } catch (error) {
-    console.error(
-      "CV save error:",
-      error
-    );
+    console.error("CV save error:", error);
 
     showMessage(
       error.message ||
@@ -3774,9 +3794,10 @@ async function saveCv() {
   } finally {
     saveInProgress = false;
 
-    button.disabled = false;
-    button.textContent =
-      "Save My CV";
+    if (button) {
+      button.disabled = false;
+      button.textContent = "Save My CV";
+    }
   }
 }
 
@@ -3787,38 +3808,82 @@ async function saveCv() {
 
 async function downloadCvPdf() {
   const isCv = activeView === "cv";
+  const isClassic = purchasedTemplate === "classic";
+  const isModern = purchasedTemplate === "modern";
 
-  if (isCv && !userEntitlements.hasClassic && !userEntitlements.hasModern) {
-    showMessage("Access denied: Your purchase is Cover Letter only. You cannot download a CV.", "error");
+  // Check access to the specific CV template.
+  if (isCv && isClassic && !userEntitlements.hasClassic) {
+    showMessage(
+      "Access denied: You have not purchased the Classic CV.",
+      "error"
+    );
     return;
   }
+
+  if (isCv && isModern && !userEntitlements.hasModern) {
+    showMessage(
+      "Access denied: You have not purchased the Modern CV.",
+      "error"
+    );
+    return;
+  }
+
+  if (isCv && !isClassic && !isModern) {
+    showMessage(
+      "Access denied: No authorized CV template is selected.",
+      "error"
+    );
+    return;
+  }
+
+  // Check access to the Cover Letter.
   if (!isCv && !userEntitlements.hasCoverLetter) {
-    showMessage("Access denied: Your purchase does not include a Cover Letter.", "error");
+    showMessage(
+      "Access denied: Your purchase does not include a Cover Letter.",
+      "error"
+    );
     return;
   }
-
-  updatePreview();
 
   const button = $("printButton");
+
+  if (!button) {
+    showMessage("The download button could not be found.", "error");
+    return;
+  }
+
+  const originalText = button.textContent;
 
   button.disabled = true;
   button.textContent = "Preparing PDF...";
 
   try {
+    // Update the preview before exporting.
+    updatePreview();
+
     if (typeof window.html2pdf !== "function") {
       throw new Error("PDF generator is unavailable.");
     }
 
-    const targetElement = isCv ? $("cvPreview") : $("coverLetterPreview");
-    const docSuffix = isCv ? "_CV.pdf" : "_Cover_Letter.pdf";
+    const targetElement = isCv
+      ? $("cvPreview")
+      : $("coverLetterPreview");
 
     if (!targetElement) {
       throw new Error("Document preview could not be found.");
     }
 
+    if (targetElement.classList.contains("hidden")) {
+      throw new Error("The selected document preview is not visible.");
+    }
+
     const filename = (
       valueOf("fullName") || "My_Document"
     ).replace(/[^a-z0-9_-]+/gi, "_");
+
+    const docSuffix = isCv
+      ? (isClassic ? "_Classic_CV.pdf" : "_Modern_CV.pdf")
+      : "_Cover_Letter.pdf";
 
     await window.html2pdf()
       .set({
@@ -3865,7 +3930,7 @@ async function downloadCvPdf() {
 
   } finally {
     button.disabled = false;
-    button.textContent = "Download Professional PDF";
+    button.textContent = originalText;
   }
 }
 
@@ -4064,71 +4129,42 @@ function registerEvents() {
   });
 
   // Template Choice Change Listener with Strict Entitlement Enforcement
-  $("templateChoice")?.addEventListener("change", event => {
-    const chosen = event.target.value;
+$("templateChoice")?.addEventListener("change", event => {
+  const chosen = event.target.value;
 
-    if (!(userEntitlements.hasClassic && userEntitlements.hasModern)) {
-      showMessage("Access denied: You can only use the template included in your purchase.", "error");
-      event.target.value = purchasedTemplate || "";
-      return;
-    }
-
-    if (chosen === "classic" && !userEntitlements.hasClassic) {
-      showMessage("Access denied: Classic CV is not unlocked on your account.", "error");
-      event.target.value = purchasedTemplate || "";
-      return;
-    }
-
-    if (chosen === "modern" && !userEntitlements.hasModern) {
-      showMessage("Access denied: Modern CV is not unlocked on your account.", "error");
-      event.target.value = purchasedTemplate || "";
-      return;
-    }
-
-    clearMessage();
-    purchasedTemplate = chosen;
-    updatePreview();
-  });
-
-  $("cvForm")
-    .addEventListener(
-      "input",
-      event => {
-        if (
-          event.target.id !==
-          "institutionSearch"
-        ) {
-          updatePreview();
-        }
-      }
+  if (
+    chosen === "classic" &&
+    !userEntitlements.hasClassic
+  ) {
+    showMessage(
+      "Access denied: Classic CV is not unlocked on your account.",
+      "error"
     );
+    event.target.value = purchasedTemplate || "";
+    return;
+  }
 
-  $("cvForm")
-    .addEventListener(
-      "change",
-      updatePreview
+  if (
+    chosen === "modern" &&
+    !userEntitlements.hasModern
+  ) {
+    showMessage(
+      "Access denied: Modern CV is not unlocked on your account.",
+      "error"
     );
+    event.target.value = purchasedTemplate || "";
+    return;
+  }
 
-  $("signOutButton")
-    .addEventListener(
-      "click",
-      async () => {
-        try {
-          await supabaseClient
-            .auth.signOut();
+  if (chosen !== "classic" && chosen !== "modern") {
+    event.target.value = purchasedTemplate || "";
+    return;
+  }
 
-          window.location.href =
-            "./account.html";
-
-        } catch (error) {
-          showMessage(
-            "Could not sign out.",
-            "error"
-          );
-        }
-      }
-    );
-}
+  clearMessage();
+  purchasedTemplate = chosen;
+  updatePreview();
+});
 
 /* =========================================================
    INITIALISE CV BUILDER
