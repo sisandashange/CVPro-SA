@@ -3,49 +3,72 @@
 <head>  
   <meta charset="UTF-8">  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">  
-  <meta name="theme-color" content="#0f172a">  
-  <meta name="description" content="Preview professional CV styles and order affordable, ATS-friendly South African CVs & cover letters with CVPro-SA.">  
-  <title>CVPro-SA | Professional CV Examples & Packages</title>    
+  <meta name="theme-color" content="#0b1329">  
+  <meta name="description" content="Create and save a professional CV and tailored cover letter online with CVPro-SA.">  
+  <title>CVPro-SA | Professional CV & Cover Letter Platform</title>    
   <style>  
     * {  
       box-sizing: border-box;  
-      margin: 0;
-      padding: 0;
     }  
 
     :root {  
-      --bg: #fdfdfd;  
+      --bg: #f8fafc;  
       --card-bg: #ffffff;  
-      --black: #0f172a;  
-      --navy: #1e293b;
+      --black: #0b1329;  
       --grey: #64748b;  
-      --light-grey: #f8fafc;  
+      --light-grey: #f1f5f9;  
       --border: #e2e8f0;  
       --accent: #059669;  
       --accent-dark: #047857;  
-      --accent-light: #ecfdf5;
-      --shadow-sm: 0 2px 4px rgba(0,0,0,0.04);
-      --shadow-md: 0 6px 16px rgba(0,0,0,0.06);
+      --accent-light: #d1fae5;
     }  
 
     body {  
+      margin: 0;  
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;  
       background: var(--bg);  
       color: var(--black);  
-      line-height: 1.5;  
+      line-height: 1.4;  
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
+      overflow-x: hidden;
     }  
 
-    /* HEADER & NAVIGATION */
+    /* ENTERPRISE TOP BAR */
+    .top-status-bar {
+      background: #060b17;
+      color: #94a3b8;
+      font-size: 11px;
+      padding: 6px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #34d399;
+      font-weight: 600;
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      background-color: #34d399;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #34d399;
+    }
+
     header {  
       background: var(--black);  
       color: #fff;  
+      padding: 12px 20px;  
       position: sticky;
       top: 0;
       z-index: 100;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
     }  
 
     .nav {  
@@ -54,29 +77,43 @@
       display: flex;  
       align-items: center;  
       justify-content: space-between;  
-      padding: 12px 20px;
     }  
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
 
     .logo {  
       color: #fff;  
       font-size: 20px;  
       font-weight: 800;  
       text-decoration: none;  
-      display: flex;
-      align-items: center;
-      gap: 6px;
+      letter-spacing: -0.5px;
     }  
 
     .logo span {
       color: #34d399;
     }
 
+    .enterprise-badge {
+      background: rgba(255,255,255,0.1);
+      color: #cbd5e1;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
     .nav-contacts {
-      font-size: 13px;
+      font-size: 12px;
       color: #cbd5e1;
       display: flex;
-      align-items: center;
       gap: 18px;
+      align-items: center;
     }
 
     .nav-contacts a {
@@ -88,94 +125,26 @@
 
     .nav-contacts a:hover {
       color: #6ee7b7;
-      text-decoration: underline;
     }
 
-    /* NAVIGATION TAB BAR */
-    .tab-bar-container {
-      background: #1e293b;
-      border-top: 1px solid #334155;
-    }
-
-    .tab-bar {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      padding: 0 20px;
-      gap: 4px;
-      overflow-x: auto;
-    }
-
-    .tab-btn {
-      background: transparent;
-      border: none;
-      color: #94a3b8;
-      padding: 12px 18px;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      border-bottom: 3px solid transparent;
-      transition: all 0.2s ease;
-      white-space: nowrap;
-    }
-
-    .tab-btn:hover {
-      color: #f8fafc;
-      background: rgba(255, 255, 255, 0.05);
-    }
-
-    .tab-btn.active {
-      color: #34d399;
-      border-bottom-color: #34d399;
-      background: rgba(5, 150, 105, 0.12);
-    }
-
-    /* MAIN CONTENT AREA */
     main {  
       max-width: 1200px;  
-      width: 100%;
-      margin: 0 auto;  
-      padding: 24px 20px;  
-      flex: 1;
+      margin: auto;  
+      padding: 20px 15px;  
     }  
-
-    .view-panel {
-      display: none;
-      animation: fadeIn 0.25s ease-in-out;
-    }
-
-    .view-panel.active {
-      display: block;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(4px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
 
     /* HERO SECTION */  
     .hero {  
-      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);  
+      background: linear-gradient(135deg, #0b1329 0%, #1e293b 100%);  
       color: #fff;  
-      border-radius: 16px;  
-      padding: 36px 24px;  
+      border-radius: 14px;  
+      padding: 32px 24px;  
       text-align: center;  
       margin-bottom: 24px;  
-      box-shadow: var(--shadow-md);
+      box-shadow: 0 10px 30px -10px rgba(11, 19, 41, 0.3);
       position: relative;
       overflow: hidden;
     }  
-
-    .hero::after {
-      content: '';
-      position: absolute;
-      top: 0; right: 0; bottom: 0; left: 0;
-      background: radial-gradient(circle at top right, rgba(52, 211, 153, 0.15), transparent 60%);
-      pointer-events: none;
-    }
 
     .badge {  
       display: inline-block;  
@@ -187,21 +156,21 @@
       font-weight: 700;  
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       border: 1px solid rgba(52, 211, 153, 0.3);
     }  
 
     h1 {  
       margin: 0 auto 10px;  
       font-size: clamp(24px, 4vw, 36px);  
-      line-height: 1.2;  
+      line-height: 1.15;  
       font-weight: 800;
-      letter-spacing: -0.02em;
+      letter-spacing: -0.5px;
     }  
 
     .hero p {  
-      max-width: 620px;  
-      margin: 0 auto 18px;  
+      max-width: 600px;  
+      margin: 0 auto 20px;  
       color: #94a3b8;  
       font-size: 14px;  
     }  
@@ -213,108 +182,112 @@
       flex-wrap: wrap;
     }
 
-    .btn-hero {
-      padding: 10px 20px;
-      border-radius: 8px;
-      font-size: 13px;
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 9px 18px;
+      border-radius: 7px;
+      font-size: 12px;
       font-weight: 700;
-      text-decoration: none;
       cursor: pointer;
-      border: none;
-      transition: transform 0.15s, background 0.15s;
+      text-decoration: none;
+      transition: all 0.2s;
     }
 
-    .btn-hero.primary {
-      background: var(--accent);
-      color: #fff;
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.2);
     }
 
-    .btn-hero.primary:hover {
-      background: var(--accent-dark);
-      transform: translateY(-1px);
+    /* SECTION HEADERS */
+    .section-title {
+      text-align: center;
+      margin-bottom: 18px;
     }
 
-    .btn-hero.secondary {
-      background: rgba(255,255,255,0.1);
-      color: #fff;
-      border: 1px solid rgba(255,255,255,0.2);
+    .section-title h2 {
+      font-size: 20px;
+      font-weight: 800;
+      margin: 0 0 4px;
+      color: var(--black);
     }
 
-    .btn-hero.secondary:hover {
-      background: rgba(255,255,255,0.2);
+    .section-title p {
+      margin: 0;
+      color: var(--grey);
+      font-size: 13px;
     }
 
     /* PRICING GRID */  
     .pricing-grid {  
       display: grid;  
       grid-template-columns: repeat(5, minmax(0, 1fr));  
-      gap: 14px;  
+      gap: 12px;  
       align-items: stretch;  
+      margin-bottom: 30px;
     }  
 
     .template-card {  
       border: 1px solid var(--border);  
-      border-radius: 14px;  
+      border-radius: 12px;  
       background: var(--card-bg);  
       display: flex;  
       flex-direction: column;  
       justify-content: space-between;  
-      padding: 16px;
-      box-shadow: var(--shadow-sm);
-      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+      padding: 16px 14px;  
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.03);
+      transition: transform 0.2s, box-shadow 0.2s;
     }  
 
     .template-card:hover {
       transform: translateY(-2px);
-      box-shadow: var(--shadow-md);
-      border-color: #cbd5e1;
+      box-shadow: 0 10px 15px -3px rgba(0,0,0,0.08);
     }
 
     .template-card.popular {  
       border: 2px solid var(--accent);  
       position: relative;  
-      background: linear-gradient(180deg, #ffffff 0%, #f0fdf4 100%);
+      background: #ffffff;
     }  
 
     .template-card.popular::before {  
-      content: "BEST VALUE";  
+      content: "POPULAR BUNDLE";  
       position: absolute;  
       top: -10px;  
       right: 12px;  
       background: var(--accent);  
       color: #fff;  
-      font-size: 9px;  
+      font-size: 8px;  
       font-weight: 800;  
-      padding: 2px 8px;  
+      padding: 3px 8px;  
       border-radius: 10px;  
       letter-spacing: 0.5px;
-      box-shadow: 0 2px 4px rgba(5, 150, 105, 0.3);
     }  
 
     .card-top {  
       display: flex;  
       justify-content: space-between;  
-      align-items: flex-start;  
+      align-items: center;  
       margin-bottom: 8px;
     }  
 
     .card-top h3 {  
       margin: 0;  
-      font-size: 15px;  
-      font-weight: 700;
+      font-size: 14px;  
+      font-weight: 800;
       color: var(--black);
     }  
 
     .price {  
-      font-size: 18px;  
+      font-size: 16px;  
       font-weight: 800;  
       color: var(--accent);  
     }  
 
     .template-card p {  
       color: var(--grey);  
-      font-size: 12px;  
-      margin: 0 0 12px;  
+      font-size: 11px;  
+      margin: 0 0 10px;  
       line-height: 1.3;
     }  
 
@@ -322,46 +295,41 @@
       list-style: none;
       padding: 0;  
       margin: 0 0 14px;  
-      font-size: 12px;  
+      font-size: 11px;  
       color: #334155;  
     }  
 
     .features li {  
-      margin-bottom: 6px;  
-      display: flex;
-      align-items: center;
-      gap: 6px;
+      margin-bottom: 4px;  
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }  
 
     .features li::before {
-      content: "✓";
+      content: "✓ ";
       color: var(--accent);
-      font-weight: 800;
-      font-size: 13px;
+      font-weight: bold;
     }
 
     .select-button {  
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
+      display: block;  
       width: 100%;  
-      padding: 10px;  
+      padding: 9px;  
       border: 1px solid var(--black);  
-      border-radius: 8px;  
+      border-radius: 7px;  
       background: var(--black);  
       color: #fff;  
-      font-size: 12px;  
+      font-size: 11px;  
       font-weight: 700;  
       cursor: pointer;  
       text-align: center;  
       text-decoration: none;  
-      transition: all 0.2s ease;
+      transition: background 0.2s, border-color 0.2s;
     }  
 
     .select-button:hover {
       background: #1e293b;
-      border-color: #1e293b;
     }
 
     .select-button.accent {  
@@ -369,349 +337,142 @@
       border-color: var(--accent);  
     }  
 
-    .select-button.accent:hover {  
-      background: var(--accent-dark);  
-      border-color: var(--accent-dark);  
+    .select-button.accent:hover {
+      background: var(--accent-dark);
+      border-color: var(--accent-dark);
     }
 
-    /* SHOWCASE / CV EXAMPLES VIEWER */
-    .showcase-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-
-    .style-selector {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .style-btn {
-      padding: 8px 14px;
+    /* PREVIEW DEMO SECTION */
+    .preview-section {
+      background: #ffffff;
       border: 1px solid var(--border);
-      background: #fff;
-      border-radius: 8px;
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.03);
+    }
+
+    .preview-tabs {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .tab-btn {
+      padding: 8px 16px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--light-grey);
       font-size: 12px;
-      font-weight: 600;
+      font-weight: 700;
+      color: var(--grey);
       cursor: pointer;
       transition: all 0.2s;
     }
 
-    .style-btn:hover {
-      border-color: var(--grey);
-      background: var(--light-grey);
-    }
-
-    .style-btn.active {
+    .tab-btn.active {
       background: var(--black);
       color: #fff;
       border-color: var(--black);
     }
 
-    .profile-toggle-bar {
-      background: var(--light-grey);
-      border: 1px solid var(--border);
-      padding: 10px 16px;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 16px;
-      font-size: 13px;
-    }
-
-    .preview-container-wrapper {
-      position: relative;
-      background: #e2e8f0;
-      border: 1px solid var(--border);
-      border-radius: 12px;
+    .cv-paper-preview {
+      max-width: 650px;
+      margin: 0 auto;
+      background: #fff;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
       padding: 24px;
-      display: flex;
-      justify-content: center;
-      overflow-x: auto;
-    }
-
-    /* REALISTIC A4 CV PAPER STYLING */
-    .paper-sheet {
-      background: #ffffff;
-      width: 100%;
-      max-width: 720px;
-      min-height: 980px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-      padding: 36px;
-      color: #1e293b;
-      font-size: 13px;
-      line-height: 1.45;
-      position: relative;
-      border-radius: 2px;
-    }
-
-    /* MODERN STYLE CV RENDERING */
-    .cv-modern-header {
-      background: #0f172a;
-      color: #ffffff;
-      padding: 18px 24px;
-      margin: -36px -36px 24px -36px;
-    }
-
-    .cv-modern-header h2 {
-      font-size: 22px;
-      letter-spacing: 1px;
-      font-weight: 800;
-      text-transform: uppercase;
-      margin-bottom: 4px;
-    }
-
-    .cv-modern-header .contacts {
+      box-shadow: 0 10px 25px -5px rgba(0,0,0,0.08);
       font-size: 11px;
+    }
+
+    /* PREVIEW RENDERING STYLES */
+    .modern-preview-header {
+      background: #0f172a;
+      color: #fff;
+      padding: 12px 16px;
+      margin: -24px -24px 16px -24px;
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+    }
+
+    .modern-preview-header h2 {
+      margin: 0;
+      font-size: 18px;
+      letter-spacing: 0.5px;
+    }
+
+    .modern-preview-header p {
+      margin: 3px 0 0;
+      font-size: 10px;
       color: #cbd5e1;
     }
 
-    .cv-section-title-modern {
-      font-size: 13px;
-      font-weight: 800;
-      text-transform: uppercase;
-      border-left: 4px solid #0f172a;
-      padding-left: 8px;
-      margin: 16px 0 8px 0;
-      color: #0f172a;
-    }
-
-    /* CLASSIC STYLE CV RENDERING */
-    .cv-classic-header {
+    .classic-preview-header {
       border-bottom: 2px solid #0f172a;
-      padding-bottom: 12px;
-      margin-bottom: 20px;
+      padding-bottom: 8px;
+      margin-bottom: 16px;
     }
 
-    .cv-classic-header h2 {
-      font-size: 24px;
-      font-weight: 800;
+    .classic-preview-header h2 {
+      margin: 0;
+      font-size: 20px;
       font-family: Georgia, serif;
-      letter-spacing: 0.5px;
-      margin-bottom: 4px;
     }
 
-    .cv-classic-header .contacts {
-      font-size: 11px;
+    .classic-preview-header p {
+      margin: 2px 0 0;
+      font-size: 10px;
       color: #475569;
     }
 
-    .cv-section-title-classic {
-      font-size: 12px;
+    .cv-section-title {
       font-weight: 800;
       text-transform: uppercase;
-      border-bottom: 1px solid #cbd5e1;
-      padding-bottom: 4px;
-      margin: 16px 0 8px 0;
+      font-size: 11px;
+      letter-spacing: 0.5px;
+      margin: 12px 0 6px;
       color: #0f172a;
-      font-family: Georgia, serif;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 2px;
     }
 
-    .cv-bullet-list {
-      list-style-type: disc;
-      padding-left: 18px;
-      margin-bottom: 12px;
+    .cv-text {
+      color: #334155;
+      font-size: 11px;
+      margin: 0 0 8px;
+      line-height: 1.4;
     }
 
-    .cv-bullet-list li {
-      margin-bottom: 4px;
+    .cv-list {
+      margin: 0 0 10px;
+      padding-left: 16px;
+      color: #334155;
     }
 
-    .cv-two-col {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
+    .cv-list li {
+      margin-bottom: 2px;
     }
 
-    /* MODAL FULLSCREEN ZOOM */
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(15, 23, 42, 0.85);
-      z-index: 1000;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      overflow-y: auto;
-    }
-
-    .modal-overlay.active {
-      display: flex;
-    }
-
-    .modal-content {
-      background: #fff;
-      border-radius: 12px;
-      max-width: 800px;
-      width: 100%;
-      max-height: 90vh;
-      overflow-y: auto;
-      padding: 20px;
-      position: relative;
-    }
-
-    .close-modal {
-      position: absolute;
-      top: 15px;
-      right: 15px;
-      background: var(--black);
-      color: #fff;
-      border: none;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    /* SUPPORT VIEW & FAQ */
-    .support-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-    }
-
-    .support-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 20px;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .contact-hero-btn {
-      background: #25d366;
-      color: white;
-      text-decoration: none;
-      padding: 12px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      font-weight: 700;
-      font-size: 13px;
-      margin-top: 10px;
-      transition: background 0.2s;
-    }
-
-    .contact-hero-btn:hover {
-      background: #1da851;
-    }
-
-    .form-group {
-      margin-bottom: 12px;
-    }
-
-    .form-group label {
-      display: block;
-      font-size: 12px;
-      font-weight: 600;
-      margin-bottom: 4px;
-      color: var(--black);
-    }
-
-    .form-control {
-      width: 100%;
-      padding: 9px 12px;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      font-size: 13px;
-      outline: none;
-    }
-
-    .form-control:focus {
-      border-color: var(--accent);
-    }
-
-    .faq-item {
-      border-bottom: 1px solid var(--border);
-      padding: 10px 0;
-    }
-
-    .faq-item:last-child {
-      border-bottom: none;
-    }
-
-    .faq-question {
-      font-weight: 600;
-      font-size: 13px;
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      user-select: none;
-    }
-
-    .faq-answer {
-      font-size: 12px;
-      color: var(--grey);
-      margin-top: 6px;
-      display: none;
-      line-height: 1.45;
-    }
-
-    .faq-item.open .faq-answer {
-      display: block;
-    }
-
-    /* FOOTER */
     footer {  
-      padding: 18px 20px;  
-      background: #090d16;  
+      padding: 16px 20px;  
+      background: #060b17;  
       color: #64748b;  
       text-align: center;  
-      font-size: 12px;  
-      margin-top: auto;
-    }  
-
-    .footer-inner {
-      max-width: 1200px;
-      margin: 0 auto;
+      font-size: 11px;  
+      margin-top: 20px;  
       display: flex;
       justify-content: space-between;
       align-items: center;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }  
 
-    .footer-inner a {
-      color: #94a3b8;
-      text-decoration: none;
-    }
-
-    .footer-inner a:hover {
-      color: #34d399;
-    }
-
-    /* RESPONSIVE STYLES */
     @media (max-width: 1024px) {  
       .pricing-grid {  
         grid-template-columns: repeat(3, minmax(0, 1fr));  
       }  
-    }
-
-    @media (max-width: 768px) {
-      .support-grid {
-        grid-template-columns: 1fr;
-      }
-      .paper-sheet {
-        padding: 20px;
-        min-height: auto;
-      }
-      .cv-modern-header {
-        margin: -20px -20px 16px -20px;
-        padding: 14px 18px;
-      }
-      .cv-two-col {
-        grid-template-columns: 1fr;
-      }
     }
 
     @media (max-width: 650px) {  
@@ -721,488 +482,232 @@
       .nav-contacts {
         display: none;
       }
-      .footer-inner {
+      footer {
         flex-direction: column;
-        text-align: center;
+        gap: 8px;
       }
     }  
   </style>  
 </head>  
 <body>  
-  <!-- HEADER & TOP BAR -->
+  <!-- SYSTEM STATUS TOP BAR -->
+  <div class="top-status-bar">
+    <span class="status-badge"><span class="status-dot"></span> System Operational — Instant Automated Downloads</span>
+    <span>Official SA Matriculant CV Builder</span>
+  </div>
+
   <header>  
     <nav class="nav">  
-      <a class="logo" href="#">CVPro<span>-SA</span></a>  
+      <div class="brand-group">
+        <a class="logo" href="./">CVPro<span>-SA</span></a>  
+        <span class="enterprise-badge">PRO v2.4</span>
+      </div>
       <div class="nav-contacts">
         <span>📞 <a href="tel:+27752978917">+27 75 297 8917</a> (24/7)</span>
         <span>💬 <a href="https://wa.me/27752978917" target="_blank">WhatsApp</a></span>
         <span>✉️ <a href="mailto:mfanarhshange43@gmail.com">Email Us</a></span>
       </div>
     </nav>  
-
-    <!-- TOP TAB NAVIGATION BAR -->
-    <div class="tab-bar-container">
-      <div class="tab-bar">
-        <button class="tab-btn active" data-tab="home">
-          <span>🏠</span> Home & Packages
-        </button>
-        <button class="tab-btn" data-tab="showcase">
-          <span>📄</span> CV Styles & Live Examples
-        </button>
-        <button class="tab-btn" data-tab="support">
-          <span>🎧</span> Order & Support Hub
-        </button>
-      </div>
-    </div>
   </header>    
 
   <main>  
-    <!-- ================= VIEW 1: HOME & PRICING ================= -->
-    <div id="view-home" class="view-panel active">
-      <section class="hero">  
-        <span class="badge">100% Honest & Matriculant-Friendly</span>  
-        <h1>Professional South African CVs & Cover Letters</h1>  
-        <p>Get an ATS-compliant, professionally formatted CV tailored for entry-level positions, technical trades, and learners. Delivered instantly via WhatsApp or Email.</p>  
-        <div class="hero-actions">
-          <button class="btn-hero primary" onclick="switchTab('showcase')">View Live CV Examples</button>
-          <a class="btn-hero secondary" href="https://wa.me/27752978917" target="_blank">Order via WhatsApp</a>
-        </div>
-      </section>  
+    <section class="hero">  
+      <span class="badge">100% Verified & Matriculant-Friendly</span>  
+      <h1>Professional CVs & Cover Letters Made Simple</h1>  
+      <p>Build directly from your phone, save your documents securely, and download verified PDFs instantly.</p>  
+      <div class="hero-actions">
+        <a href="#packages" class="btn-secondary" style="background: var(--accent); border-color: var(--accent);">View All Packages & Pricing</a>
+        <a href="#preview" class="btn-secondary">Preview CV Templates</a>
+      </div>
+    </section>  
 
-      <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 14px; text-align: center;">Our Affordable Packages</h2>
-
-      <!-- 5 PACKAGES GRID -->  
-      <div class="pricing-grid">  
-        <!-- 1. Classic CV -->  
-        <article class="template-card">  
-          <div>  
-            <div class="card-top">  
-              <h3>Classic CV</h3>  
-              <span class="price">R15</span>  
-            </div>  
-            <p>Traditional clean single-page format.</p>  
-            <ul class="features">  
-              <li>Factual learning highlights</li>  
-              <li>Instant PDF delivery</li>  
-            </ul>  
-          </div>  
-          <button class="select-button" onclick="orderPackage('Classic CV (R15)')">Select — R15</button>  
-        </article>  
-
-        <!-- 2. Modern CV -->  
-        <article class="template-card">  
-          <div>  
-            <div class="card-top">  
-              <h3>Modern CV</h3>  
-              <span class="price">R25</span>  
-            </div>  
-            <p>Contemporary dark top banner layout.</p>  
-            <ul class="features">  
-              <li>Organized contact details</li>  
-              <li>Instant PDF delivery</li>  
-            </ul>  
-          </div>  
-          <button class="select-button" onclick="orderPackage('Modern CV (R25)')">Select — R25</button>  
-        </article>  
-
-        <!-- 3. Cover Letter Only -->  
-        <article class="template-card">  
-          <div>  
-            <div class="card-top">  
-              <h3>Cover Letter</h3>  
-              <span class="price">R15</span>  
-            </div>  
-            <p>Tailored letter matched to your goal.</p>  
-            <ul class="features">  
-              <li>Highlights matric & subjects</li>  
-              <li>Ready to email recruiters</li>  
-            </ul>  
-          </div>  
-          <button class="select-button" onclick="orderPackage('Cover Letter (R15)')">Select — R15</button>  
-        </article>  
-
-        <!-- 4. Classic Bundle -->  
-        <article class="template-card">  
-          <div>  
-            <div class="card-top">  
-              <h3>Classic + Letter</h3>  
-              <span class="price">R30</span>  
-            </div>  
-            <p>Classic CV & tailored cover letter.</p>  
-            <ul class="features">  
-              <li>Complete document set</li>  
-              <li>Full PDF package</li>  
-            </ul>  
-          </div>  
-          <button class="select-button" onclick="orderPackage('Classic Bundle (R30)')">Select — R30</button>  
-        </article>  
-
-        <!-- 5. Modern Bundle (Best Value) -->  
-        <article class="template-card popular">  
-          <div>  
-            <div class="card-top">  
-              <h3>Modern + Letter</h3>  
-              <span class="price">R40</span>  
-            </div>  
-            <p>Top-tier bundle for maximum success.</p>  
-            <ul class="features">  
-              <li>Modern CV & Cover Letter</li>  
-              <li>Instant downloads & edits</li>  
-            </ul>  
-          </div>  
-          <button class="select-button accent" onclick="orderPackage('Modern Bundle (R40)')">Select — R40</button>  
-        </article>  
-      </div>  
+    <!-- SECTION TITLE -->
+    <div class="section-title" id="packages">
+      <h2>Select Your Package</h2>
+      <p>Clicking select will instantly redirect you to your document builder page (account.html)</p>
     </div>
 
-    <!-- ================= VIEW 2: CV STYLES & LIVE SHOWCASE ================= -->
-    <div id="view-showcase" class="view-panel">
-      <div class="showcase-header">
-        <div>
-          <h2 style="font-size: 20px; font-weight: 800;">Interactive CV Style Viewer</h2>
-          <p style="font-size: 13px; color: var(--grey);">Select a format below to see exactly how your completed CV or Cover Letter will look.</p>
-        </div>
-        
-        <!-- STYLE SELECTOR TABS -->
-        <div class="style-selector">
-          <button class="style-btn active" onclick="loadStyle('modern', this)">Modern CV (R25)</button>
-          <button class="style-btn" onclick="loadStyle('classic', this)">Classic CV (R15)</button>
-          <button class="style-btn" onclick="loadStyle('letter', this)">Cover Letter (R15)</button>
-        </div>
+    <!-- ALL 5 PACKAGES IN ONE COMPACT ROW -->  
+    <div class="pricing-grid">  
+      <!-- 1. Classic CV -->  
+      <article class="template-card">  
+        <div>  
+          <div class="card-top">  
+            <h3>Classic CV</h3>  
+            <span class="price">R15</span>  
+          </div>  
+          <p>Traditional clean single-page format.</p>  
+          <ul class="features">  
+            <li>Factual learning highlights</li>  
+            <li>Instant PDF download</li>  
+          </ul>  
+        </div>  
+        <button class="select-button" data-template="classic">Select — R15</button>  
+      </article>  
+
+      <!-- 2. Modern CV -->  
+      <article class="template-card">  
+        <div>  
+          <div class="card-top">  
+            <h3>Modern CV</h3>  
+            <span class="price">R25</span>  
+          </div>  
+          <p>Contemporary dark header banner layout.</p>  
+          <ul class="features">  
+            <li>Organized contact details</li>  
+            <li>Instant PDF download</li>  
+          </ul>  
+        </div>  
+        <button class="select-button" data-template="modern">Select — R25</button>  
+      </article>  
+
+      <!-- 3. Cover Letter Only -->  
+      <article class="template-card">  
+        <div>  
+          <div class="card-top">  
+            <h3>Cover Letter</h3>  
+            <span class="price">R15</span>  
+          </div>  
+          <p>Tailored letter matched to your goal.</p>  
+          <ul class="features">  
+            <li>Highlights matric & subjects</li>  
+            <li>Ready to email recruiters</li>  
+          </ul>  
+        </div>  
+        <button class="select-button" data-template="cover-letter">Select — R15</button>  
+      </article>  
+
+      <!-- 4. Classic Bundle -->  
+      <article class="template-card">  
+        <div>  
+          <div class="card-top">  
+            <h3>Classic + Letter</h3>  
+            <span class="price">R30</span>  
+          </div>  
+          <p>Classic CV & tailored cover letter.</p>  
+          <ul class="features">  
+            <li>Complete document set</li>  
+            <li>Lifetime edits & downloads</li>  
+          </ul>  
+        </div>  
+        <button class="select-button" data-template="classic-bundle">Select — R30</button>  
+      </article>  
+
+      <!-- 5. Modern Bundle (Best Value) -->  
+      <article class="template-card popular">  
+        <div>  
+          <div class="card-top">  
+            <h3>Modern + Letter</h3>  
+            <span class="price">R40</span>  
+          </div>  
+          <p>Top-tier bundle for maximum success.</p>  
+          <ul class="features">  
+            <li>Modern CV & Cover Letter</li>  
+            <li>Instant downloads & edits</li>  
+          </ul>  
+        </div>  
+        <button class="select-button accent" data-template="modern-bundle">Select — R40</button>  
+      </article>  
+    </div>  
+
+    <!-- LIVE CV FORMAT PREVIEW DEMO -->
+    <section class="preview-section" id="preview">
+      <div class="section-title">
+        <h2>Live Format Preview</h2>
+        <p>Switch tabs below to see how each CV design looks before creating yours.</p>
       </div>
 
-      <!-- PROFILE TOGGLE SWITCHER -->
-      <div class="profile-toggle-bar">
-        <span><strong>Sample Profile Data:</strong> Switch between trade/technical or general matriculant samples</span>
-        <select id="profile-select" onchange="renderCurrentPaper()" style="padding: 6px 10px; border-radius: 6px; border: 1px solid var(--border); font-size: 12px; font-weight: 600;">
-          <option value="technical">Technical / Mechanical Matriculant (e.g. Welding Candidate)</option>
-          <option value="general">General NSC Matriculant (Sales / Admin / Retail)</option>
-        </select>
+      <div class="preview-tabs">
+        <button class="tab-btn active" id="btn-modern-tab" onclick="showPreview('modern')">Modern CV Style (R25)</button>
+        <button class="tab-btn" id="btn-classic-tab" onclick="showPreview('classic')">Classic CV Style (R15)</button>
       </div>
 
-      <!-- REALISTIC A4 PREVIEW CANVAS -->
-      <div class="preview-container-wrapper">
-        <div class="paper-sheet" id="paper-render">
-          <!-- Dynamic Paper Content Rendered via JavaScript -->
-        </div>
-      </div>
-
-      <div style="text-align: center; margin-top: 16px;">
-        <button class="btn-hero primary" onclick="openZoomModal()">🔍 View Fullscreen / Zoom Paper</button>
-        <button class="btn-hero secondary" style="background: var(--black);" onclick="orderCurrentStyle()">Order This Style Now</button>
-      </div>
-    </div>
-
-    <!-- ================= VIEW 3: ORDER & SUPPORT HUB ================= -->
-    <div id="view-support" class="view-panel">
-      <div class="support-grid">
-        <!-- Direct Order & WhatsApp -->
-        <div style="display: flex; flex-direction: column; gap: 20px;">
-          <div class="support-card">
-            <h3 style="font-size: 16px; margin-bottom: 8px;">💬 24/7 Instant WhatsApp Ordering</h3>
-            <p style="font-size: 12px; color: var(--grey);">Send us your details or school report directly on WhatsApp. We format and deliver your PDF within 1 to 3 hours.</p>
-            <a href="https://wa.me/27752978917?text=Hi%20CVPro-SA,%20I%20would%20like%20to%20order%20a%20CV." target="_blank" class="contact-hero-btn">
-              <span>Chat & Order on WhatsApp (+27 75 297 8917)</span>
-            </a>
-          </div>
-
-          <!-- Order Reference Lookup -->
-          <div class="support-card">
-            <h3 style="font-size: 15px; margin-bottom: 12px;">🔍 Check Order Status</h3>
-            <form onsubmit="handleStatusCheck(event)">
-              <div class="form-group">
-                <label>Phone Number or WhatsApp Reference</label>
-                <input type="text" id="status-input" class="form-control" placeholder="e.g. +27752978917 or Ref #1042" required>
-              </div>
-              <button type="submit" class="select-button">Track Document Status</button>
-            </form>
-            <div id="status-result" style="margin-top: 10px; font-size: 12px; display: none;"></div>
-          </div>
+      <!-- MODERN PREVIEW CONTAINER -->
+      <div id="preview-modern-container" class="cv-paper-preview">
+        <div class="modern-preview-header">
+          <h2>SISANDA SHANGE</h2>
+          <p>sisandashange25@gmail.com | +27 75 297 8917 | Durban, KwaZulu-Natal</p>
         </div>
 
-        <!-- FAQ ACCORDION -->
-        <div style="display: flex; flex-direction: column; gap: 20px;">
-          <div class="support-card">
-            <h3 style="font-size: 16px; margin-bottom: 12px;">❓ South African CV FAQs</h3>
-            <div class="faq-list">
-              <div class="faq-item open">
-                <div class="faq-question" onclick="toggleFaq(this)">
-                  <span>How long does it take to receive my completed CV?</span>
-                  <span>▼</span>
-                </div>
-                <div class="faq-answer">
-                  Most CV orders are completed and delivered as print-ready PDF files via WhatsApp or Email within 1 to 3 hours after receiving your information.
-                </div>
-              </div>
+        <div class="cv-section-title">Professional Profile</div>
+        <p class="cv-text">Candidate with National Senior Certificate (NSC / Matric) from Folweni High School, completed in 2024 with school-level knowledge of mechanical and technical concepts. Seeking a Welding role in Durban, KwaZulu-Natal.</p>
 
-              <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">
-                  <span>How do I pay for my CV package?</span>
-                  <span>▼</span>
-                </div>
-                <div class="faq-answer">
-                  We support simple local payment options including Capitec Pay, EFT, eWallet, and cash deposit transfers.
-                </div>
-              </div>
+        <div class="cv-section-title">Education</div>
+        <p class="cv-text"><strong>National Senior Certificate (NSC / Matric)</strong><br>Folweni High School (Completed 2024)</p>
 
-              <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">
-                  <span>I only have my Matric results paper—can you build a CV?</span>
-                  <span>▼</span>
-                </div>
-                <div class="faq-answer">
-                  Yes! Simply take a clear photo of your NSC Matric statement or report and send it to us on WhatsApp. We will extract your technical subjects, language proficiency, and qualifications accurately.
-                </div>
-              </div>
+        <div class="cv-section-title">Relevant School Learning</div>
+        <ul class="cv-list">
+          <li>Studied mechanical processes, materials, workshop concepts and safety principles.</li>
+          <li>Studied technical drawings, scale design concepts and graphical communication.</li>
+          <li>Studied technical calculations, mathematical formulas and numerical problem-solving.</li>
+        </ul>
 
-              <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">
-                  <span>Are these templates ATS (Applicant Tracking System) friendly?</span>
-                  <span>▼</span>
-                </div>
-                <div class="faq-answer">
-                  Yes. Both Classic and Modern formats use standard, clean typography and logical sections without broken tables or unnecessary symbols so HR recruitment systems can read them seamlessly.
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <div class="cv-section-title">Skills & Abilities</div>
+        <p class="cv-text">Welding • Metalwork • Technical Drawing • Attention to Detail • Communication • Hardworking</p>
       </div>
-    </div>
+
+      <!-- CLASSIC PREVIEW CONTAINER -->
+      <div id="preview-classic-container" class="cv-paper-preview" style="display: none;">
+        <div class="classic-preview-header">
+          <h2>SISANDA SHANGE</h2>
+          <p>sisandashange25@gmail.com | +27 75 297 8917 | Durban, KwaZulu-Natal</p>
+        </div>
+
+        <div class="cv-section-title">PROFESSIONAL PROFILE</div>
+        <p class="cv-text">Candidate with National Senior Certificate (NSC / Matric) from Folweni High School, completed in 2024 with school-level knowledge of mechanical and technical concepts. Seeking a Welding role in Durban, KwaZulu-Natal.</p>
+
+        <div class="cv-section-title">EDUCATION</div>
+        <p class="cv-text"><strong>National Senior Certificate (NSC / Matric)</strong><br>Folweni High School (Completed 2024)</p>
+
+        <div class="cv-section-title">RELEVANT SCHOOL LEARNING</div>
+        <ul class="cv-list">
+          <li>Studied mechanical processes, materials, workshop concepts and safety principles.</li>
+          <li>Studied technical drawings, scale design concepts and graphical communication.</li>
+          <li>Studied technical calculations, mathematical formulas and numerical problem-solving.</li>
+        </ul>
+
+        <div class="cv-section-title">SKILLS & ABILITIES</div>
+        <p class="cv-text">Communication, Teamwork, Attention to Detail, Welding, Metalwork, Technical Drawing.</p>
+      </div>
+    </section>
   </main>    
 
-  <!-- MODAL FOR FULLSCREEN ZOOM PREVIEW -->
-  <div id="zoom-modal" class="modal-overlay">
-    <div class="modal-content">
-      <button class="close-modal" onclick="closeZoomModal()">✕</button>
-      <div id="modal-paper-target"></div>
-    </div>
-  </div>
-
-  <!-- FOOTER -->
   <footer>  
-    <div class="footer-inner">
-      <p>&copy; <span id="year"></span> CVPro-SA. All rights reserved.</p>  
-      <p>Support: <a href="mailto:mfanarhshange43@gmail.com">mfanarhshange43@gmail.com</a> | <a href="tel:+27752978917">+27 75 297 8917</a> (24/7)</p>  
-    </div>
+    <p>&copy; <span id="year"></span> CVPro-SA. All rights reserved.</p>  
+    <p>Support: mfanarhshange43@gmail.com | +27 75 297 8917 (24/7)</p>  
   </footer>    
 
   <script>  
-    // Set Current Year
     document.getElementById("year").textContent = new Date().getFullYear();  
 
-    // Tab Navigation Logic
-    const tabButtons = document.querySelectorAll('.tab-bar .tab-btn');
-    const viewPanels = document.querySelectorAll('.view-panel');
+    // REDIRECT TO account.html WITH SELECTED TEMPLATE
+    document.querySelectorAll("[data-template]").forEach((button) => {  
+      button.addEventListener("click", () => {  
+        const template = button.dataset.template;  
+        sessionStorage.setItem("cvpro_selected_template", template);  
+        window.location.href = "./account.html?template=" + encodeURIComponent(template);  
+      });  
+    });  
 
-    function switchTab(tabId) {
-      tabButtons.forEach(b => {
-        if (b.dataset.tab === tabId) {
-          b.classList.add('active');
-        } else {
-          b.classList.remove('active');
-        }
-      });
+    // TOGGLE CV PREVIEW MODES
+    function showPreview(type) {
+      const modernContainer = document.getElementById("preview-modern-container");
+      const classicContainer = document.getElementById("preview-classic-container");
+      const modernBtn = document.getElementById("btn-modern-tab");
+      const classicBtn = document.getElementById("btn-classic-tab");
 
-      viewPanels.forEach(panel => {
-        if (panel.id === `view-${tabId}`) {
-          panel.classList.add('active');
-        } else {
-          panel.classList.remove('active');
-        }
-      });
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    tabButtons.forEach(btn => {
-      btn.addEventListener('click', () => switchTab(btn.dataset.tab));
-    });
-
-    // ORDER VIA WHATSAPP LAUNCHER
-    function orderPackage(packageName) {
-      const text = encodeURIComponent(`Hi CVPro-SA, I would like to order the ${packageName} package.`);
-      window.open(`https://wa.me/27752978917?text=${text}`, '_blank');
-    }
-
-    // REALISTIC SAMPLE DATA PROFILES
-    const sampleProfiles = {
-      technical: {
-        name: "SISANDA SHANGE",
-        email: "sisandashange25@gmail.com",
-        phone: "+27 75 297 8917",
-        location: "Durban, KwaZulu-Natal",
-        profileText: "Candidate with National Senior Certificate (NSC / Matric) from Folweni High School, completed in 2024 with school-level knowledge of mechanical and technical concepts. Seeking a Welding / Apprentice role in Durban, KwaZulu-Natal. School subjects include topics related to technical concepts and workshop safety. Eager to build on educational knowledge, learn workplace procedures, and contribute positively to a team.",
-        subjects: ["Technical Mathematics", "Technical Sciences", "Engineering Graphics and Design (EGD)", "Mechanical Technology", "English First Additional Language", "isiZulu Home Language", "Life Orientation"],
-        skills: ["Communication", "Teamwork", "Attention to Detail", "Fast Learner", "Hardworking", "Welding Basics", "Metalwork", "Technical Drawing"],
-        languages: "isiZulu, English - Native / Home language",
-        availability: "Immediately available"
-      },
-      general: {
-        name: "THABO MOLEFE",
-        email: "thabomolefe99@gmail.com",
-        phone: "+27 82 123 4567",
-        location: "Johannesburg, Gauteng",
-        profileText: "Motivated NSC Matriculant (completed 2024) with strong interpersonal skills and numerical aptitude. Seeking an entry-level Sales Assistant or Administrative Assistant position. Computer literate, disciplined, and eager to gain workplace experience.",
-        subjects: ["Mathematics", "Physical Sciences", "Business Studies", "Accounting", "English Home Language", "isiZulu First Additional Language"],
-        skills: ["Customer Service", "Cash Handling", "MS Office / Excel", "Punctuality", "Team Collaboration"],
-        languages: "English, isiZulu - Fluent",
-        availability: "Immediately available"
-      }
-    };
-
-    let activeStyle = "modern";
-
-    function loadStyle(style, btnElement) {
-      activeStyle = style;
-      if (btnElement) {
-        document.querySelectorAll('.style-btn').forEach(b => b.classList.remove('active'));
-        btnElement.classList.add('active');
-      }
-      renderCurrentPaper();
-    }
-
-    function renderCurrentPaper() {
-      const profileKey = document.getElementById("profile-select").value;
-      const data = sampleProfiles[profileKey];
-      const paper = document.getElementById("paper-render");
-
-      if (activeStyle === "modern") {
-        paper.innerHTML = `
-          <div class="cv-modern-header">
-            <h2>${data.name}</h2>
-            <div class="contacts">${data.email} | ${data.phone} | ${data.location}</div>
-          </div>
-
-          <div class="cv-section-title-modern">Professional Profile</div>
-          <p style="font-size: 12px; margin-bottom: 12px; color: #334155;">${data.profileText}</p>
-
-          <div class="cv-section-title-modern">Education</div>
-          <p style="font-size: 12px;"><strong>National Senior Certificate (NSC / Matric)</strong></p>
-          <p style="font-size: 11px; color: var(--grey);">Folweni High School • Completed 2024</p>
-
-          <div class="cv-section-title-modern">Experience and Practical Training</div>
-          <p style="font-size: 12px; font-weight: 700; margin-bottom: 4px;">RELEVANT SCHOOL LEARNING</p>
-          <ul class="cv-bullet-list" style="font-size: 12px;">
-            <li>Studied mechanical processes, materials, workshop concepts and safety principles.</li>
-            <li>Studied technical drawings, scale design concepts and graphical communication.</li>
-            <li>Studied scientific principles and their applications in technical contexts.</li>
-            <li>Studied technical calculations, mathematical formulas and numerical problem-solving.</li>
-          </ul>
-
-          <div class="cv-two-col">
-            <div>
-              <div class="cv-section-title-modern">Relevant Subjects</div>
-              <ul class="cv-bullet-list" style="font-size: 11px;">
-                ${data.subjects.map(s => `<li>${s}</li>`).join('')}
-              </ul>
-            </div>
-            <div>
-              <div class="cv-section-title-modern">Skills & Abilities</div>
-              <ul class="cv-bullet-list" style="font-size: 11px;">
-                ${data.skills.map(sk => `<li>${sk}</li>`).join('')}
-              </ul>
-            </div>
-          </div>
-
-          <div class="cv-section-title-modern">Languages</div>
-          <p style="font-size: 11px;">${data.languages}</p>
-
-          <div class="cv-section-title-modern">Additional Information</div>
-          <p style="font-size: 11px;">Availability: ${data.availability}</p>
-        `;
-      } else if (activeStyle === "classic") {
-        paper.innerHTML = `
-          <div class="cv-classic-header">
-            <h2>${data.name}</h2>
-            <div class="contacts">${data.email} | ${data.phone} | ${data.location}</div>
-          </div>
-
-          <div class="cv-section-title-classic">Professional Profile</div>
-          <p style="font-size: 12px; margin-bottom: 12px;">${data.profileText}</p>
-
-          <div class="cv-section-title-classic">Education</div>
-          <p style="font-size: 12px;"><strong>National Senior Certificate (NSC / Matric)</strong></p>
-          <p style="font-size: 11px; color: var(--grey);">Folweni High School • Completed 2024</p>
-
-          <div class="cv-section-title-classic">Relevant Subjects & Coursework</div>
-          <ul class="cv-bullet-list" style="font-size: 11px;">
-            ${data.subjects.map(s => `<li>${s}</li>`).join('')}
-          </ul>
-
-          <div class="cv-section-title-classic">Skills & Competencies</div>
-          <ul class="cv-bullet-list" style="font-size: 11px;">
-            ${data.skills.map(sk => `<li>${sk}</li>`).join('')}
-          </ul>
-
-          <div class="cv-section-title-classic">Languages & Availability</div>
-          <p style="font-size: 11px;">Languages: ${data.languages}</p>
-          <p style="font-size: 11px;">Availability: ${data.availability}</p>
-        `;
-      } else if (activeStyle === "letter") {
-        paper.innerHTML = `
-          <div style="text-align: right; font-size: 11px; margin-bottom: 20px;">
-            <strong>${data.name}</strong><br>
-            ${data.location}<br>
-            Email: ${data.email}<br>
-            Phone: ${data.phone}
-          </div>
-
-          <div style="margin-bottom: 20px; font-size: 12px;">
-            <strong>Date:</strong> 17 October 2026<br><br>
-            <strong>To:</strong> The Hiring Manager / Recruitment Team<br>
-            <strong>Re: Application for Entry-Level Position / Apprenticeship</strong>
-          </div>
-
-          <div style="font-size: 12px; line-height: 1.6;">
-            <p style="margin-bottom: 12px;">Dear Hiring Manager,</p>
-
-            <p style="margin-bottom: 12px;">I am writing to express my strong interest in an entry-level role or apprenticeship position with your company. Having recently completed my National Senior Certificate (NSC / Matric) with a focus on technical subjects including ${data.subjects.slice(0, 3).join(', ')}, I am eager to apply my foundational skills in a practical environment.</p>
-
-            <p style="margin-bottom: 12px;">During my high school studies, I gained hands-on familiarity with safety principles, technical drawing, and numerical calculations. I pride myself on being disciplined, attentive to detail, and quick to learn workplace procedures.</p>
-
-            <p style="margin-bottom: 12px;">Thank you for considering my application. I welcome the opportunity to discuss how I can contribute positively to your team.</p>
-
-            <p style="margin-top: 24px;">Sincerely,<br><strong>${data.name}</strong></p>
-          </div>
-        `;
+      if (type === 'modern') {
+        modernContainer.style.display = "block";
+        classicContainer.style.display = "none";
+        modernBtn.classList.add("active");
+        classicBtn.classList.remove("active");
+      } else {
+        modernContainer.style.display = "none";
+        classicContainer.style.display = "block";
+        classicBtn.classList.add("active");
+        modernBtn.classList.remove("active");
       }
     }
-
-    function orderCurrentStyle() {
-      const names = { modern: "Modern CV (R25)", classic: "Classic CV (R15)", letter: "Cover Letter (R15)" };
-      orderPackage(names[activeStyle] || "CV Package");
-    }
-
-    // MODAL ZOOM LOGIC
-    function openZoomModal() {
-      const paperContent = document.getElementById("paper-render").innerHTML;
-      document.getElementById("modal-paper-target").innerHTML = `<div class="paper-sheet" style="margin:auto;">${paperContent}</div>`;
-      document.getElementById("zoom-modal").classList.add("active");
-    }
-
-    function closeZoomModal() {
-      document.getElementById("zoom-modal").classList.remove("active");
-    }
-
-    // FAQ ACCORDION TOGGLE
-    function toggleFaq(element) {
-      element.parentElement.classList.toggle('open');
-    }
-
-    // STATUS LOOKUP SIMULATION
-    function handleStatusCheck(e) {
-      e.preventDefault();
-      const res = document.getElementById("status-result");
-      res.style.display = "block";
-      res.style.background = "#dcfce7";
-      res.style.color = "#166534";
-      res.style.padding = "10px";
-      res.style.borderRadius = "6px";
-      res.innerHTML = "<strong>Status:</strong> Order found! Your document is ready or currently being processed. Contact WhatsApp (+27 75 297 8917) to receive your final PDF.";
-    }
-
-    // Initial load
-    renderCurrentPaper();
   </script>  
 </body>  
 </html>
