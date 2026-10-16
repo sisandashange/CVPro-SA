@@ -407,7 +407,7 @@
 
     <div class="message" id="message" role="status" aria-live="polite"></div>
 
-    <!-- ALL 5 PACKAGES IN 1 ROW -->
+    <!-- ALL 5 PACKAGES IN 1 ROW (MATCHED TO EDGE FUNCTION ALIASES) -->
     <div class="template-grid">
       <article class="template-card">
         <div>
@@ -433,7 +433,7 @@
           <div class="price">R15</div>
           <p>Tailored letter for job target.</p>
         </div>
-        <button class="button purchase-button" data-template="cover-letter" type="button">Select R15</button>
+        <button class="button purchase-button" data-template="cover_letter" type="button">Select R15</button>
       </article>
 
       <article class="template-card">
@@ -442,7 +442,7 @@
           <div class="price">R30</div>
           <p>Classic CV & Cover Letter.</p>
         </div>
-        <button class="button purchase-button" data-template="classic-bundle" type="button">Select R30</button>
+        <button class="button purchase-button" data-template="classic_bundle" type="button">Select R30</button>
       </article>
 
       <article class="template-card popular">
@@ -451,7 +451,7 @@
           <div class="price">R40</div>
           <p>Modern CV & Cover Letter.</p>
         </div>
-        <button class="button purchase-button accent" data-template="modern-bundle" type="button">Select R40</button>
+        <button class="button purchase-button accent" data-template="modern_bundle" type="button">Select R40</button>
       </article>
     </div>
 
@@ -552,8 +552,11 @@
     function getProductDisplayName(templateKey) {
       switch (String(templateKey).toLowerCase()) {
         case "modern": return "Modern CV (R25)";
+        case "cover_letter":
         case "cover-letter": return "Cover Letter (R15)";
+        case "classic_bundle":
         case "classic-bundle": return "Classic Bundle (R30)";
+        case "modern_bundle":
         case "modern-bundle": return "Modern Bundle (R40)";
         default: return "Classic CV (R15)";
       }
@@ -589,7 +592,6 @@
       return row;
     }
 
-    // RESTORED FULL PAYMENT INSTRUCTIONS MODAL/BOX
     async function showPaymentInstructions(purchase, button, card) {
       const originalText = button.textContent;
       button.disabled = true;
@@ -740,8 +742,8 @@
 
       try {
         const result = await callFunction("create-cv-purchase", {
-  product_code: template
-});
+          product_code: template
+        });
         const purchase = result.purchase || result;
         if (!purchase || !purchase.id) throw new Error("Invalid order response.");
 
