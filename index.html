@@ -3,9 +3,9 @@
 <head>  
   <meta charset="UTF-8">  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">  
-  <meta name="theme-color" content="#0f172a">  
+  <meta name="theme-color" content="#ffffff">  
   <meta name="description" content="Create and save a professional CV and tailored cover letter online with CVPro-SA.">  
-  <title>CVPro-SA | Professional CV & Cover Letter Platform</title>    
+  <title>CVPro-SA | Professional CV Platform</title>    
   <style>  
     * {  
       box-sizing: border-box;  
@@ -17,350 +17,188 @@
       --card-bg: #ffffff;  
       --black: #0f172a;  
       --grey: #64748b;  
-      --light-grey: #f1f5f9;  
       --border: #e2e8f0;  
       --accent: #059669;  
       --accent-dark: #047857;  
       --accent-light: #ecfdf5;
-      --brand-blue: #2563eb;
     }  
 
     body {  
       margin: 0;  
+      padding: 10px;
       background: var(--bg);  
       color: var(--black);  
-      line-height: 1.4;  
-      min-height: 100vh;
-      overflow-x: hidden;
+      line-height: 1.3;  
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
     }  
 
-    /* TOP ANNOUNCEMENT BAR */
-    .announcement-bar {
-      background: #090d16;
-      color: #94a3b8;
-      font-size: 11px;
-      padding: 6px 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-    }
-
-    .status-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      color: #34d399;
-      font-weight: 700;
-    }
-
-    .status-dot {
-      width: 6px;
-      height: 6px;
-      background-color: #34d399;
-      border-radius: 50%;
-      box-shadow: 0 0 8px #34d399;
-    }
-
-    /* HEADER & NAVIGATION */
+    /* COMPACT HEADER */
     header {  
-      background: #ffffff;  
-      color: var(--black);  
-      padding: 12px 20px;  
-      border-bottom: 1px solid var(--border);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
-    }  
-
-    .nav {  
-      max-width: 1200px;  
-      margin: auto;  
-      display: flex;  
-      align-items: center;  
-      justify-content: space-between;  
-    }  
-
-    .brand-group {
       display: flex;
       align-items: center;
-      gap: 8px;
-    }
+      justify-content: space-between;
+      padding: 6px 4px 10px;
+    }  
 
     .logo {  
       color: var(--black);  
-      font-size: 20px;  
+      font-size: 18px;  
       font-weight: 900;  
       text-decoration: none;  
-      letter-spacing: -0.5px;
     }  
 
     .logo span {
       color: var(--accent);
     }
 
-    .pro-badge {
+    .badge-live {
       background: var(--accent-light);
       color: var(--accent-dark);
       font-size: 10px;
       font-weight: 800;
       padding: 2px 8px;
       border-radius: 12px;
-      letter-spacing: 0.5px;
       border: 1px solid rgba(5, 150, 105, 0.2);
     }
 
-    .nav-contacts {
-      font-size: 12px;
-      color: var(--grey);
-      display: flex;
-      gap: 16px;
-      align-items: center;
-    }
-
-    .nav-contacts a {
-      color: var(--black);
-      text-decoration: none;
-      font-weight: 600;
-    }
-
-    .nav-contacts a:hover {
-      color: var(--accent);
-    }
-
-    main {  
-      max-width: 1200px;  
-      margin: auto;  
-      padding: 16px;  
-    }  
-
-    /* HERO SECTION */  
+    /* COMPACT HERO */
     .hero {  
-      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);  
+      background: #0f172a;  
       color: #fff;  
-      border-radius: 16px;  
-      padding: 28px 20px;  
+      border-radius: 12px;  
+      padding: 12px 14px;  
       text-align: center;  
-      margin-bottom: 20px;  
-      box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.25);
+      margin-bottom: 10px;  
     }  
 
-    .badge {  
-      display: inline-block;  
-      padding: 4px 12px;  
-      border-radius: 20px;  
-      background: rgba(5, 150, 105, 0.2);  
-      color: #34d399;  
-      font-size: 11px;  
-      font-weight: 800;  
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 10px;
-      border: 1px solid rgba(52, 211, 153, 0.3);
-    }  
-
-    h1 {  
-      margin: 0 auto 8px;  
-      font-size: clamp(22px, 4vw, 34px);  
-      line-height: 1.2;  
-      font-weight: 900;
-      letter-spacing: -0.5px;
+    .hero h1 {  
+      margin: 0 0 2px;  
+      font-size: 16px;  
+      font-weight: 800;
     }  
 
     .hero p {  
-      max-width: 580px;  
-      margin: 0 auto 16px;  
+      margin: 0;  
       color: #94a3b8;  
-      font-size: 13px;  
+      font-size: 11px;  
     }  
-
-    .trust-bullets {
-      display: flex;
-      justify-content: center;
-      gap: 16px;
-      font-size: 11px;
-      color: #cbd5e1;
-      flex-wrap: wrap;
-    }
-
-    .trust-bullets span::before {
-      content: "✓ ";
-      color: #34d399;
-      font-weight: bold;
-    }
 
     /* SECTION TITLE */
     .section-title {
-      text-align: center;
-      margin-bottom: 16px;
-    }
-
-    .section-title h2 {
-      font-size: 18px;
-      font-weight: 800;
-      margin: 0 0 2px;
-      color: var(--black);
-    }
-
-    .section-title p {
-      margin: 0;
-      color: var(--grey);
       font-size: 12px;
-    }
-
-    /* PRICING GRID */  
-    .pricing-grid {  
-      display: grid;  
-      grid-template-columns: repeat(5, minmax(0, 1fr));  
-      gap: 10px;  
-      align-items: stretch;  
-      margin-bottom: 24px;
-    }  
-
-    .template-card {  
-      border: 1px solid var(--border);  
-      border-radius: 12px;  
-      background: var(--card-bg);  
-      display: flex;  
-      flex-direction: column;  
-      justify-content: space-between;  
-      padding: 14px 12px;  
-      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-      transition: all 0.2s;
-    }  
-
-    .template-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 16px rgba(0,0,0,0.06);
-      border-color: #cbd5e1;
-    }
-
-    .template-card.popular {  
-      border: 2px solid var(--accent);  
-      position: relative;  
-      background: #ffffff;
-    }  
-
-    .template-card.popular::before {  
-      content: "POPULAR BUNDLE";  
-      position: absolute;  
-      top: -9px;  
-      right: 10px;  
-      background: var(--accent);  
-      color: #fff;  
-      font-size: 8px;  
-      font-weight: 900;  
-      padding: 2px 7px;  
-      border-radius: 8px;  
-      letter-spacing: 0.5px;
-    }  
-
-    .card-top {  
-      display: flex;  
-      justify-content: space-between;  
-      align-items: center;  
-      margin-bottom: 6px;
-    }  
-
-    .card-top h3 {  
-      margin: 0;  
-      font-size: 13px;  
       font-weight: 800;
       color: var(--black);
-    }  
+      margin: 8px 0 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
 
-    .price {  
-      font-size: 16px;  
-      font-weight: 900;  
-      color: var(--accent);  
-    }  
+    /* COMPACT PACKAGES GRID (2 COLUMNS) */
+    .packages-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
 
-    .template-card p {  
-      color: var(--grey);  
-      font-size: 10px;  
-      margin: 0 0 8px;  
-      line-height: 1.3;
-    }  
+    .pkg-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 8px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+    }
 
-    .features {  
-      list-style: none;
-      padding: 0;  
-      margin: 0 0 10px;  
-      font-size: 10px;  
-      color: #334155;  
-    }  
+    .pkg-card.popular {
+      border: 1.5px solid var(--accent);
+      background: var(--accent-light);
+    }
 
-    .features li {  
-      margin-bottom: 3px;  
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }  
+    .popular-tag {
+      position: absolute;
+      top: -7px;
+      right: 6px;
+      background: var(--accent);
+      color: #fff;
+      font-size: 7px;
+      font-weight: 800;
+      padding: 1px 5px;
+      border-radius: 6px;
+      text-transform: uppercase;
+    }
 
-    .features li::before {
-      content: "✓ ";
+    .pkg-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+
+    .pkg-name {
+      font-size: 11px;
+      font-weight: 800;
+      margin: 0;
+      color: var(--black);
+    }
+
+    .pkg-price {
+      font-size: 13px;
+      font-weight: 900;
       color: var(--accent);
-      font-weight: bold;
     }
 
-    .select-button {  
-      display: block;  
-      width: 100%;  
-      padding: 8px;  
-      border: 1px solid var(--black);  
-      border-radius: 6px;  
-      background: var(--black);  
-      color: #fff;  
-      font-size: 11px;  
-      font-weight: 800;  
-      cursor: pointer;  
-      text-align: center;  
-      text-decoration: none;  
-      transition: background 0.2s;
-    }  
-
-    .select-button:hover {
-      background: #1e293b;
+    .pkg-desc {
+      font-size: 9.5px;
+      color: var(--grey);
+      margin: 0 0 8px;
+      line-height: 1.2;
     }
 
-    .select-button.accent {  
-      background: var(--accent);  
-      border-color: var(--accent);  
-    }  
-
-    .select-button.accent:hover {
-      background: var(--accent-dark);
-      border-color: var(--accent-dark);
+    .pkg-btn {
+      width: 100%;
+      background: var(--black);
+      color: #fff;
+      border: none;
+      padding: 6px;
+      border-radius: 6px;
+      font-size: 10px;
+      font-weight: 800;
+      cursor: pointer;
     }
 
-    /* CV EXAMPLES / PREVIEW SECTION */
-    .preview-section {
+    .pkg-btn.accent {
+      background: var(--accent);
+    }
+
+    /* CV EXAMPLES SWITCHER */
+    .preview-box {
       background: #ffffff;
       border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 20px;
-      margin-bottom: 24px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+      border-radius: 10px;
+      padding: 10px;
     }
 
     .preview-tabs {
       display: flex;
-      gap: 8px;
-      justify-content: center;
-      margin-bottom: 16px;
+      gap: 6px;
+      margin-bottom: 8px;
     }
 
     .tab-btn {
-      padding: 7px 14px;
-      border-radius: 6px;
-      border: 1px solid var(--border);
-      background: var(--light-grey);
-      font-size: 11px;
+      flex: 1;
+      padding: 5px;
+      font-size: 10px;
       font-weight: 700;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
       color: var(--grey);
       cursor: pointer;
-      transition: all 0.2s;
     }
 
     .tab-btn.active {
@@ -369,306 +207,177 @@
       border-color: var(--black);
     }
 
-    /* CV FORMAT RENDERING */
-    .cv-paper-preview {
-      max-width: 600px;
-      margin: 0 auto;
-      background: #ffffff;
+    .cv-sample {
       border: 1px solid #cbd5e1;
       border-radius: 6px;
-      padding: 20px;
-      box-shadow: 0 8px 20px -5px rgba(0,0,0,0.06);
-      font-size: 11px;
+      padding: 10px;
+      font-size: 9.5px;
+      background: #fff;
     }
 
-    .modern-preview-header {
+    .sample-header-dark {
       background: #0f172a;
       color: #fff;
-      padding: 12px 16px;
-      margin: -20px -20px 14px -20px;
+      padding: 6px 8px;
+      margin: -10px -10px 8px -10px;
       border-top-left-radius: 5px;
       border-top-right-radius: 5px;
     }
 
-    .modern-preview-header h2 {
+    .sample-header-dark h3 {
       margin: 0;
-      font-size: 16px;
-      letter-spacing: 0.5px;
+      font-size: 11px;
     }
 
-    .modern-preview-header p {
-      margin: 3px 0 0;
-      font-size: 10px;
+    .sample-header-dark p {
+      margin: 1px 0 0;
+      font-size: 8px;
       color: #cbd5e1;
     }
 
-    .classic-preview-header {
-      border-bottom: 2px solid #0f172a;
-      padding-bottom: 6px;
-      margin-bottom: 14px;
+    .sample-header-classic {
+      border-bottom: 1.5px solid #0f172a;
+      padding-bottom: 4px;
+      margin-bottom: 8px;
     }
 
-    .classic-preview-header h2 {
+    .sample-header-classic h3 {
       margin: 0;
-      font-size: 18px;
+      font-size: 12px;
       font-family: Georgia, serif;
     }
 
-    .classic-preview-header p {
-      margin: 2px 0 0;
-      font-size: 10px;
-      color: #475569;
-    }
-
-    .cv-section-title {
+    .sample-title {
       font-weight: 800;
+      font-size: 9px;
       text-transform: uppercase;
-      font-size: 10px;
-      letter-spacing: 0.5px;
-      margin: 10px 0 4px;
-      color: #0f172a;
+      margin: 6px 0 2px;
+      color: var(--black);
       border-bottom: 1px solid #e2e8f0;
-      padding-bottom: 2px;
     }
 
-    .cv-text {
+    .sample-text {
       color: #334155;
-      font-size: 10px;
-      margin: 0 0 6px;
-      line-height: 1.4;
+      margin: 0 0 4px;
     }
 
-    .cv-list {
-      margin: 0 0 8px;
-      padding-left: 14px;
-      color: #334155;
+    footer {
+      text-align: center;
+      font-size: 9.5px;
+      color: var(--grey);
+      margin-top: 12px;
+      padding-top: 8px;
+      border-top: 1px solid var(--border);
     }
-
-    .cv-list li {
-      margin-bottom: 2px;
-    }
-
-    footer {  
-      padding: 14px 20px;  
-      background: #0f172a;  
-      color: #94a3b8;  
-      text-align: center;  
-      font-size: 11px;  
-      margin-top: 20px;  
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }  
-
-    @media (max-width: 1024px) {  
-      .pricing-grid {  
-        grid-template-columns: repeat(3, minmax(0, 1fr));  
-      }  
-    }
-
-    @media (max-width: 650px) {  
-      .pricing-grid {  
-        grid-template-columns: 1fr;  
-      }  
-      .nav-contacts {
-        display: none;
-      }
-      footer {
-        flex-direction: column;
-        gap: 6px;
-      }
-    }  
   </style>  
 </head>  
 <body>  
-  <!-- TOP STATUS ANNOUNCEMENT BAR -->
-  <div class="announcement-bar">
-    <span class="status-badge"><span class="status-dot"></span> Instant Online Generation</span>
-    <span>Official SA Matriculant CV Builder</span>
-  </div>
-
   <header>  
-    <nav class="nav">  
-      <div class="brand-group">
-        <a class="logo" href="./">CVPro<span>-SA</span></a>  
-        <span class="pro-badge">OFFICIAL</span>
-      </div>
-      <div class="nav-contacts">
-        <span>📞 <a href="tel:+27752978917">+27 75 297 8917</a> (24/7)</span>
-        <span>💬 <a href="https://wa.me/27752978917" target="_blank">WhatsApp</a></span>
-        <span>✉️ <a href="mailto:mfanarhshange43@gmail.com">Email Us</a></span>
-      </div>
-    </nav>  
+    <a class="logo" href="./">CVPro<span>-SA</span></a>  
+    <span class="badge-live">ONLINE BUILDER</span>
   </header>    
 
   <main>  
-    <!-- HERO SECTION -->
     <section class="hero">  
-      <span class="badge">100% Honest & Matriculant-Friendly</span>  
-      <h1>Professional CVs & Cover Letters Made Simple</h1>  
-      <p>Build directly from your phone, save your documents securely, and download verified PDFs instantly.</p>  
-
-      <div class="trust-bullets">
-        <span>Instant PDF Download</span>
-        <span>Tailored for South African Employers</span>
-        <span>Easy Editing</span>
-      </div>
+      <h1>Professional CVs & Cover Letters</h1>  
+      <p>Build on your phone, save online, download instant PDF.</p>  
     </section>  
 
-    <!-- PACKAGES SECTION TITLE -->
-    <div class="section-title">
-      <h2>Choose Your Package</h2>
-      <p>Selecting a package opens your document editor (account.html)</p>
-    </div>
+    <div class="section-title">Select Package</div>
 
-    <!-- ALL 5 PACKAGES -->  
-    <div class="pricing-grid">  
-      <!-- 1. Classic CV -->  
-      <article class="template-card">  
-        <div>  
-          <div class="card-top">  
-            <h3>Classic CV</h3>  
-            <span class="price">R15</span>  
+    <!-- 2-COLUMN GRID FIT FOR MOBILE SCREENS -->
+    <div class="packages-grid">  
+      <div class="pkg-card">  
+        <div>
+          <div class="pkg-top">  
+            <h3 class="pkg-name">Classic CV</h3>  
+            <span class="pkg-price">R15</span>  
           </div>  
-          <p>Traditional clean single-page format.</p>  
-          <ul class="features">  
-            <li>Factual learning highlights</li>  
-            <li>Instant PDF download</li>  
-          </ul>  
-        </div>  
-        <button class="select-button" data-template="classic">Select — R15</button>  
-      </article>  
+          <p class="pkg-desc">Clean single-page standard format.</p>  
+        </div>
+        <button class="pkg-btn" data-template="classic">Select — R15</button>  
+      </div>  
 
-      <!-- 2. Modern CV -->  
-      <article class="template-card">  
-        <div>  
-          <div class="card-top">  
-            <h3>Modern CV</h3>  
-            <span class="price">R25</span>  
+      <div class="pkg-card">  
+        <div>
+          <div class="pkg-top">  
+            <h3 class="pkg-name">Modern CV</h3>  
+            <span class="pkg-price">R25</span>  
           </div>  
-          <p>Contemporary dark header banner layout.</p>  
-          <ul class="features">  
-            <li>Organized contact details</li>  
-            <li>Instant PDF download</li>  
-          </ul>  
-        </div>  
-        <button class="select-button" data-template="modern">Select — R25</button>  
-      </article>  
+          <p class="pkg-desc">Contemporary dark top banner format.</p>  
+        </div>
+        <button class="pkg-btn" data-template="modern">Select — R25</button>  
+      </div>  
 
-      <!-- 3. Cover Letter Only -->  
-      <article class="template-card">  
-        <div>  
-          <div class="card-top">  
-            <h3>Cover Letter</h3>  
-            <span class="price">R15</span>  
+      <div class="pkg-card">  
+        <div>
+          <div class="pkg-top">  
+            <h3 class="pkg-name">Cover Letter</h3>  
+            <span class="pkg-price">R15</span>  
           </div>  
-          <p>Tailored letter matched to your goal.</p>  
-          <ul class="features">  
-            <li>Highlights matric & subjects</li>  
-            <li>Ready to email recruiters</li>  
-          </ul>  
-        </div>  
-        <button class="select-button" data-template="cover-letter">Select — R15</button>  
-      </article>  
+          <p class="pkg-desc">Tailored email-ready job letter.</p>  
+        </div>
+        <button class="pkg-btn" data-template="cover-letter">Select — R15</button>  
+      </div>  
 
-      <!-- 4. Classic Bundle -->  
-      <article class="template-card">  
-        <div>  
-          <div class="card-top">  
-            <h3>Classic + Letter</h3>  
-            <span class="price">R30</span>  
+      <div class="pkg-card">  
+        <div>
+          <div class="pkg-top">  
+            <h3 class="pkg-name">Classic Bundle</h3>  
+            <span class="pkg-price">R30</span>  
           </div>  
-          <p>Classic CV & tailored cover letter.</p>  
-          <ul class="features">  
-            <li>Complete document set</li>  
-            <li>Lifetime edits & downloads</li>  
-          </ul>  
-        </div>  
-        <button class="select-button" data-template="classic-bundle">Select — R30</button>  
-      </article>  
+          <p class="pkg-desc">Classic CV + tailored cover letter.</p>  
+        </div>
+        <button class="pkg-btn" data-template="classic-bundle">Select — R30</button>  
+      </div>  
 
-      <!-- 5. Modern Bundle (Best Value) -->  
-      <article class="template-card popular">  
-        <div>  
-          <div class="card-top">  
-            <h3>Modern + Letter</h3>  
-            <span class="price">R40</span>  
+      <div class="pkg-card popular" style="grid-column: span 2;">  
+        <span class="popular-tag">Best Value</span>
+        <div>
+          <div class="pkg-top">  
+            <h3 class="pkg-name">Modern Bundle (CV + Cover Letter)</h3>  
+            <span class="pkg-price">R40</span>  
           </div>  
-          <p>Top-tier bundle for maximum success.</p>  
-          <ul class="features">  
-            <li>Modern CV & Cover Letter</li>  
-            <li>Instant downloads & edits</li>  
-          </ul>  
-        </div>  
-        <button class="select-button accent" data-template="modern-bundle">Select — R40</button>  
-      </article>  
+          <p class="pkg-desc">Top-tier combo: Modern dark-banner CV & tailored letter.</p>  
+        </div>
+        <button class="pkg-btn accent" data-template="modern-bundle">Select Modern Bundle — R40</button>  
+      </div>  
     </div>  
 
-    <!-- LIVE CV EXAMPLE PREVIEW -->
-    <section class="preview-section">
-      <div class="section-title">
-        <h2>Live CV Style Examples</h2>
-        <p>See how your document will look before creating yours</p>
-      </div>
-
+    <!-- LIVE CV SAMPLE PREVIEW SWITCH -->
+    <div class="preview-box">
+      <div class="section-title" style="margin-top:0;">Live Example Viewer</div>
       <div class="preview-tabs">
-        <button class="tab-btn active" id="btn-modern-tab" onclick="showPreview('modern')">Modern CV Example (R25)</button>
-        <button class="tab-btn" id="btn-classic-tab" onclick="showPreview('classic')">Classic CV Example (R15)</button>
+        <button class="tab-btn active" id="btn-modern" onclick="showSample('modern')">Modern Preview</button>
+        <button class="tab-btn" id="btn-classic" onclick="showSample('classic')">Classic Preview</button>
       </div>
 
-      <!-- MODERN PREVIEW CONTAINER -->
-      <div id="preview-modern-container" class="cv-paper-preview">
-        <div class="modern-preview-header">
-          <h2>SISANDA SHANGE</h2>
-          <p>sisandashange25@gmail.com | +27 75 297 8917 | Durban, KwaZulu-Natal</p>
+      <div id="sample-modern" class="cv-sample">
+        <div class="sample-header-dark">
+          <h3>SISANDA SHANGE</h3>
+          <p>sisandashange25@gmail.com | +27 75 297 8917 | Durban, KZN</p>
         </div>
-
-        <div class="cv-section-title">Professional Profile</div>
-        <p class="cv-text">Candidate with National Senior Certificate (NSC / Matric) from Folweni High School, completed in 2024 with school-level knowledge of mechanical and technical concepts. Seeking a Welding role in Durban, KwaZulu-Natal.</p>
-
-        <div class="cv-section-title">Education</div>
-        <p class="cv-text"><strong>National Senior Certificate (NSC / Matric)</strong><br>Folweni High School (Completed 2024)</p>
-
-        <div class="cv-section-title">Relevant School Learning</div>
-        <ul class="cv-list">
-          <li>Studied mechanical processes, materials, workshop concepts and safety principles.</li>
-          <li>Studied technical drawings, scale design concepts and graphical communication.</li>
-          <li>Studied technical calculations, mathematical formulas and numerical problem-solving.</li>
-        </ul>
-
-        <div class="cv-section-title">Skills & Abilities</div>
-        <p class="cv-text">Welding • Metalwork • Technical Drawing • Attention to Detail • Communication • Hardworking</p>
+        <div class="sample-title">Profile</div>
+        <p class="sample-text">Matriculant completed in 2024. Seeking entry-level Technical/Welding role.</p>
+        <div class="sample-title">Education</div>
+        <p class="sample-text">National Senior Certificate (NSC) - Folweni High School</p>
       </div>
 
-      <!-- CLASSIC PREVIEW CONTAINER -->
-      <div id="preview-classic-container" class="cv-paper-preview" style="display: none;">
-        <div class="classic-preview-header">
-          <h2>SISANDA SHANGE</h2>
-          <p>sisandashange25@gmail.com | +27 75 297 8917 | Durban, KwaZulu-Natal</p>
+      <div id="sample-classic" class="cv-sample" style="display: none;">
+        <div class="sample-header-classic">
+          <h3>SISANDA SHANGE</h3>
+          <p style="margin:0; font-size:8px; color:#475569;">sisandashange25@gmail.com | +27 75 297 8917 | Durban, KZN</p>
         </div>
-
-        <div class="cv-section-title">PROFESSIONAL PROFILE</div>
-        <p class="cv-text">Candidate with National Senior Certificate (NSC / Matric) from Folweni High School, completed in 2024 with school-level knowledge of mechanical and technical concepts. Seeking a Welding role in Durban, KwaZulu-Natal.</p>
-
-        <div class="cv-section-title">EDUCATION</div>
-        <p class="cv-text"><strong>National Senior Certificate (NSC / Matric)</strong><br>Folweni High School (Completed 2024)</p>
-
-        <div class="cv-section-title">RELEVANT SCHOOL LEARNING</div>
-        <ul class="cv-list">
-          <li>Studied mechanical processes, materials, workshop concepts and safety principles.</li>
-          <li>Studied technical drawings, scale design concepts and graphical communication.</li>
-          <li>Studied technical calculations, mathematical formulas and numerical problem-solving.</li>
-        </ul>
-
-        <div class="cv-section-title">SKILLS & ABILITIES</div>
-        <p class="cv-text">Communication, Teamwork, Attention to Detail, Welding, Metalwork, Technical Drawing.</p>
+        <div class="sample-title">PROFILE</div>
+        <p class="sample-text">Matriculant completed in 2024. Seeking entry-level Technical/Welding role.</p>
+        <div class="sample-title">EDUCATION</div>
+        <p class="sample-text">National Senior Certificate (NSC) - Folweni High School</p>
       </div>
-    </section>
+    </div>
   </main>    
 
   <footer>  
-    <p>&copy; <span id="year"></span> CVPro-SA. All rights reserved.</p>  
-    <p>Support: mfanarhshange43@gmail.com | +27 75 297 8917 (24/7)</p>  
+    &copy; <span id="year"></span> CVPro-SA • Support: +27 75 297 8917  
   </footer>    
 
   <script>  
@@ -683,23 +392,23 @@
       });  
     });  
 
-    // TOGGLE CV PREVIEW MODES
-    function showPreview(type) {
-      const modernContainer = document.getElementById("preview-modern-container");
-      const classicContainer = document.getElementById("preview-classic-container");
-      const modernBtn = document.getElementById("btn-modern-tab");
-      const classicBtn = document.getElementById("btn-classic-tab");
+    // TOGGLE CV PREVIEWS
+    function showSample(type) {
+      const modern = document.getElementById("sample-modern");
+      const classic = document.getElementById("sample-classic");
+      const btnModern = document.getElementById("btn-modern");
+      const btnClassic = document.getElementById("btn-classic");
 
       if (type === 'modern') {
-        modernContainer.style.display = "block";
-        classicContainer.style.display = "none";
-        modernBtn.classList.add("active");
-        classicBtn.classList.remove("active");
+        modern.style.display = "block";
+        classic.style.display = "none";
+        btnModern.classList.add("active");
+        btnClassic.classList.remove("active");
       } else {
-        modernContainer.style.display = "none";
-        classicContainer.style.display = "block";
-        classicBtn.classList.add("active");
-        modernBtn.classList.remove("active");
+        modern.style.display = "none";
+        classic.style.display = "block";
+        btnClassic.classList.add("active");
+        btnModern.classList.remove("active");
       }
     }
   </script>  
