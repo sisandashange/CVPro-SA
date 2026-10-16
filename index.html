@@ -15,40 +15,34 @@
     }
 
     :root {
-      --bg: #0a0a0a;
-      --card-bg: #121212;
-      --card-border: #262626;
-      --text-main: #ffffff;
-      --text-muted: #a3a3a3;
-      --accent-white: #ffffff;
-      --hover-bg: #1f1f1f;
+      --bg: #000000;
+      --card-bg: #111111;
+      --border: #222222;
+      --text: #ffffff;
+      --muted: #888888;
     }
 
-    body {
+    html, body {
       background-color: var(--bg);
-      color: var(--text-main);
-      line-height: 1.5;
-      min-height: 100vh;
+      color: var(--text);
+      line-height: 1.3;
+      height: 100vh;
+      max-height: 100vh;
+      overflow: hidden;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      overflow-x: hidden;
     }
 
-    /* HEADER / NAVBAR */
+    /* HEADER - FIXED COMPACT SINGLE ROW */
     header {
-      background: rgba(10, 10, 10, 0.95);
-      border-bottom: 1px solid var(--card-border);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      backdrop-filter: blur(8px);
+      background: #000000;
+      border-bottom: 1px solid var(--border);
+      padding: 10px 14px;
+      flex-shrink: 0;
     }
 
     .nav {
-      max-width: 1200px;
-      margin: auto;
-      padding: 14px 20px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -57,295 +51,232 @@
     .brand {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 6px;
       text-decoration: none;
-      color: var(--text-main);
+      color: var(--text);
     }
 
     .brand-logo {
-      background: var(--text-main);
-      color: var(--bg);
+      background: #ffffff;
+      color: #000000;
       font-weight: 900;
-      font-size: 13px;
-      width: 32px;
-      height: 32px;
-      border-radius: 6px;
+      font-size: 11px;
+      width: 26px;
+      height: 26px;
+      border-radius: 5px;
       display: flex;
       align-items: center;
       justify-content: center;
-      letter-spacing: -0.5px;
     }
 
     .brand-name {
-      font-size: 18px;
+      font-size: 16px;
       font-weight: 800;
       letter-spacing: -0.5px;
-    }
-
-    .tag-pill {
-      background: #1c1c1c;
-      border: 1px solid #333333;
-      color: var(--text-muted);
-      font-size: 10px;
-      font-weight: 700;
-      padding: 2px 8px;
-      border-radius: 20px;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
     }
 
     .nav-actions {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 6px;
     }
 
     .btn-outline {
       background: transparent;
-      color: var(--text-main);
-      border: 1px solid var(--text-main);
-      padding: 8px 16px;
-      border-radius: 6px;
-      font-size: 12px;
+      color: var(--text);
+      border: 1px solid #444444;
+      padding: 6px 10px;
+      border-radius: 5px;
+      font-size: 11px;
       font-weight: 700;
       cursor: pointer;
-      text-decoration: none;
-      transition: all 0.2s;
-    }
-
-    .btn-outline:hover {
-      background: var(--text-main);
-      color: var(--bg);
     }
 
     .btn-solid {
-      background: var(--text-main);
-      color: var(--bg);
-      border: 1px solid var(--text-main);
-      padding: 8px 18px;
-      border-radius: 6px;
-      font-size: 12px;
+      background: #ffffff;
+      color: #000000;
+      border: 1px solid #ffffff;
+      padding: 6px 12px;
+      border-radius: 5px;
+      font-size: 11px;
       font-weight: 800;
       cursor: pointer;
       text-decoration: none;
-      transition: all 0.2s;
-      display: inline-block;
     }
 
-    .btn-solid:hover {
-      background: #e5e5e5;
-    }
-
-    /* MAIN HERO SECTION */
+    /* MAIN CONTAINER - COMPACT SINGLE MOBILE VIEWPORT */
     main {
-      max-width: 1200px;
-      margin: auto;
-      padding: 30px 20px;
+      padding: 12px 14px;
       flex: 1;
       display: flex;
-      align-items: center;
-      width: 100%;
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 36px;
-      align-items: center;
+      flex-direction: column;
+      justify-content: space-evenly;
+      max-width: 480px;
+      margin: 0 auto;
       width: 100%;
     }
 
     .eyebrow {
-      font-size: 11px;
+      font-size: 9px;
       font-weight: 800;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--text-muted);
-      margin-bottom: 8px;
+      letter-spacing: 0.8px;
+      color: var(--muted);
       display: block;
+      margin-bottom: 2px;
     }
 
     .hero-title {
-      font-size: clamp(28px, 4.5vw, 44px);
+      font-size: 21px;
       font-weight: 900;
-      line-height: 1.1;
-      letter-spacing: -1px;
-      margin-bottom: 14px;
-      color: var(--text-main);
+      line-height: 1.15;
+      letter-spacing: -0.5px;
+      margin-bottom: 6px;
     }
 
     .hero-description {
-      font-size: 14px;
-      color: var(--text-muted);
-      margin-bottom: 24px;
-      max-width: 500px;
-      line-height: 1.6;
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 10px;
+      line-height: 1.35;
     }
 
     .hero-cta-group {
       display: flex;
-      gap: 12px;
-      align-items: center;
-      margin-bottom: 24px;
-      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 8px;
     }
 
     .feature-tags {
       display: flex;
-      gap: 16px;
-      font-size: 11px;
-      color: var(--text-muted);
+      gap: 10px;
+      font-size: 9.5px;
+      color: var(--muted);
       font-weight: 600;
+      margin-bottom: 10px;
     }
 
     .feature-tags span::before {
       content: "✓ ";
-      color: var(--text-main);
-      font-weight: bold;
+      color: #ffffff;
     }
 
-    /* VISUAL PREVIEW CONTAINER */
+    /* COMPACT HERO CARD */
     .hero-visual {
       background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 12px;
-      padding: 24px;
-      position: relative;
-      min-height: 320px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      gap: 8px;
     }
 
     .mockup-paper {
       background: #000000;
       border: 1px solid #333333;
-      border-radius: 8px;
-      padding: 16px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-      position: relative;
+      border-radius: 6px;
+      padding: 10px;
     }
 
     .mockup-header {
       display: flex;
       justify-content: space-between;
-      align-items: flex-start;
-      border-bottom: 1px solid #262626;
-      padding-bottom: 10px;
-      margin-bottom: 10px;
+      align-items: center;
+      border-bottom: 1px solid #222222;
+      padding-bottom: 6px;
+      margin-bottom: 6px;
     }
 
     .mockup-name {
-      font-size: 14px;
+      font-size: 12px;
       font-weight: 900;
-      letter-spacing: 0.5px;
     }
 
     .mockup-role {
-      font-size: 10px;
-      color: var(--text-muted);
-      margin-top: 2px;
+      font-size: 9px;
+      color: var(--muted);
     }
 
     .status-badge {
-      border: 1px solid var(--text-main);
-      font-size: 8px;
+      border: 1px solid #ffffff;
+      font-size: 7px;
       font-weight: 800;
-      padding: 2px 6px;
-      border-radius: 4px;
-      text-transform: uppercase;
+      padding: 1px 4px;
+      border-radius: 3px;
     }
 
     .mockup-body {
-      font-size: 9.5px;
-      color: var(--text-muted);
-    }
-
-    .mockup-body strong {
-      color: var(--text-main);
-      display: block;
-      margin-bottom: 4px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+      font-size: 8.5px;
+      color: var(--muted);
     }
 
     .mockup-bullets {
       display: flex;
-      gap: 8px;
-      margin-top: 6px;
-      font-size: 9px;
+      gap: 4px;
+      margin-top: 4px;
+      font-size: 8px;
     }
 
     .mockup-bullets span {
-      background: #1c1c1c;
-      padding: 2px 6px;
-      border-radius: 4px;
+      background: #1a1a1a;
+      padding: 2px 5px;
+      border-radius: 3px;
       border: 1px solid #333;
+      color: #fff;
     }
 
     .style-trigger-box {
-      margin-top: 14px;
       text-align: right;
     }
 
     .btn-styles {
-      background: #1f1f1f;
-      color: var(--text-main);
+      background: #1a1a1a;
+      color: #ffffff;
       border: 1px solid #333333;
-      padding: 6px 12px;
-      border-radius: 6px;
-      font-size: 11px;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 10px;
       font-weight: 700;
       cursor: pointer;
-      transition: all 0.2s;
     }
 
-    .btn-styles:hover {
-      background: var(--text-main);
-      color: var(--bg);
-    }
-
-    /* ATS BADGE & SUPPORT CONTACT UNDERNEATH */
     .ats-support-stack {
-      margin-top: 16px;
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
-      gap: 8px;
+      gap: 6px;
     }
 
     .ats-card {
-      background: var(--text-main);
-      color: var(--bg);
-      padding: 8px 14px;
-      border-radius: 8px;
+      background: #ffffff;
+      color: #000000;
+      padding: 6px 10px;
+      border-radius: 6px;
       font-weight: 900;
-      font-size: 10px;
-      line-height: 1.2;
+      font-size: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
 
     .ats-card span {
-      display: block;
-      font-size: 16px;
+      font-size: 14px;
+      font-weight: 900;
     }
 
     .btn-support-link {
-      background: #181818;
-      color: var(--text-main);
+      background: #111111;
+      color: #ffffff;
       border: 1px solid #333333;
-      padding: 6px 12px;
+      padding: 6px 10px;
       border-radius: 6px;
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 700;
       text-decoration: none;
-      transition: all 0.2s;
+      text-align: center;
     }
 
-    .btn-support-link:hover {
-      border-color: var(--text-main);
-    }
-
-    /* MODAL OVERLAY STYLES */
+    /* MODAL POPUPS */
     .modal-backdrop {
       display: none;
       position: fixed;
@@ -353,301 +284,263 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.85);
-      backdrop-filter: blur(6px);
+      background: rgba(0, 0, 0, 0.9);
       z-index: 1000;
       justify-content: center;
       align-items: center;
-      padding: 16px;
+      padding: 14px;
     }
 
     .modal-window {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 12px;
-      max-width: 520px;
+      background: #111111;
+      border: 1px solid #333333;
+      border-radius: 10px;
+      max-width: 420px;
       width: 100%;
       max-height: 85vh;
       overflow-y: auto;
-      padding: 24px;
+      padding: 16px;
       position: relative;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.9);
     }
 
     .modal-close-btn {
       position: absolute;
-      top: 16px;
-      right: 16px;
-      background: #1f1f1f;
-      border: 1px solid #333333;
-      color: var(--text-main);
-      font-size: 14px;
+      top: 12px;
+      right: 12px;
+      background: #222222;
+      border: none;
+      color: #ffffff;
+      font-size: 12px;
       font-weight: 800;
       cursor: pointer;
       border-radius: 50%;
-      width: 28px;
-      height: 28px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .modal-header {
-      margin-bottom: 20px;
+      width: 24px;
+      height: 24px;
     }
 
     .modal-header h3 {
-      font-size: 20px;
+      font-size: 16px;
       font-weight: 900;
+      margin-bottom: 4px;
     }
 
     .modal-header p {
-      font-size: 12px;
-      color: var(--text-muted);
+      font-size: 10px;
+      color: var(--muted);
+      margin-bottom: 12px;
     }
 
     .modal-pkg-grid {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 8px;
     }
 
     .modal-pkg-card {
-      border: 1px solid var(--card-border);
-      background: #0d0d0d;
-      border-radius: 8px;
-      padding: 12px 16px;
+      border: 1px solid #222222;
+      background: #000000;
+      border-radius: 6px;
+      padding: 8px 10px;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
     .modal-pkg-card.highlight {
-      border: 1px solid var(--text-main);
-      background: #171717;
+      border: 1px solid #ffffff;
+      background: #1a1a1a;
     }
 
     .pkg-meta h4 {
-      font-size: 14px;
+      font-size: 12px;
       font-weight: 800;
     }
 
     .pkg-meta p {
-      font-size: 11px;
-      color: var(--text-muted);
-      margin-top: 2px;
-    }
-
-    .pkg-tag {
-      display: inline-block;
-      font-size: 8px;
-      font-weight: 900;
-      background: var(--text-main);
-      color: var(--bg);
-      padding: 1px 6px;
-      border-radius: 4px;
-      margin-left: 6px;
+      font-size: 9.5px;
+      color: var(--muted);
     }
 
     .btn-select-pkg {
-      background: var(--text-main);
-      color: var(--bg);
-      padding: 7px 14px;
-      border-radius: 6px;
-      font-size: 11px;
+      background: #ffffff;
+      color: #000000;
+      padding: 5px 10px;
+      border-radius: 4px;
+      font-size: 10px;
       font-weight: 800;
       text-decoration: none;
       white-space: nowrap;
     }
 
     .preview-block {
-      border: 1px solid var(--card-border);
-      background: #080808;
-      border-radius: 8px;
-      padding: 14px;
-      margin-bottom: 14px;
-    }
-
-    .preview-block h4 {
-      font-size: 13px;
-      margin-bottom: 4px;
-    }
-
-    .preview-block p {
-      font-size: 11px;
-      color: var(--text-muted);
+      border: 1px solid #222222;
+      background: #000000;
+      border-radius: 6px;
+      padding: 10px;
       margin-bottom: 8px;
     }
 
-    .use-style-link {
-      color: var(--text-main);
+    .preview-block h4 {
       font-size: 11px;
+      margin-bottom: 2px;
+    }
+
+    .preview-block p {
+      font-size: 9.5px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .use-style-link {
+      color: #ffffff;
+      font-size: 10px;
       font-weight: 800;
       text-decoration: underline;
     }
 
+    /* FOOTER */
     footer {
-      padding: 16px 20px;
-      border-top: 1px solid var(--card-border);
-      color: var(--text-muted);
+      padding: 8px 14px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
       text-align: center;
-      font-size: 11px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      max-width: 1200px;
-      margin: 0 auto;
-      width: 100%;
+      font-size: 9.5px;
+      flex-shrink: 0;
     }
 
     footer a {
-      color: var(--text-main);
+      color: var(--text);
       text-decoration: none;
-    }
-
-    @media (max-width: 850px) {
-      .hero-grid {
-        grid-template-columns: 1fr;
-        gap: 24px;
-      }
-      footer {
-        flex-direction: column;
-        gap: 8px;
-      }
     }
   </style>
 </head>
 <body>
 
-  <!-- TOP HEADER -->
+  <!-- HEADER -->
   <header>
     <nav class="nav">
       <a class="brand" href="./">
         <span class="brand-logo">CV</span>
         <span class="brand-name">CVPro-SA</span>
-        <span class="tag-pill">Online Builder</span>
       </a>
       <div class="nav-actions">
-        <button class="btn-outline" onclick="openModal('pricingModal')">View Packages</button>
+        <button class="btn-outline" onclick="openModal('pricingModal')">Packages</button>
         <a href="./account.html" class="btn-solid">Get Started</a>
       </div>
     </nav>
   </header>
 
-  <!-- HERO SECTION -->
+  <!-- MAIN (ONE MOBILE SCREEN FIT) -->
   <main>
-    <div class="hero-grid">
-      <div>
-        <span class="eyebrow">Professional South African CV Builder</span>
-        <h1 class="hero-title">Build a Resume That Gets You Hired.</h1>
-        <p class="hero-description">
-          Craft ATS-optimized, recruiters-approved South African CVs and cover letters in minutes. Designed for every career level — entry-level, trades, technical specialists, and seasoned professionals.
-        </p>
+    <div>
+      <span class="eyebrow">Professional South African CV Builder</span>
+      <h1 class="hero-title">Build a Resume That Gets You Hired.</h1>
+      <p class="hero-description">
+        Craft ATS-optimized, recruiters-approved South African CVs and cover letters in minutes for every career level.
+      </p>
 
-        <div class="hero-cta-group">
-          <a href="./account.html" class="btn-solid" style="padding: 10px 22px; font-size: 13px;">Build Your Resume</a>
-          <button class="btn-outline" onclick="openModal('pricingModal')" style="padding: 10px 22px; font-size: 13px;">View All 5 Packages</button>
+      <div class="hero-cta-group">
+        <a href="./account.html" class="btn-solid">Build Your Resume</a>
+        <button class="btn-outline" onclick="openModal('pricingModal')">View All 5 Packages</button>
+      </div>
+
+      <div class="feature-tags">
+        <span>Instant PDF</span>
+        <span>SA Format</span>
+        <span>ATS Proof</span>
+      </div>
+    </div>
+
+    <!-- HERO CARD VISUAL -->
+    <div class="hero-visual">
+      <div class="mockup-paper">
+        <div class="mockup-header">
+          <div>
+            <div class="mockup-name">SISANDA SHANGE</div>
+            <div class="mockup-role">Operations & Technical Specialist</div>
+          </div>
+          <span class="status-badge">VERIFIED</span>
         </div>
 
-        <div class="feature-tags">
-          <span>Instant PDF Download</span>
-          <span>SA Format Ready</span>
-          <span>ATS Scanner Proof</span>
+        <div class="mockup-body">
+          <strong style="color:#fff; font-size:8px;">KEY QUALIFICATIONS</strong>
+          <p>Demonstrated mechanical, operational, and technical problem-solving capabilities.</p>
+          <div class="mockup-bullets">
+            <span>Tailored</span>
+            <span>ATS Optimized</span>
+            <span>Technical</span>
+          </div>
         </div>
       </div>
 
-      <!-- VISUAL PREVIEW MOCKUP -->
-      <div class="hero-visual">
-        <div class="mockup-paper">
-          <div class="mockup-header">
-            <div>
-              <div class="mockup-name">SISANDA SHANGE</div>
-              <div class="mockup-role">Operations & Technical Specialist</div>
-            </div>
-            <span class="status-badge">VERIFIED</span>
-          </div>
+      <div class="style-trigger-box">
+        <button class="btn-styles" onclick="openModal('examplesModal')">📄 View 3 Style Examples</button>
+      </div>
 
-          <div class="mockup-body">
-            <strong>Key Qualifications</strong>
-            <p>Demonstrated mechanical, operational, and technical problem-solving capabilities.</p>
-            <div class="mockup-bullets">
-              <span>100% Tailored</span>
-              <span>ATS Optimized</span>
-              <span>Technical Certifications</span>
-            </div>
-          </div>
+      <div class="ats-support-stack">
+        <div class="ats-card">
+          <span>98%</span>
+          <span>ATS Pass Rate • Recruiter Approved</span>
         </div>
-
-        <div class="style-trigger-box">
-          <button class="btn-styles" onclick="openModal('examplesModal')">📄 View 3 Style Examples</button>
-        </div>
-
-        <!-- ATS PASS RATE & 24/7 SUPPORT LINK UNDERNEATH -->
-        <div class="ats-support-stack">
-          <div class="ats-card">
-            <span>98%</span>
-            ATS Pass Rate • Recruiter Approved Format
-          </div>
-          <a href="https://wa.me/27752978917" target="_blank" class="btn-support-link">📞 Contact 24/7 Support (+27 75 297 8917)</a>
-        </div>
+        <a href="https://wa.me/27752978917" target="_blank" class="btn-support-link">📞 Contact 24/7 Support (+27 75 297 8917)</a>
       </div>
     </div>
   </main>
 
-  <!-- ALL 5 PACKAGES MODAL -->
+  <!-- MODAL 1: ALL 5 PACKAGES -->
   <div class="modal-backdrop" id="pricingModal">
     <div class="modal-window">
       <button class="modal-close-btn" onclick="closeModal('pricingModal')">✕</button>
       <div class="modal-header">
         <h3>Transparent Pricing</h3>
-        <p>Affordable Packages for Everyone. Get professional resume documents tailored specifically for the South African job market.</p>
+        <p>Affordable packages tailored for the South African job market.</p>
       </div>
 
       <div class="modal-pkg-grid">
         <div class="modal-pkg-card">
           <div class="pkg-meta">
             <h4>Classic CV</h4>
-            <p>Entry Level • Clean, high-impact single-page layout ideal for all job seekers.</p>
+            <p>Clean single-page layout</p>
           </div>
-          <a href="./account.html?template=classic" class="btn-select-pkg">R15 once-off — Select Classic</a>
+          <a href="./account.html?template=classic" class="btn-select-pkg">R15 — Select</a>
         </div>
 
         <div class="modal-pkg-card">
           <div class="pkg-meta">
-            <h4>Modern CV <span class="pkg-tag">Popular</span></h4>
-            <p>Contemporary dark-banner design with advanced skill sections.</p>
+            <h4>Modern CV</h4>
+            <p>Contemporary dark banner design</p>
           </div>
-          <a href="./account.html?template=modern" class="btn-select-pkg">R25 once-off — Select Modern</a>
+          <a href="./account.html?template=modern" class="btn-select-pkg">R25 — Select</a>
         </div>
 
         <div class="modal-pkg-card">
           <div class="pkg-meta">
             <h4>Cover Letter</h4>
-            <p>Standalone • Persuasive, vacancy-tailored letter designed to get interviews.</p>
+            <p>Vacancy-tailored application letter</p>
           </div>
-          <a href="./account.html?template=cover-letter" class="btn-select-pkg">R15 once-off — Select Letter</a>
+          <a href="./account.html?template=cover-letter" class="btn-select-pkg">R15 — Select</a>
         </div>
 
         <div class="modal-pkg-card">
           <div class="pkg-meta">
             <h4>Classic Bundle</h4>
-            <p>Bundle & Save • Classic CV + Matched Tailored Cover Letter combo.</p>
+            <p>Classic CV + Matched Cover Letter</p>
           </div>
-          <a href="./account.html?template=classic-bundle" class="btn-select-pkg">R30 bundle — Select Classic Set</a>
+          <a href="./account.html?template=classic-bundle" class="btn-select-pkg">R30 — Select</a>
         </div>
 
         <div class="modal-pkg-card highlight">
           <div class="pkg-meta">
-            <h4>Modern Bundle <span class="pkg-tag">Best Value</span></h4>
-            <p>Full Suite • Modern CV + Matching Cover Letter for maximum impact.</p>
+            <h4>Modern Bundle</h4>
+            <p>Best Value: Modern CV + Cover Letter</p>
           </div>
-          <a href="./account.html?template=modern-bundle" class="btn-select-pkg">R40 bundle — Get Best Value</a>
+          <a href="./account.html?template=modern-bundle" class="btn-select-pkg">R40 — Select</a>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- 3 DOCUMENT PREVIEWS MODAL -->
+  <!-- MODAL 2: 3 PREVIEWS -->
   <div class="modal-backdrop" id="examplesModal">
     <div class="modal-window">
       <button class="modal-close-btn" onclick="closeModal('examplesModal')">✕</button>
@@ -658,19 +551,19 @@
 
       <div class="preview-block">
         <h4>1. Modern CV Style (R25)</h4>
-        <p><strong>SISANDA SHANGE | TECHNICAL SPECIALIST</strong><br>Designed with a commanding dark top banner, high visual impact skill bars, and clean modern typography.</p>
+        <p>Commanding dark top banner, skill bars, clean modern typography.</p>
         <a href="./account.html?template=modern" class="use-style-link">Use This Style →</a>
       </div>
 
       <div class="preview-block">
         <h4>2. Classic CV Style (R15)</h4>
-        <p><strong>SISANDA SHANGE | Durban, South Africa</strong><br>Timeless corporate format favored by conservative recruiters, HR managers, and corporate ATS portals.</p>
+        <p>Timeless corporate format favored by corporate ATS portals.</p>
         <a href="./account.html?template=classic" class="use-style-link">Use This Style →</a>
       </div>
 
       <div class="preview-block">
         <h4>3. Tailored Cover Letter (R15)</h4>
-        <p><strong>Re: Application for Operations Role</strong><br>"Dear Hiring Committee, I am writing to express my enthusiastic interest..."</p>
+        <p>Persuasive, vacancy-tailored letter designed to get interviews.</p>
         <a href="./account.html?template=cover-letter" class="use-style-link">Use This Style →</a>
       </div>
     </div>
@@ -678,11 +571,7 @@
 
   <!-- FOOTER -->
   <footer>
-    <div>&copy; <span id="year"></span> CVPro-SA. All rights reserved.</div>
-    <div>
-      <a href="tel:+27752978917">📞 +27 75 297 8917</a> &nbsp;|&nbsp;
-      <a href="mailto:mfanarhshange43@gmail.com">✉️ Support Email</a>
-    </div>
+    &copy; <span id="year"></span> CVPro-SA • <a href="tel:+27752978917">+27 75 297 8917</a> • <a href="mailto:mfanarhshange43@gmail.com">Email Us</a>
   </footer>
 
   <script>
