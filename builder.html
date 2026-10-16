@@ -734,16 +734,15 @@ footer {
   </div>
 
   <div id="accessMessage" class="notice">
-    Checking your account and CV purchase...
+    Checking your account and purchases...
   </div>
 
   <div id="message" class="message" role="status" aria-live="polite"></div>
 
   <div id="builderArea">
     <div class="notice">
-      <strong>One purchase, one CV.</strong>
-      Edit and save this CV whenever you need it.
-      A new CV requires a new purchase.
+      <strong>Secure Access.</strong>
+      Edit and save your documents whenever you need them.
     </div>
 
     <div class="workspace">
@@ -752,7 +751,7 @@ footer {
         <h2>Live Document Preview</h2>
 
         <div class="template-label" id="templateLabel">
-          Purchased CV template
+          Purchased Template & Services
         </div>
 
         <!-- DOCUMENT VIEW SWITCH TABS -->
@@ -1514,7 +1513,7 @@ footer {
               Template unlocked by your approved purchase
             </label>
 
-            <select id="templateChoice" disabled>
+            <select id="templateChoice">
               <option value="classic">
                 Classic CV — R15
               </option>
@@ -1560,6 +1559,7 @@ footer {
 <footer>
   CVPro-SA · Create a professional CV from your phone.
 </footer>
+
 <script>
 /* =========================================================
    CVPRO-SA — EDUCATION DATA
@@ -1947,11 +1947,8 @@ const southAfricanLanguages = [
    SUPABASE CONFIGURATION
 ========================================================= */
 
-const SUPABASE_URL =
-  "https://tnxlhpenttcynlmlohao.supabase.co";
-
-const SUPABASE_ANON_KEY =
-  "sb_publishable_n4XzrnraET_AEMbCYtHV7Q_DJ8--zCL";
+const SUPABASE_URL = "https://tnxlhpenttcynlmlohao.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_n4XzrnraET_AEMbCYtHV7Q_DJ8--zCL";
 
 const $ = (id) => document.getElementById(id);
 
@@ -1964,15 +1961,20 @@ let saveInProgress = false;
 let purchasedTemplate = "classic";
 let activeView = "cv"; // Tracks 'cv' or 'letter'
 
+// Entitlement state flags across all 5 products
+let userEntitlements = {
+  hasClassic: false,
+  hasModern: false,
+  hasCoverLetter: false
+};
+
 /* =========================================================
    GENERAL HELPERS
 ========================================================= */
 
 function showMessage(message, type = "error") {
   const box = $("message");
-
   if (!box) return;
-
   box.textContent = message;
   box.className = "message " + type;
   box.style.display = "block";
@@ -1980,9 +1982,7 @@ function showMessage(message, type = "error") {
 
 function clearMessage() {
   const box = $("message");
-
   if (!box) return;
-
   box.textContent = "";
   box.className = "message";
   box.style.display = "none";
@@ -1990,13 +1990,11 @@ function clearMessage() {
 
 function valueOf(id) {
   const element = $(id);
-
   return element ? String(element.value || "").trim() : "";
 }
 
 function setText(id, value) {
   const element = $(id);
-
   if (element) {
     element.textContent = value || "";
   }
@@ -2015,21 +2013,14 @@ function uniqueValues(values) {
 
 function getCheckedValues(name) {
   return Array.from(
-    document.querySelectorAll(
-      `input[name="${name}"]:checked`
-    )
+    document.querySelectorAll(`input[name="${name}"]:checked`)
   ).map(input => input.value);
 }
 
 function setSectionVisibility(sectionId, content) {
   const section = $(sectionId);
-
   if (!section) return;
-
-  section.style.display =
-    content && String(content).trim()
-      ? ""
-      : "none";
+  section.style.display = content && String(content).trim() ? "" : "none";
 }
 
 /* =========================================================
@@ -2049,9 +2040,7 @@ async function callEdgeFunction(functionName, body = {}) {
   if (sessionError) throw sessionError;
 
   if (!session) {
-    throw new Error(
-      "Your session has expired. Please sign in again."
-    );
+    throw new Error("Your session has expired. Please sign in again.");
   }
 
   const response = await fetch(
@@ -2060,7 +2049,7 @@ async function callEdgeFunction(functionName, body = {}) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "apikey": SUPABASE_ANON_KEY,
+        "apikey": SUPABASE_PUBLISHABLE_KEY,
         "Authorization": `Bearer ${session.access_token}`
       },
       body: JSON.stringify(body)
@@ -2068,17 +2057,12 @@ async function callEdgeFunction(functionName, body = {}) {
   );
 
   const rawText = await response.text();
-
   let result = {};
 
   try {
-    result = rawText
-      ? JSON.parse(rawText)
-      : {};
+    result = rawText ? JSON.parse(rawText) : {};
   } catch {
-    result = {
-      message: rawText
-    };
+    result = { message: rawText };
   }
 
   if (!response.ok) {
@@ -2110,41 +2094,27 @@ function getLevelList(collection) {
 
 function populateQualifications(selectedValue = "") {
   const select = $("qualification");
-
   if (!select) return;
 
-  const options = getLevelList(
-    qualificationsByLevel
-  );
-
+  const options = getLevelList(qualificationsByLevel);
   select.innerHTML = "";
 
   const placeholder = document.createElement("option");
-
   placeholder.value = "";
-  placeholder.textContent =
-    "Select qualification";
-
+  placeholder.textContent = "Select qualification";
   select.appendChild(placeholder);
 
   options.forEach(qualification => {
     const option = document.createElement("option");
-
     option.value = qualification;
     option.textContent = qualification;
-
     select.appendChild(option);
   });
 
-  if (
-    selectedValue &&
-    !options.includes(selectedValue)
-  ) {
+  if (selectedValue && !options.includes(selectedValue)) {
     const option = document.createElement("option");
-
     option.value = selectedValue;
     option.textContent = selectedValue;
-
     select.appendChild(option);
   }
 
@@ -2153,37 +2123,28 @@ function populateQualifications(selectedValue = "") {
 
 function renderSubjectChoices(selectedValues = []) {
   const container = $("subjectChoices");
-
   if (!container) return;
 
   container.innerHTML = "";
 
-  getLevelList(subjectsByLevel).forEach(
-    (subject, index) => {
-      const label = document.createElement("label");
-      label.className = "choice";
+  getLevelList(subjectsByLevel).forEach((subject, index) => {
+    const label = document.createElement("label");
+    label.className = "choice";
 
-      const checkbox = document.createElement("input");
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.name = "subjects";
+    checkbox.value = subject;
+    checkbox.id = `subject-${index}`;
+    checkbox.checked = selectedValues.includes(subject);
+    checkbox.addEventListener("change", updatePreview);
 
-      checkbox.type = "checkbox";
-      checkbox.name = "subjects";
-      checkbox.value = subject;
-      checkbox.id = `subject-${index}`;
-      checkbox.checked =
-        selectedValues.includes(subject);
+    const text = document.createElement("span");
+    text.textContent = subject;
 
-      checkbox.addEventListener(
-        "change",
-        updatePreview
-      );
-
-      const text = document.createElement("span");
-      text.textContent = subject;
-
-      label.append(checkbox, text);
-      container.appendChild(label);
-    }
-  );
+    label.append(checkbox, text);
+    container.appendChild(label);
+  });
 }
 
 /* =========================================================
@@ -2194,22 +2155,13 @@ function closeInstitutionResults() {
   const results = $("institutionResults");
   const search = $("institutionSearch");
 
-  if (results) {
-    results.classList.remove("open");
-  }
-
-  if (search) {
-    search.setAttribute(
-      "aria-expanded",
-      "false"
-    );
-  }
+  if (results) results.classList.remove("open");
+  if (search) search.setAttribute("aria-expanded", "false");
 }
 
 function selectInstitution(name) {
   $("institutionSearch").value = name;
   $("institution").value = name;
-
   closeInstitutionResults();
   updatePreview();
 }
@@ -2221,11 +2173,7 @@ function renderInstitutionResults() {
   if (!searchInput || !results) return;
 
   const level = getSelectedLevel();
-
-  const query = searchInput.value
-    .trim()
-    .toLowerCase();
-
+  const query = searchInput.value.trim().toLowerCase();
   results.innerHTML = "";
 
   if (!level || !query) {
@@ -2233,55 +2181,34 @@ function renderInstitutionResults() {
     return;
   }
 
-  const matches = (
-    institutionLists[level] || []
-  )
-    .filter(name =>
-      name.toLowerCase().includes(query)
-    )
+  const matches = (institutionLists[level] || [])
+    .filter(name => name.toLowerCase().includes(query))
     .slice(0, 40);
 
   if (!matches.length) {
     const message = document.createElement("div");
-
-    message.className =
-      "education-no-results";
-
-    message.textContent =
-      "No matching institution. Enter its name manually.";
-
+    message.className = "education-no-results";
+    message.textContent = "No matching institution. Enter its name manually.";
     results.appendChild(message);
   } else {
     matches.forEach(name => {
       const button = document.createElement("button");
-
       button.type = "button";
       button.className = "education-result";
       button.textContent = name;
 
-      button.addEventListener(
-        "pointerdown",
-        event => {
-          event.preventDefault();
-          selectInstitution(name);
-        }
-      );
+      button.addEventListener("pointerdown", event => {
+        event.preventDefault();
+        selectInstitution(name);
+      });
 
-      button.addEventListener(
-        "click",
-        () => selectInstitution(name)
-      );
-
+      button.addEventListener("click", () => selectInstitution(name));
       results.appendChild(button);
     });
   }
 
   results.classList.add("open");
-
-  searchInput.setAttribute(
-    "aria-expanded",
-    "true"
-  );
+  searchInput.setAttribute("aria-expanded", "true");
 }
 
 /* =========================================================
@@ -2290,7 +2217,6 @@ function renderInstitutionResults() {
 
 function renderSkillChoices(selectedValues = []) {
   const container = $("skillChoices");
-
   if (!container) return;
 
   container.innerHTML = "";
@@ -2300,18 +2226,12 @@ function renderSkillChoices(selectedValues = []) {
     label.className = "choice";
 
     const checkbox = document.createElement("input");
-
     checkbox.type = "checkbox";
     checkbox.name = "skills";
     checkbox.value = skill;
     checkbox.id = `skill-${index}`;
-    checkbox.checked =
-      selectedValues.includes(skill);
-
-    checkbox.addEventListener(
-      "change",
-      updatePreview
-    );
+    checkbox.checked = selectedValues.includes(skill);
+    checkbox.addEventListener("change", updatePreview);
 
     const text = document.createElement("span");
     text.textContent = skill;
@@ -2323,37 +2243,28 @@ function renderSkillChoices(selectedValues = []) {
 
 function renderLanguageChoices(selectedValues = []) {
   const container = $("languageChoices");
-
   if (!container) return;
 
   container.innerHTML = "";
 
-  southAfricanLanguages.forEach(
-    (language, index) => {
-      const label = document.createElement("label");
-      label.className = "choice";
+  southAfricanLanguages.forEach((language, index) => {
+    const label = document.createElement("label");
+    label.className = "choice";
 
-      const checkbox = document.createElement("input");
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.name = "languages";
+    checkbox.value = language;
+    checkbox.id = `language-${index}`;
+    checkbox.checked = selectedValues.includes(language);
+    checkbox.addEventListener("change", updatePreview);
 
-      checkbox.type = "checkbox";
-      checkbox.name = "languages";
-      checkbox.value = language;
-      checkbox.id = `language-${index}`;
-      checkbox.checked =
-        selectedValues.includes(language);
+    const text = document.createElement("span");
+    text.textContent = language;
 
-      checkbox.addEventListener(
-        "change",
-        updatePreview
-      );
-
-      const text = document.createElement("span");
-      text.textContent = language;
-
-      label.append(checkbox, text);
-      container.appendChild(label);
-    }
-  );
+    label.append(checkbox, text);
+    container.appendChild(label);
+  });
 }
 
 /* =========================================================
@@ -2362,23 +2273,12 @@ function renderLanguageChoices(selectedValues = []) {
 
 function updateExperienceVisibility() {
   const type = valueOf("experienceType");
-
-  const shouldShow = [
-    "work",
-    "informal",
-    "volunteer",
-    "practical"
-  ].includes(type);
-
+  const shouldShow = ["work", "informal", "volunteer", "practical"].includes(type);
   const details = $("experienceDetails");
 
   if (details) {
-    details.classList.toggle(
-      "hidden",
-      !shouldShow
-    );
+    details.classList.toggle("hidden", !shouldShow);
   }
-
   updatePreview();
 }
 
@@ -2389,23 +2289,17 @@ function updateExperienceVisibility() {
 function getFormData() {
   const skills = uniqueValues([
     ...getCheckedValues("skills"),
-    ...splitCommaSeparated(
-      valueOf("otherSkills")
-    )
+    ...splitCommaSeparated(valueOf("otherSkills"))
   ]);
 
   const subjects = uniqueValues([
     ...getCheckedValues("subjects"),
-    ...splitCommaSeparated(
-      valueOf("otherSubjects")
-    )
+    ...splitCommaSeparated(valueOf("otherSubjects"))
   ]);
 
   const languages = uniqueValues([
     ...getCheckedValues("languages"),
-    ...splitCommaSeparated(
-      valueOf("otherLanguages")
-    )
+    ...splitCommaSeparated(valueOf("otherLanguages"))
   ]);
 
   return {
@@ -2431,26 +2325,21 @@ function getFormData() {
     employer: valueOf("employer"),
     experienceStart: valueOf("experienceStart"),
     experienceEnd: valueOf("experienceEnd"),
-    experienceDescription:
-      valueOf("experienceDescription"),
+    experienceDescription: valueOf("experienceDescription"),
 
     skills,
     otherSkills: valueOf("otherSkills"),
 
     languages,
     otherLanguages: valueOf("otherLanguages"),
-    languageProficiency:
-      valueOf("languageProficiency"),
+    languageProficiency: valueOf("languageProficiency"),
     languageDetails: valueOf("languageDetails"),
 
     disabilityStatus: valueOf("disabilityStatus"),
-    disabilityDetails:
-      valueOf("disabilityDetails"),
-    accessibilityNeeds:
-      valueOf("accessibilityNeeds"),
+    disabilityDetails: valueOf("disabilityDetails"),
+    accessibilityNeeds: valueOf("accessibilityNeeds"),
 
-    includeDisabilityOnCv:
-      $("includeDisabilityOnCv")?.checked || false,
+    includeDisabilityOnCv: $("includeDisabilityOnCv")?.checked || false,
 
     availability: valueOf("availability"),
     driversLicence: valueOf("driversLicence"),
@@ -2466,11 +2355,10 @@ function getFormData() {
 ========================================================= */
 
 function generateProfile(data = {}) {
-  // 1. Inputs & Extraction
   const rawGoal = String(data.careerGoal || "").trim();
   const school = String(data.institution || data.school || data.schoolName || "").trim();
   const year = String(data.educationYear || data.completionYear || "").trim();
-  const location = String(data.location || data.city || "").trim();
+  const location = String(data.location || "").trim();
   const hasNoExperience = data.experienceType === "no-experience";
   const userConfirmedStrengths = String(data.strengths || "").trim();
 
@@ -2484,7 +2372,6 @@ function generateProfile(data = {}) {
     ? subjectsInput.map((s) => String(s).toLowerCase())
     : String(subjectsInput).toLowerCase().split(",").map((s) => s.trim());
 
-  // 2. Stream Detection (Exact Word Boundaries)
   const hasSubject = (keywords) => {
     return subjectsList.some((s) =>
       keywords.some((k) => {
@@ -2513,7 +2400,6 @@ function generateProfile(data = {}) {
     "geography", "history", "life orientation", "dramatic arts"
   ]);
 
-  // 3. Goal Selection & Natural List Phrasing
   const goalLower = rawGoal.toLowerCase();
   const isGeneralGoal = !rawGoal || goalLower === "general employment" || goalLower === "general worker";
 
@@ -2535,13 +2421,11 @@ function generateProfile(data = {}) {
       goalSentence = `Seeking an entry-level position as a General Worker or Retail Assistant${locationText}.`;
     }
   } else {
-    // Determine proper indefinite article (a / an) for user-typed goals
     const firstLetter = rawGoal.trim().charAt(0).toLowerCase();
     const article = ["a", "e", "i", "o", "u"].includes(firstLetter) ? "an" : "a";
     goalSentence = `Seeking ${article} ${rawGoal} role${locationText}.`;
   }
 
-  // 4. Academic Background Description
   let fieldDescription = "";
   if (isTechnical) fieldDescription = " with school-level knowledge of mechanical and technical concepts";
   else if (isBusiness) fieldDescription = " with school-level knowledge of business and financial concepts";
@@ -2549,10 +2433,8 @@ function generateProfile(data = {}) {
   else if (isScience) fieldDescription = " with school-level knowledge of scientific concepts";
   else if (isRetailHumanities) fieldDescription = " with school-level knowledge of practical numeracy and customer service concepts";
 
-  // 5. Construct Sentences
   const sentences = [];
 
-  // Sentence 1: Education & School Background
   if (qualification && school && year) {
     sentences.push(`Candidate with ${qualification} from ${school}, completed in ${year}${fieldDescription}.`);
   } else if (qualification && year) {
@@ -2565,10 +2447,8 @@ function generateProfile(data = {}) {
     sentences.push("Entry-level candidate seeking an opportunity to develop professionally.");
   }
 
-  // Sentence 2: Target Goal (Natural Phrasing)
   sentences.push(goalSentence);
 
-  // Sentence 3: Strengths (ONLY if user supplied them; otherwise topic-focused subject fallback)
   if (userConfirmedStrengths) {
     sentences.push(`Key strengths include ${userConfirmedStrengths}.`);
   } else {
@@ -2587,7 +2467,6 @@ function generateProfile(data = {}) {
     }
   }
 
-  // Sentence 4: Closing Statement
   if (hasNoExperience) {
     sentences.push("Eager to build on educational knowledge, learn workplace procedures, and contribute positively to a team.");
   } else {
@@ -2597,33 +2476,17 @@ function generateProfile(data = {}) {
   return sentences.join(" ");
 }
 
-
-
 /* =========================================================
    EDUCATION FORMATTING
 ========================================================= */
 
 function formatEducation(data) {
   const lines = [];
+  if (data.qualification) lines.push(data.qualification);
+  if (data.institution) lines.push(data.institution);
 
-  if (data.qualification) {
-    lines.push(data.qualification);
-  }
-
-  if (data.institution) {
-    lines.push(data.institution);
-  }
-
-  const status = [
-    data.educationStatus,
-    data.educationYear
-  ]
-    .filter(Boolean)
-    .join(" · ");
-
-  if (status) {
-    lines.push(status);
-  }
+  const status = [data.educationStatus, data.educationYear].filter(Boolean).join(" · ");
+  if (status) lines.push(status);
 
   return lines.join("\n");
 }
@@ -2640,25 +2503,20 @@ function escapeHtml(str) {
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
 }
+
 function formatExperience(data = {}) {
-  // 1. Applicants with actual work experience
   if (data.experienceType !== "no-experience") {
     const jobTitle = String(data.jobTitle || "").trim();
     const employer = String(data.employer || "").trim();
-    
-    // Combine start and end dates gracefully if dates string is not pre-formatted
     const start = String(data.experienceStart || "").trim();
     const end = String(data.experienceEnd || "").trim();
     let dates = String(data.dates || "").trim();
     if (!dates && (start || end)) {
       dates = start && end ? `${start} – ${end}` : (start || end);
     }
-
     const description = String(data.description || "").trim();
 
-    if (!jobTitle && !employer && !description) {
-      return "";
-    }
+    if (!jobTitle && !employer && !description) return "";
 
     return `
       <div class="experience-item">
@@ -2669,124 +2527,70 @@ function formatExperience(data = {}) {
     `;
   }
 
-  // 2. Applicants without formal work experience (Accurate School Learning)
   const subjects = Array.isArray(data.subjects)
     ? data.subjects
-    : String(data.subjects || "")
-        .split(",")
-        .map((s) => s.trim())
-        .filter(Boolean);
+    : String(data.subjects || "").split(",").map((s) => s.trim()).filter(Boolean);
 
   const subjectText = subjects.join(" ").toLowerCase();
   const descriptions = [];
 
-  // --- STREAM 1: TECHNICAL & MECHANICAL ---
   if (/\bmechanical technology\b|\bwelding\b|\bfitting and machining\b|\bfitting\b|\bcivil technology\b|\belectrical technology\b/.test(subjectText)) {
-    descriptions.push(
-      "Studied mechanical processes, materials, workshop concepts and safety principles."
-    );
+    descriptions.push("Studied mechanical processes, materials, workshop concepts and safety principles.");
   }
   if (/\bengineering graphics\b|\begd\b|\btechnical drawing\b/.test(subjectText)) {
-    descriptions.push(
-      "Studied technical drawings, scale design concepts and graphical communication."
-    );
+    descriptions.push("Studied technical drawings, scale design concepts and graphical communication.");
   }
   if (/\btechnical sciences\b/.test(subjectText)) {
-    descriptions.push(
-      "Studied scientific principles and their applications in technical contexts."
-    );
+    descriptions.push("Studied scientific principles and their applications in technical contexts.");
   }
-
-  // --- STREAM 2: COMMERCIAL & BUSINESS ---
   if (/\baccounting\b|\bfinancial management\b/.test(subjectText)) {
-    descriptions.push(
-      "Studied financial concepts, accounting principles, ledgers and numerical calculations."
-    );
+    descriptions.push("Studied financial concepts, accounting principles, ledgers and numerical calculations.");
   }
   if (/\bbusiness studies\b|\beconomics\b|\bentrepreneurship\b/.test(subjectText)) {
-    descriptions.push(
-      "Learned about business operations, organizational structures, customer relations and market environments."
-    );
+    descriptions.push("Learned about business operations, organizational structures, customer relations and market environments.");
   }
-
-  // --- STREAM 3: IT & DIGITAL LITERACY ---
   if (/\bcomputer applications technology\b|\bcat\b|\binformation technology\b|\bcomputer science\b|\bcoding\b/.test(subjectText)) {
-    descriptions.push(
-      "Studied computer applications, digital information management and related computing concepts."
-    );
+    descriptions.push("Studied computer applications, digital information management and related computing concepts.");
   }
-
-  // --- STREAM 4: PHYSICAL & LIFE SCIENCES ---
   if (/\bphysical sciences\b|\bchemistry\b|\bphysics\b/.test(subjectText)) {
-    descriptions.push(
-      "Studied physical and chemical principles, laboratory methodology and scientific problem-solving."
-    );
+    descriptions.push("Studied physical and chemical principles, laboratory methodology and scientific problem-solving.");
   }
-  if (/\blife sciences\b|\bbiology\b/.test(subjectText)) {
-    descriptions.push(
-      "Studied biological processes, observational methodology and scientific reporting."
-    );
+  if (/\blife sciences\b|\biology\b/.test(subjectText)) {
+    descriptions.push("Studied biological processes, observational methodology and scientific reporting.");
   }
-
-  // --- STREAM 5: AGRICULTURAL SCIENCES ---
   if (/\bagricultural sciences\b|\bagricultural technology\b|\bagricultural management\b/.test(subjectText)) {
-    descriptions.push(
-      "Studied agricultural principles, resource management and related environmental concepts."
-    );
+    descriptions.push("Studied agricultural principles, resource management and related environmental concepts.");
   }
-
-  // --- STREAM 6: MATHEMATICS & NUMERACY ---
   if (/\btechnical mathematics\b/.test(subjectText)) {
-    descriptions.push(
-      "Studied technical calculations, mathematical formulas and numerical problem-solving relevant to technical subjects."
-    );
+    descriptions.push("Studied technical calculations, mathematical formulas and numerical problem-solving relevant to technical subjects.");
   } else if (/\bmathematics\b/.test(subjectText)) {
-    descriptions.push(
-      "Studied mathematical concepts, calculations, formulas and numerical problem-solving through schoolwork."
-    );
+    descriptions.push("Studied mathematical concepts, calculations, formulas and numerical problem-solving through schoolwork.");
   }
   if (/\bmathematical literacy\b/.test(subjectText)) {
-    descriptions.push(
-      "Studied practical numerical reasoning for everyday financial, measurement and data tasks."
-    );
+    descriptions.push("Studied practical numerical reasoning for everyday financial, measurement and data tasks.");
   }
-
-  // --- STREAM 7: RETAIL, HOSPITALITY & HUMANITIES ---
   if (/\bconsumer studies\b|\bhospitality studies\b|\btourism\b|\bdramatic arts\b/.test(subjectText)) {
-    descriptions.push(
-      "Studied customer service principles, product standards and hospitality/tourism fundamentals."
-    );
+    descriptions.push("Studied customer service principles, product standards and hospitality/tourism fundamentals.");
   }
   if (/\bgeography\b|\bhistory\b|\blife orientation\b/.test(subjectText)) {
-    descriptions.push(
-      "Studied environmental, historical, social and personal-development topics through school coursework."
-    );
+    descriptions.push("Studied environmental, historical, social and personal-development topics through school coursework.");
   }
 
-  // Safe fallback if no subjects match rules
   if (descriptions.length === 0) {
-    descriptions.push(
-      "Studied core foundational subject matter, coursework concepts and general problem-solving through matric curriculum."
-    );
+    descriptions.push("Studied core foundational subject matter, coursework concepts and general problem-solving through matric curriculum.");
   }
 
-  // Eliminate duplicate descriptions
   const uniqueDescriptions = [...new Set(descriptions)];
 
   return `
     <div class="experience-item">
       <h3>Relevant School Learning</h3>
       <ul>
-        ${uniqueDescriptions
-          .map((description) => `<li>${escapeHtml(description)}</li>`)
-          .join("\n        ")}
+        ${uniqueDescriptions.map((description) => `<li>${escapeHtml(description)}</li>`).join("\n        ")}
       </ul>
     </div>
   `;
 }
-
-
-
 
 /* =========================================================
    SUBJECT GROUPS
@@ -2794,43 +2598,24 @@ function formatExperience(data = {}) {
 
 function renderSubjectGroups(subjects) {
   const container = $("previewSubjects");
-
   if (!container) return;
-
   container.innerHTML = "";
 
   const technicalNames = [
-    "Technical Mathematics",
-    "Technical Sciences",
-    "Engineering Graphics and Design (EGD)",
-    "Mechanical Technology",
-    "Electrical Technology",
-    "Civil Technology",
-    "Technical Drawing",
-    "Engineering Drawing",
-    "Welding and Metalwork",
-    "Welding",
-    "Metalwork",
-    "Fitting and Turning",
-    "Mechanical Engineering",
-    "Electrical Engineering",
-    "Civil Engineering",
-    "Engineering Mathematics",
-    "Engineering Science",
-    "Engineering Studies"
+    "Technical Mathematics", "Technical Sciences",
+    "Engineering Graphics and Design (EGD)", "Mechanical Technology",
+    "Electrical Technology", "Civil Technology", "Technical Drawing",
+    "Engineering Drawing", "Welding and Metalwork", "Welding",
+    "Metalwork", "Fitting and Turning", "Mechanical Engineering",
+    "Electrical Engineering", "Civil Engineering", "Engineering Mathematics",
+    "Engineering Science", "Engineering Studies"
   ];
 
-  const technical = subjects.filter(
-    subject => technicalNames.includes(subject)
-  );
-
-  const other = subjects.filter(
-    subject => !technicalNames.includes(subject)
-  );
+  const technical = subjects.filter(subject => technicalNames.includes(subject));
+  const other = subjects.filter(subject => !technicalNames.includes(subject));
 
   function addGroup(title, items) {
     if (!items.length) return;
-
     const group = document.createElement("div");
     group.className = "cv-subject-group";
 
@@ -2856,33 +2641,23 @@ function renderSubjectGroups(subjects) {
 }
 
 /* =========================================================
-   PROFESSIONAL SKILLS (Clean Flat List Preview Rendering)
+   PROFESSIONAL SKILLS
 ========================================================= */
 
 function renderSkillTags(skills) {
   const container = $("previewSkills");
-
   if (!container) return;
-
   container.innerHTML = "";
 
-  // Accept only skills supplied directly to this function.
-  // Do not generate default skills or auto-categorize.
   const skillList = (Array.isArray(skills) ? skills : [])
     .map(skill => String(skill).trim())
     .filter(Boolean);
 
-  // Remove duplicate skills without changing displayed casing.
   const uniqueSkills = [
-    ...new Map(
-      skillList.map(skill => [skill.toLowerCase(), skill])
-    ).values()
+    ...new Map(skillList.map(skill => [skill.toLowerCase(), skill])).values()
   ];
 
-  // If no skills are selected, omit preview content entirely.
-  if (uniqueSkills.length === 0) {
-    return;
-  }
+  if (uniqueSkills.length === 0) return;
 
   const heading = document.createElement("div");
   heading.className = "cv-skill-heading";
@@ -2900,37 +2675,22 @@ function renderSkillTags(skills) {
   container.append(heading, list);
 }
 
-
 /* =========================================================
    DISABILITY INFORMATION
 ========================================================= */
 
 function formatDisability(data) {
-  if (!data.includeDisabilityOnCv) {
-    return "";
-  }
+  if (!data.includeDisabilityOnCv) return "";
 
   const lines = [];
-
-  if (
-    data.disabilityStatus &&
-    data.disabilityStatus !== "No disability disclosed"
-  ) {
-    lines.push(
-      `Disability: ${data.disabilityStatus}`
-    );
+  if (data.disabilityStatus && data.disabilityStatus !== "No disability disclosed") {
+    lines.push(`Disability: ${data.disabilityStatus}`);
   }
-
   if (data.disabilityDetails) {
-    lines.push(
-      `Details: ${data.disabilityDetails}`
-    );
+    lines.push(`Details: ${data.disabilityDetails}`);
   }
-
   if (data.accessibilityNeeds) {
-    lines.push(
-      `Workplace accommodations: ${data.accessibilityNeeds}`
-    );
+    lines.push(`Workplace accommodations: ${data.accessibilityNeeds}`);
   }
 
   return lines.join("\n");
@@ -2942,44 +2702,21 @@ function formatDisability(data) {
 
 function formatAdditional(data) {
   const lines = [];
-
-  if (data.availability) {
-    lines.push(
-      `Availability: ${data.availability}`
-    );
+  if (data.availability) lines.push(`Availability: ${data.availability}`);
+  if (data.driversLicence && data.driversLicence !== "Not specified") {
+    lines.push(`Driver's licence: ${data.driversLicence}`);
   }
-
-  if (
-    data.driversLicence &&
-    data.driversLicence !== "Not specified"
-  ) {
-    lines.push(
-      `Driver's licence: ${data.driversLicence}`
-    );
-  }
-
-  if (data.certificates) {
-    lines.push(
-      `Certificates / training: ${data.certificates}`
-    );
-  }
-
-  if (data.interests) {
-    lines.push(
-      `Interests: ${data.interests}`
-    );
-  }
+  if (data.certificates) lines.push(`Certificates / training: ${data.certificates}`);
+  if (data.interests) lines.push(`Interests: ${data.interests}`);
 
   return lines.join("\n");
 }
-
 
 /* =========================================================
    AUTOMATED PROFESSIONAL COVER LETTER GENERATOR
 ========================================================= */
 
 function generateCoverLetter(data = {}) {
-  // Helper to properly capitalize names
   const formatName = (str) => {
     return String(str || "APPLICANT NAME")
       .trim()
@@ -2993,7 +2730,6 @@ function generateCoverLetter(data = {}) {
   const email = String(data.email || "").trim();
   const location = String(data.location || "South Africa").trim();
   
-  // Natural Job Title Mapping for Career Goals
   let rawGoal = String(data.careerGoal || "General Worker").trim();
   if (rawGoal.toLowerCase() === "general employment" || !rawGoal) {
     rawGoal = "General Worker";
@@ -3003,17 +2739,9 @@ function generateCoverLetter(data = {}) {
   const school = String(data.institution || "").trim();
   const year = String(data.educationYear || "").trim();
   const qualification = String(data.qualification || "").trim();
+  const educationStatus = String(data.educationStatus || "completed").trim().toLowerCase();
   
-  // Normalized Education Status with "completed" fallback
-  const educationStatus = String(
-    data.educationStatus || "completed"
-  ).trim().toLowerCase();
-  
-  // Verified Experience Type Handling
-  const experienceType = String(
-    data.experienceType || "no-experience"
-  ).trim().toLowerCase();
-
+  const experienceType = String(data.experienceType || "no-experience").trim().toLowerCase();
   const experienceLabels = {
     "work": "previous work experience",
     "informal": "informal work experience",
@@ -3021,15 +2749,10 @@ function generateCoverLetter(data = {}) {
     "practical": "practical training or workplace exposure"
   };
 
-  const hasExperience = Object.prototype.hasOwnProperty.call(
-    experienceLabels,
-    experienceType
-  );
-
+  const hasExperience = Object.prototype.hasOwnProperty.call(experienceLabels, experienceType);
   const jobTitle = String(data.jobTitle || "").trim();
   const employer = String(data.employer || "").trim();
 
-  // Safe subject selection (first 3 subjects)
   const subjectsInput = Array.isArray(data.subjects) ? data.subjects : [];
   const selectedSubjects = subjectsInput.slice(0, 3);
   const subjectsPhrase = selectedSubjects.length > 0 
@@ -3037,14 +2760,12 @@ function generateCoverLetter(data = {}) {
     : "";
 
   const userStrengths = String(data.strengths || "").trim();
-
   const currentDate = new Date().toLocaleDateString("en-ZA", {
     year: "numeric",
     month: "long",
     day: "numeric"
   });
 
-  // Construct Education / Background Sentence with normalized study status awareness
   let educationSentence = "";
   if (qualification) {
     const atInst = school ? ` at ${school}` : "";
@@ -3064,7 +2785,6 @@ function generateCoverLetter(data = {}) {
     educationSentence = `I studied at ${school}${inYear}.${subjectsPhrase}`;
   }
 
-  // Tailored experience paragraph based on verified category
   let experienceParagraph = "";
   if (hasExperience) {
     const labelDesc = experienceLabels[experienceType];
@@ -3094,17 +2814,14 @@ function generateCoverLetter(data = {}) {
     strengthsSentence = ` My key strengths include ${userStrengths}.`;
   }
 
-  // Clean contact line formatting
   const contactParts = [location, phone, email].filter(Boolean);
   const contactHeader = contactParts.join(" | ");
 
-  // Prevent duplicate "position" or "role" wording in the heading
   const goalUpper = goal.toUpperCase();
   const endsWithRoleOrPosition = goalUpper.endsWith("POSITION") || goalUpper.endsWith("ROLE") || goalUpper.endsWith("WORKER");
   const baseGoalPhrase = endsWithRoleOrPosition ? goalUpper : `${goalUpper} POSITION`;
   const applicationType = hasExperience ? baseGoalPhrase : `ENTRY-LEVEL ${baseGoalPhrase}`;
 
-  // Smart article selection ('A' vs 'AN') based on starting letter of applicationType
   const firstLetter = applicationType.trim().charAt(0);
   const article = ["A", "E", "I", "O", "U"].includes(firstLetter) ? "AN" : "A";
 
@@ -3134,8 +2851,6 @@ ${name}
   `.trim();
 }
 
-
-
 /* =========================================================
    UPDATE CV PREVIEW
 ========================================================= */
@@ -3143,53 +2858,23 @@ ${name}
 function updatePreview() {
   const data = getFormData();
 
-  setText(
-    "previewName",
-    data.fullName || "YOUR FULL NAME"
-  );
-
+  setText("previewName", data.fullName || "YOUR FULL NAME");
   setText(
     "previewContact",
-    [
-      data.email,
-      data.phone,
-      data.location
-    ]
-      .filter(Boolean)
-      .join(" | ")
+    [data.email, data.phone, data.location].filter(Boolean).join(" | ")
   );
-
-  setText(
-    "previewProfile",
-    generateProfile(data)
-  );
-
-  setText(
-    "previewEducation",
-    formatEducation(data)
-  );
+  setText("previewProfile", generateProfile(data));
+  setText("previewEducation", formatEducation(data));
 
   const experience = formatExperience(data);
-
-const experiencePreview = $("previewExperience");
-
-if (experiencePreview) {
-  experiencePreview.innerHTML = experience;
-}
-
-setSectionVisibility(
-  "experienceSection",
-  experience
-);
+  const experiencePreview = $("previewExperience");
+  if (experiencePreview) {
+    experiencePreview.innerHTML = experience;
+  }
+  setSectionVisibility("experienceSection", experience);
 
   renderSubjectGroups(data.subjects);
-
-  setSectionVisibility(
-    "subjectsSection",
-    data.subjects.length
-      ? "Subjects selected"
-      : ""
-  );
+  setSectionVisibility("subjectsSection", data.subjects.length ? "Subjects selected" : "");
 
   renderSkillTags(data.skills);
 
@@ -3197,55 +2882,27 @@ setSectionVisibility(
     data.languages.join(", "),
     data.languageDetails,
     data.languageProficiency
-  ]
-    .filter(Boolean)
-    .join(" · ");
-
-  setText(
-    "previewLanguages",
-    languageText
-  );
+  ].filter(Boolean).join(" · ");
+  setText("previewLanguages", languageText);
 
   const disability = formatDisability(data);
-
-  setText(
-    "previewDisability",
-    disability
-  );
-
-  setSectionVisibility(
-    "disabilitySection",
-    disability
-  );
+  setText("previewDisability", disability);
+  setSectionVisibility("disabilitySection", disability);
 
   const additional = formatAdditional(data);
+  setText("previewAdditional", additional);
+  setSectionVisibility("additionalSection", additional);
 
-  setText(
-    "previewAdditional",
-    additional
-  );
-
-  setSectionVisibility(
-    "additionalSection",
-    additional
-  );
-
-  // Render Cover Letter Live
-  const letterContent = generateCoverLetter(data);
-  setText("previewLetterText", letterContent);
+  // Render Cover Letter Live if authorized
+  if (userEntitlements.hasCoverLetter) {
+    const letterContent = generateCoverLetter(data);
+    setText("previewLetterText", letterContent);
+  }
 
   const preview = $("cvPreview");
-
   if (preview) {
-    preview.classList.toggle(
-      "classic",
-      purchasedTemplate === "classic"
-    );
-
-    preview.classList.toggle(
-      "modern",
-      purchasedTemplate === "modern"
-    );
+    preview.classList.toggle("classic", purchasedTemplate === "classic");
+    preview.classList.toggle("modern", purchasedTemplate === "modern");
   }
 
   setText(
@@ -3262,12 +2919,7 @@ setSectionVisibility(
 
 function assignIfPresent(id, value) {
   const element = $(id);
-
-  if (
-    element &&
-    value !== undefined &&
-    value !== null
-  ) {
+  if (element && value !== undefined && value !== null) {
     element.value = value;
   }
 }
@@ -3277,182 +2929,183 @@ function restoreCvData(data = {}) {
     fullName: ["fullName", "full_name"],
     phone: ["phone"],
     location: ["location"],
-    educationLevel: [
-      "educationLevel",
-      "education_level"
-    ],
+    educationLevel: ["educationLevel", "education_level"],
     institution: ["institution"],
     qualification: ["qualification"],
-    educationStatus: [
-      "educationStatus",
-      "education_status"
-    ],
-    educationYear: [
-      "educationYear",
-      "education_year"
-    ],
-    otherSubjects: [
-      "otherSubjects",
-      "other_subjects"
-    ],
-    careerGoal: [
-      "careerGoal",
-      "career_goal"
-    ],
+    educationStatus: ["educationStatus", "education_status"],
+    educationYear: ["educationYear", "education_year"],
+    otherSubjects: ["otherSubjects", "other_subjects"],
+    careerGoal: ["careerGoal", "career_goal"],
     strengths: ["strengths"],
-    experienceType: [
-      "experienceType",
-      "experience_type"
-    ],
-    jobTitle: [
-      "jobTitle",
-      "job_title"
-    ],
+    experienceType: ["experienceType", "experience_type"],
+    jobTitle: ["jobTitle", "job_title"],
     employer: ["employer"],
-    experienceStart: [
-      "experienceStart",
-      "experience_start"
-    ],
-    experienceEnd: [
-      "experienceEnd",
-      "experience_end"
-    ],
-    experienceDescription: [
-      "experienceDescription",
-      "experience_description"
-    ],
-    otherSkills: [
-      "otherSkills",
-      "other_skills"
-    ],
-    otherLanguages: [
-      "otherLanguages",
-      "other_languages"
-    ],
-    languageProficiency: [
-      "languageProficiency",
-      "language_proficiency"
-    ],
-    languageDetails: [
-      "languageDetails",
-      "language_details"
-    ],
-    disabilityStatus: [
-      "disabilityStatus",
-      "disability_status"
-    ],
-    disabilityDetails: [
-      "disabilityDetails",
-      "disability_details"
-    ],
-    accessibilityNeeds: [
-      "accessibilityNeeds",
-      "accessibility_needs"
-    ],
+    experienceStart: ["experienceStart", "experience_start"],
+    experienceEnd: ["experienceEnd", "experience_end"],
+    experienceDescription: ["experienceDescription", "experience_description"],
+    otherSkills: ["otherSkills", "other_skills"],
+    otherLanguages: ["otherLanguages", "other_languages"],
+    languageProficiency: ["languageProficiency", "language_proficiency"],
+    languageDetails: ["languageDetails", "language_details"],
+    disabilityStatus: ["disabilityStatus", "disability_status"],
+    disabilityDetails: ["disabilityDetails", "disability_details"],
+    accessibilityNeeds: ["accessibilityNeeds", "accessibility_needs"],
     availability: ["availability"],
-    driversLicence: [
-      "driversLicence",
-      "drivers_licence"
-    ],
+    driversLicence: ["driversLicence", "drivers_licence"],
     certificates: ["certificates"],
     interests: ["interests"]
   };
 
-  Object.entries(mappings).forEach(
-    ([fieldId, keys]) => {
-      for (const key of keys) {
-        if (
-          Object.prototype.hasOwnProperty.call(
-            data,
-            key
-          )
-        ) {
-          assignIfPresent(
-            fieldId,
-            data[key]
-          );
-
-          break;
-        }
+  Object.entries(mappings).forEach(([fieldId, keys]) => {
+    for (const key of keys) {
+      if (Object.prototype.hasOwnProperty.call(data, key)) {
+        assignIfPresent(fieldId, data[key]);
+        break;
       }
     }
-  );
+  });
 
-  $("email").value =
-    currentUser?.email ||
-    data.email ||
-    "";
+  $("email").value = currentUser?.email || data.email || "";
+  $("institutionSearch").value = valueOf("institution");
 
-  $("institutionSearch").value =
-    valueOf("institution");
+  const subjects = Array.isArray(data.subjects) ? data.subjects : [];
+  const skills = Array.isArray(data.skills) ? data.skills : [];
+  const languages = Array.isArray(data.languages) ? data.languages : ["English", "isiZulu"];
 
-  const subjects = Array.isArray(data.subjects)
-    ? data.subjects
-    : [];
-
-  const skills = Array.isArray(data.skills)
-    ? data.skills
-    : [];
-
-  const languages = Array.isArray(data.languages)
-    ? data.languages
-    : ["English", "isiZulu"];
-
-  populateQualifications(
-    valueOf("qualification")
-  );
-
+  populateQualifications(valueOf("qualification"));
   renderSubjectChoices(subjects);
   renderSkillChoices(skills);
   renderLanguageChoices(languages);
 
   $("includeDisabilityOnCv").checked =
-    data.includeDisabilityOnCv === true ||
-    data.include_disability_on_cv === true;
+    data.includeDisabilityOnCv === true || data.include_disability_on_cv === true;
 
-  $("templateChoice").value =
-    purchasedTemplate;
+  // Enforce template choice based on active template or entitlements
+  const templateSelect = $("templateChoice");
+  if (templateSelect) {
+    templateSelect.value = purchasedTemplate;
+    // If customer only has Cover Letter and no CV template, lock or handle gracefully
+  }
 
   updateExperienceVisibility();
   updatePreview();
 }
 
 /* =========================================================
-   PURCHASED TEMPLATE
+   ROBUST 5-PRODUCT ENTITLEMENT & ACCESS SYSTEM
 ========================================================= */
 
-function determinePurchasedTemplate(purchase) {
-  const candidate = [
-    purchase.template,
-    purchase.template_name,
-    purchase.cv_template,
-    purchase.product_name,
-    purchase.product,
-    purchase.plan,
-    purchase.purchase_type
-  ]
-    .filter(Boolean)
-    .join(" ")
-    .toLowerCase();
-
-  return candidate.includes("modern")
-    ? "modern"
-    : "classic";
+function normalizeProductKey(rawKey) {
+  const k = String(rawKey || "").trim().toLowerCase();
+  if (k.includes("modern_bundle") || k.includes("modern bundle") || k.includes("modern-bundle")) return "modern_bundle";
+  if (k.includes("classic_bundle") || k.includes("classic bundle") || k.includes("classic-bundle")) return "classic_bundle";
+  if (k.includes("cover_letter") || k.includes("cover letter") || k.includes("cover-letter")) return "cover_letter";
+  if (k.includes("modern")) return "modern";
+  if (k.includes("classic")) return "classic";
+  return k;
 }
 
-function enforcePurchasedTemplate() {
-  const select = $("templateChoice");
+function processEntitlements(eligiblePurchases) {
+  userEntitlements = {
+    hasClassic: false,
+    hasModern: false,
+    hasCoverLetter: false
+  };
 
-  if (select) {
-    select.value = purchasedTemplate;
-    select.disabled = true;
+  eligiblePurchases.forEach(purchase => {
+    const rawCode =
+      purchase.cv_template ||
+      purchase.product_code ||
+      purchase.template ||
+      purchase.template_name ||
+      purchase.product_name ||
+      purchase.product ||
+      purchase.plan ||
+      purchase.purchase_type ||
+      "";
+
+    const code = normalizeProductKey(rawCode);
+
+    if (code === "classic") {
+      userEntitlements.hasClassic = true;
+    } else if (code === "modern") {
+      userEntitlements.hasModern = true;
+    } else if (code === "cover_letter") {
+      userEntitlements.hasCoverLetter = true;
+    } else if (code === "classic_bundle") {
+      userEntitlements.hasClassic = true;
+      userEntitlements.hasCoverLetter = true;
+    } else if (code === "modern_bundle") {
+      userEntitlements.hasModern = true;
+      userEntitlements.hasCoverLetter = true;
+    }
+  });
+
+  // Default active template selection priority: Modern if available, else Classic
+  if (userEntitlements.hasModern && !userEntitlements.hasClassic) {
+    purchasedTemplate = "modern";
+  } else if (userEntitlements.hasClassic) {
+    purchasedTemplate = "classic";
+  } else if (userEntitlements.hasModern) {
+    purchasedTemplate = "modern";
+  } else {
+    // Fallback if only cover letter purchased
+    purchasedTemplate = "classic";
   }
+}
+
+function enforceUIAccessRules() {
+  const templateSelect = $("templateChoice");
+  if (templateSelect) {
+    templateSelect.innerHTML = "";
+    if (userEntitlements.hasClassic) {
+      const opt = document.createElement("option");
+      opt.value = "classic";
+      opt.textContent = "Classic CV — R15";
+      templateSelect.appendChild(opt);
+    }
+    if (userEntitlements.hasModern) {
+      const opt = document.createElement("option");
+      opt.value = "modern";
+      opt.textContent = "Modern CV — R25";
+      templateSelect.appendChild(opt);
+    }
+
+    if (!userEntitlements.hasClassic && !userEntitlements.hasModern) {
+      const opt = document.createElement("option");
+      opt.value = "";
+      opt.textContent = "No CV template purchased";
+      templateSelect.appendChild(opt);
+      templateSelect.disabled = true;
+    } else {
+      templateSelect.value = purchasedTemplate;
+      // Disable selector if user only has 1 template option
+      templateSelect.disabled = !(userEntitlements.hasClassic && userEntitlements.hasModern);
+    }
+  }
+
+  // Cover Letter Tab Access Control
+  const letterTab = $("showLetterTab");
+  if (letterTab) {
+    if (!userEntitlements.hasCoverLetter) {
+      letterTab.style.opacity = "0.5";
+      letterTab.title = "Requires Cover Letter or Bundle purchase";
+    } else {
+      letterTab.style.opacity = "1";
+      letterTab.title = "";
+    }
+  }
+
+  const accessNoteText = [];
+  if (userEntitlements.hasClassic) accessNoteText.push("Classic CV");
+  if (userEntitlements.hasModern) accessNoteText.push("Modern CV");
+  if (userEntitlements.hasCoverLetter) accessNoteText.push("Cover Letter");
 
   setText(
     "templateAccessNote",
-    purchasedTemplate === "modern"
-      ? "Your approved Modern purchase unlocks the Modern CV template."
-      : "Your approved Classic purchase unlocks Classic only. Modern requires a separate approved purchase."
+    accessNoteText.length > 0
+      ? `Unlocked features: ${accessNoteText.join(" & ")}.`
+      : "No approved product entitlements found."
   );
 }
 
@@ -3461,14 +3114,8 @@ function enforcePurchasedTemplate() {
 ========================================================= */
 
 async function checkPurchaseAccess() {
-  setText(
-    "accessMessage",
-    "Checking your account and CV purchase..."
-  );
-
+  setText("accessMessage", "Checking your account and purchases...");
   $("builderArea").style.display = "none";
-
-console.log("[CV DEBUG] Purchase check started");
 
   try {
     const {
@@ -3476,162 +3123,93 @@ console.log("[CV DEBUG] Purchase check started");
       error: sessionError
     } = await supabaseClient.auth.getSession();
 
-    if (sessionError) {
-      throw sessionError;
-    }
+    if (sessionError) throw sessionError;
 
     if (!session) {
-      window.location.href =
-        "./account.html";
-
+      window.location.href = "./account.html";
       return;
     }
 
     currentUser = session.user;
 
-console.log("[CV DEBUG] Session found");
-
-    const purchaseResult =
-      await callEdgeFunction(
-        "get-cv-purchase-status",
-        {}
-      );
-
-console.log(
-  "[CV DEBUG] Purchase response received",
-  purchaseResult
-);
-
-    const purchases = Array.isArray(
-      purchaseResult.purchases
-    )
+    const purchaseResult = await callEdgeFunction("get-cv-purchase-status", {});
+    const purchases = Array.isArray(purchaseResult.purchases)
       ? purchaseResult.purchases
       : purchaseResult.purchase
         ? [purchaseResult.purchase]
         : [];
 
-    const params =
-      new URLSearchParams(
-        window.location.search
-      );
+    const params = new URLSearchParams(window.location.search);
+    const requestedPurchaseId = params.get("purchase_id");
 
-    const requestedPurchaseId =
-      params.get("purchase_id");
+    let eligiblePurchases = purchases.filter(purchase => {
+      const status = String(
+        purchase.payment_status ||
+        purchase.status ||
+        ""
+      ).toLowerCase();
 
-    let eligiblePurchases =
-      purchases.filter(purchase => {
-        const status = String(
-          purchase.payment_status ||
-          purchase.status ||
-          ""
-        ).toLowerCase();
-
-        return [
-          "paid",
-          "approved",
-          "completed",
-          "success"
-        ].includes(status);
-      });
+      return ["paid", "approved", "completed", "success"].includes(status);
+    });
 
     if (requestedPurchaseId) {
-      eligiblePurchases =
-        eligiblePurchases.filter(
-          purchase =>
-            String(purchase.id) ===
-              requestedPurchaseId ||
-            String(purchase.purchase_id) ===
-              requestedPurchaseId ||
-            String(purchase.order_number) ===
-              requestedPurchaseId
-        );
+      // Securely verify requested purchase ID belongs to user and is approved
+      const matchingRequested = eligiblePurchases.filter(
+        purchase =>
+          String(purchase.id) === requestedPurchaseId ||
+          String(purchase.purchase_id) === requestedPurchaseId ||
+          String(purchase.order_number) === requestedPurchaseId
+      );
+
+      if (matchingRequested.length > 0) {
+        activePurchase = matchingRequested[0];
+      }
     }
 
     if (!eligiblePurchases.length) {
       setText(
         "accessMessage",
-        "No approved CV purchase was found. If you have paid, wait for payment approval or contact support."
+        "No approved purchase was found. If you have paid, wait for payment approval or contact support."
       );
-
       return;
     }
 
-    activePurchase =
-      eligiblePurchases[0];
+    if (!activePurchase) {
+      activePurchase = eligiblePurchases[0];
+    }
 
-console.log(
-  "[CV DEBUG] Eligible purchase found",
-  activePurchase
-);
-
-    purchasedTemplate =
-      determinePurchasedTemplate(
-        activePurchase
-      );
-
-    enforcePurchasedTemplate();
+    // Process all eligible purchases cumulatively
+    processEntitlements(eligiblePurchases);
+    enforceUIAccessRules();
 
     let savedResult = {};
-
     try {
-      savedResult =
-        await callEdgeFunction(
-          "get-customer-cv",
-          {
-            purchase_id:
-              activePurchase.id
-          }
-        );
+      savedResult = await callEdgeFunction("get-customer-cv", {
+        purchase_id: activePurchase.id
+      });
     } catch (error) {
-      const text = String(
-        error.message || ""
-      ).toLowerCase();
-
-      if (
-        !text.includes("not found") &&
-        !text.includes("no cv") &&
-        !text.includes("no saved")
-      ) {
+      const text = String(error.message || "").toLowerCase();
+      if (!text.includes("not found") && !text.includes("no cv") && !text.includes("no saved")) {
         throw error;
       }
     }
 
-    const cvRecord =
-      savedResult.cv || {};
-
-    const cvData =
-      cvRecord.cv_data ||
-      savedResult.cv_data ||
-      {};
+    const cvRecord = savedResult.cv || {};
+    const cvData = cvRecord.cv_data || savedResult.cv_data || {};
 
     savedCvData = cvData;
-
     restoreCvData(cvData);
 
-    setText(
-      "accessMessage",
-      "Your approved CV purchase is active."
-    );
-
-    $("builderArea").style.display =
-      "block";
+    setText("accessMessage", "Your approved purchases are active.");
+    $("builderArea").style.display = "block";
 
   } catch (error) {
-    console.error(
-      "CV access error:",
-      error
-    );
-
+    console.error("CV access error:", error);
     setText(
       "accessMessage",
-      "Could not verify your CV purchase. Please check your connection and try again."
+      "Could not verify your purchases. Please check your connection and try again."
     );
-
-    showMessage(
-      error.message ||
-      "Could not load your CV.",
-      "error"
-    );
+    showMessage(error.message || "Could not load your documents.", "error");
   }
 }
 
@@ -3641,16 +3219,8 @@ console.log(
 
 async function saveCv() {
   if (saveInProgress) return;
-
-  if (
-    !currentUser ||
-    !activePurchase
-  ) {
-    showMessage(
-      "Your approved purchase could not be confirmed.",
-      "error"
-    );
-
+  if (!currentUser || !activePurchase) {
+    showMessage("Your approved purchase could not be confirmed.", "error");
     return;
   }
 
@@ -3659,66 +3229,46 @@ async function saveCv() {
   }
 
   saveInProgress = true;
-
   const button = $("saveButton");
-
   button.disabled = true;
   button.textContent = "Saving...";
 
   try {
     const cvData = getFormData();
-
-    const result =
-      await callEdgeFunction(
-        "save-customer-cv",
-        {
-          purchase_id:
-            activePurchase.id,
-          cv_data: cvData
-        }
-      );
+    const result = await callEdgeFunction("save-customer-cv", {
+      purchase_id: activePurchase.id,
+      cv_data: cvData
+    });
 
     savedCvData = cvData;
-
     updatePreview();
 
     showMessage(
-      result.message ||
-      "Your CV has been saved successfully.",
+      result.message || "Your CV has been saved successfully.",
       "success"
     );
-
   } catch (error) {
-    console.error(
-      "CV save error:",
-      error
-    );
-
-    showMessage(
-      error.message ||
-      "Could not save your CV.",
-      "error"
-    );
-
+    console.error("CV save error:", error);
+    showMessage(error.message || "Could not save your CV.", "error");
   } finally {
     saveInProgress = false;
-
     button.disabled = false;
-    button.textContent =
-      "Save My CV";
+    button.textContent = "Save My CV";
   }
 }
-
 
 /* =========================================================
    PROFESSIONAL PDF DOWNLOAD
 ========================================================= */
 
 async function downloadCvPdf() {
+  if (activeView === "letter" && !userEntitlements.hasCoverLetter) {
+    showMessage("You do not have an approved Cover Letter purchase.", "error");
+    return;
+  }
+
   updatePreview();
-
   const button = $("printButton");
-
   button.disabled = true;
   button.textContent = "Preparing PDF...";
 
@@ -3735,53 +3285,24 @@ async function downloadCvPdf() {
       throw new Error("Document preview could not be found.");
     }
 
-    const filename = (
-      valueOf("fullName") || "My_Document"
-    ).replace(/[^a-z0-9_-]+/gi, "_");
+    const filename = (valueOf("fullName") || "My_Document").replace(/[^a-z0-9_-]+/gi, "_");
 
     await window.html2pdf()
       .set({
         margin: [6, 8, 6, 8],
         filename: `${filename}${docSuffix}`,
-
-        image: {
-          type: "jpeg",
-          quality: 0.98
-        },
-
-        html2canvas: {
-          scale: 1.5,
-          useCORS: true,
-          backgroundColor: "#ffffff",
-          scrollY: 0
-        },
-
-        jsPDF: {
-          unit: "mm",
-          format: "a4",
-          orientation: "portrait"
-        },
-
-        pagebreak: {
-          mode: ["legacy"]
-        }
+        image: { type: "jpeg", quality: 0.98 },
+        html2canvas: { scale: 1.5, useCORS: true, backgroundColor: "#ffffff", scrollY: 0 },
+        jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+        pagebreak: { mode: ["legacy"] }
       })
       .from(targetElement)
       .save();
 
-    showMessage(
-      `${isCv ? "CV" : "Cover Letter"} PDF download has started.`,
-      "success"
-    );
-
+    showMessage(`${isCv ? "CV" : "Cover Letter"} PDF download has started.`, "success");
   } catch (error) {
     console.error("PDF error:", error);
-
-    showMessage(
-      error.message || "Could not download your PDF.",
-      "error"
-    );
-
+    showMessage(error.message || "Could not download your PDF.", "error");
   } finally {
     button.disabled = false;
     button.textContent = "Download Professional PDF";
@@ -3793,44 +3314,22 @@ async function downloadCvPdf() {
 ========================================================= */
 
 function populateYears() {
-  const select =
-    $("educationYear");
-
+  const select = $("educationYear");
   if (!select) return;
 
-  const currentYear =
-    new Date().getFullYear();
-
+  const currentYear = new Date().getFullYear();
   select.innerHTML = "";
 
-  const placeholder =
-    document.createElement("option");
-
+  const placeholder = document.createElement("option");
   placeholder.value = "";
-  placeholder.textContent =
-    "Select year";
+  placeholder.textContent = "Select year";
+  select.appendChild(placeholder);
 
-  select.appendChild(
-    placeholder
-  );
-
-  for (
-    let year = currentYear + 5;
-    year >= currentYear - 50;
-    year--
-  ) {
-    const option =
-      document.createElement("option");
-
-    option.value =
-      String(year);
-
-    option.textContent =
-      String(year);
-
-    select.appendChild(
-      option
-    );
+  for (let year = currentYear + 5; year >= currentYear - 50; year--) {
+    const option = document.createElement("option");
+    option.value = String(year);
+    option.textContent = String(year);
+    select.appendChild(option);
   }
 }
 
@@ -3839,175 +3338,107 @@ function populateYears() {
 ========================================================= */
 
 function registerEvents() {
-  $("institutionSearch")
-    .addEventListener(
-      "input",
-      renderInstitutionResults
-    );
+  $("institutionSearch").addEventListener("input", renderInstitutionResults);
+  $("institutionSearch").addEventListener("focus", () => {
+    if (valueOf("institutionSearch")) {
+      renderInstitutionResults();
+    }
+  });
 
-  $("institutionSearch")
-    .addEventListener(
-      "focus",
-      () => {
-        if (
-          valueOf("institutionSearch")
-        ) {
-          renderInstitutionResults();
-        }
-      }
-    );
-
-  $("institutionSearch")
-    .addEventListener(
-      "keydown",
-      event => {
-        if (
-          event.key === "Escape"
-        ) {
-          closeInstitutionResults();
-        }
-
-        if (
-          event.key === "Enter"
-        ) {
-          const first =
-            $("institutionResults")
-              .querySelector(
-                ".education-result"
-              );
-
-          if (first) {
-            event.preventDefault();
-
-            selectInstitution(
-              first.textContent
-            );
-          }
-        }
-      }
-    );
-
-  document.addEventListener(
-    "click",
-    event => {
-      const wrapper =
-        document.querySelector(
-          ".autocomplete-wrap"
-        );
-
-      if (
-        wrapper &&
-        !wrapper.contains(
-          event.target
-        )
-      ) {
-        closeInstitutionResults();
+  $("institutionSearch").addEventListener("keydown", event => {
+    if (event.key === "Escape") {
+      closeInstitutionResults();
+    }
+    if (event.key === "Enter") {
+      const first = $("institutionResults").querySelector(".education-result");
+      if (first) {
+        event.preventDefault();
+        selectInstitution(first.textContent);
       }
     }
-  );
+  });
 
-  $("educationLevel")
-    .addEventListener(
-      "change",
-      () => {
-        $("institutionSearch").value = "";
-        $("institution").value = "";
+  document.addEventListener("click", event => {
+    const wrapper = document.querySelector(".autocomplete-wrap");
+    if (wrapper && !wrapper.contains(event.target)) {
+      closeInstitutionResults();
+    }
+  });
 
-        populateQualifications();
-        renderSubjectChoices();
-        closeInstitutionResults();
-        updatePreview();
-      }
-    );
+  $("educationLevel").addEventListener("change", () => {
+    $("institutionSearch").value = "";
+    $("institution").value = "";
+    populateQualifications();
+    renderSubjectChoices();
+    closeInstitutionResults();
+    updatePreview();
+  });
 
-  $("experienceType")
-    .addEventListener(
-      "change",
-      updateExperienceVisibility
-    );
+  $("experienceType").addEventListener("change", updateExperienceVisibility);
+  $("saveButton").addEventListener("click", saveCv);
 
-  $("saveButton")
-    .addEventListener(
-      "click",
-      saveCv
-    );
+  $("updatePreviewButton").addEventListener("click", () => {
+    updatePreview();
+    showMessage("Your preview has been updated.", "success");
+  });
 
-  $("updatePreviewButton")
-    .addEventListener(
-      "click",
-      () => {
-        updatePreview();
+  $("printButton").addEventListener("click", downloadCvPdf);
 
-        showMessage(
-          "Your preview has been updated.",
-          "success"
-        );
-      }
-    );
-
-  $("printButton")
-    .addEventListener(
-      "click",
-      downloadCvPdf
-    );
-
-  // Tab Switching Event Listeners
+  // Secure Tab Switching with Entitlement Validation
   $("showCvTab")?.addEventListener("click", () => {
     activeView = "cv";
     $("cvPreview").classList.remove("hidden");
     $("coverLetterPreview").classList.add("hidden");
-    
     $("showCvTab").classList.remove("secondary");
     $("showLetterTab").classList.add("secondary");
   });
 
   $("showLetterTab")?.addEventListener("click", () => {
+    if (!userEntitlements.hasCoverLetter) {
+      showMessage("Access denied: Cover Letter requires a Cover Letter or Bundle purchase.", "error");
+      return;
+    }
+    clearMessage();
     activeView = "letter";
     $("cvPreview").classList.add("hidden");
     $("coverLetterPreview").classList.remove("hidden");
-    
     $("showLetterTab").classList.remove("secondary");
     $("showCvTab").classList.add("secondary");
+    updatePreview();
   });
 
-  $("cvForm")
-    .addEventListener(
-      "input",
-      event => {
-        if (
-          event.target.id !==
-          "institutionSearch"
-        ) {
-          updatePreview();
-        }
-      }
-    );
+  $("templateChoice")?.addEventListener("change", event => {
+    const chosen = event.target.value;
+    if (chosen === "classic" && !userEntitlements.hasClassic) {
+      alert("Classic CV is not unlocked on your account.");
+      event.target.value = purchasedTemplate;
+      return;
+    }
+    if (chosen === "modern" && !userEntitlements.hasModern) {
+      alert("Modern CV is not unlocked on your account.");
+      event.target.value = purchasedTemplate;
+      return;
+    }
+    purchasedTemplate = chosen;
+    updatePreview();
+  });
 
-  $("cvForm")
-    .addEventListener(
-      "change",
-      updatePreview
-    );
+  $("cvForm").addEventListener("input", event => {
+    if (event.target.id !== "institutionSearch") {
+      updatePreview();
+    }
+  });
 
-  $("signOutButton")
-    .addEventListener(
-      "click",
-      async () => {
-        try {
-          await supabaseClient
-            .auth.signOut();
+  $("cvForm").addEventListener("change", updatePreview);
 
-          window.location.href =
-            "./account.html";
-
-        } catch (error) {
-          showMessage(
-            "Could not sign out.",
-            "error"
-          );
-        }
-      }
-    );
+  $("signOutButton").addEventListener("click", async () => {
+    try {
+      await supabaseClient.auth.signOut();
+      window.location.href = "./account.html";
+    } catch (error) {
+      showMessage("Could not sign out.", "error");
+    }
+  });
 }
 
 /* =========================================================
@@ -4016,61 +3447,35 @@ function registerEvents() {
 
 async function initialiseBuilder() {
   try {
-    if (
-      !window.supabase ||
-      !window.supabase.createClient
-    ) {
-      throw new Error(
-        "Supabase library failed to load."
-      );
+    if (!window.supabase || !window.supabase.createClient) {
+      throw new Error("Supabase library failed to load.");
     }
 
-    supabaseClient =
-      window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_ANON_KEY
-      );
+    supabaseClient = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY
+    );
 
     populateYears();
     populateQualifications();
-
     renderSubjectChoices();
     renderSkillChoices();
-
-    renderLanguageChoices([
-      "English",
-      "isiZulu"
-    ]);
+    renderLanguageChoices(["English", "isiZulu"]);
 
     registerEvents();
-
     updateExperienceVisibility();
-    enforcePurchasedTemplate();
     updatePreview();
 
     await checkPurchaseAccess();
 
   } catch (error) {
-    console.error(
-      "Builder startup error:",
-      error
-    );
-
-    setText(
-      "accessMessage",
-      "The CV builder could not start."
-    );
-
-    showMessage(
-      error.message ||
-      "An unexpected error occurred.",
-      "error"
-    );
+    console.error("Builder startup error:", error);
+    setText("accessMessage", "The CV builder could not start.");
+    showMessage(error.message || "An unexpected error occurred.", "error");
   }
 }
 
 initialiseBuilder();
-
 </script>
 </body>
 </html>
