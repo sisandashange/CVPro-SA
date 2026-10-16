@@ -827,7 +827,6 @@ footer {
 
         <!-- COVER LETTER PREVIEW CONTAINER -->
         <article class="cv-page hidden" id="coverLetterPreview" style="padding: 35px; background: #fff;">
-
           <div id="previewLetterText" style="font-family: Arial, Helvetica, sans-serif; font-size: 11.5px; line-height: 1.6; color: #111; white-space: pre-wrap;"></div>
         </article>
 
@@ -1949,7 +1948,7 @@ const southAfricanLanguages = [
 ========================================================= */
 
 const SUPABASE_URL = "https://tnxlhpenttcynlmlohao.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_n4XzrnraET_AEMbCYtHV7Q_DJ8--zCL";
+const SUPABASE_ANON_KEY = "sb_publishable_n4XzrnraET_AEMbCYtHV7Q_DJ8--zCL";
 
 const $ = (id) => document.getElementById(id);
 
@@ -2050,7 +2049,7 @@ async function callEdgeFunction(functionName, body = {}) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "apikey": SUPABASE_PUBLISHABLE_KEY,
+        "apikey": SUPABASE_ANON_KEY,
         "Authorization": `Bearer ${session.access_token}`
       },
       body: JSON.stringify(body)
@@ -2359,7 +2358,7 @@ function generateProfile(data = {}) {
   const rawGoal = String(data.careerGoal || "").trim();
   const school = String(data.institution || data.school || data.schoolName || "").trim();
   const year = String(data.educationYear || data.completionYear || "").trim();
-  const location = String(data.location || "").trim();
+  const location = String(data.location || data.city || "").trim();
   const hasNoExperience = data.experienceType === "no-experience";
   const userConfirmedStrengths = String(data.strengths || "").trim();
 
@@ -2859,6 +2858,26 @@ ${name}
 function updatePreview() {
   const data = getFormData();
 
+  if (activeView === "letter") {
+    if (!userEntitlements.hasCoverLetter) {
+      showMessage("Access denied: Cover Letter not unlocked.", "error");
+      return;
+    }
+    const letterContent = generateCoverLetter(data);
+    setText("previewLetterText", letterContent);
+    return;
+  }
+
+  if (!userEntitlements.hasClassic && !userEntitlements.hasModern) {
+    return;
+  }
+
+  if (purchasedTemplate === "modern" && !userEntitlements.hasModern) {
+    purchasedTemplate = "classic";
+  } else if (purchasedTemplate === "classic" && !userEntitlements.hasClassic) {
+    purchasedTemplate = "modern";
+  }
+
   setText("previewName", data.fullName || "YOUR FULL NAME");
   setText(
     "previewContact",
@@ -2893,12 +2912,6 @@ function updatePreview() {
   const additional = formatAdditional(data);
   setText("previewAdditional", additional);
   setSectionVisibility("additionalSection", additional);
-
-  // Render Cover Letter Live if authorized
-  if (userEntitlements.hasCoverLetter) {
-    const letterContent = generateCoverLetter(data);
-    setText("previewLetterText", letterContent);
-  }
 
   const preview = $("cvPreview");
   if (preview) {
@@ -2981,11 +2994,9 @@ function restoreCvData(data = {}) {
   $("includeDisabilityOnCv").checked =
     data.includeDisabilityOnCv === true || data.include_disability_on_cv === true;
 
-  // Enforce template choice based on active template or entitlements
   const templateSelect = $("templateChoice");
   if (templateSelect) {
-    templateSelect.value = purchasedTemplate;
-    // If customer only has Cover Letter and no CV template, lock or handle gracefully
+    templateSelect.value = purchasedTemplate || "";
   }
 
   updateExperienceVisibility();
@@ -3042,16 +3053,12 @@ function processEntitlements(eligiblePurchases) {
     }
   });
 
-  // Default active template selection priority: Modern if available, else Classic
-  if (userEntitlements.hasModern && !userEntitlements.hasClassic) {
+  if (userEntitlements.hasModern) {
     purchasedTemplate = "modern";
   } else if (userEntitlements.hasClassic) {
     purchasedTemplate = "classic";
-  } else if (userEntitlements.hasModern) {
-    purchasedTemplate = "modern";
   } else {
-    // Fallback if only cover letter purchased
-    purchasedTemplate = "classic";
+    purchasedTemplate = null; // Cover Letter-only mode
   }
 }
 
@@ -3059,6 +3066,7 @@ function enforceUIAccessRules() {
   const templateSelect = $("templateChoice");
   if (templateSelect) {
     templateSelect.innerHTML = "";
+    
     if (userEntitlements.hasClassic) {
       const opt = document.createElement("option");
       opt.value = "classic";
@@ -3075,21 +3083,19 @@ function enforceUIAccessRules() {
     if (!userEntitlements.hasClassic && !userEntitlements.hasModern) {
       const opt = document.createElement("option");
       opt.value = "";
-      opt.textContent = "No CV template purchased";
+      opt.textContent = "No CV template purchased (Cover Letter only)";
       templateSelect.appendChild(opt);
       templateSelect.disabled = true;
     } else {
-      templateSelect.value = purchasedTemplate;
-      // Disable selector if user only has 1 template option
+      templateSelect.value = purchasedTemplate || "";
       templateSelect.disabled = !(userEntitlements.hasClassic && userEntitlements.hasModern);
     }
   }
 
-  // Cover Letter Tab Access Control
   const letterTab = $("showLetterTab");
   if (letterTab) {
     if (!userEntitlements.hasCoverLetter) {
-      letterTab.style.opacity = "0.5";
+      letterTab.style.opacity = "0.3";
       letterTab.title = "Requires Cover Letter or Bundle purchase";
     } else {
       letterTab.style.opacity = "1";
@@ -3097,17 +3103,15 @@ function enforceUIAccessRules() {
     }
   }
 
-  const accessNoteText = [];
-  if (userEntitlements.hasClassic) accessNoteText.push("Classic CV");
-  if (userEntitlements.hasModern) accessNoteText.push("Modern CV");
-  if (userEntitlements.hasCoverLetter) accessNoteText.push("Cover Letter");
-
-  setText(
-    "templateAccessNote",
-    accessNoteText.length > 0
-      ? `Unlocked features: ${accessNoteText.join(" & ")}.`
-      : "No approved product entitlements found."
-  );
+  if (!userEntitlements.hasClassic && !userEntitlements.hasModern && userEntitlements.hasCoverLetter) {
+    activeView = "letter";
+    $("cvPreview").classList.add("hidden");
+    $("coverLetterPreview").classList.remove("hidden");
+    $("showLetterTab").classList.remove("secondary");
+    $("showCvTab").classList.add("secondary");
+    $("showCvTab").style.opacity = "0.3";
+    $("showCvTab").title = "No CV template purchased";
+  }
 }
 
 /* =========================================================
@@ -3153,20 +3157,6 @@ async function checkPurchaseAccess() {
       return ["paid", "approved", "completed", "success"].includes(status);
     });
 
-    if (requestedPurchaseId) {
-      // Securely verify requested purchase ID belongs to user and is approved
-      const matchingRequested = eligiblePurchases.filter(
-        purchase =>
-          String(purchase.id) === requestedPurchaseId ||
-          String(purchase.purchase_id) === requestedPurchaseId ||
-          String(purchase.order_number) === requestedPurchaseId
-      );
-
-      if (matchingRequested.length > 0) {
-        activePurchase = matchingRequested[0];
-      }
-    }
-
     if (!eligiblePurchases.length) {
       setText(
         "accessMessage",
@@ -3175,31 +3165,54 @@ async function checkPurchaseAccess() {
       return;
     }
 
-    if (!activePurchase) {
+    if (requestedPurchaseId) {
+      const matchingRequested = eligiblePurchases.filter(
+        purchase =>
+          String(purchase.id) === requestedPurchaseId ||
+          String(purchase.purchase_id) === requestedPurchaseId ||
+          String(purchase.order_number) === requestedPurchaseId
+      );
+
+      if (matchingRequested.length === 0) {
+        setText(
+          "accessMessage",
+          "Access denied: The requested purchase ID is invalid, unpaid, or does not belong to your account."
+        );
+        showMessage("Invalid or unauthorized purchase ID supplied in URL.", "error");
+        return;
+      }
+      activePurchase = matchingRequested[0];
+    } else {
       activePurchase = eligiblePurchases[0];
     }
 
-    // Process all eligible purchases cumulatively
     processEntitlements(eligiblePurchases);
     enforceUIAccessRules();
 
-    let savedResult = {};
-    try {
-      savedResult = await callEdgeFunction("get-customer-cv", {
-        purchase_id: activePurchase.id
-      });
-    } catch (error) {
-      const text = String(error.message || "").toLowerCase();
-      if (!text.includes("not found") && !text.includes("no cv") && !text.includes("no saved")) {
-        throw error;
+    if (userEntitlements.hasClassic || userEntitlements.hasModern) {
+      let savedResult = {};
+      try {
+        savedResult = await callEdgeFunction("get-customer-cv", {
+          purchase_id: activePurchase.id
+        });
+      } catch (error) {
+        const text = String(error.message || "").toLowerCase();
+        if (!text.includes("not found") && !text.includes("no cv") && !text.includes("no saved")) {
+          throw error;
+        }
       }
+
+      const cvRecord = savedResult.cv || {};
+      const cvData = cvRecord.cv_data || savedResult.cv_data || {};
+      savedCvData = cvData;
+      restoreCvData(cvData);
+    } else {
+      activeView = "letter";
+      $("cvPreview").classList.add("hidden");
+      $("coverLetterPreview").classList.remove("hidden");
+      $("showLetterTab").classList.remove("secondary");
+      $("showCvTab").classList.add("hidden");
     }
-
-    const cvRecord = savedResult.cv || {};
-    const cvData = cvRecord.cv_data || savedResult.cv_data || {};
-
-    savedCvData = cvData;
-    restoreCvData(cvData);
 
     setText("accessMessage", "Your approved purchases are active.");
     $("builderArea").style.display = "block";
@@ -3220,6 +3233,12 @@ async function checkPurchaseAccess() {
 
 async function saveCv() {
   if (saveInProgress) return;
+
+  if (!userEntitlements.hasClassic && !userEntitlements.hasModern) {
+    showMessage("Access denied: Saving CV data requires a Classic or Modern CV purchase.", "error");
+    return;
+  }
+
   if (!currentUser || !activePurchase) {
     showMessage("Your approved purchase could not be confirmed.", "error");
     return;
@@ -3263,8 +3282,14 @@ async function saveCv() {
 ========================================================= */
 
 async function downloadCvPdf() {
-  if (activeView === "letter" && !userEntitlements.hasCoverLetter) {
-    showMessage("You do not have an approved Cover Letter purchase.", "error");
+  const isCv = activeView === "cv";
+
+  if (isCv && !userEntitlements.hasClassic && !userEntitlements.hasModern) {
+    showMessage("Access denied: No CV template unlocked on your account.", "error");
+    return;
+  }
+  if (!isCv && !userEntitlements.hasCoverLetter) {
+    showMessage("Access denied: Cover Letter not unlocked on your account.", "error");
     return;
   }
 
@@ -3278,7 +3303,6 @@ async function downloadCvPdf() {
       throw new Error("PDF generator is unavailable.");
     }
 
-    const isCv = activeView === "cv";
     const targetElement = isCv ? $("cvPreview") : $("coverLetterPreview");
     const docSuffix = isCv ? "_CV.pdf" : "_Cover_Letter.pdf";
 
@@ -3385,8 +3409,13 @@ function registerEvents() {
 
   $("printButton").addEventListener("click", downloadCvPdf);
 
-  // Secure Tab Switching with Entitlement Validation
+  // Tab Switching Event Listeners with Strict Entitlement Hard-Blocking
   $("showCvTab")?.addEventListener("click", () => {
+    if (!userEntitlements.hasClassic && !userEntitlements.hasModern) {
+      showMessage("Access denied: No CV template has been purchased on your account.", "error");
+      return;
+    }
+    clearMessage();
     activeView = "cv";
     $("cvPreview").classList.remove("hidden");
     $("coverLetterPreview").classList.add("hidden");
@@ -3408,18 +3437,28 @@ function registerEvents() {
     updatePreview();
   });
 
+  // Template Choice Change Listener with Strict Entitlement Enforcement
   $("templateChoice")?.addEventListener("change", event => {
     const chosen = event.target.value;
+
     if (chosen === "classic" && !userEntitlements.hasClassic) {
-      alert("Classic CV is not unlocked on your account.");
-      event.target.value = purchasedTemplate;
+      showMessage("Access denied: Classic CV is not unlocked on your account.", "error");
+      event.target.value = purchasedTemplate || "";
       return;
     }
+
     if (chosen === "modern" && !userEntitlements.hasModern) {
-      alert("Modern CV is not unlocked on your account.");
-      event.target.value = purchasedTemplate;
+      showMessage("Access denied: Modern CV is not unlocked on your account.", "error");
+      event.target.value = purchasedTemplate || "";
       return;
     }
+
+    if (chosen !== "classic" && chosen !== "modern") {
+      event.target.value = purchasedTemplate || "";
+      return;
+    }
+
+    clearMessage();
     purchasedTemplate = chosen;
     updatePreview();
   });
@@ -3454,7 +3493,7 @@ async function initialiseBuilder() {
 
     supabaseClient = window.supabase.createClient(
       SUPABASE_URL,
-      SUPABASE_PUBLISHABLE_KEY
+      SUPABASE_ANON_KEY
     );
 
     populateYears();
