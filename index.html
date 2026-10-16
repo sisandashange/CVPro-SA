@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>  
 <html lang="en">  
 <head>  
@@ -5,37 +6,46 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">  
   <meta name="theme-color" content="#111111">  
   <meta name="description" content="Create and save a professional CV and tailored cover letter online with CVPro-SA.">  
-  <title>CVPro-SA | Professional CV & Cover Letter Builder</title>    
+  <title>CVPro-SA | Professional CV & Cover Letter Platform</title>    
   <style>  
     * {  
       box-sizing: border-box;  
+      margin: 0;
+      padding: 0;
     }  
 
     :root {  
-      --bg: #fdfdfd;  
+      --bg: #f8fafc;  
       --card-bg: #ffffff;  
       --black: #0f172a;  
       --grey: #64748b;  
-      --light-grey: #f8fafc;  
+      --light-grey: #f1f5f9;  
       --border: #e2e8f0;  
       --accent: #059669;  
       --accent-dark: #047857;  
+      --accent-light: #ecfdf5;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.05);
     }  
 
     body {  
-      margin: 0;  
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;  
       background: var(--bg);  
       color: var(--black);  
-      line-height: 1.4;  
-      height: 100vh;
-      overflow-x: hidden;
+      line-height: 1.5;  
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }  
 
+    /* HEADER & NAVIGATION */
     header {  
       background: var(--black);  
       color: #fff;  
-      padding: 10px 20px;  
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
     }  
 
     .nav {  
@@ -44,189 +54,640 @@
       display: flex;  
       align-items: center;  
       justify-content: space-between;  
+      padding: 12px 20px;
     }  
 
     .logo {  
       color: #fff;  
-      font-size: 18px;  
+      font-size: 20px;  
       font-weight: 800;  
       text-decoration: none;  
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }  
 
+    .logo span {
+      color: #34d399;
+    }
+
     .nav-contacts {
-      font-size: 12px;
+      font-size: 13px;
       color: #cbd5e1;
       display: flex;
-      gap: 15px;
+      align-items: center;
+      gap: 18px;
     }
 
     .nav-contacts a {
       color: #34d399;
       text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
     }
 
+    .nav-contacts a:hover {
+      color: #6ee7b7;
+      text-decoration: underline;
+    }
+
+    /* TOP TAB BAR */
+    .tab-bar-container {
+      background: #1e293b;
+      border-top: 1px solid #334155;
+    }
+
+    .tab-bar {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      padding: 0 20px;
+      gap: 4px;
+      overflow-x: auto;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: #94a3b8;
+      padding: 12px 18px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 3px solid transparent;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .tab-btn:hover {
+      color: #f8fafc;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .tab-btn.active {
+      color: #34d399;
+      border-bottom-color: #34d399;
+      background: rgba(5, 150, 105, 0.1);
+    }
+
+    /* MAIN CONTENT */
     main {  
       max-width: 1200px;  
-      margin: auto;  
-      padding: 15px 15px;  
+      width: 100%;
+      margin: 0 auto;  
+      padding: 24px 20px;  
+      flex: 1;
     }  
 
-    /* HERO SECTION - COMPACT */  
+    /* TAB CONTENT PANELS */
+    .view-panel {
+      display: none;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    .view-panel.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* HERO SECTION */  
     .hero {  
       background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);  
       color: #fff;  
-      border-radius: 12px;  
-      padding: 20px 20px;  
+      border-radius: 16px;  
+      padding: 32px 24px;  
       text-align: center;  
-      margin-bottom: 15px;  
+      margin-bottom: 24px;  
+      box-shadow: var(--shadow-md);
+      position: relative;
+      overflow: hidden;
     }  
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: 0; right: 0; bottom: 0; left: 0;
+      background: radial-gradient(circle at top right, rgba(52, 211, 153, 0.15), transparent 60%);
+      pointer-events: none;
+    }
 
     .badge {  
       display: inline-block;  
-      padding: 3px 10px;  
+      padding: 4px 12px;  
       border-radius: 20px;  
-      background: rgba(5, 150, 105, 0.2);  
+      background: rgba(5, 150, 105, 0.25);  
       color: #34d399;  
-      font-size: 10px;  
+      font-size: 11px;  
       font-weight: 700;  
       text-transform: uppercase;
-      margin-bottom: 6px;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+      border: 1px solid rgba(52, 211, 153, 0.3);
     }  
 
     h1 {  
-      margin: 0 auto 6px;  
-      font-size: clamp(22px, 3.5vw, 32px);  
-      line-height: 1.15;  
+      margin: 0 auto 10px;  
+      font-size: clamp(24px, 4vw, 36px);  
+      line-height: 1.2;  
       font-weight: 800;
+      letter-spacing: -0.02em;
     }  
 
     .hero p {  
-      max-width: 550px;  
-      margin: 0 auto 12px;  
+      max-width: 600px;  
+      margin: 0 auto 16px;  
       color: #94a3b8;  
-      font-size: 13px;  
+      font-size: 14px;  
     }  
 
-    /* ULTRA COMPACT PRICING GRID (5 CARDS IN 1 ROW OR TIGHT WRAP) */  
+    /* PRICING GRID */  
     .pricing-grid {  
       display: grid;  
       grid-template-columns: repeat(5, minmax(0, 1fr));  
-      gap: 10px;  
+      gap: 14px;  
       align-items: stretch;  
     }  
 
     .template-card {  
       border: 1px solid var(--border);  
-      border-radius: 10px;  
+      border-radius: 14px;  
       background: var(--card-bg);  
       display: flex;  
       flex-direction: column;  
       justify-content: space-between;  
-      padding: 12px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+      padding: 16px;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
     }  
+
+    .template-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+      border-color: #cbd5e1;
+    }
 
     .template-card.popular {  
       border: 2px solid var(--accent);  
       position: relative;  
+      background: linear-gradient(180deg, #ffffff 0%, #f0fdf4 100%);
     }  
 
     .template-card.popular::before {  
-      content: "BEST";  
+      content: "BEST VALUE";  
       position: absolute;  
-      top: -8px;  
-      right: 10px;  
+      top: -10px;  
+      right: 12px;  
       background: var(--accent);  
       color: #fff;  
-      font-size: 8px;  
+      font-size: 9px;  
       font-weight: 800;  
-      padding: 2px 6px;  
+      padding: 2px 8px;  
       border-radius: 10px;  
+      letter-spacing: 0.5px;
+      box-shadow: 0 2px 4px rgba(5, 150, 105, 0.3);
     }  
 
     .card-top {  
       display: flex;  
       justify-content: space-between;  
-      align-items: center;  
-      margin-bottom: 6px;
+      align-items: flex-start;  
+      margin-bottom: 8px;
     }  
 
     .card-top h3 {  
       margin: 0;  
-      font-size: 13px;  
+      font-size: 15px;  
       font-weight: 700;
+      color: var(--black);
     }  
 
     .price {  
-      font-size: 15px;  
+      font-size: 18px;  
       font-weight: 800;  
-      color: var(--black);  
+      color: var(--accent);  
     }  
 
     .template-card p {  
       color: var(--grey);  
-      font-size: 11px;  
-      margin: 0 0 8px;  
-      line-height: 1.2;
+      font-size: 12px;  
+      margin: 0 0 12px;  
+      line-height: 1.3;
     }  
 
     .features {  
       list-style: none;
       padding: 0;  
-      margin: 0 0 10px;  
-      font-size: 11px;  
+      margin: 0 0 14px;  
+      font-size: 12px;  
       color: #334155;  
     }  
 
     .features li {  
-      margin-bottom: 2px;  
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      margin-bottom: 6px;  
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }  
 
     .features li::before {
-      content: "✓ ";
+      content: "✓";
       color: var(--accent);
-      font-weight: bold;
+      font-weight: 800;
+      font-size: 13px;
     }
 
     .select-button {  
       display: block;  
       width: 100%;  
-      padding: 8px;  
+      padding: 10px;  
       border: 1px solid var(--black);  
-      border-radius: 6px;  
+      border-radius: 8px;  
       background: var(--black);  
       color: #fff;  
-      font-size: 11px;  
+      font-size: 12px;  
       font-weight: 700;  
       cursor: pointer;  
       text-align: center;  
       text-decoration: none;  
+      transition: all 0.2s ease;
     }  
+
+    .select-button:hover {
+      background: #1e293b;
+      border-color: #1e293b;
+    }
 
     .select-button.accent {  
       background: var(--accent);  
       border-color: var(--accent);  
     }  
 
-    footer {  
-      padding: 10px 20px;  
-      background: #090d16;  
-      color: #64748b;  
-      text-align: center;  
-      font-size: 11px;  
-      margin-top: 15px;  
+    .select-button.accent:hover {  
+      background: var(--accent-dark);  
+      border-color: var(--accent-dark);  
+    }
+
+    /* ACCOUNT DASHBOARD VIEW */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 20px;
+    }
+
+    .profile-card, .dashboard-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .user-avatar-section {
+      text-align: center;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 16px;
+    }
+
+    .avatar-circle {
+      width: 64px;
+      height: 64px;
+      background: #e2e8f0;
+      color: var(--black);
+      font-size: 22px;
+      font-weight: 700;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 10px;
+      border: 2px solid var(--accent);
+    }
+
+    .user-name {
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    .user-email {
+      color: var(--grey);
+      font-size: 12px;
+    }
+
+    .meta-list {
+      list-style: none;
+      font-size: 13px;
+    }
+
+    .meta-list li {
+      padding: 8px 0;
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px dashed #f1f5f9;
+    }
+
+    .meta-list li span:first-child {
+      color: var(--grey);
+    }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .document-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: 10px;
+      background: #f8fafc;
+    }
+
+    .doc-info h4 {
+      font-size: 13px;
+      margin-bottom: 2px;
+    }
+
+    .doc-info p {
+      font-size: 11px;
+      color: var(--grey);
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 6px;
+    }
+
+    .btn-sm {
+      padding: 6px 12px;
+      font-size: 11px;
+      font-weight: 600;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: #fff;
+      cursor: pointer;
+      text-decoration: none;
+      color: var(--black);
+      transition: background 0.2s;
+    }
+
+    .btn-sm:hover {
+      background: var(--light-grey);
+    }
+
+    .btn-sm.primary {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    .btn-sm.primary:hover {
+      background: var(--accent-dark);
+    }
+
+    .status-tag {
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .status-tag.active {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .status-tag.completed {
+      background: #e0f2fe;
+      color: #075985;
+    }
+
+    /* CUSTOMER SUPPORT VIEW */
+    .support-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .support-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .contact-hero-btn {
+      background: #25d366;
+      color: white;
+      text-decoration: none;
+      padding: 12px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 13px;
+      margin-top: 10px;
+      transition: background 0.2s;
+    }
+
+    .contact-hero-btn:hover {
+      background: #1da851;
+    }
+
+    .form-group {
+      margin-bottom: 12px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: var(--black);
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 13px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .form-control:focus {
+      border-color: var(--accent);
+    }
+
+    textarea.form-control {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    /* CHAT SIMULATION */
+    .chat-box {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      height: 220px;
+      display: flex;
+      flex-direction: column;
+      background: #f8fafc;
+      overflow: hidden;
+    }
+
+    .chat-messages {
+      flex: 1;
+      padding: 12px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .chat-msg {
+      max-width: 80%;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .chat-msg.agent {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      align-self: flex-start;
+    }
+
+    .chat-msg.user {
+      background: var(--black);
+      color: #fff;
+      align-self: flex-end;
+    }
+
+    .chat-input-row {
+      display: flex;
+      padding: 8px;
+      background: #fff;
+      border-top: 1px solid var(--border);
+      gap: 6px;
+    }
+
+    /* FAQ ACCORDION */
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+      padding: 10px 0;
+    }
+
+    .faq-item:last-child {
+      border-bottom: none;
+    }
+
+    .faq-question {
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      user-select: none;
+    }
+
+    .faq-answer {
+      font-size: 12px;
+      color: var(--grey);
+      margin-top: 6px;
+      display: none;
+      line-height: 1.4;
+    }
+
+    .faq-item.open .faq-answer {
+      display: block;
+    }
+
+    /* NOTIFICATION TOAST */
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--black);
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 13px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 1000;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.3s ease;
+      pointer-events: none;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* FOOTER */
+    footer {  
+      padding: 16px 20px;  
+      background: #090d16;  
+      color: #64748b;  
+      text-align: center;  
+      font-size: 12px;  
+      margin-top: auto;
     }  
 
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .footer-inner a {
+      color: #94a3b8;
+      text-decoration: none;
+    }
+
+    .footer-inner a:hover {
+      color: #34d399;
+    }
+
+    /* RESPONSIVE DESIGN */
     @media (max-width: 1024px) {  
       .pricing-grid {  
         grid-template-columns: repeat(3, minmax(0, 1fr));  
       }  
+    }
+
+    @media (max-width: 768px) {
+      .dashboard-grid, .support-grid {
+        grid-template-columns: 1fr;
+      }
     }
 
     @media (max-width: 650px) {  
@@ -236,127 +697,473 @@
       .nav-contacts {
         display: none;
       }
+      .footer-inner {
+        flex-direction: column;
+        text-align: center;
+      }
     }  
   </style>  
 </head>  
 <body>  
   <header>  
     <nav class="nav">  
-      <a class="logo" href="./">CVPro-SA</a>  
+      <a class="logo" href="#">CVPro<span>-SA</span></a>  
       <div class="nav-contacts">
         <span>📞 <a href="tel:+27752978917">+27 75 297 8917</a> (24/7)</span>
         <span>💬 <a href="https://wa.me/27752978917" target="_blank">WhatsApp</a></span>
         <span>✉️ <a href="mailto:mfanarhshange43@gmail.com">Email Us</a></span>
       </div>
     </nav>  
+
+    <!-- TOP NAVIGATION TAB BAR -->
+    <div class="tab-bar-container">
+      <div class="tab-bar">
+        <button class="tab-btn active" data-tab="home">
+          <span>🏠</span> Home & Packages
+        </button>
+        <button class="tab-btn" data-tab="account">
+          <span>👤</span> My Account & Documents
+        </button>
+        <button class="tab-btn" data-tab="support">
+          <span>🎧</span> Customer Support Hub
+        </button>
+      </div>
+    </div>
   </header>    
 
   <main>  
-    <section class="hero">  
-      <span class="badge">100% Honest & Matriculant-Friendly</span>  
-      <h1>Professional CVs & Cover Letters Made Simple</h1>  
-      <p>Build from your phone, save your documents securely, and download verified PDFs instantly.</p>  
-    </section>  
+    <!-- ================= VIEW 1: HOME & PACKAGES ================= -->
+    <div id="view-home" class="view-panel active">
+      <section class="hero">  
+        <span class="badge">100% Honest & Matriculant-Friendly</span>  
+        <h1>Professional CVs & Cover Letters Made Simple</h1>  
+        <p>Build from your phone, save your documents securely, and download verified PDFs instantly.</p>  
+      </section>  
 
-    <!-- ALL 5 PACKAGES IN ONE COMPACT ROW -->  
-    <div class="pricing-grid">  
-      <!-- 1. Classic CV -->  
-      <article class="template-card">  
-        <div>  
-          <div class="card-top">  
-            <h3>Classic CV</h3>  
-            <span class="price">R15</span>  
+      <!-- ALL 5 PACKAGES -->  
+      <div class="pricing-grid">  
+        <!-- 1. Classic CV -->  
+        <article class="template-card">  
+          <div>  
+            <div class="card-top">  
+              <h3>Classic CV</h3>  
+              <span class="price">R15</span>  
+            </div>  
+            <p>Traditional clean single-page format.</p>  
+            <ul class="features">  
+              <li>Factual learning highlights</li>  
+              <li>Instant PDF download</li>  
+            </ul>  
           </div>  
-          <p>Traditional clean single-page format.</p>  
-          <ul class="features">  
-            <li>Factual learning highlights</li>  
-            <li>Instant PDF download</li>  
-          </ul>  
-        </div>  
-        <button class="select-button" data-template="classic">Select — R15</button>  
-      </article>  
+          <button class="select-button" data-template="classic" data-price="R15">Select — R15</button>  
+        </article>  
 
-      <!-- 2. Modern CV -->  
-      <article class="template-card">  
-        <div>  
-          <div class="card-top">  
-            <h3>Modern CV</h3>  
-            <span class="price">R25</span>  
+        <!-- 2. Modern CV -->  
+        <article class="template-card">  
+          <div>  
+            <div class="card-top">  
+              <h3>Modern CV</h3>  
+              <span class="price">R25</span>  
+            </div>  
+            <p>Contemporary two-column sidebar layout.</p>  
+            <ul class="features">  
+              <li>Organized contact details</li>  
+              <li>Instant PDF download</li>  
+            </ul>  
           </div>  
-          <p>Contemporary two-column sidebar layout.</p>  
-          <ul class="features">  
-            <li>Organized contact details</li>  
-            <li>Instant PDF download</li>  
-          </ul>  
-        </div>  
-        <button class="select-button" data-template="modern">Select — R25</button>  
-      </article>  
+          <button class="select-button" data-template="modern" data-price="R25">Select — R25</button>  
+        </article>  
 
-      <!-- 3. Cover Letter Only -->  
-      <article class="template-card">  
-        <div>  
-          <div class="card-top">  
-            <h3>Cover Letter</h3>  
-            <span class="price">R15</span>  
+        <!-- 3. Cover Letter Only -->  
+        <article class="template-card">  
+          <div>  
+            <div class="card-top">  
+              <h3>Cover Letter</h3>  
+              <span class="price">R15</span>  
+            </div>  
+            <p>Tailored letter matched to your goal.</p>  
+            <ul class="features">  
+              <li>Highlights matric & subjects</li>  
+              <li>Ready to email recruiters</li>  
+            </ul>  
           </div>  
-          <p>Tailored letter matched to your goal.</p>  
-          <ul class="features">  
-            <li>Highlights matric & subjects</li>  
-            <li>Ready to email recruiters</li>  
-          </ul>  
-        </div>  
-        <button class="select-button" data-template="cover-letter">Select — R15</button>  
-      </article>  
+          <button class="select-button" data-template="cover-letter" data-price="R15">Select — R15</button>  
+        </article>  
 
-      <!-- 4. Classic Bundle -->  
-      <article class="template-card">  
-        <div>  
-          <div class="card-top">  
-            <h3>Classic + Letter</h3>  
-            <span class="price">R30</span>  
+        <!-- 4. Classic Bundle -->  
+        <article class="template-card">  
+          <div>  
+            <div class="card-top">  
+              <h3>Classic + Letter</h3>  
+              <span class="price">R30</span>  
+            </div>  
+            <p>Classic CV & tailored cover letter.</p>  
+            <ul class="features">  
+              <li>Complete document set</li>  
+              <li>Lifetime edits & downloads</li>  
+            </ul>  
           </div>  
-          <p>Classic CV & tailored cover letter.</p>  
-          <ul class="features">  
-            <li>Complete document set</li>  
-            <li>Lifetime edits & downloads</li>  
-          </ul>  
-        </div>  
-        <button class="select-button" data-template="classic-bundle">Select — R30</button>  
-      </article>  
+          <button class="select-button" data-template="classic-bundle" data-price="R30">Select — R30</button>  
+        </article>  
 
-      <!-- 5. Modern Bundle (Best Value) -->  
-      <article class="template-card popular">  
-        <div>  
-          <div class="card-top">  
-            <h3>Modern + Letter</h3>  
-            <span class="price">R40</span>  
+        <!-- 5. Modern Bundle (Best Value) -->  
+        <article class="template-card popular">  
+          <div>  
+            <div class="card-top">  
+              <h3>Modern + Letter</h3>  
+              <span class="price">R40</span>  
+            </div>  
+            <p>Top-tier bundle for maximum success.</p>  
+            <ul class="features">  
+              <li>Modern CV & Cover Letter</li>  
+              <li>Instant downloads & edits</li>  
+            </ul>  
           </div>  
-          <p>Top-tier bundle for maximum success.</p>  
-          <ul class="features">  
-            <li>Modern CV & Cover Letter</li>  
-            <li>Instant downloads & edits</li>  
-          </ul>  
-        </div>  
-        <button class="select-button accent" data-template="modern-bundle">Select — R40</button>  
-      </article>  
-    </div>  
+          <button class="select-button accent" data-template="modern-bundle" data-price="R40">Select — R40</button>  
+        </article>  
+      </div>  
+    </div>
+
+    <!-- ================= VIEW 2: ACCOUNT DASHBOARD ================= -->
+    <div id="view-account" class="view-panel">
+      <div class="dashboard-grid">
+        <!-- Sidebar Profile Info -->
+        <aside class="profile-card">
+          <div class="user-avatar-section">
+            <div class="avatar-circle">SS</div>
+            <div class="user-name" id="profile-name">Sisanda Shange</div>
+            <div class="user-email">sisandashange25@gmail.com</div>
+          </div>
+          <ul class="meta-list">
+            <li><span>Phone:</span> <span>+27 75 297 8917</span></li>
+            <li><span>Location:</span> <span>Durban, KZN</span></li>
+            <li><span>Account Type:</span> <span>Matriculant / Entry</span></li>
+            <li><span>Saved Files:</span> <span id="saved-docs-count">2 Documents</span></li>
+          </ul>
+          <button class="select-button accent" style="margin-top: 15px;" onclick="showToast('Profile information updated successfully!')">Edit Profile</button>
+        </aside>
+
+        <!-- Main Dashboard Content -->
+        <div style="display: flex; flex-direction: column; gap: 20px;">
+          <!-- Saved Documents -->
+          <section class="dashboard-card">
+            <div class="section-title">
+              <span>📄 Saved CVs & Cover Letters</span>
+              <span class="status-tag active">Sync Active</span>
+            </div>
+
+            <div id="documents-container">
+              <div class="document-item">
+                <div class="doc-info">
+                  <h4>Sisanda_Shange_Modern_CV.pdf</h4>
+                  <p>Modern CV Package • Created 2026-10-12 • PDF Format</p>
+                </div>
+                <div class="btn-group">
+                  <button class="btn-sm primary" onclick="downloadFile('Sisanda_Shange_Modern_CV.pdf')">Download</button>
+                  <button class="btn-sm" onclick="showToast('Opening Document Editor...')">Edit</button>
+                </div>
+              </div>
+
+              <div class="document-item">
+                <div class="doc-info">
+                  <h4>Sisanda_Shange_Cover_Letter.pdf</h4>
+                  <p>Cover Letter Package • Created 2026-10-12 • PDF Format</p>
+                </div>
+                <div class="btn-group">
+                  <button class="btn-sm primary" onclick="downloadFile('Sisanda_Shange_Cover_Letter.pdf')">Download</button>
+                  <button class="btn-sm" onclick="showToast('Opening Document Editor...')">Edit</button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Recent Orders / Payment History -->
+          <section class="dashboard-card">
+            <div class="section-title">
+              <span>💳 Transaction & Order History</span>
+            </div>
+            <table style="width: 100%; border-collapse: collapse; font-size: 12px; text-align: left;">
+              <thead>
+                <tr style="border-bottom: 2px solid var(--border); color: var(--grey);">
+                  <th style="padding: 8px;">Order ID</th>
+                  <th style="padding: 8px;">Package</th>
+                  <th style="padding: 8px;">Amount</th>
+                  <th style="padding: 8px;">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="border-bottom: 1px solid var(--border);">
+                  <td style="padding: 10px 8px; font-weight: 600;">#CV-8921</td>
+                  <td style="padding: 10px 8px;">Modern + Letter Bundle</td>
+                  <td style="padding: 10px 8px; font-weight: 700;">R40</td>
+                  <td style="padding: 10px 8px;"><span class="status-tag completed">Completed</span></td>
+                </tr>
+                <tr>
+                  <td style="padding: 10px 8px; font-weight: 600;">#CV-4102</td>
+                  <td style="padding: 10px 8px;">Classic CV</td>
+                  <td style="padding: 10px 8px; font-weight: 700;">R15</td>
+                  <td style="padding: 10px 8px;"><span class="status-tag completed">Completed</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= VIEW 3: CUSTOMER SUPPORT HUB ================= -->
+    <div id="view-support" class="view-panel">
+      <div class="support-grid">
+        <!-- Direct Help & WhatsApp -->
+        <div style="display: flex; flex-direction: column; gap: 20px;">
+          <div class="support-card">
+            <h3 style="font-size: 16px; margin-bottom: 8px;">💬 24/7 Direct WhatsApp Support</h3>
+            <p style="font-size: 12px; color: var(--grey);">Need urgent help updating your CV or tracking an order? Speak directly with our support team on WhatsApp.</p>
+            <a href="https://wa.me/27752978917" target="_blank" class="contact-hero-btn">
+              <span>Chat on WhatsApp (+27 75 297 8917)</span>
+            </a>
+          </div>
+
+          <!-- Order Lookup Form -->
+          <div class="support-card">
+            <h3 style="font-size: 15px; margin-bottom: 12px;">🔍 Track Your Order or Request</h3>
+            <form onsubmit="handleOrderLookup(event)">
+              <div class="form-group">
+                <label>Order Reference or Phone Number</label>
+                <input type="text" class="form-control" placeholder="e.g. #CV-8921 or +27 75 297 8917" required>
+              </div>
+              <button type="submit" class="select-button">Check Order Status</button>
+            </form>
+            <div id="lookup-result" style="margin-top: 10px; font-size: 12px; display: none;"></div>
+          </div>
+
+          <!-- Live Chat Assistant Box -->
+          <div class="support-card">
+            <h3 style="font-size: 15px; margin-bottom: 10px;">🤖 Live Virtual Assistant</h3>
+            <div class="chat-box">
+              <div class="chat-messages" id="chat-messages">
+                <div class="chat-msg agent">
+                  Hello! How can I help you with your CVPro-SA documents today?
+                </div>
+              </div>
+              <form class="chat-input-row" onsubmit="handleChatSubmit(event)">
+                <input type="text" id="chat-input" class="form-control" placeholder="Ask a question..." required>
+                <button type="submit" class="btn-sm primary" style="padding: 0 14px;">Send</button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ Accordion & Email Ticket -->
+        <div style="display: flex; flex-direction: column; gap: 20px;">
+          <div class="support-card">
+            <h3 style="font-size: 16px; margin-bottom: 12px;">❓ Frequently Asked Questions</h3>
+            <div class="faq-list">
+              <div class="faq-item open">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                  <span>How do I receive my completed CV?</span>
+                  <span>▼</span>
+                </div>
+                <div class="faq-answer">
+                  Once created, your CV is immediately available for PDF download in your <strong>My Account</strong> tab. A backup copy is also sent via WhatsApp/Email upon request.
+                </div>
+              </div>
+
+              <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                  <span>Can I edit my details after paying?</span>
+                  <span>▼</span>
+                </div>
+                <div class="faq-answer">
+                  Yes! All bundle packages include lifetime edits. Simply log in to your account tab to update your qualifications, work history, or contact details anytime.
+                </div>
+              </div>
+
+              <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                  <span>What payment methods are supported?</span>
+                  <span>▼</span>
+                </div>
+                <div class="faq-answer">
+                  We support EFT, Bank Deposits, Capitec Pay, Instant EFT, and direct WhatsApp payment confirmations.
+                </div>
+              </div>
+
+              <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                  <span>Are these templates suitable for Matriculants?</span>
+                  <span>▼</span>
+                </div>
+                <div class="faq-answer">
+                  Absolutely! Both our Classic and Modern formats are specifically designed to clearly highlight technical subjects, school learning achievements, and skills without fluff.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Submit Support Ticket -->
+          <div class="support-card">
+            <h3 style="font-size: 15px; margin-bottom: 12px;">✉️ Send Support Message</h3>
+            <form onsubmit="handleSupportTicket(event)">
+              <div class="form-group">
+                <label>Your Full Name</label>
+                <input type="text" class="form-control" placeholder="Sisanda Shange" required>
+              </div>
+              <div class="form-group">
+                <label>Your Email Address</label>
+                <input type="email" class="form-control" placeholder="mfanarhshange43@gmail.com" required>
+              </div>
+              <div class="form-group">
+                <label>How can we help?</label>
+                <textarea class="form-control" placeholder="Describe what you need help with..." required></textarea>
+              </div>
+              <button type="submit" class="select-button accent">Submit Request</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
   </main>    
 
+  <!-- FOOTER -->
   <footer>  
-    <p>&copy; <span id="year"></span> CVPro-SA. All rights reserved.</p>  
-    <p>Support: mfanarhshange43@gmail.com | +27 75 297 8917 (24/7)</p>  
+    <div class="footer-inner">
+      <p>&copy; <span id="year"></span> CVPro-SA. All rights reserved.</p>  
+      <p>Support: <a href="mailto:mfanarhshange43@gmail.com">mfanarhshange43@gmail.com</a> | <a href="tel:+27752978917">+27 75 297 8917</a> (24/7)</p>  
+    </div>
   </footer>    
 
+  <!-- NOTIFICATION TOAST -->
+  <div id="toast" class="toast">
+    <span id="toast-icon">ℹ️</span>
+    <span id="toast-message">Notification message</span>
+  </div>
+
   <script>  
+    // Set Current Year
     document.getElementById("year").textContent = new Date().getFullYear();  
 
+    // Tab Navigation Logic
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const viewPanels = document.querySelectorAll('.view-panel');
+
+    tabButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const targetTab = btn.dataset.tab;
+
+        // Activate Tab Button
+        tabButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        // Activate View Panel
+        viewPanels.forEach(panel => {
+          if (panel.id === `view-${targetTab}`) {
+            panel.classList.add('active');
+          } else {
+            panel.classList.remove('active');
+          }
+        });
+      });
+    });
+
+    // Package Selection Buttons Logic
     document.querySelectorAll("[data-template]").forEach((button) => {  
       button.addEventListener("click", () => {  
         const template = button.dataset.template;  
+        const price = button.dataset.price;
+        
         sessionStorage.setItem("cvpro_selected_template", template);  
-        window.location.href = "./account.html?template=" + encodeURIComponent(template);  
+        showToast(`Selected ${template.replace('-', ' ').toUpperCase()} (${price}). Navigating to Account Dashboard...`);
+
+        // Switch to Account tab
+        setTimeout(() => {
+          document.querySelector('[data-tab="account"]').click();
+        }, 1200);
       });  
     });  
+
+    // Toast Notification System
+    function showToast(message, icon = "✅") {
+      const toast = document.getElementById("toast");
+      document.getElementById("toast-message").textContent = message;
+      document.getElementById("toast-icon").textContent = icon;
+      
+      toast.classList.add("show");
+      setTimeout(() => {
+        toast.classList.remove("show");
+      }, 3500);
+    }
+
+    // Simulated PDF File Download
+    function downloadFile(filename) {
+      showToast(`Preparing download for ${filename}...`);
+      setTimeout(() => {
+        showToast(`Download started for ${filename}!`);
+      }, 1000);
+    }
+
+    // FAQ Accordion Toggle
+    function toggleFaq(element) {
+      const item = element.parentElement;
+      item.classList.toggle('open');
+    }
+
+    // Order Lookup Simulation
+    function handleOrderLookup(e) {
+      e.preventDefault();
+      const res = document.getElementById("lookup-result");
+      res.style.display = "block";
+      res.style.color = "var(--accent-dark)";
+      res.style.background = "#dcfce7";
+      res.style.padding = "10px";
+      res.style.borderRadius = "6px";
+      res.innerHTML = "<strong>Status:</strong> Order #CV-8921 is completed. Available in account downloads.";
+    }
+
+    // Interactive Virtual Assistant
+    function handleChatSubmit(e) {
+      e.preventDefault();
+      const input = document.getElementById("chat-input");
+      const text = input.value.trim();
+      if (!text) return;
+
+      const chatBox = document.getElementById("chat-messages");
+
+      // User Message
+      const userMsg = document.createElement("div");
+      userMsg.className = "chat-msg user";
+      userMsg.textContent = text;
+      chatBox.appendChild(userMsg);
+
+      input.value = "";
+      chatBox.scrollTop = chatBox.scrollHeight;
+
+      // Simulated Auto Reply
+      setTimeout(() => {
+        const agentMsg = document.createElement("div");
+        agentMsg.className = "chat-msg agent";
+        
+        const lower = text.toLowerCase();
+        if (lower.includes("price") || lower.includes("cost") || lower.includes("how much")) {
+          agentMsg.textContent = "Our packages start from R15 for Classic CV or Cover Letter, R25 for Modern CV, R30 for Classic Bundle, and R40 for the Modern Bundle!";
+        } else if (lower.includes("whatsapp") || lower.includes("phone")) {
+          agentMsg.textContent = "You can contact us 24/7 on WhatsApp at +27 75 297 8917.";
+        } else {
+          agentMsg.textContent = "Thank you for reaching out! You can download your files directly from the Account tab, or chat with us on WhatsApp for 24/7 support.";
+        }
+
+        chatBox.appendChild(agentMsg);
+        chatBox.scrollTop = chatBox.scrollHeight;
+      }, 700);
+    }
+
+    // Support Form Submission
+    function handleSupportTicket(e) {
+      e.preventDefault();
+      showToast("Support message sent! We'll reply shortly.");
+      e.target.reset();
+    }
   </script>  
 </body>  
 </html>
+```
