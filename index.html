@@ -3,85 +3,45 @@
 <head>  
   <meta charset="UTF-8">  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">  
-  <meta name="theme-color" content="#090d16">  
+  <meta name="theme-color" content="#ffffff">  
   <meta name="description" content="Create and save a professional CV and tailored cover letter online with CVPro-SA.">  
-  <title>CVPro-SA | Next-Gen Professional CV Builder</title>    
+  <title>CVPro-SA | Professional CV & Cover Letter Builder</title>    
   <style>  
     * {  
       box-sizing: border-box;  
     }  
 
     :root {  
-      --bg: #090d16;  
-      --card-bg: #111827;  
-      --card-border: #1f2937;  
-      --black: #030712;  
-      --white: #ffffff;  
-      --grey: #9ca3af;  
-      --light-grey: #1e293b;  
-      --accent: #10b981;  
-      --accent-glow: rgba(16, 185, 129, 0.25);  
-      --accent-dark: #059669;  
-      --accent-bright: #34d399;  
-      --gold: #f59e0b;  
+      --bg: #f8fafc;  
+      --card-bg: #ffffff;  
+      --black: #0f172a;  
+      --grey: #64748b;  
+      --light-grey: #f1f5f9;  
+      --border: #e2e8f0;  
+      --accent: #059669;  
+      --accent-dark: #047857;  
+      --accent-light: #ecfdf5;
     }  
 
     body {  
       margin: 0;  
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;  
       background: var(--bg);  
-      color: #f3f4f6;  
+      color: var(--black);  
       line-height: 1.4;  
       min-height: 100vh;
       overflow-x: hidden;
     }  
 
-    /* TOP LIVE STATUS BAR */
-    .top-status-bar {
-      background: linear-gradient(90deg, #030712 0%, #0f172a 100%);
-      color: #9ca3af;
-      font-size: 11px;
-      padding: 6px 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-    }
-
-    .status-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      color: var(--accent-bright);
-      font-weight: 600;
-    }
-
-    .status-dot {
-      width: 7px;
-      height: 7px;
-      background-color: var(--accent-bright);
-      border-radius: 50%;
-      box-shadow: 0 0 10px var(--accent-bright);
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0% { opacity: 0.4; }
-      50% { opacity: 1; }
-      100% { opacity: 0.4; }
-    }
-
-    /* HEADER */
     header {  
-      background: rgba(17, 24, 39, 0.85);  
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      color: #fff;  
-      padding: 12px 16px;  
+      background: #ffffff;  
+      color: var(--black);  
+      padding: 14px 20px;  
+      border-bottom: 1px solid var(--border);
       position: sticky;
       top: 0;
       z-index: 100;
-      border-bottom: 1px solid var(--card-border);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
     }  
 
     .nav {  
@@ -95,149 +55,87 @@
     .brand-group {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
     }
 
     .logo {  
-      color: #fff;  
-      font-size: 22px;  
-      font-weight: 900;  
+      color: var(--black);  
+      font-size: 20px;  
+      font-weight: 800;  
       text-decoration: none;  
       letter-spacing: -0.5px;
     }  
 
     .logo span {
-      background: linear-gradient(135deg, #34d399 0%, #059669 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .pro-tag {
-      background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(5, 150, 105, 0.2) 100%);
-      border: 1px solid rgba(52, 211, 153, 0.3);
-      color: var(--accent-bright);
-      font-size: 10px;
-      font-weight: 800;
-      padding: 2px 8px;
-      border-radius: 12px;
-      letter-spacing: 0.5px;
+      color: var(--accent);
     }
 
     .nav-contacts {
       font-size: 12px;
-      color: #9ca3af;
+      color: var(--grey);
       display: flex;
       gap: 16px;
       align-items: center;
     }
 
     .nav-contacts a {
-      color: var(--accent-bright);
+      color: var(--black);
       text-decoration: none;
       font-weight: 600;
+    }
+
+    .nav-contacts a:hover {
+      color: var(--accent);
     }
 
     main {  
       max-width: 1200px;  
       margin: auto;  
-      padding: 16px 12px;  
+      padding: 24px 16px;  
     }  
 
-    /* EYE-CATCHING HERO */  
+    /* CLEAN HERO SECTION */  
     .hero {  
-      background: radial-gradient(circle at top, #1f293d 0%, #0f172a 60%, #090d16 100%);  
-      border: 1px solid var(--card-border);
-      border-radius: 18px;  
-      padding: 32px 20px;  
+      background: #ffffff;  
+      border: 1px solid var(--border);
+      border-radius: 16px;  
+      padding: 36px 24px;  
       text-align: center;  
       margin-bottom: 24px;  
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 20px 40px -15px rgba(0,0,0,0.5);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
     }  
-
-    .hero::before {
-      content: "";
-      position: absolute;
-      top: -50px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 250px;
-      height: 250px;
-      background: var(--accent);
-      filter: blur(100px);
-      opacity: 0.25;
-      pointer-events: none;
-    }
 
     .badge {  
       display: inline-block;  
-      padding: 5px 14px;  
+      padding: 4px 12px;  
       border-radius: 20px;  
-      background: rgba(16, 185, 129, 0.15);  
-      color: var(--accent-bright);  
+      background: var(--accent-light);  
+      color: var(--accent-dark);  
       font-size: 11px;  
-      font-weight: 800;  
+      font-weight: 700;  
       text-transform: uppercase;
-      letter-spacing: 0.8px;
+      letter-spacing: 0.5px;
       margin-bottom: 12px;
-      border: 1px solid rgba(52, 211, 153, 0.3);
-      box-shadow: 0 0 15px rgba(16, 185, 129, 0.2);
+      border: 1px solid rgba(5, 150, 105, 0.2);
     }  
 
     h1 {  
       margin: 0 auto 10px;  
-      font-size: clamp(24px, 5vw, 38px);  
-      line-height: 1.15;  
-      font-weight: 900;
+      font-size: clamp(24px, 4vw, 36px);  
+      line-height: 1.2;  
+      font-weight: 800;
+      color: var(--black);
       letter-spacing: -0.5px;
-      color: #ffffff;
     }  
 
     .hero p {  
       max-width: 580px;  
-      margin: 0 auto 20px;  
-      color: #9ca3af;  
+      margin: 0 auto;  
+      color: var(--grey);  
       font-size: 14px;  
     }  
 
-    .hero-stats {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      margin-top: 15px;
-      padding-top: 15px;
-      border-top: 1px solid rgba(255,255,255,0.08);
-      font-size: 12px;
-      color: #cbd5e1;
-    }
-
-    .hero-stats span {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-
-    /* SECTION TITLES */
-    .section-title {
-      text-align: center;
-      margin-bottom: 18px;
-    }
-
-    .section-title h2 {
-      font-size: 22px;
-      font-weight: 800;
-      margin: 0 0 4px;
-      color: #ffffff;
-    }
-
-    .section-title p {
-      margin: 0;
-      color: var(--grey);
-      font-size: 13px;
-    }
-
-    /* EYE CATCHING PRICING CARDS */  
+    /* PRICING GRID */  
     .pricing-grid {  
       display: grid;  
       grid-template-columns: repeat(5, minmax(0, 1fr));  
@@ -247,43 +145,40 @@
     }  
 
     .template-card {  
-      border: 1px solid var(--card-border);  
-      border-radius: 14px;  
+      border: 1px solid var(--border);  
+      border-radius: 12px;  
       background: var(--card-bg);  
       display: flex;  
       flex-direction: column;  
       justify-content: space-between;  
-      padding: 16px 12px;  
-      position: relative;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      padding: 18px 14px;  
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+      transition: transform 0.2s, box-shadow 0.2s;
     }  
 
     .template-card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(52, 211, 153, 0.4);
-      box-shadow: 0 12px 25px -5px rgba(0, 0, 0, 0.6), 0 0 15px var(--accent-glow);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.05);
+      border-color: #cbd5e1;
     }
 
     .template-card.popular {  
       border: 2px solid var(--accent);  
-      background: linear-gradient(180deg, #132220 0%, #111827 100%);
-      box-shadow: 0 8px 25px rgba(16, 185, 129, 0.25);
+      position: relative;  
     }  
 
     .template-card.popular::before {  
-      content: "🔥 BEST VALUE";  
+      content: "POPULAR BUNDLE";  
       position: absolute;  
-      top: -11px;  
+      top: -10px;  
       right: 12px;  
-      background: linear-gradient(135deg, #10b981 0%, #059669 100%);  
+      background: var(--accent);  
       color: #fff;  
-      font-size: 9px;  
-      font-weight: 900;  
-      padding: 3px 8px;  
+      font-size: 8px;  
+      font-weight: 800;  
+      padding: 2px 8px;  
       border-radius: 10px;  
       letter-spacing: 0.5px;
-      box-shadow: 0 2px 8px rgba(16, 185, 129, 0.5);
     }  
 
     .card-top {  
@@ -296,19 +191,18 @@
     .card-top h3 {  
       margin: 0;  
       font-size: 14px;  
-      font-weight: 800;
-      color: #ffffff;
+      font-weight: 700;
+      color: var(--black);
     }  
 
     .price {  
-      font-size: 18px;  
-      font-weight: 900;  
-      color: var(--accent-bright);  
-      text-shadow: 0 0 10px rgba(52, 211, 153, 0.3);
+      font-size: 16px;  
+      font-weight: 800;  
+      color: var(--black);  
     }  
 
     .template-card p {  
-      color: #9ca3af;  
+      color: var(--grey);  
       font-size: 11px;  
       margin: 0 0 10px;  
       line-height: 1.3;
@@ -319,66 +213,78 @@
       padding: 0;  
       margin: 0 0 14px;  
       font-size: 11px;  
-      color: #d1d5db;  
+      color: #334155;  
     }  
 
     .features li {  
-      margin-bottom: 5px;  
+      margin-bottom: 4px;  
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      display: flex;
-      align-items: center;
-      gap: 4px;
     }  
 
     .features li::before {
-      content: "✓";
-      color: var(--accent-bright);
-      font-weight: 900;
+      content: "✓ ";
+      color: var(--accent);
+      font-weight: bold;
     }
 
     .select-button {  
       display: block;  
       width: 100%;  
-      padding: 10px;  
-      border: 1px solid rgba(255,255,255,0.15);  
-      border-radius: 8px;  
-      background: #1f293d;  
+      padding: 9px;  
+      border: 1px solid var(--black);  
+      border-radius: 7px;  
+      background: var(--black);  
       color: #fff;  
       font-size: 12px;  
-      font-weight: 800;  
+      font-weight: 700;  
       cursor: pointer;  
       text-align: center;  
       text-decoration: none;  
-      transition: all 0.2s;
-      letter-spacing: 0.3px;
+      transition: background 0.2s;
     }  
 
     .select-button:hover {
-      background: #374151;
-      border-color: #4b5563;
+      background: #1e293b;
     }
 
     .select-button.accent {  
-      background: linear-gradient(135deg, #10b981 0%, #059669 100%);  
-      border: none;
-      color: #ffffff;
-      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+      background: var(--accent);  
+      border-color: var(--accent);  
     }  
 
     .select-button.accent:hover {
-      background: linear-gradient(135deg, #34d399 0%, #059669 100%);
-      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.6);
+      background: var(--accent-dark);
+      border-color: var(--accent-dark);
     }
 
-    /* VISUAL CV PREVIEW GALLERY */
+    /* PREVIEW DEMO SECTION */
     .preview-section {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 18px;
-      padding: 24px 16px;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 20px;
       margin-bottom: 30px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .section-title h2 {
+      font-size: 20px;
+      font-weight: 800;
+      margin: 0 0 4px;
+      color: var(--black);
+    }
+
+    .section-title p {
+      margin: 0;
+      color: var(--grey);
+      font-size: 13px;
     }
 
     .preview-tabs {
@@ -386,37 +292,35 @@
       gap: 10px;
       justify-content: center;
       margin-bottom: 20px;
-      flex-wrap: wrap;
     }
 
     .tab-btn {
       padding: 8px 16px;
-      border-radius: 20px;
-      border: 1px solid var(--card-border);
-      background: #1f293d;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--light-grey);
       font-size: 12px;
       font-weight: 700;
-      color: #9ca3af;
+      color: var(--grey);
       cursor: pointer;
       transition: all 0.2s;
     }
 
     .tab-btn.active {
-      background: var(--accent);
+      background: var(--black);
       color: #fff;
-      border-color: var(--accent);
-      box-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
+      border-color: var(--black);
     }
 
-    /* CV SHEET PREVIEW */
+    /* PREVIEW FORMAT RENDERING */
     .cv-paper-preview {
       max-width: 650px;
       margin: 0 auto;
       background: #ffffff;
-      color: #0f172a;
-      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
       padding: 24px;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+      box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);
       font-size: 11px;
     }
 
@@ -425,14 +329,13 @@
       color: #fff;
       padding: 14px 18px;
       margin: -24px -24px 16px -24px;
-      border-top-left-radius: 7px;
-      border-top-right-radius: 7px;
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
     }
 
     .modern-preview-header h2 {
       margin: 0;
       font-size: 18px;
-      font-weight: 800;
       letter-spacing: 0.5px;
     }
 
@@ -489,16 +392,15 @@
     }
 
     footer {  
-      padding: 20px 16px;  
-      background: #030712;  
-      color: #6b7280;  
+      padding: 16px 20px;  
+      background: #0f172a;  
+      color: #94a3b8;  
       text-align: center;  
       font-size: 11px;  
       margin-top: 20px;  
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-top: 1px solid var(--card-border);
     }  
 
     @media (max-width: 1024px) {  
@@ -522,17 +424,10 @@
   </style>  
 </head>  
 <body>  
-  <!-- LIVE STATUS BAR -->
-  <div class="top-status-bar">
-    <span class="status-badge"><span class="status-dot"></span> Automated System Active — Instant PDF Generation</span>
-    <span>Official SA Matriculant Builder</span>
-  </div>
-
   <header>  
     <nav class="nav">  
       <div class="brand-group">
         <a class="logo" href="./">CVPro<span>-SA</span></a>  
-        <span class="pro-tag">FAST BUILD</span>
       </div>
       <div class="nav-contacts">
         <span>📞 <a href="tel:+27752978917">+27 75 297 8917</a> (24/7)</span>
@@ -544,24 +439,12 @@
 
   <main>  
     <section class="hero">  
-      <span class="badge">100% ATS Verified & Honest</span>  
-      <h1>Professional CVs Made Simple</h1>  
-      <p>Build directly from your phone, save your documents securely, and download verified PDFs instantly.</p>  
-
-      <div class="hero-stats">
-        <span>⚡ 1-Min Instant Creation</span>
-        <span>📄 Verified ATS Formats</span>
-        <span>📱 Mobile Phone Friendly</span>
-      </div>
+      <span class="badge">100% Honest & Matriculant-Friendly</span>  
+      <h1>Professional CVs & Cover Letters Made Simple</h1>  
+      <p>Build from your phone, save your documents securely, and download verified PDFs instantly.</p>  
     </section>  
 
-    <!-- SECTION TITLE -->
-    <div class="section-title" id="packages">
-      <h2>Select Your Package</h2>
-      <p>Clicking select opens your document builder (account.html)</p>
-    </div>
-
-    <!-- ALL 5 PACKAGES -->  
+    <!-- ALL 5 PACKAGES IN ONE ROW -->  
     <div class="pricing-grid">  
       <!-- 1. Classic CV -->  
       <article class="template-card">  
@@ -648,7 +531,7 @@
     <section class="preview-section" id="preview">
       <div class="section-title">
         <h2>Live Format Preview</h2>
-        <p>Switch tabs below to inspect how each design looks before building.</p>
+        <p>Switch tabs below to see how each CV design looks before creating yours.</p>
       </div>
 
       <div class="preview-tabs">
