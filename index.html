@@ -25,7 +25,7 @@
     html, body {
       background-color: var(--bg);
       color: var(--text);
-      line-height: 1.3;
+      line-height: 1.25;
       height: 100vh;
       max-height: 100vh;
       overflow: hidden;
@@ -34,11 +34,11 @@
       justify-content: space-between;
     }
 
-    /* HEADER - FIXED COMPACT SINGLE ROW */
+    /* HEADER */
     header {
       background: #000000;
       border-bottom: 1px solid var(--border);
-      padding: 10px 14px;
+      padding: 8px 12px;
       flex-shrink: 0;
     }
 
@@ -46,6 +46,8 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      max-width: 480px;
+      margin: 0 auto;
     }
 
     .brand {
@@ -61,16 +63,16 @@
       color: #000000;
       font-weight: 900;
       font-size: 11px;
-      width: 26px;
-      height: 26px;
-      border-radius: 5px;
+      width: 24px;
+      height: 24px;
+      border-radius: 4px;
       display: flex;
       align-items: center;
       justify-content: center;
     }
 
     .brand-name {
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 800;
       letter-spacing: -0.5px;
     }
@@ -78,16 +80,16 @@
     .nav-actions {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
     }
 
     .btn-outline {
       background: transparent;
       color: var(--text);
       border: 1px solid #444444;
-      padding: 6px 10px;
-      border-radius: 5px;
-      font-size: 11px;
+      padding: 5px 8px;
+      border-radius: 4px;
+      font-size: 10.5px;
       font-weight: 700;
       cursor: pointer;
     }
@@ -96,64 +98,65 @@
       background: #ffffff;
       color: #000000;
       border: 1px solid #ffffff;
-      padding: 6px 12px;
-      border-radius: 5px;
-      font-size: 11px;
+      padding: 5px 10px;
+      border-radius: 4px;
+      font-size: 10.5px;
       font-weight: 800;
       cursor: pointer;
       text-decoration: none;
     }
 
-    /* MAIN CONTAINER - COMPACT SINGLE MOBILE VIEWPORT */
+    /* MAIN SINGLE SCREEN LAYOUT */
     main {
-      padding: 12px 14px;
+      padding: 8px 12px;
       flex: 1;
       display: flex;
       flex-direction: column;
-      justify-content: space-evenly;
+      justify-content: space-between;
       max-width: 480px;
       margin: 0 auto;
       width: 100%;
+      overflow: hidden;
     }
 
     .eyebrow {
-      font-size: 9px;
+      font-size: 8.5px;
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 0.8px;
       color: var(--muted);
       display: block;
-      margin-bottom: 2px;
+      margin-bottom: 1px;
     }
 
     .hero-title {
-      font-size: 21px;
+      font-size: 19px;
       font-weight: 900;
-      line-height: 1.15;
+      line-height: 1.1;
       letter-spacing: -0.5px;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
 
     .hero-description {
-      font-size: 11px;
+      font-size: 10.5px;
       color: var(--muted);
-      margin-bottom: 10px;
-      line-height: 1.35;
+      margin-bottom: 6px;
+      line-height: 1.3;
     }
 
     .hero-cta-group {
       display: flex;
-      gap: 8px;
-      margin-bottom: 8px;
+      gap: 6px;
+      margin-bottom: 4px;
     }
 
     .feature-tags {
       display: flex;
-      gap: 10px;
-      font-size: 9.5px;
+      gap: 8px;
+      font-size: 9px;
       color: var(--muted);
       font-weight: 600;
-      margin-bottom: 10px;
+      margin-bottom: 6px;
     }
 
     .feature-tags span::before {
@@ -165,18 +168,18 @@
     .hero-visual {
       background: var(--card-bg);
       border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 10px;
+      border-radius: 8px;
+      padding: 8px 10px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 6px;
     }
 
     .mockup-paper {
       background: #000000;
       border: 1px solid #333333;
-      border-radius: 6px;
-      padding: 10px;
+      border-radius: 5px;
+      padding: 8px;
     }
 
     .mockup-header {
@@ -184,44 +187,44 @@
       justify-content: space-between;
       align-items: center;
       border-bottom: 1px solid #222222;
-      padding-bottom: 6px;
-      margin-bottom: 6px;
+      padding-bottom: 4px;
+      margin-bottom: 4px;
     }
 
     .mockup-name {
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 900;
     }
 
     .mockup-role {
-      font-size: 9px;
+      font-size: 8px;
       color: var(--muted);
     }
 
     .status-badge {
       border: 1px solid #ffffff;
-      font-size: 7px;
+      font-size: 6.5px;
       font-weight: 800;
-      padding: 1px 4px;
-      border-radius: 3px;
+      padding: 1px 3px;
+      border-radius: 2px;
     }
 
     .mockup-body {
-      font-size: 8.5px;
+      font-size: 8px;
       color: var(--muted);
     }
 
     .mockup-bullets {
       display: flex;
-      gap: 4px;
-      margin-top: 4px;
-      font-size: 8px;
+      gap: 3px;
+      margin-top: 3px;
+      font-size: 7.5px;
     }
 
     .mockup-bullets span {
       background: #1a1a1a;
-      padding: 2px 5px;
-      border-radius: 3px;
+      padding: 1px 4px;
+      border-radius: 2px;
       border: 1px solid #333;
       color: #fff;
     }
@@ -234,9 +237,9 @@
       background: #1a1a1a;
       color: #ffffff;
       border: 1px solid #333333;
-      padding: 5px 10px;
-      border-radius: 5px;
-      font-size: 10px;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 9.5px;
       font-weight: 700;
       cursor: pointer;
     }
@@ -244,23 +247,23 @@
     .ats-support-stack {
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 4px;
     }
 
     .ats-card {
       background: #ffffff;
       color: #000000;
-      padding: 6px 10px;
-      border-radius: 6px;
+      padding: 5px 8px;
+      border-radius: 5px;
       font-weight: 900;
-      font-size: 9px;
+      font-size: 8.5px;
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
 
     .ats-card span {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 900;
     }
 
@@ -268,9 +271,9 @@
       background: #111111;
       color: #ffffff;
       border: 1px solid #333333;
-      padding: 6px 10px;
-      border-radius: 6px;
-      font-size: 10px;
+      padding: 5px 8px;
+      border-radius: 5px;
+      font-size: 9.5px;
       font-weight: 700;
       text-decoration: none;
       text-align: center;
@@ -400,12 +403,15 @@
 
     /* FOOTER */
     footer {
-      padding: 8px 14px;
+      padding: 6px 12px;
       border-top: 1px solid var(--border);
       color: var(--muted);
       text-align: center;
-      font-size: 9.5px;
+      font-size: 9px;
       flex-shrink: 0;
+      max-width: 480px;
+      margin: 0 auto;
+      width: 100%;
     }
 
     footer a {
@@ -430,7 +436,7 @@
     </nav>
   </header>
 
-  <!-- MAIN (ONE MOBILE SCREEN FIT) -->
+  <!-- MAIN (EXACTLY 1 MOBILE SCREEN FIT) -->
   <main>
     <div>
       <span class="eyebrow">Professional South African CV Builder</span>
@@ -440,7 +446,7 @@
       </p>
 
       <div class="hero-cta-group">
-        <a href="./account.html" class="btn-solid">Build Your Resume</a>
+        <a href="./account.html" class="btn-solid" style="padding: 5px 10px;">Build Your Resume</a>
         <button class="btn-outline" onclick="openModal('pricingModal')">View All 5 Packages</button>
       </div>
 
@@ -463,7 +469,7 @@
         </div>
 
         <div class="mockup-body">
-          <strong style="color:#fff; font-size:8px;">KEY QUALIFICATIONS</strong>
+          <strong style="color:#fff; font-size:7.5px;">KEY QUALIFICATIONS</strong>
           <p>Demonstrated mechanical, operational, and technical problem-solving capabilities.</p>
           <div class="mockup-bullets">
             <span>Tailored</span>
