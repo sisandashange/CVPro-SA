@@ -739,7 +739,9 @@
       button.textContent = "Creating...";
 
       try {
-        const result = await callFunction("create-cv-purchase", { cv_template: template });
+        const result = await callFunction("create-cv-purchase", {
+  product_code: template
+});
         const purchase = result.purchase || result;
         if (!purchase || !purchase.id) throw new Error("Invalid order response.");
 
