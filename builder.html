@@ -712,35 +712,100 @@ footer {
 }
 
 
-/* Professional cover letter PDF layout */
+/* =====================================
+   PROFESSIONAL COVER LETTER PREVIEW STYLES
+===================================== */
 #coverLetterPreview {
   box-sizing: border-box;
   background: #ffffff;
-  color: #222222;
+  color: #182338;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 11.5pt;
-  line-height: 1.6;
+  line-height: 1.7;
   overflow-wrap: break-word;
+  padding: 35px;
+  border: 1px solid #E4E9F0;
+  border-radius: 12px;
+  box-shadow: 0 8px 28px rgba(16, 25, 45, .06);
 }
 
-#coverLetterPreview p {
-  margin: 0 0 14px;
-  orphans: 3;
-  widows: 3;
+#coverLetterPreview .cl-accent-bar {
+  width: 45px;
+  height: 4px;
+  background: #2563eb;
+  border-radius: 2px;
+  margin-bottom: 20px;
+}
+
+#coverLetterPreview .cl-header-block {
+  margin-bottom: 28px;
 }
 
 #coverLetterPreview h1,
 #coverLetterPreview .applicant-name {
   font-size: 20pt;
-  font-weight: 700;
-  line-height: 1.25;
-  margin: 0 0 8px;
+  font-weight: 800;
+  color: #10192D;
+  letter-spacing: -0.5px;
+  margin: 0 0 6px 0;
 }
 
 #coverLetterPreview .contact-details {
-  font-size: 9.5pt;
+  font-size: 10pt;
+  color: #68758A;
+  margin: 0;
   line-height: 1.5;
+}
+
+#coverLetterPreview .cl-date {
   margin-bottom: 24px;
+  font-size: 10pt;
+  color: #68758A;
+}
+
+#coverLetterPreview .cl-subject {
+  margin-bottom: 20px;
+  font-size: 10.5pt;
+  font-weight: 700;
+  color: #10192D;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+#coverLetterPreview .cl-salutation {
+  margin-bottom: 16px;
+  font-size: 10.5pt;
+  color: #182338;
+}
+
+#coverLetterPreview .cl-body-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  font-size: 11pt;
+  color: #334155;
+  margin-bottom: 28px;
+}
+
+#coverLetterPreview .cl-body-content p {
+  margin: 0;
+  orphans: 3;
+  widows: 3;
+}
+
+#coverLetterPreview .cl-signoff {
+  font-size: 10.5pt;
+  color: #182338;
+}
+
+#coverLetterPreview .cl-signoff p {
+  margin: 0 0 16px 0;
+}
+
+#coverLetterPreview .cl-signoff .cl-signoff-name {
+  margin: 0;
+  font-weight: 700;
+  color: #10192D;
 }
 
 #coverLetterPreview .avoid-break {
@@ -864,8 +929,26 @@ footer {
         </article>
 
         <!-- COVER LETTER PREVIEW CONTAINER -->
-        <article class="cv-page classic hidden" id="coverLetterPreview" style="padding: 35px; background: #fff;">
-          <div id="previewLetterText" style="font-family: Arial, Helvetica, sans-serif; font-size: 11.5px; line-height: 1.6; color: #111; white-space: pre-wrap;"></div>
+        <article class="cv-page hidden" id="coverLetterPreview">
+          <div class="cl-accent-bar"></div>
+          
+          <div class="cl-header-block">
+            <h1 id="previewLetterName" class="applicant-name">YOUR FULL NAME</h1>
+            <p id="previewLetterContact" class="contact-details"></p>
+          </div>
+
+          <div id="previewLetterDate" class="cl-date"></div>
+
+          <div id="previewLetterSubject" class="cl-subject"></div>
+
+          <div class="cl-salutation">Dear Hiring Manager,</div>
+
+          <div id="previewLetterBody" class="cl-body-content"></div>
+
+          <div class="cl-signoff">
+            <p>Yours faithfully,</p>
+            <p id="previewLetterSignoff" class="cl-signoff-name">YOUR FULL NAME</p>
+          </div>
         </article>
 
       </section>
@@ -3184,7 +3267,8 @@ function generateCoverLetter(data = {}) {
     }
     // Unknown status: do not claim the qualification was completed.
   } else if (school) {
-    let sentence = `My educational background includes studying at ${school}`;
+    // UPDATED: Changed sentence structure to "I attended ... in [year]"
+    let sentence = `I attended ${school}`;
 
     if (year) sentence += ` in ${year}`;
 
@@ -3244,47 +3328,20 @@ function generateCoverLetter(data = {}) {
     email
   ].filter(Boolean);
 
-  const header = [
-    name,
-    contactParts.join(" | ")
-  ].filter(Boolean).join("\n");
-
-  const paragraphs = [
-    `I am writing to apply for the ${rolePhrase} within your organisation.`
-  ];
-
-  if (educationLines.length) {
-    paragraphs.push(educationLines.join(" "));
-  }
-
-  paragraphs.push(
-    experienceParagraph + strengthsSentence
-  );
-
-  paragraphs.push(
-    `I would appreciate the opportunity to be considered for the ` +
-    `${rolePhrase}. I would welcome the chance to discuss my ` +
-    `application further.`
-  );
-
-  paragraphs.push(
-    "Thank you for your time and consideration."
-  );
-
-  const letterParts = [
-    header,
-    currentDate,
-    `RE: APPLICATION FOR THE ${rolePhrase.toUpperCase()}`,
-    "Dear Hiring Manager,",
-    ...paragraphs,
-    "Yours faithfully,",
-    name
-  ];
-
-  return letterParts
-    .filter(part => part !== "")
-    .join("\n\n")
-    .trim();
+  // Return an object containing structured blocks for the updated preview layout
+  return {
+    name: name || "YOUR FULL NAME",
+    contact: contactParts.join(" | "),
+    date: currentDate,
+    subject: `RE: APPLICATION FOR THE ${rolePhrase.toUpperCase()}`,
+    paragraphs: [
+      `I am writing to apply for the ${rolePhrase} within your organisation.`,
+      ...(educationLines.length ? [educationLines.join(" ")] : []),
+      experienceParagraph + strengthsSentence,
+      `I would appreciate the opportunity to be considered for the ${rolePhrase}. I would welcome the chance to discuss my application further.`,
+      "Thank you for your time and consideration."
+    ]
+  };
 }
 
 
@@ -3301,8 +3358,23 @@ function updatePreview() {
       showMessage("Access denied: Cover Letter not unlocked.", "error");
       return;
     }
-    const letterContent = generateCoverLetter(data);
-    setText("previewLetterText", letterContent);
+    const letterData = generateCoverLetter(data);
+    
+    setText("previewLetterName", letterData.name);
+    setText("previewLetterContact", letterData.contact);
+    setText("previewLetterDate", letterData.date);
+    setText("previewLetterSubject", letterData.subject);
+    setText("previewLetterSignoff", letterData.name);
+
+    const bodyContainer = $("previewLetterBody");
+    if (bodyContainer) {
+      bodyContainer.innerHTML = "";
+      letterData.paragraphs.forEach(text => {
+        const p = document.createElement("p");
+        p.textContent = text;
+        bodyContainer.appendChild(p);
+      });
+    }
     return;
   }
 
@@ -3403,8 +3475,22 @@ function updatePreview() {
     additional
   );
 
-  const letterContent = generateCoverLetter(data);
-  setText("previewLetterText", letterContent);
+  const letterData = generateCoverLetter(data);
+  setText("previewLetterName", letterData.name);
+  setText("previewLetterContact", letterData.contact);
+  setText("previewLetterDate", letterData.date);
+  setText("previewLetterSubject", letterData.subject);
+  setText("previewLetterSignoff", letterData.name);
+
+  const bodyContainer = $("previewLetterBody");
+  if (bodyContainer) {
+    bodyContainer.innerHTML = "";
+    letterData.paragraphs.forEach(text => {
+      const p = document.createElement("p");
+      p.textContent = text;
+      bodyContainer.appendChild(p);
+    });
+  }
 
   const preview = $("cvPreview");
 
