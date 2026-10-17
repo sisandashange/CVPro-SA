@@ -2470,127 +2470,224 @@ function getFormData() {
    PROFESSIONAL PROFILE
 ========================================================= */
 
+
 function generateProfile(data = {}) {
-  const rawGoal = String(data.careerGoal || "").trim();
-  const school = String(data.institution || data.school || data.schoolName || "").trim();
-  const year = String(data.educationYear || data.completionYear || "").trim();
-  const location = String(data.location || data.city || "").trim();
-  const hasNoExperience = data.experienceType === "no-experience";
-  const userConfirmedStrengths = String(data.strengths || "").trim();
+  const clean = (value) => String(value ?? "").trim();
 
-  let qualification = String(data.qualification || data.educationQualification || "").trim();
-  if (!qualification && (school || year)) {
-    qualification = "National Senior Certificate (NSC / Matric)";
-  }
+  const rawGoal = clean(data.careerGoal);
+  const school = clean(
+    data.institution || data.school || data.schoolName
+  );
+  const year = clean(
+    data.educationYear || data.completionYear
+  );
+  const location = clean(data.location || data.city);
+  const qualification = clean(
+    data.qualification ||
+    data.educationQualification ||
+    ((school || year)
+      ? "National Senior Certificate (NSC / Matric)"
+      : "")
+  );
 
-  const subjectsInput = data.subjects || data.technicalSubjects || [];
-  const subjectsList = Array.isArray(subjectsInput)
-    ? subjectsInput.map((s) => String(s).toLowerCase())
-    : String(subjectsInput).toLowerCase().split(",").map((s) => s.trim());
+  const hasNoExperience =
+    data.experienceType === "no-experience";
 
-  const hasSubject = (keywords) => {
-    return subjectsList.some((s) =>
-      keywords.some((k) => {
-        const re = new RegExp(`\\b${k.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`, "i");
-        return re.test(s) || s === k;
+  const strengths = clean(data.strengths);
+
+  // Normalize subjects supplied as an array or comma-separated text.
+  const subjectsInput =
+    data.subjects || data.technicalSubjects || [];
+
+  const subjects = (
+    Array.isArray(subjectsInput)
+      ? subjectsInput
+      : clean(subjectsInput).split(",")
+  )
+    .map((subject) =>
+      clean(subject).toLowerCase().replace(/\s+/g, " ")
+    )
+    .filter(Boolean);
+
+  // Match complete subject names, allowing common abbreviations.
+  const hasSubject = (keywords) =>
+    subjects.some((subject) =>
+      keywords.some((keyword) => {
+        const escaped = keyword.replace(
+          /[.*+?^${}()|[\]\\]/g,
+          "\\$&"
+        );
+
+        const pattern = new RegExp(
+          `(^|[^a-z0-9])${escaped}([^a-z0-9]|$)`,
+          "i"
+        );
+
+        return pattern.test(subject);
       })
     );
-  };
 
   const isTechnical = hasSubject([
-    "mechanical technology", "egd", "engineering graphics and design",
-    "electrical technology", "civil technology", "technical mathematics",
-    "technical sciences", "fitting and machining", "fitting and turning", "welding"
+    "mechanical technology",
+    "mechanical",
+    "egd",
+    "engineering graphics and design",
+    "electrical technology",
+    "civil technology",
+    "technical mathematics",
+    "technical sciences",
+    "fitting and machining",
+    "fitting and turning",
+    "welding"
   ]);
-  const isBusiness = hasSubject([
-    "accounting", "business studies", "economics", "financial management", "entrepreneurship"
-  ]);
+
   const isIT = hasSubject([
-    "information technology", "computer applications technology", "cat", "computer science", "coding"
+    "information technology",
+    "computer applications technology",
+    "cat",
+    "computer science",
+    "coding",
+    "programming"
   ]);
+
+  const isBusiness = hasSubject([
+    "accounting",
+    "business studies",
+    "economics",
+    "financial management",
+    "entrepreneurship"
+  ]);
+
   const isScience = hasSubject([
-    "physical sciences", "life sciences", "agricultural sciences", "physics", "chemistry", "biology"
-  ]);
-  const isRetailHumanities = hasSubject([
-    "consumer studies", "hospitality studies", "tourism", "mathematical literacy",
-    "geography", "history", "life orientation", "dramatic arts"
+    "physical sciences",
+    "life sciences",
+    "agricultural sciences",
+    "physics",
+    "chemistry",
+    "biology"
   ]);
 
+  const isCustomerFocused = hasSubject([
+    "consumer studies",
+    "hospitality studies",
+    "tourism",
+    "mathematical literacy",
+    "geography",
+    "history",
+    "life orientation",
+    "dramatic arts"
+  ]);
+
+  // Choose a suitable entry-level career direction.
   const goalLower = rawGoal.toLowerCase();
-  const isGeneralGoal = !rawGoal || goalLower === "general employment" || goalLower === "general worker";
 
-  let goalSentence = "";
-  const locationText = location ? ` in ${location}` : "";
+  const isGeneralGoal =
+    !rawGoal ||
+    [
+      "general employment",
+      "general worker",
+      "any job",
+      "any available job"
+    ].includes(goalLower);
+
+  let careerDirection = "";
 
   if (isGeneralGoal) {
     if (isTechnical) {
-      goalSentence = `Seeking an entry-level opportunity in technical assistance, workshop support, or an apprenticeship${locationText}.`;
+      careerDirection =
+        "technical assistance, workshop support, or apprenticeship opportunities";
     } else if (isIT) {
-      goalSentence = `Seeking an entry-level opportunity in IT support, data entry, or systems assistance${locationText}.`;
+      careerDirection =
+        "entry-level IT support, data entry, or computer-related opportunities";
     } else if (isBusiness) {
-      goalSentence = `Seeking an entry-level opportunity in administrative support, clerical work, or retail${locationText}.`;
+      careerDirection =
+        "administrative support, clerical work, or retail opportunities";
     } else if (isScience) {
-      goalSentence = `Seeking an entry-level opportunity in laboratory assistance, operations, or technical support${locationText}.`;
-    } else if (isRetailHumanities) {
-      goalSentence = `Seeking an entry-level opportunity in retail assistance, customer service, or hospitality support${locationText}.`;
+      careerDirection =
+        "entry-level operations, laboratory assistance, or technical support opportunities";
+    } else if (isCustomerFocused) {
+      careerDirection =
+        "retail, customer service, or hospitality opportunities";
     } else {
-      goalSentence = `Seeking an entry-level position as a General Worker or Retail Assistant${locationText}.`;
+      careerDirection =
+        "general worker, retail assistant, or other entry-level opportunities";
     }
   } else {
-    const firstLetter = rawGoal.trim().charAt(0).toLowerCase();
-    const article = ["a", "e", "i", "o", "u"].includes(firstLetter) ? "an" : "a";
-    goalSentence = `Seeking ${article} ${rawGoal} role${locationText}.`;
+    careerDirection = `a position as ${rawGoal}`;
   }
 
-  let fieldDescription = "";
-  if (isTechnical) fieldDescription = " with school-level knowledge of mechanical and technical concepts";
-  else if (isBusiness) fieldDescription = " with school-level knowledge of business and financial concepts";
-  else if (isIT) fieldDescription = " with school-level knowledge of computing and digital concepts";
-  else if (isScience) fieldDescription = " with school-level knowledge of scientific concepts";
-  else if (isRetailHumanities) fieldDescription = " with school-level knowledge of practical numeracy and customer service concepts";
+  const locationText = location ? ` in ${location}` : "";
 
-  const sentences = [];
+  const careerSentence = isGeneralGoal
+    ? `Seeking ${careerDirection}${locationText}.`
+    : `Seeking ${careerDirection}${locationText}.`;
 
-  if (qualification && school && year) {
-    sentences.push(`Candidate with ${qualification} from ${school}, completed in ${year}${fieldDescription}.`);
-  } else if (qualification && year) {
-    sentences.push(`Candidate with ${qualification}, completed in ${year}${fieldDescription}.`);
-  } else if (qualification && school) {
-    sentences.push(`Candidate with ${qualification} from ${school}${fieldDescription}.`);
-  } else if (qualification) {
-    sentences.push(`Candidate with ${qualification}${fieldDescription}.`);
-  } else {
-    sentences.push("Entry-level candidate seeking an opportunity to develop professionally.");
+  // Describe school knowledge accurately without claiming experience.
+  const knowledgeAreas = [];
+
+  if (isTechnical) {
+    knowledgeAreas.push("technical and engineering-related concepts");
   }
 
-  sentences.push(goalSentence);
+  if (isIT) {
+    knowledgeAreas.push("computer applications and digital concepts");
+  }
 
-  if (userConfirmedStrengths) {
-    sentences.push(`Key strengths include ${userConfirmedStrengths}.`);
+  if (isBusiness) {
+    knowledgeAreas.push("business and financial concepts");
+  }
+
+  if (isScience) {
+    knowledgeAreas.push("scientific principles");
+  }
+
+  if (isCustomerFocused) {
+    knowledgeAreas.push(
+      "communication, practical numeracy, and customer-focused concepts"
+    );
+  }
+
+  const educationSentence = qualification
+    ? [
+        `Candidate with a ${qualification}`,
+        school ? `from ${school}` : "",
+        year ? `completed in ${year}` : ""
+      ]
+        .filter(Boolean)
+        .join(", ") + "."
+    : "Entry-level candidate seeking an opportunity to develop professionally.";
+
+  const profileParts = [educationSentence];
+
+  if (knowledgeAreas.length > 0) {
+    profileParts.push(
+      `School studies have provided a foundation in ${knowledgeAreas.join(", ")}.`
+    );
+  }
+
+  profileParts.push(careerSentence);
+
+  if (strengths) {
+    profileParts.push(`Key strengths include ${strengths}.`);
+  } else if (hasNoExperience) {
+    profileParts.push(
+      "Motivated to learn, follow instructions, develop practical workplace skills, and work effectively with others."
+    );
   } else {
-    if (isTechnical) {
-      sentences.push("School subjects include topics related to technical concepts and workshop safety.");
-    } else if (isBusiness) {
-      sentences.push("School subjects include topics related to financial concepts and business operations.");
-    } else if (isIT) {
-      sentences.push("School subjects include topics related to computer applications and digital information management.");
-    } else if (isScience) {
-      sentences.push("School subjects include topics related to scientific principles and laboratory concepts.");
-    } else if (isRetailHumanities) {
-      sentences.push("School subjects include topics related to practical numeracy and customer service principles.");
-    } else {
-      sentences.push("Motivated to learn, develop workplace skills, and contribute positively to a team.");
-    }
+    profileParts.push(
+      "Ready to apply relevant knowledge, follow workplace procedures, and contribute positively to a team."
+    );
   }
 
   if (hasNoExperience) {
-    sentences.push("Eager to build on educational knowledge, learn workplace procedures, and contribute positively to a team.");
-  } else {
-    sentences.push("Eager to apply relevant knowledge, learn workplace procedures, and contribute positively to a team.");
+    profileParts.push(
+      "Eager to gain practical experience and grow professionally."
+    );
   }
 
-  return sentences.join(" ");
+  return profileParts.join(" ");
 }
+
 
 
 
