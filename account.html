@@ -503,34 +503,41 @@
     const forgotLink = $("forgotLink");
 
     const params = new URLSearchParams(window.location.search);
-    const allowedTemplates = {
-      "classic": { name: "Classic CV", price: "R15" },
-      "modern": { name: "Modern CV", price: "R25" },
-      "cover-letter": { name: "Cover Letter", price: "R15" },
-      "classic-bundle": { name: "Classic Bundle", price: "R30" },
-      "modern-bundle": { name: "Modern Bundle", price: "R40" }
-    };
+    
+const allowedTemplates = {
+  "classic": { name: "Classic CV", price: "R15" },
+  "modern": { name: "Modern CV", price: "R25" },
+  "cover_letter": { name: "Cover Letter", price: "R15" },
+  "classic_bundle": { name: "Classic Bundle", price: "R30" },
+  "modern_bundle": { name: "Modern Bundle", price: "R40" }
+};
 
-    let selectedTemplate = params.get("template") || "";
+function normaliseTemplate(value) {
+  return String(value || "").trim().toLowerCase().replace(/-/g, "_");
+}
 
-    try {
-      if (!allowedTemplates[selectedTemplate]) {
-        selectedTemplate =
-          sessionStorage.getItem("cvpro_selected_template") || "";
-      }
-    } catch (error) {
-      // URL selection still works if session storage is unavailable.
-    }
+let selectedTemplate = normaliseTemplate(params.get("template"));
 
-    if (!allowedTemplates[selectedTemplate]) selectedTemplate = "";
+try {
+  if (!allowedTemplates[selectedTemplate]) {
+    selectedTemplate = normaliseTemplate(
+      sessionStorage.getItem("cvpro_selected_template")
+    );
+  }
+} catch (error) {
+  // Continue using the URL selection if session storage is unavailable.
+}
 
-    if (selectedTemplate) {
-      $("packageName").textContent =
-        allowedTemplates[selectedTemplate].name;
-      $("packagePrice").textContent =
-        allowedTemplates[selectedTemplate].price + " · Once-off";
-      $("packageNotice").classList.add("visible");
-    }
+if (!allowedTemplates[selectedTemplate]) selectedTemplate = "";
+
+if (selectedTemplate) {
+  $("packageName").textContent =
+    allowedTemplates[selectedTemplate].name;
+  $("packagePrice").textContent =
+    allowedTemplates[selectedTemplate].price + " · Once-off";
+  $("packageNotice").classList.add("visible");
+}
+
 
     $("year").textContent = new Date().getFullYear();
 
