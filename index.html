@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#090d16">
-  <meta name="description" content="CVPro-SA - Build a Resume That Gets You Hired. Professional South African CV Builder.">
+  <meta name="theme-color" content="#030712">
+  <meta name="description" content="CVPro-SA - Build a professional, ATS-optimized CV and cover letter in minutes.">
   <title>CVPro-SA | Professional South African CV Builder</title>
   <style>
     * {
@@ -15,12 +15,13 @@
     }
 
     :root {
-      --bg: #090d16;
-      --card-bg: #111827;
-      --border: #1f2937;
-      --text: #ffffff;
-      --muted: #9ca3af;
+      --bg: #030712;
+      --card-bg: #0f172a;
+      --border: #1e293b;
+      --text: #f8fafc;
+      --muted: #94a3b8;
       --accent: #2563eb;
+      --accent-hover: #1d4ed8;
       --green: #10b981;
     }
 
@@ -28,21 +29,22 @@
       background-color: var(--bg);
       color: var(--text);
       line-height: 1.35;
-      min-height: 100vh;
+      height: 100vh;
+      max-height: 100vh;
+      overflow: hidden;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
     }
 
-    /* PREMIUM HEADER */
+    /* PREMIUM SAAS NAVBAR */
     header {
-      background: rgba(9, 13, 22, 0.95);
+      background: rgba(3, 7, 18, 0.85);
+      backdrop-filter: blur(10px);
       border-bottom: 1px solid var(--border);
       padding: 10px 16px;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      backdrop-filter: blur(8px);
+      flex-shrink: 0;
+      z-index: 50;
     }
 
     .nav {
@@ -62,16 +64,17 @@
     }
 
     .brand-logo {
-      background: var(--accent);
+      background: linear-gradient(135deg, var(--accent), #4f46e5);
       color: #ffffff;
       font-weight: 900;
       font-size: 12px;
       width: 28px;
       height: 28px;
-      border-radius: 6px;
+      border-radius: 7px;
       display: flex;
       align-items: center;
       justify-content: center;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
     }
 
     .brand-name {
@@ -86,8 +89,8 @@
       gap: 8px;
     }
 
-    .btn-outline {
-      background: rgba(255,255,255,0.05);
+    .btn-nav-pricing {
+      background: rgba(255, 255, 255, 0.05);
       color: var(--text);
       border: 1px solid var(--border);
       padding: 6px 12px;
@@ -95,9 +98,14 @@
       font-size: 11px;
       font-weight: 700;
       cursor: pointer;
+      transition: all 0.2s;
     }
 
-    .btn-solid {
+    .btn-nav-pricing:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .btn-nav-start {
       background: var(--accent);
       color: #ffffff;
       border: none;
@@ -107,62 +115,101 @@
       font-weight: 800;
       cursor: pointer;
       text-decoration: none;
-      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+      transition: all 0.2s;
     }
 
-    /* BALANCED MAIN CONTENT */
+    .btn-nav-start:hover {
+      background: var(--accent-hover);
+    }
+
+    /* HIGH-CONVERSION MOBILE HERO */
     main {
-      padding: 16px;
+      padding: 12px 16px;
       flex: 1;
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      justify-content: space-evenly;
       max-width: 480px;
       margin: 0 auto;
       width: 100%;
     }
 
     .eyebrow {
-      font-size: 9.5px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 8px;
+      border-radius: 20px;
+      background: rgba(37, 99, 235, 0.12);
+      border: 1px solid rgba(37, 99, 235, 0.25);
+      color: #60a5fa;
+      font-size: 9px;
       font-weight: 800;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      color: #60a5fa;
-      display: block;
+      letter-spacing: 0.5px;
       margin-bottom: 4px;
     }
 
     .hero-title {
-      font-size: 24px;
+      font-size: 22px;
       font-weight: 900;
       line-height: 1.15;
       letter-spacing: -0.5px;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
 
     .hero-title span {
-      color: var(--accent);
+      background: linear-gradient(135deg, #60a5fa, #3b82f6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .hero-description {
-      font-size: 12px;
+      font-size: 11px;
       color: var(--muted);
-      margin-bottom: 10px;
-      line-height: 1.4;
+      margin-bottom: 8px;
+      line-height: 1.35;
     }
 
     .hero-cta-group {
       display: flex;
-      gap: 10px;
-      margin-bottom: 8px;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .btn-hero-main {
+      flex: 1;
+      background: var(--accent);
+      color: #ffffff;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 7px;
+      font-size: 11px;
+      font-weight: 800;
+      text-align: center;
+      text-decoration: none;
+      box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+    }
+
+    .btn-hero-alt {
+      background: var(--card-bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 8px 12px;
+      border-radius: 7px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
     }
 
     .feature-tags {
       display: flex;
-      gap: 12px;
-      font-size: 10px;
+      gap: 10px;
+      font-size: 9.5px;
       color: var(--muted);
       font-weight: 600;
+      margin-bottom: 6px;
     }
 
     .feature-tags span::before {
@@ -171,23 +218,23 @@
       font-weight: bold;
     }
 
-    /* PROFESSIONAL PREVIEW CARD */
+    /* INTERACTIVE MOCKUP CARD */
     .hero-visual {
       background: var(--card-bg);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 12px;
+      border-radius: 10px;
+      padding: 10px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3);
+      gap: 8px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     }
 
     .mockup-paper {
-      background: #030712;
+      background: #020617;
       border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 12px;
+      border-radius: 7px;
+      padding: 9px;
     }
 
     .mockup-header {
@@ -195,18 +242,18 @@
       justify-content: space-between;
       align-items: center;
       border-bottom: 1px solid var(--border);
-      padding-bottom: 8px;
-      margin-bottom: 8px;
+      padding-bottom: 6px;
+      margin-bottom: 6px;
     }
 
     .mockup-name {
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 900;
       letter-spacing: 0.5px;
     }
 
     .mockup-role {
-      font-size: 9.5px;
+      font-size: 8.5px;
       color: var(--muted);
     }
 
@@ -214,31 +261,31 @@
       background: rgba(16, 185, 129, 0.15);
       color: #34d399;
       border: 1px solid rgba(52, 211, 153, 0.3);
-      font-size: 8px;
+      font-size: 7.5px;
       font-weight: 800;
-      padding: 2px 6px;
-      border-radius: 4px;
+      padding: 1px 5px;
+      border-radius: 3px;
       text-transform: uppercase;
     }
 
     .mockup-body {
-      font-size: 9.5px;
+      font-size: 8.5px;
       color: var(--muted);
     }
 
     .mockup-bullets {
       display: flex;
-      gap: 6px;
-      margin-top: 6px;
-      font-size: 9px;
+      gap: 4px;
+      margin-top: 4px;
+      font-size: 8px;
     }
 
     .mockup-bullets span {
-      background: #1f2937;
-      padding: 2px 6px;
-      border-radius: 4px;
-      color: #e5e7eb;
-      border: 1px solid #374151;
+      background: #1e293b;
+      padding: 2px 5px;
+      border-radius: 3px;
+      color: #cbd5e1;
+      border: 1px solid #334155;
     }
 
     .style-trigger-box {
@@ -246,33 +293,34 @@
     }
 
     .btn-styles {
-      background: #1f2937;
+      background: #1e293b;
       color: #ffffff;
-      border: 1px solid #374151;
-      padding: 6px 12px;
+      border: 1px solid #334155;
+      padding: 5px 10px;
       border-radius: 6px;
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 700;
       cursor: pointer;
+      transition: background 0.2s;
     }
 
     .btn-styles:hover {
-      background: #374151;
+      background: #334155;
     }
 
     .ats-support-stack {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 6px;
     }
 
     .ats-card {
-      background: var(--green);
+      background: linear-gradient(135deg, #059669, #10b981);
       color: #ffffff;
-      padding: 8px 12px;
-      border-radius: 8px;
+      padding: 6px 10px;
+      border-radius: 7px;
       font-weight: 900;
-      font-size: 10px;
+      font-size: 9.5px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -280,28 +328,29 @@
     }
 
     .ats-card span {
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 900;
     }
 
     .btn-support-link {
-      background: #1f2937;
+      background: #1e293b;
       color: #ffffff;
-      border: 1px solid #374151;
-      padding: 8px 12px;
-      border-radius: 8px;
-      font-size: 11px;
+      border: 1px solid #334155;
+      padding: 6px 10px;
+      border-radius: 7px;
+      font-size: 10px;
       font-weight: 700;
       text-decoration: none;
       text-align: center;
       display: block;
+      transition: background 0.2s;
     }
 
     .btn-support-link:hover {
-      background: #374151;
+      background: #334155;
     }
 
-    /* MODAL POPUPS */
+    /* INTERACTIVE MODALS */
     .modal-backdrop {
       display: none;
       position: fixed;
@@ -310,7 +359,7 @@
       width: 100%;
       height: 100%;
       background: rgba(3, 7, 18, 0.85);
-      backdrop-filter: blur(6px);
+      backdrop-filter: blur(8px);
       z-index: 1000;
       justify-content: center;
       align-items: center;
@@ -318,59 +367,59 @@
     }
 
     .modal-window {
-      background: #111827;
+      background: var(--card-bg);
       border: 1px solid var(--border);
       border-radius: 12px;
-      max-width: 440px;
+      max-width: 420px;
       width: 100%;
       max-height: 85vh;
       overflow-y: auto;
-      padding: 20px;
+      padding: 18px;
       position: relative;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
     }
 
     .modal-close-btn {
       position: absolute;
-      top: 14px;
-      right: 14px;
-      background: #1f2937;
+      top: 12px;
+      right: 12px;
+      background: #1e293b;
       border: none;
       color: #ffffff;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 800;
       cursor: pointer;
       border-radius: 50%;
-      width: 26px;
-      height: 26px;
+      width: 24px;
+      height: 24px;
       display: flex;
       align-items: center;
       justify-content: center;
     }
 
     .modal-header h3 {
-      font-size: 18px;
+      font-size: 17px;
       font-weight: 900;
-      margin-bottom: 4px;
+      margin-bottom: 2px;
     }
 
     .modal-header p {
-      font-size: 11px;
+      font-size: 10.5px;
       color: var(--muted);
-      margin-bottom: 16px;
+      margin-bottom: 12px;
     }
 
     .modal-pkg-grid {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 8px;
     }
 
     .modal-pkg-card {
       border: 1px solid var(--border);
-      background: #030712;
+      background: #020617;
       border-radius: 8px;
-      padding: 10px 14px;
+      padding: 9px 12px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -378,25 +427,25 @@
 
     .modal-pkg-card.highlight {
       border: 2px solid var(--accent);
-      background: rgba(37, 99, 235, 0.1);
+      background: rgba(37, 99, 235, 0.12);
     }
 
     .pkg-meta h4 {
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 800;
     }
 
     .pkg-meta p {
-      font-size: 10px;
+      font-size: 9.5px;
       color: var(--muted);
     }
 
     .btn-select-pkg {
       background: var(--accent);
       color: #ffffff;
-      padding: 6px 12px;
+      padding: 5px 10px;
       border-radius: 6px;
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 800;
       text-decoration: none;
       white-space: nowrap;
@@ -404,39 +453,40 @@
 
     .preview-block {
       border: 1px solid var(--border);
-      background: #030712;
+      background: #020617;
       border-radius: 8px;
-      padding: 12px;
-      margin-bottom: 10px;
+      padding: 10px;
+      margin-bottom: 8px;
     }
 
     .preview-block h4 {
-      font-size: 12px;
-      margin-bottom: 3px;
+      font-size: 11px;
+      margin-bottom: 2px;
       color: #60a5fa;
     }
 
     .preview-block p {
-      font-size: 10.5px;
+      font-size: 9.5px;
       color: var(--muted);
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
     .use-style-link {
       color: #ffffff;
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 800;
       text-decoration: underline;
     }
 
     /* FOOTER */
     footer {
-      padding: 10px 16px;
+      padding: 8px 16px;
       border-top: 1px solid var(--border);
       color: var(--muted);
       text-align: center;
-      font-size: 10px;
-      background: rgba(9, 13, 22, 0.95);
+      font-size: 9.5px;
+      background: rgba(3, 7, 18, 0.85);
+      flex-shrink: 0;
       max-width: 480px;
       margin: 0 auto;
       width: 100%;
@@ -450,7 +500,7 @@
 </head>
 <body>
 
-  <!-- HEADER -->
+  <!-- NAVBAR -->
   <header>
     <nav class="nav">
       <a class="brand" href="./">
@@ -458,34 +508,34 @@
         <span class="brand-name">CVPro-SA</span>
       </a>
       <div class="nav-actions">
-        <button class="btn-outline" onclick="openModal('pricingModal')">Packages</button>
-        <a href="./account.html" class="btn-solid">Get Started</a>
+        <button class="btn-nav-pricing" onclick="openModal('pricingModal')">Packages</button>
+        <a href="./account.html" class="btn-nav-start">Get Started</a>
       </div>
     </nav>
   </header>
 
-  <!-- MAIN CONTAINER -->
+  <!-- MAIN VIEWPORT -->
   <main>
     <div>
-      <span class="eyebrow">Professional South African CV Builder</span>
+      <span class="eyebrow">🚀 Official South African CV Builder</span>
       <h1 class="hero-title">Build a Resume That Gets You <span>Hired.</span></h1>
       <p class="hero-description">
         Craft ATS-optimized, recruiter-approved South African CVs and cover letters in minutes for every career level.
       </p>
 
       <div class="hero-cta-group">
-        <a href="./account.html" class="btn-solid">Build Your Resume</a>
-        <button class="btn-outline" onclick="openModal('pricingModal')">View All 5 Packages</button>
+        <a href="./account.html" class="btn-hero-main">Build Your Resume</a>
+        <button class="btn-hero-alt" onclick="openModal('pricingModal')">View All 5 Packages</button>
       </div>
 
       <div class="feature-tags">
         <span>Instant PDF</span>
-        <span>SA Format</span>
+        <span>SA Format Ready</span>
         <span>ATS Proof</span>
       </div>
     </div>
 
-    <!-- PREVIEW CARD -->
+    <!-- PREVIEW MOCKUP CARD -->
     <div class="hero-visual">
       <div class="mockup-paper">
         <div class="mockup-header">
@@ -497,8 +547,8 @@
         </div>
 
         <div class="mockup-body">
-          <strong style="color:#ffffff; font-size:8.5px; text-transform:uppercase; letter-spacing:0.5px;">Key Qualifications</strong>
-          <p style="margin-top:2px;">Demonstrated mechanical, operational, and technical problem-solving capabilities.</p>
+          <strong style="color:#ffffff; font-size:8px; text-transform:uppercase;">Key Qualifications</strong>
+          <p style="margin-top:1px;">Demonstrated mechanical, operational, and technical problem-solving capabilities.</p>
           <div class="mockup-bullets">
             <span>Tailored</span>
             <span>ATS Optimized</span>
@@ -534,42 +584,41 @@
         <div class="modal-pkg-card">
           <div class="pkg-meta">
             <h4>Classic CV</h4>
-            <p>Clean single-page layout (R15)</p>
+            <p>Clean single-page layout</p>
           </div>
-          <a href="./account.html?template=classic" class="btn-select-pkg">Select — R15</a>
+          <a href="./account.html?template=classic" class="btn-select-pkg">R15 — Select</a>
         </div>
 
         <div class="modal-pkg-card">
-          <div class="modal-pkg-card" style="border:none; background:transparent; padding:0;"></div>
           <div class="pkg-meta">
             <h4>Modern CV</h4>
-            <p>Contemporary dark banner design (R25)</p>
+            <p>Contemporary dark banner design</p>
           </div>
-          <a href="./account.html?template=modern" class="btn-select-pkg">Select — R25</a>
+          <a href="./account.html?template=modern" class="btn-select-pkg">R25 — Select</a>
         </div>
 
         <div class="modal-pkg-card">
           <div class="pkg-meta">
             <h4>Cover Letter</h4>
-            <p>Vacancy-tailored application letter (R15)</p>
+            <p>Vacancy-tailored application letter</p>
           </div>
-          <a href="./account.html?template=cover-letter" class="btn-select-pkg">Select — R15</a>
+          <a href="./account.html?template=cover-letter" class="btn-select-pkg">R15 — Select</a>
         </div>
 
         <div class="modal-pkg-card">
           <div class="pkg-meta">
             <h4>Classic Bundle</h4>
-            <p>Classic CV + Matched Cover Letter (R30)</p>
+            <p>Classic CV + Matched Cover Letter</p>
           </div>
-          <a href="./account.html?template=classic-bundle" class="btn-select-pkg">Select — R30</a>
+          <a href="./account.html?template=classic-bundle" class="btn-select-pkg">R30 — Select</a>
         </div>
 
         <div class="modal-pkg-card highlight">
           <div class="pkg-meta">
             <h4>Modern Bundle (Best Value)</h4>
-            <p>Modern CV + Matched Cover Letter (R40)</p>
+            <p>Modern CV + Matched Cover Letter</p>
           </div>
-          <a href="./account.html?template=modern-bundle" class="btn-select-pkg">Select — R40</a>
+          <a href="./account.html?template=modern-bundle" class="btn-select-pkg">R40 — Select</a>
         </div>
       </div>
     </div>
@@ -606,7 +655,7 @@
 
   <!-- FOOTER -->
   <footer>
-    &copy; <span id="year"></span> CVPro-SA • <a href="tel:+27752978917">+27 75 297 8917</a>
+    &copy; <span id="year"></span> CVPro-SA &bull; <a href="tel:+27752978917">+27 75 297 8917</a>
   </footer>
 
   <script>
@@ -623,8 +672,8 @@
     window.onclick = function(e) {
       const pM = document.getElementById("pricingModal");
       const eM = document.getElementById("examplesModal");
-      if (event.target === pM) pM.style.display = "none";
-      if (event.target === eM) eM.style.display = "none";
+      if (e.target === pM) pM.style.display = "none";
+      if (e.target === eM) eM.style.display = "none";
     };
   </script>
 </body>
