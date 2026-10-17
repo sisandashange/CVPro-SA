@@ -1,604 +1,793 @@
-<!DOCTYPE html>  
-<html lang="en">  
-<head>  
-  <meta charset="UTF-8">  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">  
-  <meta name="theme-color" content="#111111">  
-  <meta name="description" content="Create your CVPro-SA account or sign in to manage your CV purchases.">  
-  <meta name="robots" content="noindex, nofollow">  
-  <title>Account | CVPro-SA</title>    
 
-  <style>  
-    * { 
-      box-sizing: border-box; 
-    }  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10192D">
+  <meta name="description" content="Create your CVPro-SA account or sign in to manage your CV purchases.">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Sign In or Create Account | CVPro-SA</title>
 
-    :root {  
-      --bg: #fdfdfd;  
-      --card-bg: #ffffff;  
-      --black: #0f172a;  
-      --grey: #64748b;  
-      --light-grey: #f8fafc;  
-      --border: #e2e8f0;  
-      --accent: #059669;  
-      --accent-dark: #047857;  
-    }  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    body {  
-      margin: 0;  
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;  
-      background: var(--bg);  
-      color: var(--black);  
-      line-height: 1.5;  
-    }  
-
-    header {  
-      background: var(--black);  
-      color: #fff;  
-      padding: 18px 24px;  
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);  
-    }  
-
-    .nav {  
-      max-width: 950px;  
-      margin: auto;  
-      display: flex;  
-      align-items: center;  
-      justify-content: space-between;  
-      gap: 12px;  
-    }  
-
-    .logo {  
-      color: #fff;  
-      font-size: 22px;  
-      font-weight: 800;  
-      letter-spacing: -0.5px;  
-      text-decoration: none;  
-    }  
-
-    .back-link {  
-      color: #94a3b8;  
-      font-size: 13px;  
-      font-weight: 600;  
-      text-decoration: none;  
-      transition: color 0.2s;  
-    }  
-
-    .back-link:hover {
-      color: #fff;
+  <style>
+    :root {
+      --navy: #10192D;
+      --navy-light: #1C2942;
+      --green: #07966F;
+      --green-dark: #067A5C;
+      --green-light: #E9F8F1;
+      --bg: #F5F7FB;
+      --white: #FFFFFF;
+      --text: #182338;
+      --muted: #68758A;
+      --border: #E2E8F0;
+      --shadow: 0 18px 55px rgba(16,25,45,.09);
     }
 
-    main {  
-      max-width: 480px;  
-      margin: 50px auto;  
-      padding: 0 16px;  
-    }  
+    * { box-sizing: border-box; }
 
-    .card {  
-      padding: 32px 28px;  
-      border: 1px solid var(--border);  
-      border-radius: 16px;  
-      background: var(--card-bg);  
-      box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.05);  
-    }  
+    body {
+      margin: 0;
+      font-family: Inter, Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(ellipse at 15% 15%, rgba(7,150,111,.10), transparent 35%),
+        var(--bg);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
 
-    h1 {  
-      margin: 0 0 6px;  
-      font-size: 26px;  
-      font-weight: 800;  
-      letter-spacing: -0.5px;  
-    }  
+    a { color: inherit; }
 
-    .intro {  
-      margin: 0 0 24px;  
-      color: var(--grey);  
-      font-size: 14px;  
-    }  
+    header {
+      background: rgba(255,255,255,.96);
+      border-bottom: 1px solid var(--border);
+    }
 
-    .tabs {  
-      display: grid;  
-      grid-template-columns: 1fr 1fr;  
-      gap: 8px;  
-      margin-bottom: 24px;  
-      background: var(--light-grey);
-      padding: 4px;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-    }  
+    .nav {
+      width: min(1080px, calc(100% - 36px));
+      min-height: 72px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
 
-    .tab {  
-      padding: 10px;  
-      border: 0;  
-      border-radius: 7px;  
-      background: transparent;  
-      color: var(--grey);  
-      font-weight: 700;  
+    .logo {
+      text-decoration: none;
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      color: var(--navy);
+    }
+
+    .logo span { color: var(--green); }
+
+    .back-link {
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .back-link:hover { color: var(--green-dark); }
+
+    main {
+      flex: 1;
+      width: min(100% - 32px, 460px);
+      margin: 44px auto;
+    }
+
+    .welcome {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .welcome-icon {
+      width: 56px;
+      height: 56px;
+      display: grid;
+      place-items: center;
+      margin: 0 auto 16px;
+      background: var(--green-light);
+      color: var(--green-dark);
+      border-radius: 17px;
+      font-size: 26px;
+      font-weight: 800;
+    }
+
+    .welcome h1 {
+      margin: 0 0 8px;
+      color: var(--navy);
+      font-size: clamp(27px, 6vw, 34px);
+      line-height: 1.2;
+      letter-spacing: -1.1px;
+    }
+
+    .welcome p {
+      margin: 0;
+      color: var(--muted);
       font-size: 14px;
-      cursor: pointer;  
-      transition: all 0.2s;  
-    }  
-
-    .tab.active {  
-      background: var(--card-bg);  
-      color: var(--black);  
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);  
-    }  
-
-    .field { 
-      margin-bottom: 18px; 
-    }  
-
-    label {  
-      display: block;  
-      margin-bottom: 6px;  
-      font-size: 13px;  
-      font-weight: 700;  
-      color: #334155;
-    }  
-
-    input {  
-      display: block;  
-      width: 100%;  
-      min-height: 46px;  
-      padding: 12px 14px;  
-      border: 1px solid var(--border);  
-      border-radius: 8px;  
-      background: #ffffff;  
-      color: var(--black);  
-      font-size: 15px;  
-      transition: border-color 0.2s, box-shadow 0.2s;  
-    }  
-
-    input:focus {  
-      outline: none;  
-      border-color: var(--accent);  
-      box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);  
-    }  
-
-    .primary-button {  
-      width: 100%;  
-      min-height: 48px;  
-      padding: 12px;  
-      border: 0;  
-      border-radius: 8px;  
-      background: var(--black);  
-      color: white;  
-      font-size: 15px;  
-      font-weight: 700;  
-      cursor: pointer;  
-      transition: background 0.2s, transform 0.1s;  
-    }  
-
-    .primary-button:hover {  
-      background: #1e293b;  
-    }  
-
-    .primary-button:disabled {  
-      opacity: 0.6;  
-      cursor: wait;  
-    }  
-
-    .forgot {  
-      display: block;  
-      margin: 18px 0 0;  
-      color: var(--grey);  
-      text-align: center;  
-      font-size: 13px;  
-      text-decoration: none;  
-      font-weight: 600;  
-    }  
-
-    .forgot:hover {
-      color: var(--black);
     }
 
-    .message {  
-      display: none;  
-      margin: 0 0 20px;  
-      padding: 12px 14px;  
-      border-radius: 8px;  
-      font-size: 13px;  
-      overflow-wrap: anywhere;  
-    }  
-
-    .message.success {  
-      display: block;  
-      background: #ecfdf5;  
-      color: #065f46;  
-      border: 1px solid #a7f3d0;  
-    }  
-
-    .message.error {  
-      display: block;  
-      background: #fef2f2;  
-      color: #991b1b;  
-      border: 1px solid #fecaca;  
-    }  
-
-    .small-note {  
-      margin: 24px 0 0;  
-      color: var(--grey);  
-      font-size: 12px;  
-      text-align: center;  
-      border-top: 1px solid var(--border);
-      padding-top: 16px;  
-    }  
-
-    footer {  
-      padding: 30px 16px;  
-      color: var(--grey);  
-      font-size: 12px;  
-      text-align: center;  
-    }  
-
-    @media (max-width: 480px) {  
-      main { margin: 24px auto; }  
-      .card { padding: 24px 20px; }  
-    }  
-  </style>  
-</head>  
-<body>  
-  <header>  
-    <nav class="nav">  
-      <a class="logo" href="./">CVPro-SA</a>  
-      <a class="back-link" href="./">← Homepage</a>  
-    </nav>  
-  </header>    
-
-  <main>  
-    <section class="card">  
-      <h1 id="pageTitle">Welcome back</h1>  
-      <p class="intro" id="pageIntro">Sign in to access your CV purchases.</p>  
-
-      <div class="tabs">  
-        <button class="tab active" id="loginTab" type="button">Sign In</button>  
-        <button class="tab" id="signupTab" type="button">Create Account</button>  
-      </div>  
-
-      <div class="message" id="message" role="status" aria-live="polite"></div>  
-
-      <form id="accountForm">  
-        <div class="field" id="nameField" hidden>  
-          <label for="fullName">Full name</label>  
-          <input  
-            id="fullName"  
-            name="fullName"  
-            type="text"  
-            autocomplete="name"  
-            maxlength="100"  
-            placeholder="Enter your full name"  
-          >  
-        </div>  
-
-        <div class="field">  
-          <label for="email">Email address</label>  
-          <input  
-            id="email"  
-            name="email"  
-            type="email"  
-            autocomplete="email"  
-            maxlength="254"  
-            placeholder="you@example.com"  
-            required  
-          >  
-        </div>  
-
-        <div class="field">  
-          <label for="password">Password</label>  
-          <input  
-            id="password"  
-            name="password"  
-            type="password"  
-            autocomplete="current-password"  
-            minlength="8"  
-            placeholder="At least 8 characters"  
-            required  
-          >  
-        </div>  
-
-        <div class="field" id="confirmField" hidden>  
-          <label for="confirmPassword">Confirm password</label>  
-          <input  
-            id="confirmPassword"  
-            name="confirmPassword"  
-            type="password"  
-            autocomplete="new-password"  
-            minlength="8"  
-            placeholder="Enter your password again"  
-          >  
-        </div>  
-
-        <button class="primary-button" id="submitButton" type="submit">  
-          Sign In  
-        </button>  
-      </form>  
-
-      <a class="forgot" id="forgotLink" href="./reset-password.html">  
-        Forgot your password?  
-      </a>  
-
-      <p class="small-note">  
-        Your account securely protects and manages your CV purchases.  
-      </p>  
-    </section>  
-  </main>    
-
-  <footer>  
-    &copy; <span id="year"></span> CVPro-SA. All rights reserved.  
-  </footer>    
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>    
-  <script>  
-    const SUPABASE_URL =  
-      "https://tnxlhpenttcynlmlohao.supabase.co";  
-
-    const SUPABASE_PUBLISHABLE_KEY =  
-      "sb_publishable_n4XzrnraET_AEMbCYtHV7Q_DJ8--zCL";  
-
-    const RESET_PAGE_URL =  
-      "https://zyremarkertplace.github.io/CVPro-SA/reset-password.html";  
-
-    const supabaseClient = window.supabase.createClient(  
-      SUPABASE_URL,  
-      SUPABASE_PUBLISHABLE_KEY,  
-      {  
-        auth: {  
-          persistSession: true,  
-          autoRefreshToken: true,  
-          detectSessionInUrl: true  
-        }  
-      }  
-    );  
-
-    const accountForm = document.getElementById("accountForm");  
-    const loginTab = document.getElementById("loginTab");  
-    const signupTab = document.getElementById("signupTab");  
-    const nameField = document.getElementById("nameField");  
-    const confirmField = document.getElementById("confirmField");  
-    const fullNameInput = document.getElementById("fullName");  
-    const emailInput = document.getElementById("email");  
-    const passwordInput = document.getElementById("password");  
-    const confirmPasswordInput = document.getElementById("confirmPassword");  
-    const submitButton = document.getElementById("submitButton");  
-    const messageBox = document.getElementById("message");  
-    const pageTitle = document.getElementById("pageTitle");  
-    const pageIntro = document.getElementById("pageIntro");  
-    const forgotLink = document.getElementById("forgotLink");  
-
-    let mode = "login";  
-    let resetRequestInProgress = false;  
-
-    document.getElementById("year").textContent =  
-      new Date().getFullYear();  
-
-    function showMessage(text, type) {  
-      messageBox.textContent = text;  
-      messageBox.className = "message " + type;  
-    }  
-
-    function clearMessage() {  
-      messageBox.textContent = "";  
-      messageBox.className = "message";  
-    }  
-
-    function setMode(newMode) {  
-      mode = newMode;  
-      clearMessage();  
-
-      const isSignup = mode === "signup";  
-
-      loginTab.classList.toggle("active", !isSignup);  
-      signupTab.classList.toggle("active", isSignup);  
-
-      nameField.hidden = !isSignup;  
-      confirmField.hidden = !isSignup;  
-      fullNameInput.required = isSignup;  
-      confirmPasswordInput.required = isSignup;  
-
-      passwordInput.autocomplete =  
-        isSignup ? "new-password" : "current-password";  
-
-      pageTitle.textContent =  
-        isSignup ? "Create your account" : "Welcome back";  
-
-      pageIntro.textContent = isSignup  
-        ? "Register to purchase and manage your CVs."  
-        : "Sign in to access your CV purchases.";  
-
-      submitButton.textContent =  
-        isSignup ? "Create Account" : "Sign In";  
-
-      forgotLink.hidden = isSignup;  
-    }  
-
-    loginTab.addEventListener("click", () => setMode("login"));  
-    signupTab.addEventListener("click", () => setMode("signup"));  
-
-    forgotLink.addEventListener("click", async (event) => {  
-      event.preventDefault();  
-
-      if (resetRequestInProgress) return;  
-
-      clearMessage();  
-
-      const email = emailInput.value.trim().toLowerCase();  
-
-      if (!email) {  
-        showMessage(  
-          "Enter your account email address first, then tap Forgot your password again.",  
-          "error"  
-        );  
-        emailInput.focus();  
-        return;  
-      }  
-
-      resetRequestInProgress = true;  
-      forgotLink.textContent = "Sending reset email...";  
-
-      try {  
-        const { error } =  
-          await supabaseClient.auth.resetPasswordForEmail(email, {  
-            redirectTo: RESET_PAGE_URL  
-          });  
-
-        if (error) throw error;  
-
-        showMessage(  
-          "If an account exists for this email, a password-reset email will be sent. Check your inbox and spam folder, then open the latest reset email on this device.",  
-          "success"  
-        );  
-      } catch (error) {  
-        console.error("Password-reset request failed:", error);  
-
-        showMessage(  
-          error.message ||  
-          "We could not request a password reset. Please try again later.",  
-          "error"  
-        );  
-      } finally {  
-        resetRequestInProgress = false;  
-        forgotLink.textContent = "Forgot your password?";  
-      }  
-    });  
-
-    accountForm.addEventListener("submit", async (event) => {  
-      event.preventDefault();  
-      clearMessage();  
-
-      const email = emailInput.value.trim().toLowerCase();  
-      const password = passwordInput.value;  
-      const fullName = fullNameInput.value.trim();  
-
-      if (mode === "signup") {  
-        if (fullName.length < 2) {  
-          showMessage("Please enter your full name.", "error");  
-          return;  
-        }  
-
-        if (password !== confirmPasswordInput.value) {  
-          showMessage("Your passwords do not match.", "error");  
-          return;  
-        }  
-
-        if (password.length < 8) {  
-          showMessage(  
-            "Your password must be at least 8 characters.",  
-            "error"  
-          );  
-          return;  
-        }  
-      }  
-
-      submitButton.disabled = true;  
-      submitButton.textContent =  
-        mode === "signup" ? "Creating account..." : "Signing in...";  
-
-      try {  
-        if (mode === "signup") {  
-          const { data, error } = await supabaseClient.auth.signUp({  
-            email,  
-            password,  
-            options: {  
-              data: {  
-                full_name: fullName  
-              },  
-              emailRedirectTo: "https://sisandashange.github.io/CVPro-SA/account.html"  
-            }  
-          });  
-
-          if (error) throw error;  
-
-          if (data.session) {  
-            showMessage(  
-              "Your account has been created. You can now continue after signing in.",  
-              "success"  
-            );  
-          } else {  
-            showMessage(  
-              "Registration received. Check your email and tap the confirmation link before signing in.",  
-              "success"  
-            );  
-          }  
-        } else {  
-          const { data, error } =  
-            await supabaseClient.auth.signInWithPassword({  
-              email,  
-              password  
-            });  
-
-          if (error) throw error;  
-
-          if (!data.user) {  
-            throw new Error(  
-              "Sign-in could not be completed. Please try again."  
-            );  
-          }  
-
-          showMessage(  
-            "Signed in successfully. Opening your account...",  
-            "success"  
-          );  
-
-          setTimeout(() => {  
-            window.location.href = "./my-account.html";  
-          }, 700);  
-        }  
-      } catch (error) {  
-        console.error("Account error:", error);  
-
-        let errorText =  
-          error.message || "Something went wrong. Please try again.";  
-
-        if (errorText.toLowerCase().includes("invalid login credentials")) {  
-          errorText =  
-            "Email or password is incorrect. Please check and try again.";  
-        } else if (errorText.toLowerCase().includes("email not confirmed")) {  
-          errorText =  
-            "Please confirm your email using the link we sent before signing in.";  
-        } else if (errorText.toLowerCase().includes("already registered")) {  
-          errorText =  
-            "This email may already have an account. Try signing in instead.";  
-        }  
-
-        showMessage(errorText, "error");  
-      } finally {  
-        submitButton.disabled = false;  
-        submitButton.textContent =  
-          mode === "signup" ? "Create Account" : "Sign In";  
-      }  
-    });  
-
-    async function handleEmailConfirmation() {  
-      const params = new URLSearchParams(window.location.search);  
-      const confirmationError =  
-        params.get("error_description");  
-
-      if (confirmationError) {  
-        showMessage(  
-          "Email confirmation link problem: " +  
-            confirmationError.replace(/\+/g, " "),  
-          "error"  
-        );  
-        return;  
-      }  
-
-      const { data, error } =  
-        await supabaseClient.auth.getSession();  
-
-      if (error) {  
-        console.error("Session check failed:", error);  
-        return;  
-      }  
-
-      if (data.session) {  
-        showMessage(  
-          "Your account is signed in. You can continue to your account page.",  
-          "success"  
-        );  
-      }  
-    }  
-
-    handleEmailConfirmation();  
-  </script>  
-</body>  
+    .card {
+      padding: 30px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 19px;
+      box-shadow: var(--shadow);
+    }
+
+    .package-notice {
+      display: none;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 22px;
+      padding: 14px;
+      background: var(--green-light);
+      border: 1px solid #C4EBDD;
+      border-radius: 12px;
+    }
+
+    .package-notice.visible { display: flex; }
+
+    .package-symbol {
+      width: 42px;
+      height: 42px;
+      flex-shrink: 0;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      background: white;
+      color: var(--green-dark);
+      font-size: 20px;
+    }
+
+    .package-copy { min-width: 0; }
+
+    .package-copy strong {
+      display: block;
+      color: var(--navy);
+      font-size: 13px;
+    }
+
+    .package-copy span {
+      display: block;
+      color: var(--green-dark);
+      font-size: 12px;
+    }
+
+    .tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5px;
+      padding: 5px;
+      margin-bottom: 24px;
+      background: #F1F4F8;
+      border-radius: 11px;
+    }
+
+    .tab {
+      min-height: 43px;
+      padding: 10px;
+      border: 0;
+      border-radius: 8px;
+      background: transparent;
+      color: var(--muted);
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .tab.active {
+      background: white;
+      color: var(--navy);
+      box-shadow: 0 2px 7px rgba(16,25,45,.08);
+    }
+
+    .field { margin-bottom: 18px; }
+
+    label {
+      display: block;
+      margin-bottom: 7px;
+      color: #334155;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    input {
+      display: block;
+      width: 100%;
+      min-height: 48px;
+      padding: 12px 13px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      background: white;
+      color: var(--text);
+      font: inherit;
+      font-size: 14px;
+      transition: border-color .2s, box-shadow .2s;
+    }
+
+    input::placeholder { color: #9AA5B5; }
+
+    input:focus {
+      outline: none;
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px rgba(7,150,111,.12);
+    }
+
+    .password-wrap { position: relative; }
+
+    .password-wrap input { padding-right: 75px; }
+
+    .show-password {
+      position: absolute;
+      top: 50%;
+      right: 12px;
+      transform: translateY(-50%);
+      border: 0;
+      background: transparent;
+      color: var(--green-dark);
+      font: inherit;
+      font-size: 11px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .primary-button {
+      width: 100%;
+      min-height: 49px;
+      padding: 13px 16px;
+      border: 0;
+      border-radius: 10px;
+      background: var(--green);
+      color: white;
+      font: inherit;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 5px 14px rgba(7,150,111,.17);
+      transition: background .2s, transform .2s;
+    }
+
+    .primary-button:hover {
+      background: var(--green-dark);
+      transform: translateY(-1px);
+    }
+
+    .primary-button:disabled {
+      opacity: .65;
+      cursor: wait;
+      transform: none;
+    }
+
+    .forgot {
+      display: block;
+      width: fit-content;
+      margin: 18px auto 0;
+      color: var(--muted);
+      text-align: center;
+      font-size: 12px;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .forgot:hover { color: var(--green-dark); }
+
+    .message {
+      display: none;
+      margin: 0 0 18px;
+      padding: 12px 14px;
+      border-radius: 9px;
+      font-size: 12px;
+      overflow-wrap: anywhere;
+    }
+
+    .message.success {
+      display: block;
+      background: #ECFDF5;
+      color: #065F46;
+      border: 1px solid #A7F3D0;
+    }
+
+    .message.error {
+      display: block;
+      background: #FEF2F2;
+      color: #991B1B;
+      border: 1px solid #FECACA;
+    }
+
+    .security-note {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 7px;
+      margin: 23px 0 0;
+      color: var(--muted);
+      font-size: 11px;
+      text-align: center;
+    }
+
+    .security-note span {
+      color: var(--green-dark);
+      font-weight: 800;
+    }
+
+    .bottom-note {
+      margin: 22px 0 0;
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .bottom-note a {
+      color: var(--green-dark);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    footer {
+      padding: 23px 16px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 11px;
+    }
+
+    [hidden] { display: none !important; }
+
+    @media (max-width: 480px) {
+      .nav { min-height: 64px; }
+      .logo { font-size: 22px; }
+      main { margin: 29px auto; }
+      .card { padding: 23px 19px; }
+      .welcome h1 { font-size: 29px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <nav class="nav" aria-label="Main navigation">
+      <a class="logo" href="./">CVPro-<span>SA</span></a>
+      <a class="back-link" href="./">← Back to homepage</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="welcome">
+      <div class="welcome-icon" aria-hidden="true">CV</div>
+      <h1 id="pageTitle">Welcome back</h1>
+      <p id="pageIntro">Sign in and continue building your future.</p>
+    </div>
+
+    <section class="card" aria-label="Account access">
+      <div class="package-notice" id="packageNotice" aria-live="polite">
+        <div class="package-symbol" aria-hidden="true">✓</div>
+        <div class="package-copy">
+          <strong id="packageName">Your selected package</strong>
+          <span id="packagePrice"></span>
+        </div>
+      </div>
+
+      <div class="tabs" role="tablist" aria-label="Account options">
+        <button class="tab active" id="loginTab" type="button"
+          role="tab" aria-selected="true">Sign In</button>
+        <button class="tab" id="signupTab" type="button"
+          role="tab" aria-selected="false">Create Account</button>
+      </div>
+
+      <div class="message" id="message" role="status"
+        aria-live="polite"></div>
+
+      <form id="accountForm">
+        <div class="field" id="nameField" hidden>
+          <label for="fullName">Full name</label>
+          <input id="fullName" name="fullName" type="text"
+            autocomplete="name" maxlength="100"
+            placeholder="Enter your full name">
+        </div>
+
+        <div class="field">
+          <label for="email">Email address</label>
+          <input id="email" name="email" type="email"
+            autocomplete="email" maxlength="254"
+            placeholder="you@example.com" required>
+        </div>
+
+        <div class="field">
+          <label for="password">Password</label>
+          <div class="password-wrap">
+            <input id="password" name="password" type="password"
+              autocomplete="current-password" minlength="8"
+              placeholder="Enter your password" required>
+            <button class="show-password" type="button"
+              data-target="password" aria-label="Show password">
+              Show
+            </button>
+          </div>
+        </div>
+
+        <div class="field" id="confirmField" hidden>
+          <label for="confirmPassword">Confirm password</label>
+          <div class="password-wrap">
+            <input id="confirmPassword" name="confirmPassword"
+              type="password" autocomplete="new-password"
+              minlength="8" placeholder="Enter password again">
+            <button class="show-password" type="button"
+              data-target="confirmPassword" aria-label="Show confirm password">
+              Show
+            </button>
+          </div>
+        </div>
+
+        <button class="primary-button" id="submitButton" type="submit">
+          Sign In &rarr;
+        </button>
+      </form>
+
+      <a class="forgot" id="forgotLink" href="./reset-password.html">
+        Forgot your password?
+      </a>
+
+      <div class="security-note">
+        <span aria-hidden="true">✓</span>
+        Your password is handled by our authentication provider.
+      </div>
+    </section>
+
+    <p class="bottom-note">
+      Need help? <a href="https://wa.me/27752978917"
+        target="_blank" rel="noopener noreferrer">Contact CVPro-SA support</a>
+    </p>
+  </main>
+
+  <footer>
+    &copy; <span id="year"></span> CVPro-SA. All rights reserved.
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL =
+      "https://tnxlhpenttcynlmlohao.supabase.co";
+
+    const SUPABASE_PUBLISHABLE_KEY =
+      "sb_publishable_n4XzrnraET_AEMbCYtHV7Q_DJ8--zCL";
+
+    const SITE_URL =
+      "https://sisandashange.github.io/CVPro-SA/";
+
+    const RESET_PAGE_URL = SITE_URL + "reset-password.html";
+
+    const supabaseClient = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY,
+      {
+        auth: {
+          persistSession: true,
+          autoRefreshToken: true,
+          detectSessionInUrl: true
+        }
+      }
+    );
+
+    const $ = (id) => document.getElementById(id);
+
+    const accountForm = $("accountForm");
+    const loginTab = $("loginTab");
+    const signupTab = $("signupTab");
+    const nameField = $("nameField");
+    const confirmField = $("confirmField");
+    const fullNameInput = $("fullName");
+    const emailInput = $("email");
+    const passwordInput = $("password");
+    const confirmPasswordInput = $("confirmPassword");
+    const submitButton = $("submitButton");
+    const messageBox = $("message");
+    const pageTitle = $("pageTitle");
+    const pageIntro = $("pageIntro");
+    const forgotLink = $("forgotLink");
+
+    const params = new URLSearchParams(window.location.search);
+    const allowedTemplates = {
+      "classic": { name: "Classic CV", price: "R15" },
+      "modern": { name: "Modern CV", price: "R25" },
+      "cover-letter": { name: "Cover Letter", price: "R15" },
+      "classic-bundle": { name: "Classic Bundle", price: "R30" },
+      "modern-bundle": { name: "Modern Bundle", price: "R40" }
+    };
+
+    let selectedTemplate = params.get("template") || "";
+
+    try {
+      if (!allowedTemplates[selectedTemplate]) {
+        selectedTemplate =
+          sessionStorage.getItem("cvpro_selected_template") || "";
+      }
+    } catch (error) {
+      // URL selection still works if session storage is unavailable.
+    }
+
+    if (!allowedTemplates[selectedTemplate]) selectedTemplate = "";
+
+    if (selectedTemplate) {
+      $("packageName").textContent =
+        allowedTemplates[selectedTemplate].name;
+      $("packagePrice").textContent =
+        allowedTemplates[selectedTemplate].price + " · Once-off";
+      $("packageNotice").classList.add("visible");
+    }
+
+    $("year").textContent = new Date().getFullYear();
+
+    let mode = "login";
+    let resetRequestInProgress = false;
+
+    function showMessage(text, type) {
+      messageBox.textContent = text;
+      messageBox.className = "message " + type;
+    }
+
+    function clearMessage() {
+      messageBox.textContent = "";
+      messageBox.className = "message";
+    }
+
+    function setMode(newMode) {
+      mode = newMode;
+      clearMessage();
+
+      const isSignup = mode === "signup";
+
+      loginTab.classList.toggle("active", !isSignup);
+      signupTab.classList.toggle("active", isSignup);
+      loginTab.setAttribute("aria-selected", String(!isSignup));
+      signupTab.setAttribute("aria-selected", String(isSignup));
+
+      nameField.hidden = !isSignup;
+      confirmField.hidden = !isSignup;
+      fullNameInput.required = isSignup;
+      confirmPasswordInput.required = isSignup;
+
+      passwordInput.autocomplete =
+        isSignup ? "new-password" : "current-password";
+
+      pageTitle.textContent =
+        isSignup ? "Create your account" : "Welcome back";
+
+      pageIntro.textContent = isSignup
+        ? "Create an account to continue with your CV package."
+        : "Sign in and continue building your future.";
+
+      submitButton.textContent =
+        isSignup ? "Create Account →" : "Sign In →";
+
+      forgotLink.hidden = isSignup;
+    }
+
+    loginTab.addEventListener("click", () => setMode("login"));
+    signupTab.addEventListener("click", () => setMode("signup"));
+
+    document.querySelectorAll(".show-password").forEach((button) => {
+      button.addEventListener("click", () => {
+        const input = $(button.dataset.target);
+        const show = input.type === "password";
+        input.type = show ? "text" : "password";
+        button.textContent = show ? "Hide" : "Show";
+        button.setAttribute(
+          "aria-label",
+          (show ? "Hide " : "Show ") +
+          (input.id === "password" ? "password" : "confirm password")
+        );
+      });
+    });
+
+    function accountDestination() {
+      const destination = new URL("./my-account.html", SITE_URL);
+
+      if (selectedTemplate) {
+        destination.searchParams.set("template", selectedTemplate);
+      }
+
+      return destination.href;
+    }
+
+    forgotLink.addEventListener("click", async (event) => {
+      event.preventDefault();
+
+      if (resetRequestInProgress) return;
+      clearMessage();
+
+      const email = emailInput.value.trim().toLowerCase();
+
+      if (!email) {
+        showMessage(
+          "Enter your email address first, then select Forgot your password again.",
+          "error"
+        );
+        emailInput.focus();
+        return;
+      }
+
+      resetRequestInProgress = true;
+      forgotLink.textContent = "Sending reset email...";
+
+      try {
+        const { error } =
+          await supabaseClient.auth.resetPasswordForEmail(email, {
+            redirectTo: RESET_PAGE_URL
+          });
+
+        if (error) throw error;
+
+        showMessage(
+          "If an account exists for this email, a reset email will be sent. Check your inbox and spam folder.",
+          "success"
+        );
+      } catch (error) {
+        console.error("Password reset request failed:", error);
+        showMessage(
+          error.message || "Could not request a password reset. Please try again.",
+          "error"
+        );
+      } finally {
+        resetRequestInProgress = false;
+        forgotLink.textContent = "Forgot your password?";
+      }
+    });
+
+    accountForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      clearMessage();
+
+      const email = emailInput.value.trim().toLowerCase();
+      const password = passwordInput.value;
+      const fullName = fullNameInput.value.trim();
+
+      if (mode === "signup") {
+        if (fullName.length < 2) {
+          showMessage("Please enter your full name.", "error");
+          fullNameInput.focus();
+          return;
+        }
+
+        if (password.length < 8) {
+          showMessage("Your password must be at least 8 characters.", "error");
+          passwordInput.focus();
+          return;
+        }
+
+        if (password !== confirmPasswordInput.value) {
+          showMessage("Your passwords do not match.", "error");
+          confirmPasswordInput.focus();
+          return;
+        }
+      }
+
+      const submittingMode = mode;
+      submitButton.disabled = true;
+      submitButton.textContent =
+        submittingMode === "signup" ? "Creating account..." : "Signing in...";
+
+      try {
+        if (submittingMode === "signup") {
+          const confirmationUrl = new URL("account.html", SITE_URL);
+
+          if (selectedTemplate) {
+            confirmationUrl.searchParams.set("template", selectedTemplate);
+          }
+
+          const { data, error } = await supabaseClient.auth.signUp({
+            email,
+            password,
+            options: {
+              data: { full_name: fullName },
+              emailRedirectTo: confirmationUrl.href
+            }
+          });
+
+          if (error) throw error;
+
+          if (data.session) {
+            showMessage(
+              "Your account has been created. You can now continue.",
+              "success"
+            );
+
+            window.location.assign(accountDestination());
+            return;
+          }
+
+          showMessage(
+            "Registration received. Check your email and confirm your address before signing in. Your selected package will remain in this browser.",
+            "success"
+          );
+        } else {
+          const { data, error } =
+            await supabaseClient.auth.signInWithPassword({
+              email,
+              password
+            });
+
+          if (error) throw error;
+
+          if (!data.user) {
+            throw new Error("Sign-in could not be completed. Please try again.");
+          }
+
+          showMessage("Signed in successfully. Opening your account...", "success");
+
+          window.location.assign(accountDestination());
+          return;
+        }
+      } catch (error) {
+        console.error("Account error:", error);
+
+        let errorText = error.message ||
+          "Something went wrong. Please try again.";
+
+        const lower = errorText.toLowerCase();
+
+        if (lower.includes("invalid login credentials")) {
+          errorText = "Email or password is incorrect. Please check and try again.";
+        } else if (lower.includes("email not confirmed")) {
+          errorText = "Please confirm your email using the link we sent before signing in.";
+        } else if (lower.includes("already registered")) {
+          errorText = "This email may already have an account. Try signing in instead.";
+        }
+
+        showMessage(errorText, "error");
+      } finally {
+        submitButton.disabled = false;
+        submitButton.textContent =
+          mode === "signup" ? "Create Account →" : "Sign In →";
+      }
+    });
+
+    async function handleEmailConfirmation() {
+      const confirmationError = params.get("error_description");
+
+      if (confirmationError) {
+        showMessage(
+          "Email confirmation problem: " +
+          confirmationError.replace(/\+/g, " "),
+          "error"
+        );
+        return;
+      }
+
+      try {
+        const { data, error } = await supabaseClient.auth.getSession();
+
+        if (error) throw error;
+
+        if (data.session) {
+          showMessage(
+            "You are signed in. Opening your account...",
+            "success"
+          );
+          window.location.assign(accountDestination());
+        }
+      } catch (error) {
+        console.error("Session check failed:", error);
+      }
+    }
+
+    handleEmailConfirmation();
+  </script>
+</body>
 </html>
