@@ -3958,12 +3958,13 @@ async function saveCv() {
    PROFESSIONAL PDF DOWNLOAD
 ========================================================= */
 
+
 async function downloadCvPdf() {
   const isCv = activeView === "cv";
   const isClassic = purchasedTemplate === "classic";
   const isModern = purchasedTemplate === "modern";
 
-  // Check access to the specific CV template.
+  // Preserve purchase-access protection.
   if (isCv && isClassic && !userEntitlements.hasClassic) {
     showMessage(
       "Access denied: You have not purchased the Classic CV.",
@@ -3988,7 +3989,6 @@ async function downloadCvPdf() {
     return;
   }
 
-  // Check access to the Cover Letter.
   if (!isCv && !userEntitlements.hasCoverLetter) {
     showMessage(
       "Access denied: Your purchase does not include a Cover Letter.",
@@ -4010,7 +4010,7 @@ async function downloadCvPdf() {
   button.textContent = "Preparing PDF...";
 
   try {
-    // Update the preview before exporting.
+    // Refresh the document before exporting.
     updatePreview();
 
     if (typeof window.html2pdf !== "function") {
@@ -4029,9 +4029,12 @@ async function downloadCvPdf() {
       throw new Error("The selected document preview is not visible.");
     }
 
-    const filename = (
-      valueOf("fullName") || "My_Document"
-    ).replace(/[^a-z0-9_-]+/gi, "_");
+    const rawName = valueOf("fullName") || "My_Document";
+
+    const filename = rawName
+      .trim()
+      .replace(/[^a-z0-9_-]+/gi, "_")
+      .replace(/^_+|_+$/g, "") || "My_Document";
 
     const docSuffix = isCv
       ? (isClassic ? "_Classic_CV.pdf" : "_Modern_CV.pdf")
@@ -4039,7 +4042,7 @@ async function downloadCvPdf() {
 
     await window.html2pdf()
       .set({
-        margin: [6, 8, 6, 8],
+        margin: [12, 12, 12, 12],
         filename: `${filename}${docSuffix}`,
 
         image: {
@@ -4048,20 +4051,23 @@ async function downloadCvPdf() {
         },
 
         html2canvas: {
-          scale: 1.5,
+          scale: 2,
           useCORS: true,
           backgroundColor: "#ffffff",
-          scrollY: 0
+          scrollY: 0,
+          logging: false
         },
 
         jsPDF: {
           unit: "mm",
           format: "a4",
-          orientation: "portrait"
+          orientation: "portrait",
+          compress: true
         },
 
         pagebreak: {
-          mode: ["legacy"]
+          mode: ["css", "legacy"],
+          avoid: ["p", "li", ".avoid-break"]
         }
       })
       .from(targetElement)
@@ -4085,6 +4091,7 @@ async function downloadCvPdf() {
     button.textContent = originalText;
   }
 }
+
 
 /* =========================================================
    YEAR OPTIONS
