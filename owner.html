@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,15 +6,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CVPro-SA | Owner Dashboard</title>
   <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#10172a">
+
   <style>
     :root {
-      --bg-color: #f8fafc;
+      --bg-color: #f4f7fb;
       --card-bg: #ffffff;
-      --text-main: #0f172a;
+      --text-main: #10172a;
       --text-muted: #64748b;
       --border-color: #e2e8f0;
-      --primary: #0f172a;
-      --primary-hover: #1e293b;
+      --primary: #172554;
+      --primary-hover: #1e40af;
       --accent: #2563eb;
       --accent-light: #eff6ff;
       --success-bg: #f0fdf4;
@@ -25,33 +28,40 @@
       --warning-bg: #fffbeb;
       --warning-border: #fde68a;
       --warning-text: #92400e;
-      --radius: 10px;
-      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --radius: 16px;
+      --shadow-sm: 0 2px 8px rgba(15, 23, 42, .04);
+      --shadow: 0 12px 30px rgba(15, 23, 42, .08);
     }
 
-    * { box-sizing: border-box; }
-    
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background: var(--bg-color);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, Helvetica, Arial, sans-serif;
+      background:
+        radial-gradient(ellipse at top left, #e8efff 0, transparent 36%),
+        var(--bg-color);
       color: var(--text-main);
       -webkit-font-smoothing: antialiased;
-      line-height: 1.5;
+      line-height: 1.55;
+      min-height: 100vh;
     }
 
     header {
-      background: #ffffff;
+      background: rgba(255, 255, 255, .94);
+      backdrop-filter: blur(14px);
       border-bottom: 1px solid var(--border-color);
-      padding: 16px 24px;
+      padding: 15px 24px;
       position: sticky;
       top: 0;
       z-index: 10;
     }
 
     .header-inner {
-      max-width: 1100px;
+      max-width: 1120px;
       margin: auto;
       display: flex;
       justify-content: space-between;
@@ -62,28 +72,43 @@
     .brand {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
+      min-width: 0;
     }
 
-    .brand-dot {
-      width: 10px;
-      height: 10px;
-      background: #10b981;
-      border-radius: 50%;
-      box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.15);
+    .brand-icon {
+      width: 42px;
+      height: 42px;
+      flex-shrink: 0;
+      display: grid;
+      place-items: center;
+      border-radius: 13px;
+      background: linear-gradient(135deg, #172554, #2563eb);
+      color: white;
+      font-size: 17px;
+      font-weight: 900;
+      letter-spacing: -1px;
+      box-shadow: 0 5px 14px rgba(37, 99, 235, .22);
     }
 
-    h1 { 
-      font-size: 18px; 
-      margin: 0; 
-      font-weight: 700;
-      letter-spacing: -0.025em;
+    .brand-copy h1 {
+      font-size: 17px;
+      margin: 0;
+      font-weight: 800;
+      letter-spacing: -.5px;
+    }
+
+    .brand-copy p {
+      margin: 1px 0 0;
+      color: var(--text-muted);
+      font-size: 12px;
     }
 
     main {
-      max-width: 1100px;
-      margin: 32px auto;
+      max-width: 1120px;
+      margin: 34px auto;
       padding: 0 20px 40px;
+      min-height: 65vh;
     }
 
     .panel {
@@ -95,132 +120,284 @@
       box-shadow: var(--shadow-sm);
     }
 
-    h2 { 
-      margin-top: 0; 
-      font-size: 20px; 
-      letter-spacing: -0.025em;
-      margin-bottom: 8px;
+    h2 {
+      margin: 0 0 8px;
+      font-size: 22px;
+      letter-spacing: -.65px;
+      line-height: 1.3;
     }
 
-    .muted { 
-      color: var(--text-muted); 
+    .muted {
+      color: var(--text-muted);
       font-size: 14px;
-      margin-bottom: 20px;
+      margin: 0 0 22px;
     }
 
     button, .button {
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      gap: 8px;
       border: 1px solid transparent;
-      border-radius: 8px;
-      padding: 10px 18px;
+      border-radius: 10px;
+      padding: 11px 17px;
       background: var(--primary);
       color: white;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
       text-decoration: none;
       font-size: 14px;
-      transition: background 0.15s ease, transform 0.05s ease;
+      transition: background .15s ease, transform .15s ease,
+        box-shadow .15s ease;
+      font-family: inherit;
     }
 
-    button:hover:not(:disabled) { background: var(--primary-hover); }
-    button:active:not(:disabled) { transform: translateY(1px); }
-    button:disabled { opacity: .6; cursor: not-allowed; }
-    
-    .secondary { 
-      background: #ffffff; 
-      color: var(--text-main); 
-      border-color: var(--border-color); 
+    button:hover:not(:disabled) {
+      background: var(--primary-hover);
+      box-shadow: 0 4px 12px rgba(37, 99, 235, .13);
     }
-    .secondary:hover:not(:disabled) { background: #f1f5f9; }
+
+    button:active:not(:disabled) {
+      transform: translateY(1px);
+    }
+
+    button:disabled {
+      opacity: .58;
+      cursor: not-allowed;
+    }
+
+    button:focus-visible,
+    input:focus-visible {
+      outline: 3px solid rgba(37, 99, 235, .25);
+      outline-offset: 2px;
+    }
+
+    .secondary {
+      background: white;
+      color: var(--text-main);
+      border-color: var(--border-color);
+    }
+
+    .secondary:hover:not(:disabled) {
+      background: #f8fafc;
+    }
 
     input {
       width: 100%;
-      padding: 11px 14px;
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
+      padding: 13px 14px;
+      border: 1px solid #dbe2ed;
+      border-radius: 10px;
       font-size: 15px;
-      margin: 6px 0 16px;
+      margin: 7px 0 19px;
       background: #fff;
       color: var(--text-main);
-      transition: border-color 0.15s, box-shadow 0.15s;
+      transition: border-color .15s, box-shadow .15s;
+      font-family: inherit;
     }
 
     input:focus {
       outline: none;
       border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, .10);
     }
 
-    label { 
-      font-weight: 600; 
-      font-size: 13px; 
+    label {
+      font-weight: 700;
+      font-size: 13px;
       color: #334155;
       display: block;
     }
 
+    .hidden {
+      display: none !important;
+    }
+
     .status {
-      padding: 12px 16px;
-      border-radius: 8px;
+      padding: 13px 15px;
+      border-radius: 10px;
       background: #f8fafc;
       border: 1px solid var(--border-color);
-      font-size: 14px;
-      margin: 16px 0;
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      color: #475569;
+      font-size: 13px;
+      margin: 17px 0 0;
+      overflow-wrap: anywhere;
     }
-    .error { background: var(--error-bg); color: var(--error-text); border-color: var(--error-border); }
-    .success { background: var(--success-bg); color: var(--success-text); border-color: var(--success-border); }
 
-    /* Metrics Summary Bar */
+    .error {
+      background: var(--error-bg);
+      color: var(--error-text);
+      border-color: var(--error-border);
+    }
+
+    .success {
+      background: var(--success-bg);
+      color: var(--success-text);
+      border-color: var(--success-border);
+    }
+
+    /* Login screen */
+
+    #loginPanel {
+      max-width: 460px;
+      margin: 44px auto;
+      padding: 34px;
+      border-radius: 22px;
+      box-shadow: 0 22px 65px rgba(15, 23, 42, .09);
+    }
+
+    .login-brand {
+      width: 58px;
+      height: 58px;
+      display: grid;
+      place-items: center;
+      border-radius: 17px;
+      background: linear-gradient(135deg, #172554, #2563eb);
+      color: #fff;
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: -1px;
+      margin-bottom: 23px;
+      box-shadow: 0 8px 20px rgba(37, 99, 235, .2);
+    }
+
+    .eyebrow {
+      display: block;
+      font-size: 11px;
+      color: var(--accent);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1.6px;
+      margin-bottom: 9px;
+    }
+
+    #loginPanel h2 {
+      font-size: 28px;
+      letter-spacing: -1px;
+    }
+
+    #loginButton {
+      width: 100%;
+      min-height: 48px;
+      margin-top: 2px;
+      background: linear-gradient(135deg, #172554, #2563eb);
+    }
+
+    #loginButton:hover:not(:disabled) {
+      background: linear-gradient(135deg, #1e3a8a, #1d4ed8);
+    }
+
+    .login-footer {
+      margin-top: 22px;
+      padding-top: 18px;
+      border-top: 1px solid #edf0f5;
+      color: var(--text-muted);
+      text-align: center;
+      font-size: 12px;
+    }
+
+    .secure-dot {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #10b981;
+      margin-right: 6px;
+    }
+
+    /* Dashboard heading */
+
+    .dashboard-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 8px;
+    }
+
+    #ownerEmail {
+      display: inline-block;
+      max-width: 100%;
+      overflow-wrap: anywhere;
+      color: var(--text-muted);
+      background: #f8fafc;
+      border: 1px solid var(--border-color);
+      border-radius: 9px;
+      padding: 7px 10px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    /* Metrics */
+
     .metrics-bar {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 16px;
-      margin: 20px 0 24px;
-    }
-    .metric-card {
-      background: #f8fafc;
-      border: 1px solid var(--border-color);
-      border-radius: 10px;
-      padding: 16px 20px;
-    }
-    .metric-card span {
-      display: block;
-      font-size: 12px;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      font-weight: 600;
-    }
-    .metric-card strong {
-      font-size: 24px;
-      color: var(--text-main);
-      margin-top: 6px;
-      display: block;
-      letter-spacing: -0.025em;
+      margin: 22px 0 25px;
     }
 
-    /* Professional Order Cards */
+    .metric-card {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, #fff, #f8faff);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 20px;
+    }
+
+    .metric-card span {
+      display: block;
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 800;
+    }
+
+    .metric-card strong {
+      font-size: 29px;
+      color: var(--text-main);
+      margin-top: 7px;
+      display: block;
+      letter-spacing: -1px;
+      overflow-wrap: anywhere;
+    }
+
+    /* Payment warning */
+
+    .warning {
+      border: 1px solid var(--warning-border);
+      border-left: 4px solid #f59e0b;
+      background: var(--warning-bg);
+      color: var(--warning-text);
+      padding: 15px 17px;
+      border-radius: 10px;
+      font-size: 13px;
+      line-height: 1.7;
+      margin: 22px 0;
+    }
+
+    /* Orders */
+
     .orders-grid {
       display: flex;
       flex-direction: column;
-      gap: 16px;
-      margin-top: 16px;
+      gap: 17px;
+      margin-top: 18px;
     }
 
     .order {
-      background: #ffffff;
+      background: #fff;
       border: 1px solid var(--border-color);
-      border-radius: 10px;
-      padding: 20px;
+      border-radius: 14px;
+      padding: 22px;
       box-shadow: var(--shadow-sm);
-      transition: border-color 0.15s, box-shadow 0.15s;
+      transition: border-color .15s, box-shadow .15s;
     }
+
     .order:hover {
-      border-color: #cbd5e1;
+      border-color: #c7d7f7;
       box-shadow: var(--shadow);
     }
 
@@ -228,462 +405,796 @@
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      margin-bottom: 12px;
-      border-bottom: 1px solid var(--border-color);
-      padding-bottom: 12px;
+      gap: 14px;
+      margin-bottom: 16px;
+      border-bottom: 1px solid #edf0f5;
+      padding-bottom: 16px;
     }
 
-    .order h3 { 
-      margin: 0; 
-      font-size: 16px; 
-      font-weight: 700;
-      color: var(--text-main);
+    .order h3 {
+      margin: 0 0 10px;
+      font-size: 17px;
+      font-weight: 800;
+      overflow-wrap: anywhere;
     }
 
     .badge {
       display: inline-flex;
       align-items: center;
-      padding: 4px 10px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 600;
+      padding: 5px 10px;
+      border-radius: 8px;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .65px;
       background: var(--accent-light);
       color: var(--accent);
+      overflow-wrap: anywhere;
+    }
+
+    .order-amount {
+      font-size: 21px;
+      font-weight: 800;
+      color: #166534;
+      white-space: nowrap;
     }
 
     .order-meta {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 10px;
-      margin-bottom: 16px;
-      font-size: 14px;
+      gap: 12px;
+      margin-bottom: 18px;
+      font-size: 13px;
     }
 
     .order-meta p {
       margin: 0;
       color: var(--text-muted);
+      overflow-wrap: anywhere;
     }
 
     .order-meta strong {
       color: var(--text-main);
     }
 
-    .order form { 
+    .order form {
       background: #f8fafc;
       border: 1px solid var(--border-color);
-      border-radius: 8px;
-      padding: 16px;
-      margin-top: 12px; 
+      border-radius: 11px;
+      padding: 17px;
+      margin-top: 10px;
     }
-    
+
     .order form input {
-      margin-bottom: 12px;
+      margin-bottom: 13px;
+      background: #fff;
     }
 
-    .hidden { display: none !important; }
-    
-    .warning {
-      border-left: 4px solid var(--warning-text);
-      background: var(--warning-bg);
-      border-color: var(--warning-border);
-      color: var(--warning-text);
-      padding: 14px 16px;
-      border-radius: 0 8px 8px 0;
-      font-size: 14px;
-      line-height: 1.5;
-      margin-bottom: 20px;
+    .order form button {
+      width: 100%;
+      min-height: 45px;
+      background: #166534;
     }
 
-    footer { 
-      text-align: center; 
-      padding: 24px; 
-      color: var(--text-muted); 
-      font-size: 13px; 
+    .order form button:hover:not(:disabled) {
+      background: #14532d;
+    }
+
+    .approvalMessage {
+      margin-top: 12px;
+    }
+
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 24px;
+      color: var(--text-muted);
+      font-size: 12px;
       border-top: 1px solid var(--border-color);
-      margin-top: 40px;
-      background: #ffffff;
+      margin-top: 35px;
+      background: rgba(255, 255, 255, .8);
     }
 
     @media (max-width: 600px) {
-      main { margin: 16px auto; padding: 0 12px; }
-      .panel { padding: 20px; }
-      .metrics-bar { grid-template-columns: 1fr; }
-      .order-header { flex-direction: column; gap: 8px; }
+      header {
+        padding: 12px 14px;
+      }
+
+      .brand-icon {
+        width: 38px;
+        height: 38px;
+      }
+
+      .brand-copy h1 {
+        font-size: 14px;
+      }
+
+      .brand-copy p {
+        font-size: 11px;
+      }
+
+      main {
+        margin: 18px auto;
+        padding: 0 12px 30px;
+      }
+
+      .panel {
+        padding: 19px;
+        border-radius: 13px;
+      }
+
+      #loginPanel {
+        margin: 24px auto;
+        padding: 25px 20px;
+        border-radius: 17px;
+      }
+
+      #loginPanel h2 {
+        font-size: 25px;
+      }
+
+      .metrics-bar {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .metric-card {
+        padding: 16px;
+      }
+
+      .metric-card strong {
+        font-size: 25px;
+      }
+
+      .order {
+        padding: 16px;
+      }
+
+      .order-header {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .order-amount {
+        font-size: 20px;
+      }
+
+      .order-meta {
+        grid-template-columns: 1fr;
+      }
+
+      .toolbar button,
+      #signOutButton {
+        min-height: 42px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        transition: none !important;
+        scroll-behavior: auto !important;
+      }
     }
   </style>
 </head>
+
 <body>
-
-<header>
-  <div class="header-inner">
-    <div class="brand">
-      <div class="brand-dot"></div>
-      <h1>CVPro-SA Owner Portal</h1>
-    </div>
-    <button id="signOutButton" class="secondary hidden" type="button">Sign Out</button>
-  </div>
-</header>
-
-<main>
-  <!-- Owner Sign-In Panel -->
-  <section id="loginPanel" class="panel" style="max-width: 440px; margin: 40px auto;">
-    <h2>Owner Authentication</h2>
-    <p class="muted">Enter your authorized credentials to access order management.</p>
-    <form id="loginForm">
-      <label for="email">Owner Email</label>
-      <input id="email" type="email" autocomplete="username" required placeholder="owner@cvprosa.co.za">
-      
-      <label for="password">Password</label>
-      <input id="password" type="password" autocomplete="current-password" required placeholder="••••••••">
-      
-      <button id="loginButton" type="submit" style="width: 100%; margin-top: 6px;">Sign In to Dashboard</button>
-    </form>
-    <div id="loginMessage" class="status" role="status">Awaiting secure authentication…</div>
-  </section>
-
-  <!-- Live Orders Dashboard Panel -->
-  <section id="dashboardPanel" class="hidden">
-    <div class="panel">
-      <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 12px; margin-bottom: 6px;">
-        <h2>Pending Order Verifications</h2>
-        <span id="ownerEmail" style="font-size: 13px; color: var(--text-muted); font-weight: 500;"></span>
-      </div>
-      <p class="muted">Review customer payment notifications and verify funds before unlocking templates.</p>
-      
-      <!-- Metrics Summary Bar -->
-      <div class="metrics-bar" id="metricsBar" style="display: none;">
-        <div class="metric-card">
-          <span>Pending Orders</span>
-          <strong id="metricCount">0</strong>
-        </div>
-        <div class="metric-card">
-          <span>Pending Revenue</span>
-          <strong id="metricRevenue">R0.00</strong>
+  <header>
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-icon" aria-hidden="true">CV+</div>
+        <div class="brand-copy">
+          <h1>CVPro-SA Owner Portal</h1>
+          <p>Secure administration</p>
         </div>
       </div>
 
-      <div class="warning">
-        <strong>Security Warning:</strong> Always log directly into your official Capitec account to confirm that funds have fully cleared before approving any order. Do not trust screenshots or customer reference slips alone.
-      </div>
-
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px; flex-wrap: wrap; gap: 12px;">
-        <button id="refreshButton" class="secondary" type="button">↻ Refresh Orders List</button>
-      </div>
-
-      <div id="dashboardMessage" class="status" role="status">Loading pending orders…</div>
-      <div id="ordersList" class="orders-grid"></div>
+      <button id="signOutButton" class="secondary hidden" type="button">
+        Sign Out
+      </button>
     </div>
-  </section>
-</main>
+  </header>
 
-<footer>CVPro-SA · Secure Administrative Management</footer>
+  <main>
+    <!-- Owner Sign-In Panel -->
+    <section id="loginPanel" class="panel">
+      <div class="login-brand" aria-hidden="true">CV+</div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-"use strict";
+      <span class="eyebrow">CVPro-SA Administration</span>
+      <h2>Welcome back</h2>
+      <p class="muted">
+        Sign in with your authorized owner account to manage customer orders
+        and verify payments.
+      </p>
 
-const SUPABASE_URL = "https://tnxlhpenttcynlmlohao.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_n4XzrnraET_AEMbCYtHV7Q_DJ8--zCL";
+      <form id="loginForm">
+        <label for="email">Owner email address</label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          autocomplete="username"
+          required
+          placeholder="Enter your owner email"
+        >
 
-const supabaseClient = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_PUBLISHABLE_KEY
-);
+        <label for="password">Password</label>
+        <input
+          id="password"
+          name="password"
+          type="password"
+          autocomplete="current-password"
+          required
+          placeholder="Enter your password"
+        >
 
-const loginPanel = document.getElementById("loginPanel");
-const dashboardPanel = document.getElementById("dashboardPanel");
-const loginForm = document.getElementById("loginForm");
-const loginMessage = document.getElementById("loginMessage");
-const dashboardMessage = document.getElementById("dashboardMessage");
-const ordersList = document.getElementById("ordersList");
-const signOutButton = document.getElementById("signOutButton");
-const refreshButton = document.getElementById("refreshButton");
-const metricsBar = document.getElementById("metricsBar");
-const metricCount = document.getElementById("metricCount");
-const metricRevenue = document.getElementById("metricRevenue");
+        <button id="loginButton" type="submit">
+          Sign In to Dashboard
+        </button>
+      </form>
 
-let idleTimer = null;
-const IDLE_TIMEOUT_MS = 15 * 60 * 1000;
+      <div id="loginMessage" class="status" role="status" aria-live="polite">
+        Awaiting secure authentication…
+      </div>
 
-function resetIdleTimer() {
-  clearTimeout(idleTimer);
-  if (!dashboardPanel.classList.contains("hidden")) {
-    idleTimer = setTimeout(async () => {
-      await supabaseClient.auth.signOut();
-      showLogin();
-      showMessage(loginMessage, "Signed out automatically after 15 minutes of inactivity.", "error");
-    }, IDLE_TIMEOUT_MS);
-  }
-}
+      <div class="login-footer">
+        <span class="secure-dot"></span>
+        Protected owner access
+      </div>
+    </section>
 
-["mousemove", "keydown", "click", "touchstart"].forEach(event => {
-  window.addEventListener(event, resetIdleTimer, { passive: true });
-});
+    <!-- Live Orders Dashboard Panel -->
+    <section id="dashboardPanel" class="hidden">
+      <div class="panel">
+        <div class="dashboard-heading">
+          <div>
+            <span class="eyebrow">Order management</span>
+            <h2>Pending Order Verifications</h2>
+          </div>
+          <span id="ownerEmail"></span>
+        </div>
 
-function showMessage(element, message, type = "") {
-  element.textContent = message;
-  element.className = "status" + (type ? " " + type : "");
-}
+        <p class="muted">
+          Review customer payment notifications and verify that funds have
+          arrived before unlocking CV templates.
+        </p>
 
-function escapeHTML(value) {
-  return String(value ?? "").replace(/[&<>"']/g, char => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;"
-  })[char]);
-}
+        <div class="metrics-bar" id="metricsBar" style="display:none">
+          <div class="metric-card">
+            <span>Pending Orders</span>
+            <strong id="metricCount">0</strong>
+          </div>
 
-async function callFunction(name, body = {}) {
-  const { data: { session }, error: sessionError } =
-    await supabaseClient.auth.getSession();
+          <div class="metric-card">
+            <span>Pending Revenue</span>
+            <strong id="metricRevenue">R0.00</strong>
+          </div>
+        </div>
 
-  if (sessionError || !session) {
-    throw new Error("Your session has expired. Please sign in again.");
-  }
+        <div class="warning">
+          <strong>Payment security reminder:</strong>
+          Log directly into your official Capitec account and confirm that
+          the full payment has cleared before approving an order. Never rely
+          on screenshots or customer payment slips alone.
+        </div>
 
-  const response = await fetch(`${SUPABASE_URL}/functions/v1/${name}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${session.access_token}`,
-      "apikey": SUPABASE_PUBLISHABLE_KEY
-    },
-    body: JSON.stringify(body)
-  });
+        <div class="toolbar">
+          <button id="refreshButton" class="secondary" type="button">
+            &#8635; Refresh Orders
+          </button>
+        </div>
 
-  const result = await response.json().catch(() => ({}));
+        <div id="dashboardMessage" class="status" role="status" aria-live="polite">
+          Loading pending orders…
+        </div>
 
-  if (!response.ok) {
-    throw new Error(result.error || result.message || "The request failed.");
-  }
+        <div id="ordersList" class="orders-grid"></div>
+      </div>
+    </section>
+  </main>
 
-  return result;
-}
+  <footer>
+    CVPro-SA &middot; Secure Administrative Management
+  </footer>
 
-async function checkOwner() {
-  const { data: { user }, error: userError } =
-    await supabaseClient.auth.getUser();
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    "use strict";
 
-  if (userError || !user) {
-    showLogin();
-    return false;
-  }
+    const SUPABASE_URL = "https://tnxlhpenttcynlmlohao.supabase.co";
+    const SUPABASE_PUBLISHABLE_KEY =
+      "sb_publishable_n4XzrnraET_AEMbCYtHV7Q_DJ8--zCL";
 
-  const { data: owner, error: ownerError } = await supabaseClient
-    .from("cv_owner_accounts")
-    .select("user_id")
-    .eq("user_id", user.id)
-    .maybeSingle();
-
-  if (ownerError || !owner) {
-    await supabaseClient.auth.signOut();
-    showLogin();
-    showMessage(
-      loginMessage,
-      "Access denied: This account is not authorized as the CVPro-SA owner.",
-      "error"
+    const supabaseClient = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY
     );
-    return false;
-  }
 
-  loginPanel.classList.add("hidden");
-  dashboardPanel.classList.remove("hidden");
-  signOutButton.classList.remove("hidden");
-  document.getElementById("ownerEmail").textContent = "Signed in as: " + user.email;
-  resetIdleTimer();
-  await loadPendingOrders();
-  return true;
-}
+    const loginPanel = document.getElementById("loginPanel");
+    const dashboardPanel = document.getElementById("dashboardPanel");
+    const loginForm = document.getElementById("loginForm");
+    const loginMessage = document.getElementById("loginMessage");
+    const dashboardMessage = document.getElementById("dashboardMessage");
+    const ordersList = document.getElementById("ordersList");
+    const signOutButton = document.getElementById("signOutButton");
+    const refreshButton = document.getElementById("refreshButton");
+    const metricsBar = document.getElementById("metricsBar");
+    const metricCount = document.getElementById("metricCount");
+    const metricRevenue = document.getElementById("metricRevenue");
+    const loginButton = document.getElementById("loginButton");
 
-function showLogin() {
-  loginPanel.classList.remove("hidden");
-  dashboardPanel.classList.add("hidden");
-  signOutButton.classList.add("hidden");
-  clearTimeout(idleTimer);
-}
+    let idleTimer = null;
+    let isLoadingOrders = false;
+    let isSigningIn = false;
 
-async function loadPendingOrders() {
-  ordersList.replaceChildren();
-  refreshButton.disabled = true;
-  metricsBar.style.display = "none";
-  showMessage(dashboardMessage, "Fetching pending orders from secure queue…");
+    const IDLE_TIMEOUT_MS = 15 * 60 * 1000;
 
-  try {
-    const result = await callFunction("list-pending-cv-purchases", {});
-    const purchases = Array.isArray(result.purchases) ? result.purchases : [];
+    function resetIdleTimer() {
+      clearTimeout(idleTimer);
 
-    if (purchases.length === 0) {
-      showMessage(dashboardMessage, "All clear! There are no pending purchases requiring verification.");
-      metricCount.textContent = "0";
-      metricRevenue.textContent = "R0.00";
-      metricsBar.style.display = "grid";
-      return;
+      if (!dashboardPanel.classList.contains("hidden")) {
+        idleTimer = setTimeout(async () => {
+          await supabaseClient.auth.signOut();
+          showLogin();
+          showMessage(
+            loginMessage,
+            "You were signed out automatically after 15 minutes of inactivity.",
+            "error"
+          );
+        }, IDLE_TIMEOUT_MS);
+      }
     }
 
-    const totalCount = purchases.length;
-    const totalRevenue = purchases.reduce((sum, p) => sum + Number(p.amount || 0), 0);
+    ["mousemove", "keydown", "click", "touchstart"].forEach(event => {
+      window.addEventListener(event, resetIdleTimer, { passive: true });
+    });
 
-    metricCount.textContent = totalCount;
-    metricRevenue.textContent = `R${totalRevenue.toFixed(2)}`;
-    metricsBar.style.display = "grid";
+    function showMessage(element, message, type = "") {
+      element.textContent = message;
+      element.className = "status" + (type ? " " + type : "");
+    }
 
-    dashboardMessage.style.display = "none";
+    function escapeHTML(value) {
+      return String(value ?? "").replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      })[char]);
+    }
 
-    for (const purchase of purchases) {
-      const card = document.createElement("article");
-      card.className = "order";
+    function formatAmount(value) {
+      const amount = Number(value);
+      return Number.isFinite(amount) ? amount.toFixed(2) : "0.00";
+    }
 
-      const created = purchase.created_at
-        ? new Date(purchase.created_at).toLocaleString("en-ZA", { dateStyle: "medium", timeStyle: "short" })
-        : "Not available";
+    async function callFunction(name, body = {}) {
+      const {
+        data: { session },
+        error: sessionError
+      } = await supabaseClient.auth.getSession();
 
-      card.innerHTML = `
-        <div class="order-header">
-          <div>
-            <h3>Order #${escapeHTML(purchase.order_number)}</h3>
-            <span class="badge">${escapeHTML(purchase.cv_template || "Standard").toUpperCase()} TEMPLATE</span>
-          </div>
-          <strong style="font-size: 18px; color: var(--text-main);">R${Number(purchase.amount).toFixed(2)}</strong>
-        </div>
-        
-        <div class="order-meta">
-          <p><strong>Status:</strong> ${escapeHTML(purchase.payment_status)}</p>
-          <p><strong>Created:</strong> ${escapeHTML(created)}</p>
-        </div>
+      if (sessionError || !session) {
+        throw new Error(
+          "Your session has expired. Please sign in again."
+        );
+      }
 
-        <form class="approvalForm">
-          <label>Verified Capitec Transaction Reference</label>
-          <input name="transaction_reference" maxlength="200"
-            autocomplete="off" required
-            placeholder="Enter reference from bank statement">
-          <button type="submit">Approve & Unlock Template</button>
-        </form>
-        <div class="status approvalMessage hidden" role="status"></div>
-      `;
+      const response = await fetch(
+        `${SUPABASE_URL}/functions/v1/${name}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${session.access_token}`,
+            "apikey": SUPABASE_PUBLISHABLE_KEY
+          },
+          body: JSON.stringify(body)
+        }
+      );
 
-      card.querySelector(".approvalForm").addEventListener("submit", async event => {
-        event.preventDefault();
+      const result = await response.json().catch(() => ({}));
 
-        const form = event.currentTarget;
-        const allCardButtons = ordersList.querySelectorAll("button");
-        const messageBox = card.querySelector(".approvalMessage");
-        const transactionReference =
-          new FormData(form).get("transaction_reference").toString().trim();
+      if (!response.ok) {
+        throw new Error(
+          result.error || result.message || "The request failed."
+        );
+      }
 
-        if (!transactionReference) {
-          messageBox.classList.remove("hidden");
-          showMessage(messageBox, "Please enter the verified transaction reference.", "error");
+      return result;
+    }
+
+    async function checkOwner() {
+      const {
+        data: { user },
+        error: userError
+      } = await supabaseClient.auth.getUser();
+
+      if (userError || !user) {
+        showLogin();
+        return false;
+      }
+
+      const { data: owner, error: ownerError } = await supabaseClient
+        .from("cv_owner_accounts")
+        .select("user_id")
+        .eq("user_id", user.id)
+        .maybeSingle();
+
+      if (ownerError || !owner) {
+        await supabaseClient.auth.signOut();
+        showLogin();
+
+        showMessage(
+          loginMessage,
+          "Access denied: This account is not authorized as the CVPro-SA owner.",
+          "error"
+        );
+
+        return false;
+      }
+
+      loginPanel.classList.add("hidden");
+      dashboardPanel.classList.remove("hidden");
+      signOutButton.classList.remove("hidden");
+
+      document.getElementById("ownerEmail").textContent =
+        "Signed in as: " + (user.email || "Authorized owner");
+
+      resetIdleTimer();
+      await loadPendingOrders();
+
+      return true;
+    }
+
+    function showLogin() {
+      loginPanel.classList.remove("hidden");
+      dashboardPanel.classList.add("hidden");
+      signOutButton.classList.add("hidden");
+
+      clearTimeout(idleTimer);
+      idleTimer = null;
+    }
+
+    async function loadPendingOrders() {
+      if (isLoadingOrders) return;
+
+      isLoadingOrders = true;
+      ordersList.replaceChildren();
+      refreshButton.disabled = true;
+
+      metricsBar.style.display = "none";
+      dashboardMessage.style.display = "flex";
+
+      showMessage(
+        dashboardMessage,
+        "Fetching pending orders from secure queue…"
+      );
+
+      try {
+        const result = await callFunction(
+          "list-pending-cv-purchases",
+          {}
+        );
+
+        const purchases = Array.isArray(result.purchases)
+          ? result.purchases
+          : [];
+
+        if (purchases.length === 0) {
+          showMessage(
+            dashboardMessage,
+            "All clear! There are no pending purchases requiring verification."
+          );
+
+          metricCount.textContent = "0";
+          metricRevenue.textContent = "R0.00";
+          metricsBar.style.display = "grid";
+
           return;
         }
 
-        const confirmed = window.confirm(
-          `Have you personally confirmed that the full payment of R${Number(purchase.amount).toFixed(2)} has arrived in your Capitec account for order #${purchase.order_number}?`
-        );
+        const totalCount = purchases.length;
 
-        if (!confirmed) return;
+        const totalRevenue = purchases.reduce((sum, purchase) => {
+          const amount = Number(purchase.amount);
+          return sum + (Number.isFinite(amount) ? amount : 0);
+        }, 0);
 
-        allCardButtons.forEach(btn => btn.disabled = true);
-        refreshButton.disabled = true;
-        messageBox.classList.remove("hidden");
-        showMessage(messageBox, "Verifying and unlocking order on secure server…");
+        metricCount.textContent = String(totalCount);
+        metricRevenue.textContent = `R${totalRevenue.toFixed(2)}`;
+        metricsBar.style.display = "grid";
 
-        try {
-          const approval = await callFunction("approve-cv-payment", {
-            purchase_id: purchase.id,
-            transaction_reference: transactionReference
+        dashboardMessage.style.display = "none";
+
+        for (const purchase of purchases) {
+          const card = document.createElement("article");
+          card.className = "order";
+
+          const created = purchase.created_at
+            ? new Date(purchase.created_at).toLocaleString("en-ZA", {
+                dateStyle: "medium",
+                timeStyle: "short"
+              })
+            : "Not available";
+
+          card.innerHTML = `
+            <div class="order-header">
+              <div>
+                <h3>Order #${escapeHTML(purchase.order_number)}</h3>
+                <span class="badge">${
+                  escapeHTML(purchase.cv_template || "Standard").toUpperCase()
+                } TEMPLATE</span>
+              </div>
+
+              <strong class="order-amount">
+                R${formatAmount(purchase.amount)}
+              </strong>
+            </div>
+
+            <div class="order-meta">
+              <p>
+                <strong>Status:</strong>
+                ${escapeHTML(purchase.payment_status || "Pending")}
+              </p>
+
+              <p>
+                <strong>Created:</strong>
+                ${escapeHTML(created)}
+              </p>
+            </div>
+
+            <form class="approvalForm">
+              <label for="reference-${escapeHTML(purchase.id)}">
+                Verified Capitec Transaction Reference
+              </label>
+
+              <input
+                id="reference-${escapeHTML(purchase.id)}"
+                name="transaction_reference"
+                maxlength="200"
+                autocomplete="off"
+                required
+                placeholder="Enter reference from bank statement"
+              >
+
+              <button type="submit">
+                Approve &amp; Unlock Template
+              </button>
+            </form>
+
+            <div
+              class="status approvalMessage hidden"
+              role="status"
+              aria-live="polite"
+            ></div>
+          `;
+
+          const approvalForm = card.querySelector(".approvalForm");
+
+          approvalForm.addEventListener("submit", async event => {
+            event.preventDefault();
+
+            const form = event.currentTarget;
+            const messageBox = card.querySelector(".approvalMessage");
+            const submitButton = form.querySelector('button[type="submit"]');
+
+            const referenceField = form.elements.namedItem(
+              "transaction_reference"
+            );
+
+            const transactionReference =
+              referenceField.value.trim();
+
+            if (!transactionReference) {
+              messageBox.classList.remove("hidden");
+
+              showMessage(
+                messageBox,
+                "Please enter the verified transaction reference.",
+                "error"
+              );
+
+              return;
+            }
+
+            const confirmed = window.confirm(
+              `Have you personally confirmed that the full payment of R${formatAmount(purchase.amount)} has arrived in your Capitec account for order #${purchase.order_number}?`
+            );
+
+            if (!confirmed) return;
+
+            submitButton.disabled = true;
+            refreshButton.disabled = true;
+
+            messageBox.classList.remove("hidden");
+
+            showMessage(
+              messageBox,
+              "Verifying and unlocking order on secure server…"
+            );
+
+            try {
+              const approval = await callFunction(
+                "approve-cv-payment",
+                {
+                  purchase_id: purchase.id,
+                  transaction_reference: transactionReference
+                }
+              );
+
+              if (
+                !approval.success ||
+                !approval.purchase ||
+                approval.purchase.payment_status !== "paid"
+              ) {
+                throw new Error(
+                  approval.error ||
+                  "Approval failed. The order was not verified as paid."
+                );
+              }
+
+              if (approval.purchase.id !== purchase.id) {
+                throw new Error(
+                  "Server mismatch error. Please refresh the dashboard."
+                );
+              }
+
+              await loadPendingOrders();
+
+              dashboardMessage.style.display = "flex";
+
+              showMessage(
+                dashboardMessage,
+                `Order #${purchase.order_number} successfully approved and unlocked.`,
+                "success"
+              );
+
+              refreshButton.focus();
+
+            } catch (error) {
+              messageBox.classList.remove("hidden");
+
+              showMessage(
+                messageBox,
+                error.message || "Approval submission failed.",
+                "error"
+              );
+
+              submitButton.disabled = false;
+              refreshButton.disabled = false;
+            }
           });
 
-          if (
-            !approval.success ||
-            !approval.purchase ||
-            approval.purchase.payment_status !== "paid"
-          ) {
-            throw new Error(
-              approval.error ||
-              "Approval failed. The order was not verified as paid."
-            );
-          }
+          ordersList.appendChild(card);
+        }
 
-          if (approval.purchase.id !== purchase.id) {
-            throw new Error("Server mismatch error. Please refresh the dashboard.");
-          }
+      } catch (error) {
+        dashboardMessage.style.display = "flex";
 
-          await loadPendingOrders();
+        showMessage(
+          dashboardMessage,
+          error.message ||
+            "Unable to load pending orders. Check your network connection.",
+          "error"
+        );
 
-          dashboardMessage.style.display = "flex";
+      } finally {
+        isLoadingOrders = false;
+        refreshButton.disabled = false;
+      }
+    }
+
+    loginForm.addEventListener("submit", async event => {
+      event.preventDefault();
+
+      if (isSigningIn) return;
+      isSigningIn = true;
+
+      loginButton.disabled = true;
+
+      showMessage(loginMessage, "Authenticating credentials…");
+
+      try {
+        const { error } = await supabaseClient.auth.signInWithPassword({
+          email: document.getElementById("email").value.trim(),
+          password: document.getElementById("password").value
+        });
+
+        if (error) throw error;
+
+        const verified = await checkOwner();
+
+        if (verified) {
           showMessage(
-            dashboardMessage,
-            `Order #${purchase.order_number} successfully approved and unlocked.`,
+            loginMessage,
+            "Authentication successful. Loading portal…",
             "success"
           );
-
-          refreshButton.focus();
-
-        } catch (error) {
-          messageBox.classList.remove("hidden");
-          showMessage(messageBox, error.message || "Approval submission failed.", "error");
-          allCardButtons.forEach(btn => btn.disabled = false);
-          refreshButton.disabled = false;
         }
-      });
 
-      ordersList.appendChild(card);
-    }
-  } catch (error) {
-    dashboardMessage.style.display = "flex";
-    showMessage(
-      dashboardMessage,
-      error.message || "Unable to load pending orders. Check your network connection.",
-      "error"
-    );
-  } finally {
-    refreshButton.disabled = false;
-  }
-}
+      } catch (error) {
+        showMessage(
+          loginMessage,
+          error.message ||
+            "Sign-in failed. Check your email and password.",
+          "error"
+        );
 
-loginForm.addEventListener("submit", async event => {
-  event.preventDefault();
-  const button = document.getElementById("loginButton");
-  button.disabled = true;
-  showMessage(loginMessage, "Authenticating credentials…");
-
-  try {
-    const { error } = await supabaseClient.auth.signInWithPassword({
-      email: document.getElementById("email").value.trim(),
-      password: document.getElementById("password").value
+      } finally {
+        isSigningIn = false;
+        loginButton.disabled = false;
+      }
     });
 
-    if (error) throw error;
+    refreshButton.addEventListener("click", async () => {
+      resetIdleTimer();
+      await loadPendingOrders();
+    });
 
-    const verified = await checkOwner();
-    if (verified) {
-      showMessage(loginMessage, "Authentication successful. Loading portal…", "success");
-    }
-  } catch (error) {
-    showMessage(loginMessage, error.message || "Sign-in failed. Check your email and password.", "error");
-  } finally {
-    button.disabled = false;
-  }
-});
+    signOutButton.addEventListener("click", async () => {
+      signOutButton.disabled = true;
 
-refreshButton.addEventListener("click", loadPendingOrders);
+      try {
+        const { error } = await supabaseClient.auth.signOut();
 
-signOutButton.addEventListener("click", async () => {
-  await supabaseClient.auth.signOut();
-  showLogin();
-  showMessage(loginMessage, "You have been securely signed out.");
-});
+        if (error) throw error;
 
-(async function initialize() {
-  const { data: { session } } = await supabaseClient.auth.getSession();
-  if (session) {
-    await checkOwner();
-  } else {
-    showLogin();
-  }
-})();
-</script>
+        showLogin();
+
+        showMessage(
+          loginMessage,
+          "You have been securely signed out.",
+          "success"
+        );
+
+      } catch (error) {
+        showMessage(
+          dashboardMessage,
+          error.message || "Unable to sign out. Please try again.",
+          "error"
+        );
+
+      } finally {
+        signOutButton.disabled = false;
+      }
+    });
+
+    (async function initialize() {
+      try {
+        const {
+          data: { session },
+          error
+        } = await supabaseClient.auth.getSession();
+
+        if (error) throw error;
+
+        if (session) {
+          await checkOwner();
+        } else {
+          showLogin();
+        }
+
+      } catch (error) {
+        showLogin();
+
+        showMessage(
+          loginMessage,
+          error.message || "Unable to initialize secure login.",
+          "error"
+        );
+      }
+    })();
+  </script>
 </body>
 </html>
