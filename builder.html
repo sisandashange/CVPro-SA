@@ -2957,88 +2957,245 @@ function escapeHtml(str) {
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
 }
+
+/* =========================================================
+   DATE FORMATTING HELPER
+========================================================= */
+
+function formatMonthYear(value) {
+  const input = String(value || "").trim();
+
+  if (!input) return "";
+
+  const parts = input.split("-");
+
+  if (parts.length === 2) {
+    const year = Number(parts[0]);
+    const monthIndex = Number(parts[1]) - 1;
+
+    if (
+      Number.isInteger(year) &&
+      Number.isInteger(monthIndex) &&
+      monthIndex >= 0 &&
+      monthIndex <= 11
+    ) {
+      const date = new Date(year, monthIndex, 1);
+
+      return date.toLocaleDateString("en-ZA", {
+        month: "long",
+        year: "numeric"
+      });
+    }
+  }
+
+  return input;
+}
 function formatExperience(data = {}) {
-  if (data.experienceType !== "no-experience") {
+  const experienceType = String(
+    data.experienceType || "no-experience"
+  ).trim().toLowerCase();
+
+  const experienceSection = document.querySelector(
+    "#experienceSection"
+  );
+
+  const experienceSectionHeading = experienceSection
+    ? experienceSection.querySelector("h3")
+    : null;
+
+  /*
+   * Set the section heading based on the selected experience.
+   */
+  const headings = {
+    work: "Work Experience",
+    informal: "Informal Work Experience",
+    volunteer: "Volunteering and Community Work",
+    practical: "Practical Training and Workplace Exposure",
+    "no-experience": "Practical Skills and School Learning"
+  };
+
+  const heading =
+    headings[experienceType] ||
+    headings["no-experience"];
+
+  if (experienceSectionHeading) {
+    experienceSectionHeading.textContent = heading;
+  }
+
+  /*
+   * EXPERIENCED APPLICANTS
+   */
+  if (
+    ["work", "informal", "volunteer", "practical"].includes(
+      experienceType
+    )
+  ) {
     const jobTitle = String(data.jobTitle || "").trim();
     const employer = String(data.employer || "").trim();
-    
-    const start = String(data.experienceStart || "").trim();
-    const end = String(data.experienceEnd || "").trim();
-    let dates = String(data.dates || "").trim();
-    if (!dates && (start || end)) {
-      dates = start && end ? `${start} – ${end}` : (start || end);
+
+    const startValue = String(
+      data.experienceStart || ""
+    ).trim();
+
+    const endValue = String(
+      data.experienceEnd || ""
+    ).trim();
+
+    const formattedStart = formatMonthYear(startValue);
+    const formattedEnd = formatMonthYear(endValue);
+
+    const currentlyWorking =
+      data.currentlyWorking === true ||
+      String(data.currentlyWorking || "").toLowerCase() === "true" ||
+      String(data.currentlyWorking || "").toLowerCase() === "yes";
+
+    let dates = "";
+
+    if (formattedStart && currentlyWorking) {
+      dates = `${formattedStart} – Present`;
+    } else if (formattedStart && formattedEnd) {
+      dates = `${formattedStart} – ${formattedEnd}`;
+    } else {
+      dates = formattedStart || formattedEnd;
     }
 
-    const description = String(data.description || "").trim();
+    const description = String(
+      data.experienceDescription || ""
+    ).trim();
 
-    if (!jobTitle && !employer && !description) {
+    /*
+     * Do not create an empty experience entry.
+     */
+    if (!jobTitle && !employer && !description && !dates) {
       return "";
     }
 
     return `
-      <div class="experience-item">
-        ${jobTitle ? `<h3>${escapeHtml(jobTitle)}</h3>` : ""}
-        ${employer || dates ? `<p><strong>${escapeHtml(employer)}</strong>${dates ? escapeHtml(dates) : ""}</p>` : ""}
-        ${description ? `<p>${escapeHtml(description)}</p>` : ""}
+      <div class="experience-item avoid-break">
+        ${
+          jobTitle
+            ? `<h4>${escapeHtml(jobTitle)}</h4>`
+            : ""
+        }
+
+        ${
+          employer || dates
+            ? `<p class="experience-meta">
+                ${
+                  employer
+                    ? `<strong>${escapeHtml(employer)}</strong>`
+                    : ""
+                }
+                ${
+                  employer && dates ? " · " : ""
+                }
+                ${
+                  dates
+                    ? escapeHtml(dates)
+                    : ""
+                }
+              </p>`
+            : ""
+        }
+
+        ${
+          description
+            ? `<p>${escapeHtml(description)}</p>`
+            : ""
+        }
       </div>
     `;
   }
 
+
+  /*
+   * NO EXPERIENCE:
+   * Generate relevant school-learning descriptions
+   * based on the subjects the applicant supplied.
+   */
   const subjects = Array.isArray(data.subjects)
     ? data.subjects
     : String(data.subjects || "")
         .split(",")
-        .map((s) => s.trim())
+        .map(subject => subject.trim())
         .filter(Boolean);
 
-  const subjectText = subjects.join(" ").toLowerCase();
+  const subjectText = subjects
+    .join(" ")
+    .toLowerCase();
+
   const descriptions = [];
 
-  if (/\bmechanical technology\b|\bwelding\b|\bfitting and machining\b|\bfitting\b|\bcivil technology\b|\belectrical technology\b/.test(subjectText)) {
+  if (
+    /\bmechanical technology\b|\bwelding\b|\bfitting and machining\b|\bfitting\b|\bcivil technology\b|\belectrical technology\b/.test(subjectText)
+  ) {
     descriptions.push(
       "Studied mechanical processes, materials, workshop concepts and safety principles."
     );
   }
-  if (/\bengineering graphics\b|\begd\b|\btechnical drawing\b/.test(subjectText)) {
+
+  if (
+    /\bengineering graphics\b|\begd\b|\btechnical drawing\b/.test(subjectText)
+  ) {
     descriptions.push(
       "Studied technical drawings, scale design concepts and graphical communication."
     );
   }
+
   if (/\btechnical sciences\b/.test(subjectText)) {
     descriptions.push(
       "Studied scientific principles and their applications in technical contexts."
     );
   }
-  if (/\baccounting\b|\bfinancial management\b/.test(subjectText)) {
+
+  if (
+    /\baccounting\b|\bfinancial management\b/.test(subjectText)
+  ) {
     descriptions.push(
       "Studied financial concepts, accounting principles, ledgers and numerical calculations."
     );
   }
-  if (/\bbusiness studies\b|\beconomics\b|\bentrepreneurship\b/.test(subjectText)) {
+
+  if (
+    /\bbusiness studies\b|\beconomics\b|\bentrepreneurship\b/.test(subjectText)
+  ) {
     descriptions.push(
-      "Learned about business operations, organizational structures, customer relations and market environments."
+      "Learned about business operations, organisational structures, customer relations and market environments."
     );
   }
-  if (/\bcomputer applications technology\b|\bcat\b|\binformation technology\b|\bcomputer science\b|\bcoding\b/.test(subjectText)) {
+
+  if (
+    /\bcomputer applications technology\b|\bcat\b|\binformation technology\b|\bcomputer science\b|\bcoding\b/.test(subjectText)
+  ) {
     descriptions.push(
       "Studied computer applications, digital information management and related computing concepts."
     );
   }
-  if (/\bphysical sciences\b|\bchemistry\b|\bphysics\b/.test(subjectText)) {
+
+  if (
+    /\bphysical sciences\b|\bchemistry\b|\bphysics\b/.test(subjectText)
+  ) {
     descriptions.push(
-      "Studied physical and chemical principles, laboratory methodology and scientific problem-solving."
+      "Studied physical and chemical principles, scientific methods and problem-solving."
     );
   }
-  if (/\blife sciences\b|\bbiology\b/.test(subjectText)) {
+
+  if (
+    /\blife sciences\b|\bbiology\b/.test(subjectText)
+  ) {
     descriptions.push(
-      "Studied biological processes, observational methodology and scientific reporting."
+      "Studied biological processes, observation and scientific concepts."
     );
   }
-  if (/\bagricultural sciences\b|\bagricultural technology\b|\bagricultural management\b/.test(subjectText)) {
+
+  if (
+    /\bagricultural sciences\b|\bagricultural technology\b|\bagricultural management\b/.test(subjectText)
+  ) {
     descriptions.push(
       "Studied agricultural principles, resource management and related environmental concepts."
     );
   }
+
   if (/\btechnical mathematics\b/.test(subjectText)) {
     descriptions.push(
       "Studied technical calculations, mathematical formulas and numerical problem-solving relevant to technical subjects."
@@ -3048,37 +3205,53 @@ function formatExperience(data = {}) {
       "Studied mathematical concepts, calculations, formulas and numerical problem-solving through schoolwork."
     );
   }
+
   if (/\bmathematical literacy\b/.test(subjectText)) {
     descriptions.push(
-      "Studied practical numerical reasoning for everyday financial, measurement and data tasks."
+      "Studied practical numerical reasoning involving everyday financial, measurement and data tasks."
     );
   }
-  if (/\bconsumer studies\b|\bhospitality studies\b|\btourism\b|\bdramatic arts\b/.test(subjectText)) {
+
+  if (
+    /\bconsumer studies\b|\bhospitality studies\b|\btourism\b|\bdramatic arts\b/.test(subjectText)
+  ) {
     descriptions.push(
-      "Studied customer service principles, product standards and hospitality/tourism fundamentals."
+      "Studied concepts related to customer service, product standards and hospitality or tourism."
     );
   }
-  if (/\bgeography\b|\bhistory\b|\blife orientation\b/.test(subjectText)) {
+
+  if (
+    /\bgeography\b|\bhistory\b|\blife orientation\b/.test(subjectText)
+  ) {
     descriptions.push(
       "Studied environmental, historical, social and personal-development topics through school coursework."
     );
   }
 
+  /*
+   * Avoid making unsupported claims if no subjects match.
+   */
   if (descriptions.length === 0) {
     descriptions.push(
-      "Studied core foundational subject matter, coursework concepts and general problem-solving through matric curriculum."
+      "Developed foundational knowledge and learning skills through school coursework."
     );
   }
 
+  /*
+   * Remove duplicate descriptions.
+   */
   const uniqueDescriptions = [...new Set(descriptions)];
 
+  /*
+   * The main section heading is already supplied by
+   * #experienceSection. Do not repeat it inside this HTML.
+   */
   return `
-    <div class="experience-item">
-      <h3>Relevant School Learning</h3>
+    <div class="experience-item school-learning">
       <ul>
         ${uniqueDescriptions
-          .map((description) => `<li>${escapeHtml(description)}</li>`)
-          .join("\n        ")}
+          .map(description => `<li>${escapeHtml(description)}</li>`)
+          .join("\n")}
       </ul>
     </div>
   `;
