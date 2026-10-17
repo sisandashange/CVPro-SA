@@ -998,13 +998,49 @@
       }
     });
 
-    async function initialise() {
-      const session = await getSessionOrRedirect();
-      if (!session) return;
-      await loadPurchases();
-    }
+    
+async function initialise() {
+  // Read the package selected on the homepage.
+  const pageUrl = new URL(window.location.href);
+  const requestedTemplate = String(
+    pageUrl.searchParams.get("template") || ""
+  ).toLowerCase().replace(/-/g, "_");
 
-    initialise();
+  // Only accept one of the five valid package codes.
+  const selectedTemplate = Object.prototype.hasOwnProperty.call(
+    productInfo,
+    requestedTemplate
+  ) ? requestedTemplate : "";
+
+  // Remove the selection from the URL immediately so a refresh
+  // does not automatically submit the same selection again.
+  if (pageUrl.searchParams.has("template")) {
+    pageUrl.searchParams.delete("template");
+    window.history.replaceState(
+      {},
+      "",
+      pageUrl.pathname + pageUrl.search + pageUrl.hash
+    );
+  }
+
+  const session = await getSessionOrRedirect();
+  if (!session) return;
+
+  await loadPurchases();
+
+  // Automatically create an order for the selected package.
+  if (selectedTemplate) {
+    const selectedButton = packageButtons.find(
+      button => button.dataset.template === selectedTemplate
+    );
+
+    if (selectedButton) {
+      await createPurchase(selectedTemplate, selectedButton);
+    }
+  }
+}
+
+initialise();
   </script>
 </body>
 </html>
