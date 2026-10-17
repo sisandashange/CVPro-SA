@@ -3048,150 +3048,205 @@ function formatAdditional(data) {
    AUTOMATED PROFESSIONAL COVER LETTER GENERATOR
 ========================================================= */
 
+
 function generateCoverLetter(data = {}) {
-  const formatName = (str) => {
-    return String(str || "APPLICANT NAME")
-      .trim()
+  const clean = value =>
+    String(value ?? "").trim();
+
+  const formatName = value =>
+    clean(value)
       .split(/\s+/)
-      .map(part => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase())
+      .filter(Boolean)
+      .map(part =>
+        part.charAt(0).toUpperCase() +
+        part.slice(1).toLowerCase()
+      )
       .join(" ");
-  };
 
   const name = formatName(data.fullName);
-  const phone = String(data.phone || "").trim();
-  const email = String(data.email || "").trim();
-  const location = String(data.location || "South Africa").trim();
-  
-  let rawGoal = String(data.careerGoal || "General Worker").trim();
-  if (rawGoal.toLowerCase() === "general employment" || !rawGoal) {
-    rawGoal = "General Worker";
+  const phone = clean(data.phone);
+  const email = clean(data.email);
+  const location = clean(data.location);
+
+  // Normalise the requested job title.
+  let goal = clean(data.careerGoal) || "General Worker";
+
+  if (/^general employment$/i.test(goal)) {
+    goal = "General Worker";
   }
-  const goal = rawGoal;
 
-  const school = String(data.institution || "").trim();
-  const year = String(data.educationYear || "").trim();
-  const qualification = String(data.qualification || "").trim();
-  
-  const educationStatus = String(
-    data.educationStatus || "completed"
-  ).trim().toLowerCase();
-  
-  const experienceType = String(
-    data.experienceType || "no-experience"
-  ).trim().toLowerCase();
+  // Avoid repeating "position" or "role".
+  const rolePhrase = /\b(position|role)\s*$/i.test(goal)
+    ? goal
+    : `${goal} position`;
 
-  const experienceLabels = {
-    "work": "previous work experience",
-    "informal": "informal work experience",
-    "volunteer": "volunteer experience",
-    "practical": "practical training or workplace exposure"
-  };
+  const school = clean(data.institution);
+  const year = clean(data.educationYear);
+  const qualification = clean(data.qualification);
 
-  const hasExperience = Object.prototype.hasOwnProperty.call(
-    experienceLabels,
-    experienceType
+  const educationStatus = clean(data.educationStatus)
+    .toLowerCase();
+
+  const experienceType = clean(data.experienceType)
+    .toLowerCase();
+
+  const jobTitle = clean(data.jobTitle);
+  const employer = clean(data.employer);
+  const strengths = clean(data.strengths);
+
+  const validExperienceTypes = [
+    "work",
+    "informal",
+    "volunteer",
+    "practical"
+  ];
+
+  const hasExperience =
+    validExperienceTypes.includes(experienceType);
+
+  const subjects = Array.isArray(data.subjects)
+    ? data.subjects
+        .map(clean)
+        .filter(Boolean)
+        .slice(0, 3)
+    : [];
+
+  const currentDate = new Date().toLocaleDateString(
+    "en-ZA",
+    {
+      day: "numeric",
+      month: "long",
+      year: "numeric"
+    }
   );
 
-  const jobTitle = String(data.jobTitle || "").trim();
-  const employer = String(data.employer || "").trim();
+  // Only state education details supported by the input.
+  const educationLines = [];
 
-  const subjectsInput = Array.isArray(data.subjects) ? data.subjects : [];
-  const selectedSubjects = subjectsInput.slice(0, 3);
-  const subjectsPhrase = selectedSubjects.length > 0 
-    ? ` My coursework included ${selectedSubjects.join(", ")}, providing me with a solid academic foundation.` 
-    : "";
-
-  const userStrengths = String(data.strengths || "").trim();
-
-  const currentDate = new Date().toLocaleDateString("en-ZA", {
-    year: "numeric",
-    month: "long",
-    day: "numeric"
-  });
-
-  let educationSentence = "";
   if (qualification) {
-    const atInst = school ? ` at ${school}` : "";
-    const inYear = year ? ` in ${year}` : "";
-    
-    if (educationStatus === "currently studying") {
-      educationSentence = `I am currently pursuing my ${qualification}${atInst}.${subjectsPhrase}`;
+    if (educationStatus === "completed") {
+      let sentence = `I completed my ${qualification}`;
+
+      if (school) sentence += ` at ${school}`;
+      if (year) sentence += ` in ${year}`;
+
+      educationLines.push(sentence + ".");
+    } else if (educationStatus === "currently studying") {
+      let sentence = `I am currently studying towards ${qualification}`;
+
+      if (school) sentence += ` at ${school}`;
+
+      educationLines.push(sentence + ".");
     } else if (educationStatus === "incomplete") {
-      educationSentence = school
-        ? `I previously attended ${school} and studied toward a ${qualification}.${subjectsPhrase}`
-        : `I previously studied toward a ${qualification}.${subjectsPhrase}`;
-    } else {
-      educationSentence = `I completed my ${qualification}${atInst}${inYear}.${subjectsPhrase}`;
+      let sentence = `I previously studied towards ${qualification}`;
+
+      if (school) sentence += ` at ${school}`;
+
+      educationLines.push(sentence + ".");
     }
+    // Unknown status: do not claim the qualification was completed.
   } else if (school) {
-    const inYear = year ? ` in ${year}` : "";
-    educationSentence = `I studied at ${school}${inYear}.${subjectsPhrase}`;
+    let sentence = `My educational background includes studying at ${school}`;
+
+    if (year) sentence += ` in ${year}`;
+
+    educationLines.push(sentence + ".");
   }
 
+  if (subjects.length) {
+    educationLines.push(
+      `My subjects included ${subjects.join(", ")}.`
+    );
+  }
+
+  // Mention only experience categories actually selected.
   let experienceParagraph = "";
+
   if (hasExperience) {
-    const labelDesc = experienceLabels[experienceType];
-    const roleDetails = jobTitle && employer
-      ? ` as a ${jobTitle} at ${employer}`
-      : jobTitle
-        ? ` as a ${jobTitle}`
-        : employer
-          ? ` with ${employer}`
-          : "";
-    
-    if (experienceType === "volunteer") {
-      experienceParagraph = `Through my ${labelDesc}${roleDetails}, I have developed strong community engagement, teamwork, and professional responsibility. I would welcome the opportunity to apply these skills within your organisation.`;
-    } else if (experienceType === "practical") {
-      experienceParagraph = `Through my ${labelDesc}${roleDetails}, I have gained practical workplace exposure and hands-on familiarity with professional environments. I am eager to apply and build upon this foundation.`;
-    } else if (experienceType === "informal") {
-      experienceParagraph = `Through my informal work experience${roleDetails}, I have gained exposure to work responsibilities. I am eager to build on this experience and continue developing my skills.`;
-    } else {
-      experienceParagraph = `My previous work experience${roleDetails} has introduced me to work responsibilities and professional expectations. I would welcome the opportunity to apply and further develop my experience within your organisation.`;
+    const experienceLabels = {
+      work: "previous work experience",
+      informal: "informal work experience",
+      volunteer: "volunteer experience",
+      practical: "practical training or workplace exposure"
+    };
+
+    let details = "";
+
+    if (jobTitle && employer) {
+      details = ` as ${jobTitle} at ${employer}`;
+    } else if (jobTitle) {
+      details = ` as ${jobTitle}`;
+    } else if (employer) {
+      details = ` with ${employer}`;
     }
+
+    experienceParagraph =
+      `My ${experienceLabels[experienceType]}${details} ` +
+      `is part of the experience I can bring to this opportunity. ` +
+      `I am keen to continue developing my skills and learning ` +
+      `the requirements of the role.`;
   } else {
-    experienceParagraph = `Although I am seeking an opportunity to begin my professional career, I am eager to learn workplace procedures, develop practical skills, and contribute positively to your team.`;
+    experienceParagraph =
+      "I am eager to learn, follow instructions, develop practical " +
+      "workplace skills, and contribute positively to your team.";
   }
 
+  // Treat supplied strengths as user-provided information.
   let strengthsSentence = "";
-  if (userStrengths) {
-    strengthsSentence = ` My key strengths include ${userStrengths}.`;
+
+  if (strengths) {
+    strengthsSentence =
+      ` My stated strengths include ${strengths}.`;
   }
 
-  const contactParts = [location, phone, email].filter(Boolean);
-  const contactHeader = contactParts.join(" | ");
+  // Include only contact details that are provided.
+  const contactParts = [
+    location,
+    phone,
+    email
+  ].filter(Boolean);
 
-  const goalUpper = goal.toUpperCase();
-  const endsWithRoleOrPosition = goalUpper.endsWith("POSITION") || goalUpper.endsWith("ROLE") || goalUpper.endsWith("WORKER");
-  const baseGoalPhrase = endsWithRoleOrPosition ? goalUpper : `${goalUpper} POSITION`;
-  const applicationType = hasExperience ? baseGoalPhrase : `ENTRY-LEVEL ${baseGoalPhrase}`;
+  const header = [
+    name,
+    contactParts.join(" | ")
+  ].filter(Boolean).join("\n");
 
-  const firstLetter = applicationType.trim().charAt(0);
-  const article = ["A", "E", "I", "O", "U"].includes(firstLetter) ? "AN" : "A";
+  const paragraphs = [
+    `I am writing to apply for the ${rolePhrase} within your organisation.`
+  ];
 
-  return `
-${name}
-${contactHeader}
+  if (educationLines.length) {
+    paragraphs.push(educationLines.join(" "));
+  }
 
-${currentDate}
+  paragraphs.push(
+    experienceParagraph + strengthsSentence
+  );
 
-RE: APPLICATION FOR ${article} ${applicationType}
+  paragraphs.push(
+    `I would appreciate the opportunity to be considered for the ` +
+    `${rolePhrase}. I would welcome the chance to discuss my ` +
+    `application further.`
+  );
 
-Dear Hiring Manager,
+  paragraphs.push(
+    "Thank you for your time and consideration."
+  );
 
-I am writing to apply for the ${goal} position within your organisation.
+  const letterParts = [
+    header,
+    currentDate,
+    `RE: APPLICATION FOR THE ${rolePhrase.toUpperCase()}`,
+    "Dear Hiring Manager,",
+    ...paragraphs,
+    "Yours faithfully,",
+    name
+  ];
 
-${educationSentence}
-
-${experienceParagraph}${strengthsSentence}
-
-I would appreciate the opportunity to be considered for a suitable position. I am available for an interview and would welcome the chance to discuss my application further.
-
-Thank you for your time and consideration.
-
-Yours faithfully,
-
-${name}
-  `.trim();
+  return letterParts
+    .filter(part => part !== "")
+    .join("\n\n")
+    .trim();
 }
 
 
