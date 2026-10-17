@@ -813,6 +813,63 @@ footer {
   page-break-inside: avoid;
 }
 
+
+/* Refined cover letter layout */
+#coverLetterPreview {
+  width: 100%;
+  max-width: 100%;
+  padding: 28px;
+  border-radius: 8px;
+  box-shadow: none;
+  background: #ffffff;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+#coverLetterPreview .cl-header-block {
+  margin-bottom: 22px;
+}
+
+#coverLetterPreview .cl-accent-bar {
+  margin-bottom: 16px;
+}
+
+#coverLetterPreview .cl-body-content {
+  gap: 13px;
+  line-height: 1.65;
+}
+
+#coverLetterPreview .cl-date {
+  margin-bottom: 20px;
+}
+
+#coverLetterPreview .cl-subject {
+  line-height: 1.5;
+  margin-bottom: 18px;
+}
+
+#coverLetterPreview .cl-signoff {
+  line-height: 1.6;
+}
+
+#coverLetterPreview .cl-header-block,
+#coverLetterPreview .cl-date,
+#coverLetterPreview .cl-subject,
+#coverLetterPreview .cl-salutation,
+#coverLetterPreview .cl-signoff {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+@media print {
+  #coverLetterPreview {
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
+  }
+}
+
+
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
