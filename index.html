@@ -1,680 +1,1474 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#030712">
-  <meta name="description" content="CVPro-SA - Build a professional, ATS-optimized CV and cover letter in minutes.">
-  <title>CVPro-SA | Professional South African CV Builder</title>
+  <meta name="theme-color" content="#10192D">
+  <meta name="description" content="Create a professional CV and tailored cover letter with CVPro-SA. Affordable CV packages for South African job seekers.">
+  <title>CVPro-SA | Build a Professional CV</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
   <style>
+    :root {
+      --navy: #10192D;
+      --navy-light: #1C2942;
+      --green: #07966F;
+      --green-dark: #067A5C;
+      --green-light: #E9F8F1;
+      --bg: #F6F8FB;
+      --white: #FFFFFF;
+      --text: #182338;
+      --muted: #68758A;
+      --border: #E4E9F0;
+      --shadow: 0 8px 28px rgba(16, 25, 45, .06);
+    }
+
     * {
       box-sizing: border-box;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 85px;
+    }
+
+    body {
       margin: 0;
-      padding: 0;
-    }
-
-    :root {
-      --bg: #030712;
-      --card-bg: #0f172a;
-      --border: #1e293b;
-      --text: #f8fafc;
-      --muted: #94a3b8;
-      --accent: #2563eb;
-      --accent-hover: #1d4ed8;
-      --green: #10b981;
-    }
-
-    html, body {
-      background-color: var(--bg);
+      font-family: Inter, Arial, sans-serif;
+      background: var(--bg);
       color: var(--text);
-      line-height: 1.35;
-      height: 100vh;
-      max-height: 100vh;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* PREMIUM SAAS NAVBAR */
+    a {
+      color: inherit;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .container {
+      width: min(1120px, calc(100% - 36px));
+      margin: 0 auto;
+    }
+
+    /* NAVIGATION */
+
     header {
-      background: rgba(3, 7, 18, 0.85);
-      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, .96);
       border-bottom: 1px solid var(--border);
-      padding: 10px 16px;
-      flex-shrink: 0;
-      z-index: 50;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
     }
 
     .nav {
+      min-height: 72px;
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      max-width: 480px;
-      margin: 0 auto;
+      align-items: center;
+      gap: 20px;
     }
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 8px;
+    .logo {
       text-decoration: none;
-      color: var(--text);
-    }
-
-    .brand-logo {
-      background: linear-gradient(135deg, var(--accent), #4f46e5);
-      color: #ffffff;
-      font-weight: 900;
-      font-size: 12px;
-      width: 28px;
-      height: 28px;
-      border-radius: 7px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
-    }
-
-    .brand-name {
-      font-size: 17px;
-      font-weight: 900;
-      letter-spacing: -0.5px;
-    }
-
-    .nav-actions {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .btn-nav-pricing {
-      background: rgba(255, 255, 255, 0.05);
-      color: var(--text);
-      border: 1px solid var(--border);
-      padding: 6px 12px;
-      border-radius: 6px;
-      font-size: 11px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .btn-nav-pricing:hover {
-      background: rgba(255, 255, 255, 0.1);
-    }
-
-    .btn-nav-start {
-      background: var(--accent);
-      color: #ffffff;
-      border: none;
-      padding: 6px 14px;
-      border-radius: 6px;
-      font-size: 11px;
+      font-size: 24px;
       font-weight: 800;
-      cursor: pointer;
-      text-decoration: none;
-      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
-      transition: all 0.2s;
+      letter-spacing: -1px;
+      color: var(--navy);
+      white-space: nowrap;
     }
 
-    .btn-nav-start:hover {
-      background: var(--accent-hover);
+    .logo span {
+      color: var(--green);
     }
 
-    /* HIGH-CONVERSION MOBILE HERO */
-    main {
-      padding: 12px 16px;
-      flex: 1;
+    .nav-right {
       display: flex;
-      flex-direction: column;
-      justify-content: space-evenly;
-      max-width: 480px;
-      margin: 0 auto;
-      width: 100%;
+      align-items: center;
+      gap: 22px;
+    }
+
+    .nav-link {
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    .nav-link:hover {
+      color: var(--green);
+    }
+
+    .nav-cta {
+      text-decoration: none;
+      color: white;
+      background: var(--navy);
+      padding: 11px 17px;
+      border-radius: 9px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    /* HERO */
+
+    .hero {
+      padding: 65px 0 48px;
+      background:
+        radial-gradient(ellipse at 90% 0%, rgba(7,150,111,.12), transparent 38%),
+        var(--bg);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 48px;
+      align-items: center;
     }
 
     .eyebrow {
       display: inline-flex;
       align-items: center;
-      gap: 5px;
-      padding: 3px 8px;
-      border-radius: 20px;
-      background: rgba(37, 99, 235, 0.12);
-      border: 1px solid rgba(37, 99, 235, 0.25);
-      color: #60a5fa;
-      font-size: 9px;
+      gap: 8px;
+      background: var(--green-light);
+      color: var(--green-dark);
+      padding: 7px 12px;
+      border-radius: 30px;
+      font-size: 11px;
       font-weight: 800;
+      letter-spacing: .5px;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 4px;
+      margin-bottom: 18px;
     }
 
-    .hero-title {
-      font-size: 22px;
-      font-weight: 900;
-      line-height: 1.15;
-      letter-spacing: -0.5px;
-      margin-bottom: 4px;
+    .eyebrow-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
     }
 
-    .hero-title span {
-      background: linear-gradient(135deg, #60a5fa, #3b82f6);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+    h1 {
+      margin: 0 0 18px;
+      color: var(--navy);
+      font-size: clamp(35px, 5vw, 56px);
+      line-height: 1.1;
+      letter-spacing: -2.2px;
+      font-weight: 800;
+    }
+
+    h1 span {
+      color: var(--green);
     }
 
     .hero-description {
-      font-size: 11px;
+      max-width: 540px;
+      margin: 0 0 25px;
       color: var(--muted);
-      margin-bottom: 8px;
-      line-height: 1.35;
+      font-size: 16px;
+      line-height: 1.8;
     }
 
-    .hero-cta-group {
+    .hero-actions {
       display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+
+    .btn {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
       gap: 8px;
-      margin-bottom: 6px;
-    }
-
-    .btn-hero-main {
-      flex: 1;
-      background: var(--accent);
-      color: #ffffff;
-      border: none;
-      padding: 8px 12px;
-      border-radius: 7px;
-      font-size: 11px;
-      font-weight: 800;
-      text-align: center;
+      min-height: 48px;
+      padding: 13px 20px;
+      border-radius: 10px;
+      border: 1px solid transparent;
       text-decoration: none;
-      box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
-    }
-
-    .btn-hero-alt {
-      background: var(--card-bg);
-      color: var(--text);
-      border: 1px solid var(--border);
-      padding: 8px 12px;
-      border-radius: 7px;
-      font-size: 11px;
+      font-size: 14px;
       font-weight: 700;
       cursor: pointer;
+      transition: transform .2s, background .2s, box-shadow .2s;
     }
 
-    .feature-tags {
-      display: flex;
-      gap: 10px;
-      font-size: 9.5px;
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-primary {
+      background: var(--green);
+      color: white;
+      box-shadow: 0 5px 14px rgba(7,150,111,.18);
+    }
+
+    .btn-primary:hover {
+      background: var(--green-dark);
+    }
+
+    .btn-secondary {
+      background: white;
+      color: var(--navy);
+      border-color: var(--border);
+    }
+
+    .hero-note {
       color: var(--muted);
-      font-weight: 600;
-      margin-bottom: 6px;
+      font-size: 12px;
     }
 
-    .feature-tags span::before {
-      content: "✓ ";
-      color: var(--green);
-      font-weight: bold;
+    .hero-note strong {
+      color: var(--navy);
     }
 
-    /* INTERACTIVE MOCKUP CARD */
-    .hero-visual {
-      background: var(--card-bg);
+    /* SAMPLE CV */
+
+    .preview-area {
+      position: relative;
+      padding: 12px;
+    }
+
+    .preview-label {
+      position: absolute;
+      z-index: 2;
+      top: 0;
+      right: 0;
+      background: white;
       border: 1px solid var(--border);
       border-radius: 10px;
-      padding: 10px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      padding: 10px 13px;
+      box-shadow: var(--shadow);
+      font-size: 11px;
+      font-weight: 700;
     }
 
-    .mockup-paper {
-      background: #020617;
+    .sample-cv {
+      background: white;
       border: 1px solid var(--border);
-      border-radius: 7px;
-      padding: 9px;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 22px 55px rgba(16,25,45,.11);
+      transform: rotate(1deg);
     }
 
-    .mockup-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 6px;
-      margin-bottom: 6px;
+    .sample-header {
+      background: var(--navy);
+      color: white;
+      padding: 24px 23px;
     }
 
-    .mockup-name {
-      font-size: 12px;
-      font-weight: 900;
-      letter-spacing: 0.5px;
+    .sample-header h2 {
+      margin: 0 0 5px;
+      font-size: 22px;
+      letter-spacing: .3px;
     }
 
-    .mockup-role {
-      font-size: 8.5px;
-      color: var(--muted);
-    }
-
-    .status-badge {
-      background: rgba(16, 185, 129, 0.15);
-      color: #34d399;
-      border: 1px solid rgba(52, 211, 153, 0.3);
-      font-size: 7.5px;
-      font-weight: 800;
-      padding: 1px 5px;
-      border-radius: 3px;
-      text-transform: uppercase;
-    }
-
-    .mockup-body {
-      font-size: 8.5px;
-      color: var(--muted);
-    }
-
-    .mockup-bullets {
-      display: flex;
-      gap: 4px;
-      margin-top: 4px;
-      font-size: 8px;
-    }
-
-    .mockup-bullets span {
-      background: #1e293b;
-      padding: 2px 5px;
-      border-radius: 3px;
-      color: #cbd5e1;
-      border: 1px solid #334155;
-    }
-
-    .style-trigger-box {
-      text-align: right;
-    }
-
-    .btn-styles {
-      background: #1e293b;
-      color: #ffffff;
-      border: 1px solid #334155;
-      padding: 5px 10px;
-      border-radius: 6px;
+    .sample-header p {
+      margin: 0;
       font-size: 10px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: background 0.2s;
+      color: #D2DCEB;
     }
 
-    .btn-styles:hover {
-      background: #334155;
+    .sample-content {
+      display: grid;
+      grid-template-columns: .72fr 1.28fr;
+      gap: 20px;
+      padding: 22px;
     }
 
-    .ats-support-stack {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
+    .sample-side {
+      background: #F5F8FA;
+      border-radius: 8px;
+      padding: 13px;
     }
 
-    .ats-card {
-      background: linear-gradient(135deg, #059669, #10b981);
-      color: #ffffff;
-      padding: 6px 10px;
-      border-radius: 7px;
-      font-weight: 900;
-      font-size: 9.5px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+    .sample-section {
+      margin-bottom: 19px;
     }
 
-    .ats-card span {
-      font-size: 14px;
-      font-weight: 900;
-    }
-
-    .btn-support-link {
-      background: #1e293b;
-      color: #ffffff;
-      border: 1px solid #334155;
-      padding: 6px 10px;
-      border-radius: 7px;
+    .sample-section h3 {
+      color: var(--green-dark);
       font-size: 10px;
-      font-weight: 700;
-      text-decoration: none;
+      letter-spacing: .8px;
+      margin: 0 0 8px;
+    }
+
+    .sample-section p {
+      color: #596579;
+      font-size: 10px;
+      margin: 0 0 8px;
+      line-height: 1.7;
+    }
+
+    .sample-line {
+      height: 5px;
+      border-radius: 5px;
+      background: #E5EAF0;
+      margin: 8px 0;
+    }
+
+    .sample-line.short {
+      width: 65%;
+    }
+
+    .sample-line.medium {
+      width: 82%;
+    }
+
+    .preview-caption {
       text-align: center;
-      display: block;
-      transition: background 0.2s;
+      color: var(--muted);
+      font-size: 11px;
+      margin: 17px 0 0;
     }
 
-    .btn-support-link:hover {
-      background: #334155;
+    /* TRUST STRIP */
+
+    .trust-strip {
+      background: white;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
     }
 
-    /* INTERACTIVE MODALS */
-    .modal-backdrop {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(3, 7, 18, 0.85);
-      backdrop-filter: blur(8px);
-      z-index: 1000;
+    .trust-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      padding: 19px 0;
+      gap: 15px;
+    }
+
+    .trust-item {
+      display: flex;
       justify-content: center;
       align-items: center;
-      padding: 16px;
-    }
-
-    .modal-window {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      max-width: 420px;
-      width: 100%;
-      max-height: 85vh;
-      overflow-y: auto;
-      padding: 18px;
-      position: relative;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
-    }
-
-    .modal-close-btn {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      background: #1e293b;
-      border: none;
-      color: #ffffff;
+      gap: 10px;
+      color: var(--text);
       font-size: 12px;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .trust-icon {
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      width: 32px;
+      height: 32px;
+      background: var(--green-light);
+      color: var(--green-dark);
+      border-radius: 9px;
+      font-size: 16px;
+    }
+
+    /* SECTION HEADINGS */
+
+    .section {
+      padding: 65px 0;
+    }
+
+    .section-heading {
+      text-align: center;
+      max-width: 630px;
+      margin: 0 auto 32px;
+    }
+
+    .section-kicker {
+      color: var(--green-dark);
+      font-size: 11px;
       font-weight: 800;
-      cursor: pointer;
-      border-radius: 50%;
-      width: 24px;
-      height: 24px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .modal-header h3 {
-      font-size: 17px;
-      font-weight: 900;
-      margin-bottom: 2px;
-    }
-
-    .modal-header p {
-      font-size: 10.5px;
-      color: var(--muted);
-      margin-bottom: 12px;
-    }
-
-    .modal-pkg-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .modal-pkg-card {
-      border: 1px solid var(--border);
-      background: #020617;
-      border-radius: 8px;
-      padding: 9px 12px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .modal-pkg-card.highlight {
-      border: 2px solid var(--accent);
-      background: rgba(37, 99, 235, 0.12);
-    }
-
-    .pkg-meta h4 {
-      font-size: 12px;
-      font-weight: 800;
-    }
-
-    .pkg-meta p {
-      font-size: 9.5px;
-      color: var(--muted);
-    }
-
-    .btn-select-pkg {
-      background: var(--accent);
-      color: #ffffff;
-      padding: 5px 10px;
-      border-radius: 6px;
-      font-size: 10px;
-      font-weight: 800;
-      text-decoration: none;
-      white-space: nowrap;
-    }
-
-    .preview-block {
-      border: 1px solid var(--border);
-      background: #020617;
-      border-radius: 8px;
-      padding: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1.4px;
       margin-bottom: 8px;
     }
 
-    .preview-block h4 {
-      font-size: 11px;
-      margin-bottom: 2px;
-      color: #60a5fa;
+    .section-heading h2 {
+      color: var(--navy);
+      font-size: clamp(26px, 4vw, 36px);
+      line-height: 1.2;
+      letter-spacing: -1px;
+      margin: 0 0 12px;
     }
 
-    .preview-block p {
-      font-size: 9.5px;
+    .section-heading p {
       color: var(--muted);
-      margin-bottom: 6px;
+      font-size: 14px;
+      margin: 0;
     }
 
-    .use-style-link {
-      color: #ffffff;
+    /* PACKAGES */
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .template-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      padding: 23px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      box-shadow: 0 3px 12px rgba(16,25,45,.025);
+      transition: transform .2s, box-shadow .2s, border-color .2s;
+    }
+
+    .template-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow);
+      border-color: #B9DCCE;
+    }
+
+    .template-card.popular {
+      border: 2px solid var(--green);
+      background: linear-gradient(180deg, #F1FBF6 0%, #FFFFFF 45%);
+    }
+
+    .popular-label {
+      position: absolute;
+      top: -12px;
+      left: 22px;
+      background: var(--green);
+      color: white;
+      border-radius: 6px;
+      padding: 5px 10px;
       font-size: 10px;
       font-weight: 800;
-      text-decoration: underline;
+      letter-spacing: .4px;
+    }
+
+    .package-type {
+      color: var(--green-dark);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .card-top h3 {
+      margin: 0;
+      color: var(--navy);
+      font-size: 17px;
+      line-height: 1.4;
+    }
+
+    .price {
+      white-space: nowrap;
+      color: var(--green-dark);
+      font-size: 25px;
+      font-weight: 800;
+      letter-spacing: -1px;
+    }
+
+    .price small {
+      display: block;
+      color: var(--muted);
+      text-align: right;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0;
+    }
+
+    .template-card > p {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.7;
+      margin: 0 0 18px;
+      min-height: 40px;
+    }
+
+    .features {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 23px;
+      flex: 1;
+    }
+
+    .features li {
+      display: flex;
+      gap: 9px;
+      align-items: flex-start;
+      margin-bottom: 10px;
+      color: #475569;
+      font-size: 12px;
+    }
+
+    .check {
+      color: var(--green);
+      font-weight: 800;
+    }
+
+    .select-button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      min-height: 46px;
+      border: 1px solid var(--navy);
+      border-radius: 9px;
+      background: var(--navy);
+      color: white;
+      padding: 12px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background .2s, transform .2s;
+    }
+
+    .select-button:hover {
+      background: var(--navy-light);
+      transform: translateY(-1px);
+    }
+
+    .select-button.accent {
+      background: var(--green);
+      border-color: var(--green);
+    }
+
+    .select-button.accent:hover {
+      background: var(--green-dark);
+    }
+
+    .pricing-note {
+      text-align: center;
+      color: var(--muted);
+      font-size: 11px;
+      margin: 24px 0 0;
+    }
+
+    /* HOW IT WORKS */
+
+    .how-section {
+      background: white;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+    }
+
+    .step {
+      padding: 24px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: #FCFDFE;
+    }
+
+    .step-number {
+      display: grid;
+      place-items: center;
+      width: 43px;
+      height: 43px;
+      background: var(--green-light);
+      color: var(--green-dark);
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+
+    .step h3 {
+      color: var(--navy);
+      font-size: 15px;
+      margin: 0 0 8px;
+    }
+
+    .step p {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.8;
+      margin: 0;
+    }
+
+    /* CTA */
+
+    .cta-section {
+      padding: 55px 0;
+    }
+
+    .cta-box {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 25px;
+      padding: 36px;
+      background: var(--navy);
+      color: white;
+      border-radius: 18px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .cta-box::after {
+      content: "";
+      position: absolute;
+      width: 210px;
+      height: 210px;
+      right: 100px;
+      top: -150px;
+      border: 35px solid rgba(52,211,153,.1);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .cta-box h2 {
+      margin: 0 0 8px;
+      font-size: clamp(23px, 3vw, 30px);
+      letter-spacing: -.8px;
+    }
+
+    .cta-box p {
+      margin: 0;
+      color: #C1CCDC;
+      font-size: 13px;
+    }
+
+    .cta-box .btn {
+      position: relative;
+      z-index: 1;
+      flex-shrink: 0;
+    }
+
+    /* FAQ */
+
+    .faq-list {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    details {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      margin-bottom: 11px;
+      padding: 17px 19px;
+    }
+
+    summary {
+      cursor: pointer;
+      color: var(--navy);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    details p {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.8;
+      margin: 12px 0 0;
     }
 
     /* FOOTER */
+
     footer {
-      padding: 8px 16px;
-      border-top: 1px solid var(--border);
-      color: var(--muted);
-      text-align: center;
-      font-size: 9.5px;
-      background: rgba(3, 7, 18, 0.85);
-      flex-shrink: 0;
-      max-width: 480px;
-      margin: 0 auto;
-      width: 100%;
+      background: #0B1220;
+      color: #AAB6C8;
+      padding: 38px 0 18px;
     }
 
-    footer a {
-      color: var(--text);
+    .footer-main {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr 1fr;
+      gap: 35px;
+      padding-bottom: 28px;
+    }
+
+    .footer-logo {
+      color: white;
+      font-size: 22px;
+      font-weight: 800;
       text-decoration: none;
+    }
+
+    .footer-logo span {
+      color: #34D399;
+    }
+
+    .footer-about {
+      max-width: 300px;
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
+    .footer-title {
+      color: white;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-links a {
+      width: fit-content;
+      color: #AAB6C8;
+      text-decoration: none;
+      font-size: 12px;
+      overflow-wrap: anywhere;
+    }
+
+    .footer-links a:hover {
+      color: #34D399;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid #263246;
+      padding-top: 17px;
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      flex-wrap: wrap;
+      font-size: 11px;
+    }
+
+    /* MOBILE CONTACT */
+
+    .mobile-contact {
+      display: none;
+    }
+
+    /* RESPONSIVE */
+
+    @media (max-width: 900px) {
+      .hero {
+        padding: 45px 0 35px;
+      }
+
+      .hero-grid {
+        grid-template-columns: 1fr .85fr;
+        gap: 25px;
+      }
+
+      .pricing-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .template-card.popular {
+        grid-column: span 2;
+      }
+
+      .footer-main {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .footer-about {
+        grid-column: span 2;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        width: min(100% - 28px, 500px);
+      }
+
+      .nav {
+        min-height: 64px;
+      }
+
+      .logo {
+        font-size: 22px;
+      }
+
+      .nav-right {
+        gap: 10px;
+      }
+
+      .nav-link {
+        display: none;
+      }
+
+      .nav-cta {
+        padding: 10px 12px;
+        font-size: 11px;
+      }
+
+      .hero {
+        padding: 38px 0 30px;
+      }
+
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 25px;
+      }
+
+      .hero-copy {
+        text-align: center;
+      }
+
+      .eyebrow {
+        font-size: 9px;
+      }
+
+      h1 {
+        font-size: 37px;
+        letter-spacing: -1.5px;
+      }
+
+      .hero-description {
+        font-size: 13px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .hero-actions {
+        justify-content: center;
+      }
+
+      .hero-actions .btn {
+        flex: 1;
+        min-width: 135px;
+        padding: 12px;
+        font-size: 12px;
+      }
+
+      .hero-note {
+        font-size: 11px;
+      }
+
+      .preview-area {
+        width: 100%;
+        max-width: 390px;
+        margin: 0 auto;
+        padding: 10px 5px 0;
+      }
+
+      .sample-content {
+        gap: 12px;
+        padding: 15px;
+      }
+
+      .sample-header {
+        padding: 19px;
+      }
+
+      .sample-header h2 {
+        font-size: 18px;
+      }
+
+      .trust-grid {
+        grid-template-columns: 1fr;
+        gap: 13px;
+        padding: 17px 0;
+      }
+
+      .trust-item {
+        justify-content: flex-start;
+        text-align: left;
+        font-size: 12px;
+      }
+
+      .section {
+        padding: 46px 0;
+      }
+
+      .section-heading {
+        margin-bottom: 29px;
+      }
+
+      .section-heading h2 {
+        font-size: 28px;
+      }
+
+      .section-heading p {
+        font-size: 12px;
+        line-height: 1.8;
+      }
+
+      .pricing-grid {
+        grid-template-columns: 1fr;
+        gap: 17px;
+      }
+
+      .template-card,
+      .template-card.popular {
+        grid-column: auto;
+        padding: 21px;
+      }
+
+      .card-top h3 {
+        font-size: 17px;
+      }
+
+      .template-card > p {
+        min-height: 0;
+      }
+
+      .features li {
+        font-size: 12px;
+      }
+
+      .steps {
+        grid-template-columns: 1fr;
+        gap: 13px;
+      }
+
+      .step {
+        padding: 20px;
+      }
+
+      .cta-section {
+        padding: 38px 0;
+      }
+
+      .cta-box {
+        padding: 26px 21px;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .cta-box p {
+        line-height: 1.8;
+      }
+
+      .cta-box .btn {
+        width: 100%;
+      }
+
+      .footer-main {
+        grid-template-columns: 1fr 1fr;
+        gap: 25px 15px;
+      }
+
+      .footer-about {
+        grid-column: span 2;
+      }
+
+      .footer-links a {
+        font-size: 11px;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        gap: 7px;
+      }
+
+      .mobile-contact {
+        display: flex;
+        position: fixed;
+        z-index: 90;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 9px 14px calc(9px + env(safe-area-inset-bottom));
+        gap: 10px;
+        background: rgba(255,255,255,.97);
+        border-top: 1px solid var(--border);
+        backdrop-filter: blur(10px);
+      }
+
+      .mobile-contact a {
+        display: flex;
+        flex: 1;
+        justify-content: center;
+        align-items: center;
+        min-height: 42px;
+        border-radius: 9px;
+        background: var(--green);
+        color: white;
+        text-decoration: none;
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .mobile-contact a.secondary {
+        background: var(--navy);
+      }
+
+      footer {
+        padding-bottom: 95px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition: none !important;
+      }
     }
   </style>
 </head>
+
 <body>
 
-  <!-- NAVBAR -->
-  <header>
-    <nav class="nav">
-      <a class="brand" href="./">
-        <span class="brand-logo">CV</span>
-        <span class="brand-name">CVPro-SA</span>
-      </a>
-      <div class="nav-actions">
-        <button class="btn-nav-pricing" onclick="openModal('pricingModal')">Packages</button>
-        <a href="./account.html" class="btn-nav-start">Get Started</a>
-      </div>
-    </nav>
-  </header>
+<header>
+  <nav class="nav container" aria-label="Main navigation">
+    <a class="logo" href="./" aria-label="CVPro-SA homepage">
+      CVPro-<span>SA</span>
+    </a>
 
-  <!-- MAIN VIEWPORT -->
-  <main>
-    <div>
-      <span class="eyebrow">🚀 Official South African CV Builder</span>
-      <h1 class="hero-title">Build a Resume That Gets You <span>Hired.</span></h1>
-      <p class="hero-description">
-        Craft ATS-optimized, recruiter-approved South African CVs and cover letters in minutes for every career level.
+    <div class="nav-right">
+      <a class="nav-link" href="#packages">Our Packages</a>
+      <a class="nav-link" href="#how-it-works">How It Works</a>
+      <a class="nav-cta" href="#packages">Build My CV &rarr;</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container hero-grid">
+
+      <div class="hero-copy">
+        <div class="eyebrow">
+          <span class="eyebrow-dot"></span>
+          Made for South African Job Seekers
+        </div>
+
+        <h1>
+          Your Next Job Starts With a <span>Better CV.</span>
+        </h1>
+
+        <p class="hero-description">
+          Create a professional CV and cover letter without the stress.
+          Choose your style, add your details and prepare your documents
+          for your next opportunity.
+        </p>
+
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#packages">
+            Create My CV <span aria-hidden="true">&rarr;</span>
+          </a>
+
+          <a class="btn btn-secondary" href="#how-it-works">
+            How It Works
+          </a>
+        </div>
+
+        <div class="hero-note">
+          <strong>Packages from R15</strong> · Simple and affordable
+        </div>
+      </div>
+
+      <!-- Decorative sample CV -->
+      <div class="preview-area" aria-label="Illustration of a professional CV">
+        <div class="preview-label">Professional CV Preview</div>
+
+        <div class="sample-cv">
+          <div class="sample-header">
+            <h2>YOUR NAME</h2>
+            <p>Professional Profile · Contact Details · Career Goals</p>
+          </div>
+
+          <div class="sample-content">
+            <aside class="sample-side">
+              <div class="sample-section">
+                <h3>CONTACT</h3>
+                <p>Email address</p>
+                <p>Phone number</p>
+                <p>City, Province</p>
+              </div>
+
+              <div class="sample-section">
+                <h3>SKILLS</h3>
+                <div class="sample-line"></div>
+                <div class="sample-line medium"></div>
+                <div class="sample-line short"></div>
+                <div class="sample-line medium"></div>
+              </div>
+
+              <div class="sample-section">
+                <h3>EDUCATION</h3>
+                <div class="sample-line"></div>
+                <div class="sample-line short"></div>
+              </div>
+            </aside>
+
+            <div>
+              <div class="sample-section">
+                <h3>PROFESSIONAL PROFILE</h3>
+                <p>A short introduction highlighting your strengths, experience and career goals.</p>
+                <div class="sample-line"></div>
+                <div class="sample-line medium"></div>
+              </div>
+
+              <div class="sample-section">
+                <h3>WORK EXPERIENCE</h3>
+                <p>Job title or relevant practical experience</p>
+                <div class="sample-line"></div>
+                <div class="sample-line"></div>
+                <div class="sample-line short"></div>
+              </div>
+
+              <div class="sample-section">
+                <h3>REFERENCES</h3>
+                <div class="sample-line medium"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <p class="preview-caption">
+          Example layout for illustration purposes
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- BENEFITS -->
+  <section class="trust-strip" aria-label="Service highlights">
+    <div class="container trust-grid">
+      <div class="trust-item">
+        <span class="trust-icon" aria-hidden="true">&#10003;</span>
+        Affordable packages from R15
+      </div>
+
+      <div class="trust-item">
+        <span class="trust-icon" aria-hidden="true">&#9998;</span>
+        Classic and modern CV styles
+      </div>
+
+      <div class="trust-item">
+        <span class="trust-icon" aria-hidden="true">&#128196;</span>
+        CV and cover letter options
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="section" id="packages">
+    <div class="container">
+
+      <div class="section-heading">
+        <div class="section-kicker">Simple, Affordable Pricing</div>
+        <h2>Choose Your CV Package</h2>
+        <p>
+          Whether you are applying for your first job or looking for a new
+          opportunity, choose the package that suits your needs.
+        </p>
+      </div>
+
+      <div class="pricing-grid">
+
+        <!-- CLASSIC CV -->
+        <article class="template-card">
+          <div class="package-type">Essential</div>
+
+          <div class="card-top">
+            <h3>Classic CV</h3>
+            <div class="price">R15<small>Once-off</small></div>
+          </div>
+
+          <p>A clean, traditional layout for a straightforward professional CV.</p>
+
+          <ul class="features">
+            <li><span class="check">&#10003;</span> Clean CV format</li>
+            <li><span class="check">&#10003;</span> Education and skills sections</li>
+            <li><span class="check">&#10003;</span> PDF option, subject to builder support</li>
+          </ul>
+
+          <button class="select-button" data-template="classic">
+            Choose Classic CV &rarr;
+          </button>
+        </article>
+
+        <!-- MODERN CV -->
+        <article class="template-card">
+          <div class="package-type">Contemporary</div>
+
+          <div class="card-top">
+            <h3>Modern CV</h3>
+            <div class="price">R25<small>Once-off</small></div>
+          </div>
+
+          <p>A contemporary two-column design with a polished professional appearance.</p>
+
+          <ul class="features">
+            <li><span class="check">&#10003;</span> Modern sidebar layout</li>
+            <li><span class="check">&#10003;</span> Organised contact details</li>
+            <li><span class="check">&#10003;</span> Skills and education sections</li>
+          </ul>
+
+          <button class="select-button" data-template="modern">
+            Choose Modern CV &rarr;
+          </button>
+        </article>
+
+        <!-- COVER LETTER -->
+        <article class="template-card">
+          <div class="package-type">Job Application</div>
+
+          <div class="card-top">
+            <h3>Cover Letter</h3>
+            <div class="price">R15<small>Once-off</small></div>
+          </div>
+
+          <p>A professional letter to introduce yourself to a potential employer.</p>
+
+          <ul class="features">
+            <li><span class="check">&#10003;</span> Job application letter format</li>
+            <li><span class="check">&#10003;</span> Personalised details</li>
+            <li><span class="check">&#10003;</span> Professional introduction</li>
+          </ul>
+
+          <button class="select-button" data-template="cover-letter">
+            Choose Cover Letter &rarr;
+          </button>
+        </article>
+
+        <!-- CLASSIC BUNDLE -->
+        <article class="template-card">
+          <div class="package-type">Complete Application</div>
+
+          <div class="card-top">
+            <h3>Classic Bundle</h3>
+            <div class="price">R30<small>Once-off</small></div>
+          </div>
+
+          <p>A matching Classic CV and cover letter in one convenient package.</p>
+
+          <ul class="features">
+            <li><span class="check">&#10003;</span> Classic CV</li>
+            <li><span class="check">&#10003;</span> Tailored cover letter</li>
+            <li><span class="check">&#10003;</span> Two application documents</li>
+          </ul>
+
+          <button class="select-button" data-template="classic-bundle">
+            Choose Classic Bundle &rarr;
+          </button>
+        </article>
+
+        <!-- MODERN BUNDLE -->
+        <article class="template-card popular">
+          <div class="popular-label">BEST VALUE</div>
+          <div class="package-type">Our Featured Package</div>
+
+          <div class="card-top">
+            <h3>Modern Bundle</h3>
+            <div class="price">R40<small>Once-off</small></div>
+          </div>
+
+          <p>A modern CV and matching cover letter for a coordinated application.</p>
+
+          <ul class="features">
+            <li><span class="check">&#10003;</span> Modern CV design</li>
+            <li><span class="check">&#10003;</span> Tailored cover letter</li>
+            <li><span class="check">&#10003;</span> Complete application package</li>
+          </ul>
+
+          <button class="select-button accent" data-template="modern-bundle">
+            Choose Modern Bundle &rarr;
+          </button>
+        </article>
+
+      </div>
+
+      <p class="pricing-note">
+        Please review your package details and payment instructions before purchasing.
       </p>
+    </div>
+  </section>
 
-      <div class="hero-cta-group">
-        <a href="./account.html" class="btn-hero-main">Build Your Resume</a>
-        <button class="btn-hero-alt" onclick="openModal('pricingModal')">View All 5 Packages</button>
+  <!-- HOW IT WORKS -->
+  <section class="section how-section" id="how-it-works">
+    <div class="container">
+
+      <div class="section-heading">
+        <div class="section-kicker">A Simple Process</div>
+        <h2>Build Your CV in Three Steps</h2>
+        <p>Get started with a clear process designed to be easy to follow on your phone.</p>
       </div>
 
-      <div class="feature-tags">
-        <span>Instant PDF</span>
-        <span>SA Format Ready</span>
-        <span>ATS Proof</span>
+      <div class="steps">
+
+        <article class="step">
+          <div class="step-number">01</div>
+          <h3>Choose Your Package</h3>
+          <p>Select a Classic CV, Modern CV, cover letter or bundle that suits your application.</p>
+        </article>
+
+        <article class="step">
+          <div class="step-number">02</div>
+          <h3>Add Your Details</h3>
+          <p>Enter your contact information, education, skills and any relevant experience.</p>
+        </article>
+
+        <article class="step">
+          <div class="step-number">03</div>
+          <h3>Prepare Your Documents</h3>
+          <p>Review your information and follow the available instructions to complete your documents.</p>
+        </article>
+
       </div>
     </div>
+  </section>
 
-    <!-- PREVIEW MOCKUP CARD -->
-    <div class="hero-visual">
-      <div class="mockup-paper">
-        <div class="mockup-header">
-          <div>
-            <div class="mockup-name">SISANDA SHANGE</div>
-            <div class="mockup-role">Operations & Technical Specialist</div>
-          </div>
-          <span class="status-badge">VERIFIED</span>
+  <!-- CALL TO ACTION -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-box">
+        <div>
+          <h2>Ready to take your next step?</h2>
+          <p>Start preparing your CV today with an affordable package.</p>
         </div>
 
-        <div class="mockup-body">
-          <strong style="color:#ffffff; font-size:8px; text-transform:uppercase;">Key Qualifications</strong>
-          <p style="margin-top:1px;">Demonstrated mechanical, operational, and technical problem-solving capabilities.</p>
-          <div class="mockup-bullets">
-            <span>Tailored</span>
-            <span>ATS Optimized</span>
-            <span>Technical</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="style-trigger-box">
-        <button class="btn-styles" onclick="openModal('examplesModal')">📄 View 3 Style Examples</button>
-      </div>
-
-      <div class="ats-support-stack">
-        <div class="ats-card">
-          <span>98%</span>
-          <span>ATS Pass Rate • Recruiter Approved</span>
-        </div>
-        <a href="https://wa.me/27752978917" target="_blank" class="btn-support-link">📞 Contact 24/7 Support (+27 75 297 8917)</a>
+        <a class="btn btn-primary" href="#packages">
+          Explore Packages &rarr;
+        </a>
       </div>
     </div>
-  </main>
+  </section>
 
-  <!-- MODAL 1: PACKAGES -->
-  <div class="modal-backdrop" id="pricingModal">
-    <div class="modal-window">
-      <button class="modal-close-btn" onclick="closeModal('pricingModal')">✕</button>
-      <div class="modal-header">
-        <h3>Transparent Pricing</h3>
-        <p>Affordable packages tailored for the South African job market.</p>
+  <!-- FAQ -->
+  <section class="section" id="faq">
+    <div class="container">
+
+      <div class="section-heading">
+        <div class="section-kicker">Need Help?</div>
+        <h2>Frequently Asked Questions</h2>
+        <p>Some useful information before you get started.</p>
       </div>
 
-      <div class="modal-pkg-grid">
-        <div class="modal-pkg-card">
-          <div class="pkg-meta">
-            <h4>Classic CV</h4>
-            <p>Clean single-page layout</p>
-          </div>
-          <a href="./account.html?template=classic" class="btn-select-pkg">R15 — Select</a>
-        </div>
+      <div class="faq-list">
 
-        <div class="modal-pkg-card">
-          <div class="pkg-meta">
-            <h4>Modern CV</h4>
-            <p>Contemporary dark banner design</p>
-          </div>
-          <a href="./account.html?template=modern" class="btn-select-pkg">R25 — Select</a>
-        </div>
+        <details>
+          <summary>Which package should I choose?</summary>
+          <p>
+            Choose Classic CV for a traditional design, Modern CV for a
+            contemporary layout, or a bundle if you also need a cover letter.
+          </p>
+        </details>
 
-        <div class="modal-pkg-card">
-          <div class="pkg-meta">
-            <h4>Cover Letter</h4>
-            <p>Vacancy-tailored application letter</p>
-          </div>
-          <a href="./account.html?template=cover-letter" class="btn-select-pkg">R15 — Select</a>
-        </div>
+        <details>
+          <summary>Can I use CVPro-SA on my phone?</summary>
+          <p>
+            The homepage is designed to work on mobile phones, tablets and
+            computers. The document builder should also be tested on your device.
+          </p>
+        </details>
 
-        <div class="modal-pkg-card">
-          <div class="pkg-meta">
-            <h4>Classic Bundle</h4>
-            <p>Classic CV + Matched Cover Letter</p>
-          </div>
-          <a href="./account.html?template=classic-bundle" class="btn-select-pkg">R30 — Select</a>
-        </div>
+        <details>
+          <summary>What if I have no work experience?</summary>
+          <p>
+            You can focus on your education, skills, school achievements,
+            volunteering, practical training and other relevant experience.
+            Include only information that is accurate.
+          </p>
+        </details>
 
-        <div class="modal-pkg-card highlight">
-          <div class="pkg-meta">
-            <h4>Modern Bundle (Best Value)</h4>
-            <p>Modern CV + Matched Cover Letter</p>
-          </div>
-          <a href="./account.html?template=modern-bundle" class="btn-select-pkg">R40 — Select</a>
-        </div>
+        <details>
+          <summary>How do I get help with my order?</summary>
+          <p>
+            Contact our support team by email or WhatsApp if you need assistance
+            with a package or the document-building process.
+          </p>
+        </details>
+
+        <details>
+          <summary>How do I download my documents?</summary>
+          <p>
+            Follow the instructions shown in the document builder. Download
+            options depend on the selected package and the features available
+            in the builder.
+          </p>
+        </details>
+
       </div>
     </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <div class="container">
+
+    <div class="footer-main">
+
+      <div class="footer-about">
+        <a class="footer-logo" href="./">CVPro-<span>SA</span></a>
+        <p>
+          Affordable CV and cover letter options for South African job seekers.
+          Take the next step in your career with a clear, professional application.
+        </p>
+      </div>
+
+      <div>
+        <div class="footer-title">Quick Links</div>
+        <div class="footer-links">
+          <a href="#packages">Our Packages</a>
+          <a href="#how-it-works">How It Works</a>
+          <a href="#faq">Frequently Asked Questions</a>
+          <a href="./">Home</a>
+        </div>
+      </div>
+
+      <div>
+        <div class="footer-title">Contact Support</div>
+        <div class="footer-links">
+          <a href="https://wa.me/27752978917"
+             target="_blank" rel="noopener noreferrer">WhatsApp Support</a>
+          <a href="tel:+27752978917">+27 75 297 8917</a>
+          <a href="mailto:mfanarhshange43@gmail.com">Email Support</a>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <span>&copy; <span id="year"></span> CVPro-SA. All rights reserved.</span>
+      <span>Built for South African job seekers.</span>
+    </div>
+
   </div>
+</footer>
 
-  <!-- MODAL 2: EXAMPLES -->
-  <div class="modal-backdrop" id="examplesModal">
-    <div class="modal-window">
-      <button class="modal-close-btn" onclick="closeModal('examplesModal')">✕</button>
-      <div class="modal-header">
-        <h3>Document Previews</h3>
-        <p>3 Professional Formats Ready for Download</p>
-      </div>
+<!-- MOBILE CONTACT BAR -->
+<div class="mobile-contact" aria-label="Contact support">
+  <a href="https://wa.me/27752978917"
+     target="_blank" rel="noopener noreferrer">WhatsApp Us</a>
+  <a class="secondary" href="mailto:mfanarhshange43@gmail.com">Email Us</a>
+</div>
 
-      <div class="preview-block">
-        <h4>1. Modern CV Style (R25)</h4>
-        <p>Commanding dark top banner, skill bars, clean modern typography.</p>
-        <a href="./account.html?template=modern" class="use-style-link">Use This Style →</a>
-      </div>
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
 
-      <div class="preview-block">
-        <h4>2. Classic CV Style (R15)</h4>
-        <p>Timeless corporate format favored by corporate ATS portals.</p>
-        <a href="./account.html?template=classic" class="use-style-link">Use This Style →</a>
-      </div>
+  document.querySelectorAll("[data-template]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const template = button.dataset.template;
 
-      <div class="preview-block">
-        <h4>3. Tailored Cover Letter (R15)</h4>
-        <p>Persuasive, vacancy-tailored letter designed to get interviews.</p>
-        <a href="./account.html?template=cover-letter" class="use-style-link">Use This Style →</a>
-      </div>
-    </div>
-  </div>
+      try {
+        sessionStorage.setItem("cvpro_selected_template", template);
+      } catch (error) {
+        // The template is also passed in the URL.
+      }
 
-  <!-- FOOTER -->
-  <footer>
-    &copy; <span id="year"></span> CVPro-SA &bull; <a href="tel:+27752978917">+27 75 297 8917</a>
-  </footer>
+      window.location.href =
+        "./account.html?template=" + encodeURIComponent(template);
+    });
+  });
+</script>
 
-  <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
-
-    function openModal(id) {
-      document.getElementById(id).style.display = "flex";
-    }
-
-    function closeModal(id) {
-      document.getElementById(id).style.display = "none";
-    }
-
-    window.onclick = function(e) {
-      const pM = document.getElementById("pricingModal");
-      const eM = document.getElementById("examplesModal");
-      if (e.target === pM) pM.style.display = "none";
-      if (e.target === eM) eM.style.display = "none";
-    };
-  </script>
 </body>
 </html>
